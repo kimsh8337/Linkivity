@@ -137,6 +137,11 @@ public class PostListController {
                 newTemp.setCompanyInfo(request.getCompanyInfo());
                 newTemp.setDetail(request.getDetail());
                 newTemp.setActivity(request.getActivity());
+                newTemp.setSpring(request.getSpring());
+                newTemp.setSummer(request.getSummer());
+                newTemp.setFall(request.getFall());
+                newTemp.setWinter(request.getWinter());
+                newTemp.setPlace(request.getPlace());
                 LocalDateTime time = LocalDateTime.now();
                 newTemp.setCreateDate(time);
                 // System.out.println(newTemp);
@@ -180,6 +185,11 @@ public class PostListController {
             temp.setDetail(request.getDetail());
             temp.setFlag(1);
             temp.setActivity(request.getActivity());
+            temp.setSpring(request.getSpring());
+            temp.setSummer(request.getSummer());
+            temp.setFall(request.getFall());
+            temp.setWinter(request.getWinter());
+            temp.setPlace(request.getPlace());
             LocalDateTime time = LocalDateTime.now();
             temp.setCreateDate(time);
             postDao.save(temp);
