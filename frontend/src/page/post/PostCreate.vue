@@ -13,20 +13,61 @@
         <button type="button" class="btn btn-primary btn-sm" @click="onClickImageUpload">이미지 업로드</button>
       </div>
       <input ref="imageInput" type="file" hidden @change="onChangeImages" />
-      <!-- <small class="form-text text-muted d-flex">원하는 사진을 업로드해주세요.</small> -->
+      <small v-if="!this.PostCreate.imgurl" class="form-text text-muted d-flex">원하는 사진을 업로드해주세요.</small>
+      <small v-if="this.PostCreate.imgurl" class="form-text text-muted d-flex">이미지 수정을 원하시면 업로드 버튼을 눌러주세요.</small>
     </div>
+    <!-- Title -->
     <div class="form-group">
       <label class="d-flex">Title</label>
       <input type="text" class="form-control" id="title" v-model="PostCreate.title" />
       <small class="form-text text-muted d-flex" v-if="!error.title">상품명을 입력하세요.</small>
       <small class="form-text d-flex" style="color:red;" v-if="error.title">{{error.title}}</small>
     </div>
+
+    <!-- 계절 checkbox -->
+    <div class="d-flex">
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1" v-model="PostCreate.spring" @click="checkSpring">
+        <label class="form-check-label" for="inlineCheckbox1">Spring</label>
+      </div>
+      <div class="form-check form-check-inline ml-3">
+        <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2" v-model="PostCreate.summer" @click="checkSummer">
+        <label class="form-check-label" for="inlineCheckbox2">Summer</label>
+      </div>
+      <div class="form-check form-check-inline ml-3">
+        <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="option2" v-model="PostCreate.autumn" @click="checkAutumn">
+        <label class="form-check-label" for="inlineCheckbox3">Autumn</label>
+      </div>
+      <div class="form-check form-check-inline ml-3">
+        <input class="form-check-input" type="checkbox" id="inlineCheckbox4" value="option2" v-model="PostCreate.winter" @click="checkWinter">
+        <label class="form-check-label" for="inlineCheckbox4">Winter</label>
+      </div>
+    </div>
+    <small class="form-check text-muted d-flex pl-0 mb-3">이용 계절을 선택해주세요 (중복가능)</small>
+  
+    <!-- Place Type -->
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <label class="input-group-text" for="inputGroupSelect01">Field</label>
+      </div>
+      <select class="custom-select" id="inputGroupSelect01" v-model="PostCreate.place">
+        <!-- <option selected>Activity Field를 선택해주세요...</option> -->
+        <option value="ground">Ground</option>
+        <option value="summer">Summer</option>
+        <option value="sky">Sky</option>
+      </select>
+      <small class="input-group text-muted d-flex">필드를 선택해주세요.</small>
+    </div>
+
+    <!-- Activity -->
     <div class="form-group">
       <label class="d-flex justify-content-start">Activity</label>
       <input type="text" class="form-control" id="activity" v-model="PostCreate.activity" />
       <small class="form-text text-muted d-flex" v-if="!error.activity">활동명을 입력하세요.</small>
       <small class="form-text d-flex" style="color:red;" v-if="error.activity">{{error.activity}}</small>
     </div>
+
+    <!-- Location -->
     <div class="form-group">
       <label class="d-flex justify-content-start">Location</label>
       <!-- <input type="text" class="form-control" id="location" v-model="PostCreate.location" /> -->
@@ -48,6 +89,8 @@
 
       <small class="form-text text-muted d-flex">주소를 입력하세요.</small>
     </div>
+
+    <!-- Price -->
     <div class="form-group">
       <label class="d-flex justify-content-start">Price</label>
       <input type="text" class="form-control" id="price" v-model="PostCreate.price" />
@@ -55,6 +98,8 @@
       <small class="form-text d-flex" style="color:red;" v-if="error.price">{{error.price}}</small>
       <small class="form-text d-flex" style="color:red;" v-if="error.priceint">{{error.priceint}}</small>
     </div>
+
+    <!-- Date -->
     <div class="form-group">
       <label class="d-flex justify-content-start">Expiration-Date</label>
       <div class="d-flex justify-content-between">
@@ -68,6 +113,8 @@
       </div>
       <small class="form-text text-muted d-flex">상품 유효기간을 지정해주세요.</small>
     </div>
+
+    <!-- Corporation Detail -->
     <div class="form-group">
       <label class="d-flex justify-content-start">Corporation-Detail</label>
       <textarea class="form-control" id="company-information" v-model="PostCreate.companyInfo"></textarea>
@@ -78,6 +125,8 @@
         v-if="error.companyInfo"
       >{{error.companyInfo}}</small>
     </div>
+
+    <!-- Detail-Info -->
     <div class="form-group">
       <label class="d-flex justify-content-start">Detail-Info</label>
       <textarea class="form-control" id="detail" v-model="PostCreate.detail"></textarea>
@@ -85,7 +134,7 @@
       <small class="form-text d-flex" style="color:red;" v-if="error.detail">{{error.detail}}</small>
     </div>
 
-    <!-- <a type="button" class="btn btn-outline form-check mb-2" href="#" @click="gocreate()"> -->
+    
     <div class="d-flex justify-content-end mb-5">
       <button
         type="submit"
@@ -120,6 +169,11 @@ export default {
         companyInfo: "",
         detail: "",
         activity: "",
+        spring: false,
+        summer: false,
+        autumn: false,
+        winter: false,
+        place: "",
       },
       error: {
         activity: false,
@@ -161,6 +215,18 @@ export default {
           x.addr3 = data.buildingName;
         },
       }).open();
+    },
+    checkSpring: function() {
+      this.PostCreate.spring = !this.PostCreate.spring
+    },
+    checkSummer: function() {
+      this.PostCreate.summer = !this.PostCreate.summer
+    },
+    checkAutumn: function() {
+      this.PostCreate.autumn = !this.PostCreate.autumn
+    },
+    checkWinter: function() {
+      this.PostCreate.winter = !this.PostCreate.winter
     },
     regist: function () {
       var flag = 0;
