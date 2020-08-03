@@ -27,24 +27,24 @@
     <!-- 계절 checkbox -->
     <div class="d-flex">
       <div class="form-check form-check-inline">
-        <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1" v-model="PostCreate.spring" @click="checkSpring">
+        <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="spring" v-model="spring" @click="checkSpring">
         <label class="form-check-label" for="inlineCheckbox1">Spring</label>
       </div>
       <div class="form-check form-check-inline ml-3">
-        <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2" v-model="PostCreate.summer" @click="checkSummer">
+        <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="summer" v-model="summer" @click="checkSummer">
         <label class="form-check-label" for="inlineCheckbox2">Summer</label>
       </div>
       <div class="form-check form-check-inline ml-3">
-        <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="option2" v-model="PostCreate.autumn" @click="checkAutumn">
+        <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="autumn" v-model="autumn" @click="checkAutumn">
         <label class="form-check-label" for="inlineCheckbox3">Autumn</label>
       </div>
       <div class="form-check form-check-inline ml-3">
-        <input class="form-check-input" type="checkbox" id="inlineCheckbox4" value="option2" v-model="PostCreate.winter" @click="checkWinter">
+        <input class="form-check-input" type="checkbox" id="inlineCheckbox4" value="winter" v-model="winter" @click="checkWinter">
         <label class="form-check-label" for="inlineCheckbox4">Winter</label>
       </div>
     </div>
     <small class="form-check text-muted d-flex pl-0 mb-3">이용 계절을 선택해주세요 (중복가능)</small>
-  
+
     <!-- Place Type -->
     <div class="input-group mb-3">
       <div class="input-group-prepend">
@@ -169,10 +169,10 @@ export default {
         companyInfo: "",
         detail: "",
         activity: "",
-        spring: false,
-        summer: false,
-        autumn: false,
-        winter: false,
+        spring: 0,
+        summer: 0,
+        autumn: 0,
+        winter: 0,
         place: "",
       },
       error: {
@@ -187,6 +187,10 @@ export default {
       addr1: "",
       addr2: "",
       addr3: "",
+      spring: false,
+      summer: false,
+      autumn: false,
+      winter: false,
     };
   },
   watch: {
@@ -206,6 +210,34 @@ export default {
     },
   },
   methods: {
+    checkSpring() {
+      if (this.spring == false) {
+        this.PostCreate.spring = 1
+      } else {
+        this.PostCreate.spring = 0
+      }
+    },
+    checkSummer() {
+      if (this.summer == false) {
+        this.PostCreate.summer = 1
+      } else {
+        this.PostCreate.summer = 0
+      }
+    },
+    checkAutumn() {
+      if (this.autumn == false) {
+        this.PostCreate.autumn = 1
+      } else {
+        this.PostCreate.autumn = 0
+      }
+    },
+    checkWinter() {
+      if (this.winter == false) {
+        this.PostCreate.winter = 1
+      } else {
+        this.PostCreate.winter = 0
+      }
+    },
     Search() {
       let x = this;
       new daum.Postcode({
@@ -215,18 +247,6 @@ export default {
           x.addr3 = data.buildingName;
         },
       }).open();
-    },
-    checkSpring: function() {
-      this.PostCreate.spring = !this.PostCreate.spring
-    },
-    checkSummer: function() {
-      this.PostCreate.summer = !this.PostCreate.summer
-    },
-    checkAutumn: function() {
-      this.PostCreate.autumn = !this.PostCreate.autumn
-    },
-    checkWinter: function() {
-      this.PostCreate.winter = !this.PostCreate.winter
     },
     regist: function () {
       var flag = 0;
