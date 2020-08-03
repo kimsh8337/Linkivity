@@ -143,13 +143,14 @@ export default {
   },
   data(){
     return{
-      post:[],
-      pid:"",
+      post: [],
+      pid: "",
       receiveComment: [],
     }
   },
   created() {
-        this.pid = this.$route.params.ID,
+        this.email = this.$cookies.get("User");
+        this.pid = this.$route.params.ID;
         this.getPost();
         this.fetchComment(),
         Kakao.init('765ed14c0d508f8aa48c6d173446acba');
@@ -312,11 +313,19 @@ export default {
       Swal.fire({
         title: `${post.title}`,
         text: '장바구니에 담겼습니다.',
-        imageUrl: `${imgurl}`,
+        imageUrl: `${post.imgurl}`,
         imageWidth: 400,
         imageHeight: 200,
         imageAlt: 'Custom image',
-      })
+      }),
+      axios
+        .get(`${baseURL}/cart/regist/${this.email}/${this.pid}`)
+        .then((res)=>{
+          this.posts = this.res;
+        })
+        .catch((err)=>{
+          console.log(err)
+        })
       // alert(`'${title}'상품을 장바구니에 담았습니다!`)
     },
   },
