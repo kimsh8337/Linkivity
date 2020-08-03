@@ -1,17 +1,33 @@
 <template>
   <div class="container col-md-6">
-    <p class="shopping-list">Shopping List</p>
-    <div class="input-group mb-3" v-for="(post, index) in posts" :key="index">
+    <p class="shopping-list"><i class="fas fa-shopping-basket mr-2"></i>Shopping List</p>   
+     <!-- shooping list  -->
+    <div class="input-group mb-5" v-for="(post, index) in carts" :key="index">
       <div class="input-group-prepend">
         <div class="input-group-text">
-          <input type="checkbox" aria-label="Checkbox for following text input" />
+          <input type="checkbox" aria-label="Checkbox for following text input" :value="post.price"  v-model="checked" />
         </div>
       </div>
-      <p type="text" class="form-control" aria-label="Text input with checkbox">
-        {{ post.title }}</p>
+      <img :src="post.imgurl" alt="" @click="getdetail(post.pid)">
+      <div type="text" class="basket-list col-md-8" aria-label="Text input with checkbox" @click="getdetail(post.pid)">
+        <p class="mb-0">제목 : {{post.title}}</p>
+        <p class="mb-0">기간 : {{post.sdate}}~{{post.edate}}</p>
+        <p class="mb-0">위치 : {{post.location}}</p>
+        <p class="mb-0">가격 : {{post.price}}</p>
+        <!-- <p>{{checked}}</p> -->
+        </div>
     </div>
-      <button class="btn btn-primary">구매하기</button>
-      <p>edit</p>
+
+    <!-- price -->
+    <div>
+        <p class="checked-price">Total : {{checkedprice}}</p>
+    </div>
+
+    <!-- 구매하기 button -->
+    <div class="d-flex justify-content-end mb-5">
+      <button class="btn btn-danger"><i class="far fa-hand-point-up mr-2"></i>구매하기</button>
+
+    </div>
   </div>
 </template>
 
@@ -23,11 +39,12 @@ const baseURL = "http://localhost:8080";
 
 export default {
   created(){
+    this.email = this.$cookies.get("User");
     this.init();
   },
   data(){
     return{
-      posts: {
+      carts: {
         pid: "",
         email: "",
         activity: "",
@@ -39,20 +56,37 @@ export default {
         edate:"",
         likecnt:""
       },
+      checked:[],
+      sum:0,
     }
   },
   methods: {
     init() {
       axios
-        .get(`${baseURL}/post/listbylike/`)
+        .get(`${baseURL}/cart/list/${this.email}`)
         .then((res) => {
-          this.posts = res.data;
+          this.carts = res.data;
           console.log(res.data);
         })
         .catch((err) => {
           console.log(err);
         });
     },
+    getdetail(pid) {
+      this.$router.push({
+        name: "PostListDetail",
+        params: { ID: pid },
+      });
+    },
+  },
+  computed: {
+    checkedprice(price){
+      this.sum = 0;
+      for(var i = 0; i < this.checked.length; i++ ){
+        this.sum += this.checked[i];
+      }
+      return this.sum;
+    }
   }
 };
 </script>
