@@ -11,6 +11,7 @@
         {{ post.title }}</p>
     </div>
       <button class="btn btn-primary">구매하기</button>
+      <p>edit</p>
   </div>
 </template>
 
