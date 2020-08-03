@@ -18,7 +18,7 @@ public interface PostListDao extends JpaRepository<PostList, String> {
     List<PostList> findAllByOrderByLikecntDesc();
     List<PostList> findBySpring(int spring);
     List<PostList> findBySummer(int summer);
-    List<PostList> findByFall(int fall);
+    List<PostList> findByAutumn(int autumn);
     List<PostList> findByWinter(int winter);
     List<PostList> findByPlace(String place);
 }
