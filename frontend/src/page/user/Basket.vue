@@ -23,6 +23,17 @@
         <p class="checked-price">Total : {{checkedprice}}</p>
     </div>
 
+    <!-- paging -->
+    <paginate
+      :page-count="this.totalPage"
+      :click-handler="pageClick"
+      :prev-text="'Prev'"
+      :next-text="'Next'"
+      :container-class="'pagination'"
+      :page-class="'page-item'"
+      >
+    </paginate>
+
     <!-- 구매하기 button -->
     <div class="d-flex justify-content-end mb-5">
       <button class="btn btn-danger"><i class="far fa-hand-point-up mr-2"></i>구매하기</button>
@@ -34,16 +45,22 @@
 <script>
 import axios from 'axios';
 import "../../assets/css/basket.css";
+import Paginate from 'vuejs-paginate';
 
 const baseURL = "http://localhost:8080";
 
 export default {
+  components: {
+    Paginate
+  },
   created(){
     this.email = this.$cookies.get("User");
     this.init();
   },
   data(){
     return{
+      page: 0,
+      totalPage: 0,
       carts: {
         pid: "",
         email: "",
@@ -63,7 +80,7 @@ export default {
   methods: {
     init() {
       axios
-        .get(`${baseURL}/cart/list/${this.email}`)
+        .get(`${baseURL}/cart/list/${this.email}/${this.page}`)
         .then((res) => {
           this.carts = res.data;
           console.log(res.data);
@@ -71,6 +88,17 @@ export default {
         .catch((err) => {
           console.log(err);
         });
+
+      // count
+      axios
+        .get(`${baseURL}/cart/count/${this.email}`)
+        .then((res) => {
+          this.totalPage = res.data / 10;
+          console.log(res.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });  
     },
     getdetail(pid) {
       this.$router.push({
@@ -78,6 +106,21 @@ export default {
         params: { ID: pid },
       });
     },
+    pageClick: function(pageNum) {
+      this.page = pageNum - 1;
+      console.log(this.page);
+    },
+    checkPage() {
+      axios
+        .get(`${baseURL}/cart/list/${this.email}/${this.page}`)
+        .then((res) => {
+          this.carts = res.data;
+          console.log(res.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
   },
   computed: {
     checkedprice(price){
@@ -86,6 +129,11 @@ export default {
         this.sum += this.checked[i];
       }
       return this.sum;
+    }
+  },
+  watch: {
+    page: function(v) {
+      this.checkPage();
     }
   }
 };

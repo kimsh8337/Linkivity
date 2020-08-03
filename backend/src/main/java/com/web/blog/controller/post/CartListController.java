@@ -32,9 +32,12 @@ public class CartListController {
     @Autowired
     PostListDao postListDao;
 
-    @GetMapping("/list/{email}")
+    @GetMapping("/list/{email}/{page}")
     @ApiOperation("장바구니 리스트")
-    public List<PostList> selectAll(@PathVariable String email) throws SQLException, IOException {
+    public List<PostList> selectAll(@PathVariable String email, @PathVariable int page) throws SQLException, IOException {
+        int start = page * 10;
+        int end = start + 10;
+        
         List<LikeList> plist = new LinkedList<>();
         plist = likeListDao.findByEmailAndCart(email,1);
 
@@ -42,7 +45,38 @@ public class CartListController {
         for (LikeList likeList : plist) {
             list.add(postListDao.findByPid(likeList.getPid()));
         }
-        return list;
+
+        if(end > list.size()){
+            end = list.size();
+        }
+
+        List<PostList> tlist = new LinkedList<>();
+        for (int i = start; i < end; i++) {
+            tlist.add(list.get(i));
+        }
+
+        return tlist;
+    }
+
+    @GetMapping("/count/{email}")
+    @ApiOperation("장바구니 리스트 개수")
+    public int countAll(@PathVariable String email) throws SQLException, IOException {
+        List<LikeList> plist = new LinkedList<>();
+        plist = likeListDao.findByEmailAndCart(email, 1);
+
+        List<PostList> list = new LinkedList<>();
+        for (LikeList likeList : plist) {
+            list.add(postListDao.findByPid(likeList.getPid()));
+        }
+        return list.size();
+    }
+
+    @GetMapping("/list/{page}")
+    @ApiOperation("페이지 리스트")
+    public List<PostList> paginate(@PathVariable int page) throws SQLException, IOException {
+        int start = page * 10;
+        int end = start + 10;
+        return null;
     }
 
     @GetMapping("/regist/{email}/{pid}")
@@ -116,5 +150,14 @@ public class CartListController {
     public String delete(@PathVariable int no) throws SQLException, IOException {
         likeListDao.delete(likeListDao.findByNo(no));
         return "장바구니 삭제 완료";
+    }
+
+
+    @GetMapping("/likelist")
+    @ApiOperation("like 리스트")
+    public List<LikeList> selectLike() throws SQLException, IOException {
+        List<LikeList> list = new LinkedList<>();
+        list = likeListDao.findAll();
+        return list;
     }
 }
