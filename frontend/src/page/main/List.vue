@@ -1,7 +1,7 @@
 <template>
 <div>
   <div class="container col-md-7">
-    <button class="btn btn-spring btn-circle btn-xl mb-5 mr-5">
+    <button class="btn btn-spring btn-circle btn-xl mb-5 mr-5" @click="spring">
       <br />
       <br />
       <br />Spring
@@ -160,6 +160,12 @@ export default {
         params: { ID: pid },
       });
     },
+    spring(){
+      this.$router.push({
+        name: "PostList",
+        params: { TYPE: "spring" },
+      });
+    }
   },
   data: () => {
     return {
