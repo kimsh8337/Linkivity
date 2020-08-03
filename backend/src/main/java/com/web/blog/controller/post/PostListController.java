@@ -137,7 +137,7 @@ public class PostListController {
                 newTemp.setActivity(request.getActivity());
                 newTemp.setSpring(request.getSpring());
                 newTemp.setSummer(request.getSummer());
-                newTemp.setFall(request.getFall());
+                newTemp.setAutumn(request.getAutumn());
                 newTemp.setWinter(request.getWinter());
                 newTemp.setPlace(request.getPlace());
                 LocalDateTime time = LocalDateTime.now();
@@ -185,7 +185,7 @@ public class PostListController {
             temp.setActivity(request.getActivity());
             temp.setSpring(request.getSpring());
             temp.setSummer(request.getSummer());
-            temp.setFall(request.getFall());
+            temp.setAutumn(request.getAutumn());
             temp.setWinter(request.getWinter());
             temp.setPlace(request.getPlace());
             LocalDateTime time = LocalDateTime.now();
@@ -199,16 +199,16 @@ public class PostListController {
     }
 
     @GetMapping("/types/{typename}")
-    @ApiOperation(value = "포스트 계절")
-    public List<PostList> seasons(String typename) throws SQLException, IOException {
+    @ApiOperation(value = "타입 별 포스트")
+    public List<PostList> seasons(@PathVariable String typename) throws SQLException, IOException {
         List<PostList> list = new LinkedList<>();
         if (typename.equals("spring")) {
             list = postDao.findBySpring(1);
         } else if (typename.equals("summer")) {
             list = postDao.findBySummer(1);
-        } else if (typename.equals("fall")) {
-            list = postDao.findByFall(1);
-        } else if(typename.equals("winter"){
+        } else if (typename.equals("autumn")) {
+            list = postDao.findByAutumn(1);
+        } else if(typename.equals("winter")){
             list = postDao.findByWinter(1);
         }else{
             list = postDao.findByPlace(typename);

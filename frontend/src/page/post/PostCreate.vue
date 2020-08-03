@@ -14,7 +14,10 @@
       </div>
       <input ref="imageInput" type="file" hidden @change="onChangeImages" />
       <small v-if="!this.PostCreate.imgurl" class="form-text text-muted d-flex">원하는 사진을 업로드해주세요.</small>
-      <small v-if="this.PostCreate.imgurl" class="form-text text-muted d-flex">이미지 수정을 원하시면 업로드 버튼을 눌러주세요.</small>
+      <small
+        v-if="this.PostCreate.imgurl"
+        class="form-text text-muted d-flex"
+      >이미지 수정을 원하시면 업로드 버튼을 눌러주세요.</small>
     </div>
     <!-- Title -->
     <div class="form-group">
@@ -25,38 +28,66 @@
     </div>
 
     <!-- 계절 checkbox -->
+    <div class="form-group">
+    <label class="d-flex justify-content-start">Seasons</label>
     <div class="d-flex">
       <div class="form-check form-check-inline">
-        <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="spring" v-model="spring" @click="checkSpring">
-        <label class="form-check-label" for="inlineCheckbox1">Spring</label>
+        <input
+          class="form-check-input"
+          type="checkbox"
+          id="spring"
+          value="spring"
+          v-model="seasons"
+        />
+        <label class="form-check-label">Spring</label>
       </div>
       <div class="form-check form-check-inline ml-3">
-        <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="summer" v-model="summer" @click="checkSummer">
-        <label class="form-check-label" for="inlineCheckbox2">Summer</label>
+        <input
+          class="form-check-input"
+          type="checkbox"
+          id="summer"
+          value="summer"
+          v-model="seasons"
+        />
+        <label class="form-check-label">Summer</label>
       </div>
       <div class="form-check form-check-inline ml-3">
-        <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="autumn" v-model="autumn" @click="checkAutumn">
-        <label class="form-check-label" for="inlineCheckbox3">Autumn</label>
+        <input
+          class="form-check-input"
+          type="checkbox"
+          id="autumn"
+          value="autumn"
+          v-model="seasons"
+        />
+        <label class="form-check-label">Autumn</label>
       </div>
       <div class="form-check form-check-inline ml-3">
-        <input class="form-check-input" type="checkbox" id="inlineCheckbox4" value="winter" v-model="winter" @click="checkWinter">
-        <label class="form-check-label" for="inlineCheckbox4">Winter</label>
+        <input
+          class="form-check-input"
+          type="checkbox"
+          id="winter"
+          value="winter"
+          v-model="seasons"
+        />
+        <label class="form-check-label">Winter</label>
       </div>
     </div>
-    <small class="form-check text-muted d-flex pl-0 mb-3">이용 계절을 선택해주세요 (중복가능)</small>
+    <small class="form-text text-muted d-flex" v-if="!error.seasons">상품 이용 계절을 선택하세요.(중복가능)</small>
+    <small class="form-text d-flex" style="color:red;" v-if="error.seasons">{{error.seasons}}</small>
+    </div>
 
     <!-- Place Type -->
-    <div class="input-group mb-3">
-      <div class="input-group-prepend">
-        <label class="input-group-text" for="inputGroupSelect01">Field</label>
-      </div>
-      <select class="custom-select" id="inputGroupSelect01" v-model="PostCreate.place">
-        <!-- <option selected>Activity Field를 선택해주세요...</option> -->
+    <div class="form-group">
+      <!-- <div class="input-group-prepend"> -->
+        <label class="d-flex justify-content-start">Field</label>
+      <!-- </div> -->
+      <select class="form-control" id="place" v-model="PostCreate.place">
         <option value="ground">Ground</option>
         <option value="summer">Summer</option>
         <option value="sky">Sky</option>
       </select>
-      <small class="input-group text-muted d-flex">필드를 선택해주세요.</small>
+      <small class="form-text text-muted d-flex" v-if="!error.place">필드를 선택하세요.</small>
+      <small class="form-text d-flex" style="color:red;" v-if="error.place">{{error.place}}</small>
     </div>
 
     <!-- Activity -->
@@ -72,7 +103,7 @@
       <label class="d-flex justify-content-start">Location</label>
       <!-- <input type="text" class="form-control" id="location" v-model="PostCreate.location" /> -->
 
-      <div >
+      <div>
         <div class="d-flex mb-1">
           <input
             type="text"
@@ -134,7 +165,6 @@
       <small class="form-text d-flex" style="color:red;" v-if="error.detail">{{error.detail}}</small>
     </div>
 
-    
     <div class="d-flex justify-content-end mb-5">
       <button
         type="submit"
@@ -153,7 +183,7 @@
 const baseURL = "http://localhost:8080/";
 
 import axios from "axios";
-import Swal from 'sweetalert2'
+import Swal from "sweetalert2";
 
 export default {
   data() {
@@ -182,15 +212,14 @@ export default {
         companyInfo: false,
         title: false,
         priceint: false,
-        location: false
+        location: false,
+        seasons: false,
+        place: false,
       },
       addr1: "",
       addr2: "",
       addr3: "",
-      spring: false,
-      summer: false,
-      autumn: false,
-      winter: false,
+      seasons: [],
     };
   },
   watch: {
@@ -201,43 +230,11 @@ export default {
         } else {
           this.error.priceint = false;
         }
-        // const reg = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
-        // if(reg.exec(val.price)!==null){
-        //   this.error.price = "가격은 숫자만 입력 가능합니다.";
-        // }
       },
       deep: true,
     },
   },
   methods: {
-    checkSpring() {
-      if (this.spring == false) {
-        this.PostCreate.spring = 1
-      } else {
-        this.PostCreate.spring = 0
-      }
-    },
-    checkSummer() {
-      if (this.summer == false) {
-        this.PostCreate.summer = 1
-      } else {
-        this.PostCreate.summer = 0
-      }
-    },
-    checkAutumn() {
-      if (this.autumn == false) {
-        this.PostCreate.autumn = 1
-      } else {
-        this.PostCreate.autumn = 0
-      }
-    },
-    checkWinter() {
-      if (this.winter == false) {
-        this.PostCreate.winter = 1
-      } else {
-        this.PostCreate.winter = 0
-      }
-    },
     Search() {
       let x = this;
       new daum.Postcode({
@@ -280,33 +277,55 @@ export default {
       } else {
         this.error.title = false;
       }
+      if (this.seasons.length == 0) {
+        this.error.seasons = "계절은 하나 이상 선택해야합니다.";
+        flag = 1;
+      } else {
+        this.error.seasons = false;
+      }
+      if (this.PostCreate.place == "") {
+        this.error.place = "필드는 빈칸일 수 없습니다.";
+        flag = 1;
+      } else {
+        this.error.place = false;
+      }
       if (flag == 1) {
         alert("정보를 모두 입력해주세요.");
         return;
       }
       this.PostCreate.location =
         "(" + this.addr1 + ") " + this.addr2 + " " + this.addr3;
-
+      for (var i = 0; i < this.seasons.length; i++) {
+        if (this.seasons[i] == "spring") {
+          this.PostCreate.spring = 1;
+        } else if (this.seasons[i] == "summer") {
+          this.PostCreate.summer = 1;
+        } else if (this.seasons[i] == "autumn") {
+          this.PostCreate.autumn = 1;
+        } else if (this.seasons[i] == "winter") {
+          this.PostCreate.winter = 1;
+        }
+      }
       const Toast = Swal.mixin({
         toast: true,
-        position: 'top-end',
+        position: "top-end",
         showConfirmButton: false,
         timer: 3000,
         timerProgressBar: true,
         onOpen: (toast) => {
-          toast.addEventListener('mouseenter', Swal.stopTimer)
-          toast.addEventListener('mouseleave', Swal.resumeTimer)
-        }
-      })
+          toast.addEventListener("mouseenter", Swal.stopTimer);
+          toast.addEventListener("mouseleave", Swal.resumeTimer);
+        },
+      });
 
       axios
         .post(`${baseURL}/post/regist`, this.PostCreate)
         .then((response) => {
           console.log(response.data);
           Toast.fire({
-            icon: 'success',
-            title:'작성이 완료되었습니다.'
-          })
+            icon: "success",
+            title: "작성이 완료되었습니다.",
+          });
           this.$router.push("/posts");
         })
         .catch((error) => {

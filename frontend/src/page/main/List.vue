@@ -6,32 +6,32 @@
       <br />
       <br />Spring
     </button>
-    <button class="btn btn-summer btn-circle btn-xl mb-5 mr-5">
+    <button class="btn btn-summer btn-circle btn-xl mb-5 mr-5" @click="summer">
       <br />
       <br />
       <br />Summer
     </button>
-    <button class="btn btn-fall btn-circle btn-xl mb-5 mr-5">
+    <button class="btn btn-fall btn-circle btn-xl mb-5 mr-5" @click="autumn">
       <br />
       <br />
       <br />Fall
     </button>
-    <button class="btn btn-winter btn-circle btn-xl mb-5 mr-5">
+    <button class="btn btn-winter btn-circle btn-xl mb-5 mr-5" @click="winter">
       <br />
       <br />
       <br />Winter
     </button>
-    <button class="btn btn-ground btn-circle btn-xl mb-5 mr-5">
+    <button class="btn btn-ground btn-circle btn-xl mb-5 mr-5" @click="ground">
       <br />
       <br />
       <br />Ground
     </button>
-    <button class="btn btn-water btn-circle btn-xl mb-5 mr-5">
+    <button class="btn btn-water btn-circle btn-xl mb-5 mr-5" @click="water">
       <br />
       <br />
       <br />Water
     </button>
-    <button class="btn btn-sky btn-circle btn-xl mb-5">
+    <button class="btn btn-sky btn-circle btn-xl mb-5" @click="sky">
       <br />
       <br />
       <br />Sky
@@ -165,7 +165,43 @@ export default {
         name: "PostList",
         params: { TYPE: "spring" },
       });
-    }
+    },
+    summer(){
+      this.$router.push({
+        name: "PostList",
+        params: { TYPE: "summer" },
+      });
+    },
+    autumn(){
+      this.$router.push({
+        name: "PostList",
+        params: { TYPE: "autumn" },
+      });
+    },
+    winter(){
+      this.$router.push({
+        name: "PostList",
+        params: { TYPE: "winter" },
+      });
+    },
+    ground(){
+      this.$router.push({
+        name: "PostList",
+        params: { TYPE: "ground" },
+      });
+    },
+    water(){
+      this.$router.push({
+        name: "PostList",
+        params: { TYPE: "water" },
+      });
+    },
+    sky(){
+      this.$router.push({
+        name: "PostList",
+        params: { TYPE: "sky" },
+      });
+    },
   },
   data: () => {
     return {

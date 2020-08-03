@@ -323,9 +323,10 @@ export default {
     this.filter = this.$route.params.TYPE;
     // if (this.filter != null) {
     //   this.filtering();
-    // }else
+    // }else{
 
     this.init();
+  // }
     this.checklike();
   },
 };

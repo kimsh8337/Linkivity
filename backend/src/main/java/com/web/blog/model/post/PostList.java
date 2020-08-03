@@ -39,7 +39,7 @@ public class PostList {
     private String activity;
     private int spring;
     private int summer;
-    private int fall;
+    private int autumn;
     private int winter;
     private String place;
     private int likecnt;
