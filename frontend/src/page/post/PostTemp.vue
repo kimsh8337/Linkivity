@@ -25,7 +25,7 @@
 import "../../assets/css/postlist.css";
 import axios from "axios";
 
-const baseURL = "http://localhost:8080/temp";
+const baseURL = "http://localhost:8080";
 
 export default {
   data() {
@@ -47,9 +47,20 @@ export default {
     };
   },
   methods: {
+    authUser() {
+      axios
+        .get(`${baseURL}/account/authuser/${this.$cookies.get("Auth-Token")}`)
+        .then((response) => {
+            this.email = response.data.email;
+            this.init();
+        })
+        .catch((err) => {
+          console.log(err.response);
+        });
+    },
     init() {
       axios
-        .get(`${baseURL}/list/${this.email}`)
+        .get(`${baseURL}/temp/list/${this.email}`)
         .then((res) => {
           this.temps = res.data;
         })
@@ -59,8 +70,8 @@ export default {
     },
   },
   created() {
-    this.email = this.$cookies.get("User");
-    this.init();
+    this.authUser();
+    
   },
 };
 </script>

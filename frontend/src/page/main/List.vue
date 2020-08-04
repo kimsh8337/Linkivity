@@ -134,11 +134,23 @@ export default {
   name: "Post",
   components: {Footer},
   created() {
-    this.init();
+    this.authUser();
+    
   },
   watch: {},
 
   methods: {
+    authUser() {
+      axios
+        .get(`${baseURL}/account/authuser/${this.$cookies.get("Auth-Token")}`)
+        .then((response) => {
+            this.email = response.data.email;
+            this.init();
+        })
+        .catch((err) => {
+          console.log(err.response);
+        });
+    },
     init() {
       axios
         .get(`${baseURL}/post/listbylike/`)

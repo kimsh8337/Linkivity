@@ -76,19 +76,9 @@ export default {
       axios
         .get(`${baseURL}/login/${this.email}/${this.password}`)
         .then(response => {
-          console.log(response.data);
-          // this.$router.push("/");
-          // this.$router.go();
-            if (response.status == 200) {
-              var jwt = require("jsonwebtoken");
-              var token = jwt.sign({ sub: this.email }, this.password);
-              this.$cookies.set("Auth-Token", token);
-              this.$cookies.set("User", response.data);
-              console.log(response.data);
-              this.name = response.data.name;
+              this.$cookies.set("Auth-Token", response.data);
               this.$router.push("/");
               this.$router.go();
-            }
         })
         .catch(err => {
           console.log(err.response);
