@@ -293,12 +293,8 @@ export default {
         alert("정보를 모두 입력해주세요.");
         return;
       }
-<<<<<<< HEAD
       this.PostCreate.location = this.addr2 + " " + this.addr3;
 
-=======
-      this.PostCreate.location =
-        "(" + this.addr1 + ") " + this.addr2 + " " + this.addr3;
       for (var i = 0; i < this.seasons.length; i++) {
         if (this.seasons[i] == "spring") {
           this.PostCreate.spring = 1;
@@ -310,7 +306,6 @@ export default {
           this.PostCreate.winter = 1;
         }
       }
->>>>>>> 147ac66e7f6d672643ecceac3c62ee4c4d557060
       const Toast = Swal.mixin({
         toast: true,
         position: "top-end",
