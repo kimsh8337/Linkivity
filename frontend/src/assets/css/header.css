@@ -23,6 +23,18 @@
     cursor: pointer;
 }
 
+.dropdown-toggle::after {
+    display:none !important;
+}
+
+.dropdown-meun{
+    visibility: hidden;
+}
+
+.dropdown-meun:hover{
+    visibility: visible;
+}
+
 /* .login {
     color: rgb(153, 153, 153);
     text-decoration: none !important;

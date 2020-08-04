@@ -62,7 +62,6 @@
                 </div>
                 <div class="d-flex justify-content-end">
                   <button type="button" class="btn btn-primary mr-1" @click="alertbasket(post)"><i class="fas fa-shopping-basket mr-2"></i>장바구니</button>
-                  <!-- <BasketModal /> -->
                   <button class="btn btn-danger"><i class="far fa-hand-point-up mr-2"></i>바로구매</button>
                 </div>
               </div>
@@ -126,7 +125,6 @@
 import axios from "axios";
 import '../../assets/css/postlistdetail.css'
 import PostUpdateVue from './PostUpdate.vue';
-// import BasketModal from '../../components/modal/BasketModal.vue'
 
 import CommentInput from '../../components/comment/CommentInput.vue'
 import CommentList from '../../components/comment/CommentList.vue'
@@ -139,7 +137,6 @@ export default {
   components: {
     CommentInput,
     CommentList,
-    // BasketModal
   },
   data(){
     return{
