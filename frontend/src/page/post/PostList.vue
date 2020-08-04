@@ -48,28 +48,34 @@
                 style="padding:4rem 0; text-align:center; font-size:1.3rem; font-weight:bold; color: white;"
               >
                 <!-- <button class="location-button">{{post.location}}</button> -->
-                <p>{{post.location}}</p>
+                <p>{{ post.location }}</p>
               </div>
               <div class="col-md-12 p-0">
                 <div class="card-body" style="padding: 5px;">
                   <p
                     class="card-text mb-2"
                     style="font-size: 1rem; text-align: left; text-overflow:ellipsis;overflow: hidden;white-space: nowrap; color:gray"
-                  >{{post.sdate}}~{{post.edate}}</p>
+                  >
+                    {{ post.sdate }}~{{ post.edate }}
+                  </p>
                   <h5
                     class="card-title"
                     @click="getdetail(post.pid)"
                     style="font-size: 1rem; text-align: left; margin-bottom: 1rem; text-overflow:ellipsis;overflow: hidden;white-space: nowrap;"
-                  >{{post.title}}</h5>
+                  >
+                    {{ post.title }}
+                  </h5>
                   <div class="text d-flex justify-content-between">
                     <p
                       class="card-text"
                       style="font-size: 1rem; text-align: left; text-overflow:ellipsis;overflow: hidden;white-space: nowrap;"
-                    >가격 : {{post.price}}</p>
+                    >
+                      가격 : {{ post.price }}
+                    </p>
 
                     <!-- heart like -->
                     <div id="heart" @click="registlike(post.pid)">
-                      {{post.likecnt}}
+                      {{ post.likecnt }}
                       <i
                         v-if="check(post.pid)"
                         class="fas fa-heart select-button like-button"
@@ -90,17 +96,26 @@
       </div>
 
       <!-- top button -->
-      <i class="fas fa-2x fa-angle-double-up upBtn" @click="toTop" style="cursor:pointer;"></i>
+      <i
+        class="fas fa-2x fa-angle-double-up upBtn"
+        @click="toTop"
+        style="cursor:pointer;"
+      ></i>
       <!-- infinite loading -->
-      <infinite-loading :identifier="infiniteId" @infinite="infiniteHandler" spinner="waveDots">
+      <infinite-loading
+        :identifier="infiniteId"
+        @infinite="infiniteHandler"
+        spinner="waveDots"
+      >
         <div slot="no-more">
           <a @click="toTop">Top</a>
         </div>
+        <div slot="no-results"></div>
       </infinite-loading>
     </div>
   </div>
 </template>
- 
+
 <script>
 import "../../assets/css/postlist.css";
 import axios from "axios";
@@ -140,13 +155,25 @@ export default {
     };
   },
   methods: {
+    authUser() {
+      axios
+        .get(`${baseURL}/account/authuser/${this.$cookies.get("Auth-Token")}`)
+        .then((response) => {
+            this.email = response.data.email;
+            this.init();
+    this.checklike();
+        })
+        .catch((err) => {
+          console.log(err.response);
+        });
+    },
     toTop() {
       scroll(0, 0);
     },
     infiniteHandler($state) {
-      if (this.key == "") {
+      if (this.filter != null) {
         axios
-          .get(`${baseURL}/post/getList?page=` + this.page)
+          .get(`${baseURL}/post/types/${this.page}`)
           .then((res) => {
             setTimeout(() => {
               if (res.data.length) {
@@ -164,11 +191,29 @@ export default {
           .catch((err) => {
             console.log(err);
           });
-      } else {
+      } else if (this.key == "" && this.filter == null) {
         axios
-          .get(
-            `${baseURL}/post/search/${this.key}/${this.word}?page=` + this.page
-          )
+          .get(`${baseURL}/post/getList/${this.page}`)
+          .then((res) => {
+            setTimeout(() => {
+              if (res.data.length) {
+                this.posts = this.posts.concat(res.data);
+                $state.loaded();
+                this.page += 1;
+                if (this.posts.length / 9 == 0) {
+                  $state.complete();
+                }
+              } else {
+                $state.complete();
+              }
+            }, 1000);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      } else if (this.key != "" && this.filter == "") {
+        axios
+          .get(`${baseURL}/post/search/${this.key}/${this.word}/${this.page}`)
           .then((res) => {
             setTimeout(() => {
               if (res.data.length) {
@@ -219,7 +264,7 @@ export default {
       }
     },
     registlike(pid) {
-      if (this.$cookies.get("Auth-Token")) {
+      if (this.email!=null) {
         axios
           .get(`${baseURL}/like/registDelete/${this.email}/${pid}`)
           .then((res) => {
@@ -280,7 +325,7 @@ export default {
     },
     filtering() {
       axios
-        .get(`${baseURL}/post/types/${this.filter}`)
+        .get(`${baseURL}/post/types/${this.filter}/0`)
         .then((res) => {
           this.posts = res.data;
         })
@@ -289,26 +334,18 @@ export default {
         });
     },
     init() {
-      // axios
-      //   .get(`${baseURL}/post/list/`)
-      //   .then((res) => {
-      //     this.posts = res.data;
-      //   })
-      //   .catch((err) => {
-      //     console.log(err);
-      //   });
       if (this.key == "") {
         axios
-          .get(`${baseURL}/post/getList?page=0`)
+          .get(`${baseURL}/post/getList/0`)
           .then((res) => {
             this.posts = res.data;
           })
           .catch((err) => {
             console.log(err);
           });
-      } else {
+      } else if (this.key != "") {
         axios
-          .get(`${baseURL}/post/search/${this.key}/${this.word}?page=0`)
+          .get(`${baseURL}/post/search/${this.key}/${this.word}/0`)
           .then((res) => {
             this.posts = res.data;
           })
@@ -319,14 +356,14 @@ export default {
     },
   },
   created() {
-    this.email = this.$cookies.get("User");
+    
+    this.authUser();
     this.filter = this.$route.params.TYPE;
-    // if (this.filter != null) {
-    //   this.filtering();
-    // }else{
-
-    this.init();
-  // }
+    if (this.filter != null) {
+      this.filtering();
+    } else {
+      this.init();
+    }
     this.checklike();
   },
 };

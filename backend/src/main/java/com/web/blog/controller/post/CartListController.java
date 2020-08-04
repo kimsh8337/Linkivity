@@ -71,14 +71,6 @@ public class CartListController {
         return list.size();
     }
 
-    @GetMapping("/list/{page}")
-    @ApiOperation("페이지 리스트")
-    public List<PostList> paginate(@PathVariable int page) throws SQLException, IOException {
-        int start = page * 10;
-        int end = start + 10;
-        return null;
-    }
-
     @GetMapping("/regist/{email}/{pid}")
     @ApiOperation("장바구니 등록")
     public Object regist(@PathVariable String email, @PathVariable String pid) throws SQLException, IOException {

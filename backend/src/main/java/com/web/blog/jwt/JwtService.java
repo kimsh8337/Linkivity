@@ -32,7 +32,6 @@ public class JwtService{
 		long curTime = System.currentTimeMillis();
 		return  Jwts.builder()
                  .setHeaderParam("typ", "JWT")
-                 .setSubject(user.getEmail())
 				 .setExpiration(new Date(curTime + 3600000))
 				 .setIssuedAt(new Date(curTime))
 				 .claim(DATA_KEY, user)
@@ -52,7 +51,7 @@ public class JwtService{
 		return key;
 	}
 	
-	public String getUser(String jwt) {
+	public User getUser(String jwt) {
 		Jws<Claims> claims = null;
 		try {
 			claims = Jwts.parser()
@@ -62,9 +61,10 @@ public class JwtService{
 			LOGGER.debug(e.getMessage(), e);
 			throw new JWTException("decodeing failed");
 		}
-		// return objectMapper.convertValue(claims.getBody().get(DATA_KEY), User.class);
-        return claims.getBody().getSubject();
+		return objectMapper.convertValue(claims.getBody().get(DATA_KEY), User.class);
+        // return claims.getBody().get(DATA_KEY);
     }
+
 
     public Object get(final String jwt) {
         Jws<Claims> claims = null;
@@ -75,6 +75,6 @@ public class JwtService{
         }
 
         // Claims는 Map의 구현체이다.
-        return claims.getBody();
+        return claims.getBody().get(DATA_KEY);
     }
 }

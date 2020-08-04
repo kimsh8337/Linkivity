@@ -54,8 +54,8 @@ export default {
     Paginate
   },
   created(){
-    this.email = this.$cookies.get("User");
-    this.init();
+    this.authUser();
+    
   },
   data(){
     return{
@@ -78,6 +78,17 @@ export default {
     }
   },
   methods: {
+    authUser() {
+      axios
+        .get(`${baseURL}/account/authuser/${this.$cookies.get("Auth-Token")}`)
+        .then((response) => {
+            this.email = response.data.email;
+            this.init();
+        })
+        .catch((err) => {
+          console.log(err.response);
+        });
+    },
     init() {
       axios
         .get(`${baseURL}/cart/list/${this.email}/${this.page}`)

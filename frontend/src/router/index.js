@@ -15,6 +15,7 @@ import Params from '../page/error/Params.vue'
 import Msg from '../page/msg/msg.vue'
 import Kakao from '../page/msg/kakao.vue'
 import Calender from '../page/msg/calender.vue'
+import Map from '../page/msg/map.vue'
 // main
 import List from '../page/main/List.vue'
 
@@ -136,7 +137,10 @@ export default new Router({
         {
             path: '/msg/calender',
             component: Calender
+        },
+        {
+            path: '/msg/map',
+            component: Map
         }
-
     ]
 })

@@ -247,6 +247,16 @@ export default {
     },
   },
   methods: {
+    authUser() {
+      axios
+        .get(`${baseURL}/account/authuser/${this.$cookies.get("Auth-Token")}`)
+        .then((response) => {
+            this.email = response.data.email;
+        })
+        .catch((err) => {
+          console.log(err.response);
+        });
+    },
     Search() {
       let x = this;
       new daum.Postcode({
@@ -305,8 +315,8 @@ export default {
         alert("정보를 모두 입력해주세요.");
         return;
       }
-      this.PostCreate.location =
-        "(" + this.addr1 + ") " + this.addr2 + " " + this.addr3;
+      this.PostCreate.location = this.addr2 + " " + this.addr3;
+
       for (var i = 0; i < this.seasons.length; i++) {
         if (this.seasons[i] == "spring") {
           this.PostCreate.spring = 1;
@@ -381,8 +391,8 @@ export default {
     },
   },
   created() {
-    this.PostCreate.email = this.$cookies.get("User");
-  },
+    this.authUser()
+    }
 };
 </script>
 <style>

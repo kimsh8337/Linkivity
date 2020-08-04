@@ -153,8 +153,32 @@ export default {
       .digits()
       .has()
       .letters();
-    this.email = this.$cookies.get("User");
-    axios
+
+    this.authUser();
+    
+  },
+  watch: {
+    password: function (v) {
+      this.checkForm();
+    },
+    passwordconfirm: function (v) {
+      this.checkForm();
+    },
+  },
+  methods: {
+    authUser() {
+      axios
+        .get(`${baseURL}/authuser/${this.$cookies.get("Auth-Token")}`)
+        .then((response) => {
+            this.email = response.data.email;
+            this.getuser();
+        })
+        .catch((err) => {
+          console.log(err.response);
+        });
+    },
+    getuser(){
+      axios
       .get(`${baseURL}/viewInfo/${this.email}`)
       .then((response) => {
         this.name = response.data.name;
@@ -167,17 +191,7 @@ export default {
           params: { name: err.response.status },
         });
       });
-  },
-
-  watch: {
-    password: function (v) {
-      this.checkForm();
     },
-    passwordconfirm: function (v) {
-      this.checkForm();
-    },
-  },
-  methods: {
     passwordModify() {
       this.pwvalidated = 1;
     },
@@ -206,11 +220,10 @@ export default {
     },
     deluser() {
       axios
-        .delete(`${baseURL}/delete/${this.$cookies.get("User")}`)
+        .delete(`${baseURL}/delete/${this.email}`)
         .then((response) => {
           alert("탈퇴 완료");
           this.$cookies.remove("Auth-Token");
-          this.$cookies.remove("User");
           this.$router.push("/");
           this.$router.go();
         })
@@ -276,6 +289,7 @@ export default {
       imgurl: null,
       validated: 1,
       pwvalidated: 0,
+      
     };
   },
 };

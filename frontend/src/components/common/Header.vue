@@ -36,6 +36,7 @@
           <li class="nav-item">
             <a v-if="!this.$cookies.isKey('Auth-Token')" data-toggle="modal" data-target="#LoginModal" class="nav-link mt-3 pl-1"><i class="fas fa-sign-in-alt mr-1"></i><br>Login</a>
           </li>
+          <!-- {{this.email}} -->
         </ul>
       </div>
     </nav>
@@ -58,8 +59,10 @@ export default {
   },
   computed: {},
   watch: {},
-  created() {},
+  created() {
+  },
   methods: {
+    
     gocreate() {
       this.$router.push({
         name: "PostCreate",
@@ -68,7 +71,6 @@ export default {
     },
     logout: function() {
       this.$cookies.remove("Auth-Token");
-      this.$cookies.remove("User");
       this.$router.push("/");
       Swal.fire({
         width:250,
@@ -97,7 +99,7 @@ export default {
   data: function() {
     return {
       constants,
-      keyword: ""
+      keyword: "",
     };
   }
 };

@@ -64,36 +64,36 @@ public class AccountController {
     public Object login(@PathVariable String email, @PathVariable String password) throws SQLException, IOException {
         try {
             Optional<User> userOpt = userDao.findUserByEmailAndPassword(email, password);
-            ResponseEntity response = null;
             if (userOpt.isPresent()) {
-                String token = jwtService.createLoginToken(userOpt.get());
-                // req.getSession().setAttribute("login_user", jwtService.getUser(token));
-                String uemail = jwtService.getUser(token);
-                // res.setHeader("auth-token", token);
-                // System.out.println(jwtService.getUser(req.getHeader("auth-token")));
-                return uemail;
+                User tokenuser = new User();
+                tokenuser.setEmail(userOpt.get().getEmail());
+                tokenuser.setPassword(userOpt.get().getPassword());
+                String token = jwtService.createLoginToken(tokenuser);
+                // return jwtService.getUser(token).getEmail();
+                return new ResponseEntity<>(token, HttpStatus.ACCEPTED);
             } else {
-                response = new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
-                return response;
+                return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
             }
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-    // @GetMapping("/getuserinfo")
-    // @ApiOperation(value = "세션정보가져오기")
-    // public Object getUserInfo(HttpServletRequest req) {
-    // HttpStatus status = null;
-    // try {
-    // status = HttpStatus.ACCEPTED;
-    // String loginuser = (String) req.getSession().getAttribute("login_user");
-    // return loginuser;
-    // // return new ResponseEntity<>(loginuser, status);
-    // } catch (Exception e) {
-    // return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-    // }
-    // }
+    @GetMapping("/authuser/{token}")
+    @ApiOperation(value = "토큰으로 유저정보 가져오기")
+    public Object authUser(@PathVariable String token) throws SQLException, IOException {
+        User tokenuser = jwtService.getUser(token);
+        Optional<User> userinfo = userDao.findUserByEmail(tokenuser.getEmail());
+        try {
+            if (userinfo.isPresent()) {
+                return new ResponseEntity<>(userinfo.get(), HttpStatus.ACCEPTED);
+            }else{
+                return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+            }
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 
     @Autowired
     private JavaMailSender javaMailSender;
