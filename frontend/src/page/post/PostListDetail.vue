@@ -150,15 +150,15 @@ export default {
     return{
       post: [],
       pid: "",
+      email:"",
       receiveComment: [],
     }
   },
   created() {
    
         this.pid = this.$route.params.ID,
-        this.email = this.$cookies.get("User");
-        this.getPost();
-        this.fetchComment(),
+        this.authUser();
+        
         Kakao.init('765ed14c0d508f8aa48c6d173446acba');
   },
   methods: {
