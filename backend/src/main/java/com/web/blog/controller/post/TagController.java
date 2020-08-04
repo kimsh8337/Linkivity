@@ -40,31 +40,10 @@ public class TagController {
     public Object regist(@PathVariable String tagname) throws SQLException, IOException {
         try {
 
-            String[] tags = tagname.split(" ");
-            for (String s : tags) {
-                Tag tag = tagDao.findByTagname(s);
-                if (tag == null) {
-                    tag = new Tag();
-                    tag.setTagname(s);
-                    tag.setCnt(1);
-                    tagDao.save(tag);
-                }else{
-                    tag.setCnt(tag.getCnt()+1);
-                    tagDao.save(tag);
-                }
-            }
             return "태그 등록";
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-    @GetMapping("/toptag")
-    @ApiOperation("인기 태그")
-    public List<Tag> toptag() throws SQLException, IOException {
-        List<Tag> taglist = new LinkedList<>();
-        taglist = tagDao.findAllByOrderByCntDesc();
-
-        return taglist;
-    }
 }

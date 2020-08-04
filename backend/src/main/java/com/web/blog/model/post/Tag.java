@@ -18,8 +18,9 @@ import lombok.NoArgsConstructor;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Tag {
     @Id
-    // @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String tagname;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int tid;
 
-    private int cnt;
+    private int pid;
+    private String tagname;
 }
