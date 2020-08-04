@@ -202,18 +202,6 @@ export default {
     };
   },
   methods: {
-    authUser() {
-      axios
-        .get(`${baseURL}/account/authuser/${this.$cookies.get("Auth-Token")}`)
-        .then((response) => {
-          this.email = response.data.email;
-          this.init();
-          this.checklike();
-        })
-        .catch((err) => {
-          console.log(err.response);
-        });
-    },
     settype(typename){
       this.type = typename;
       this.init();
@@ -361,16 +349,6 @@ export default {
           alert(err);
         });
     },
-    filtering() {
-      axios
-        .get(`${baseURL}/post/types/${this.filter}/0`)
-        .then((res) => {
-          this.posts = res.data;
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    },
     init() {
       
         axios
@@ -381,7 +359,6 @@ export default {
           .catch((err) => {
             console.log(err);
           });
-      
     },
   },
   created() {
