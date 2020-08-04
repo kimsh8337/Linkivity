@@ -22,7 +22,7 @@
             <a class="nav-link mt-3 mr-2" @click="goPost"><i class="fas fa-stream mr-1"></i><br>Post</a>
           </li>
           <li class="nav-item">
-            <a v-if="this.$cookies.isKey('Auth-Token')" class="nav-link mt-3 mr-2" @click="gocreate"><i class="fas fa-pen mr-1"></i><br>Write</a>
+            <a v-if="this.$cookies.isKey('Auth-Token') && this.usertype == 'business'" class="nav-link mt-3 mr-2" @click="gocreate"><i class="fas fa-pen mr-1"></i><br>Write</a>
           </li>
           <li class="nav-item">
             <a v-if="this.$cookies.isKey('Auth-Token')" class="nav-link mt-3 mr-2" @click="goBasket"><i class="fas fa-shopping-basket"></i><br>Basket</a>
@@ -36,7 +36,6 @@
           <li class="nav-item">
             <a v-if="!this.$cookies.isKey('Auth-Token')" data-toggle="modal" data-target="#LoginModal" class="nav-link mt-3 pl-1"><i class="fas fa-sign-in-alt mr-1"></i><br>Login</a>
           </li>
-          <!-- {{this.email}} -->
         </ul>
       </div>
     </nav>
@@ -60,9 +59,22 @@ export default {
   computed: {},
   watch: {},
   created() {
+    if (this.$cookies.get('Auth-Token')!=null) {
+      this.authUser()
+    }else{
+    }
   },
   methods: {
-    
+    authUser() {
+      axios
+        .get(`${baseURL}/authuser/${this.$cookies.get("Auth-Token")}`)
+        .then((response) => {
+          this.usertype = response.data.checkType;
+        })
+        .catch((err) => {
+          console.log(err.response);
+        });
+    },
     gocreate() {
       this.$router.push({
         name: "PostCreate",
@@ -100,6 +112,7 @@ export default {
     return {
       constants,
       keyword: "",
+      usertype: "",
     };
   }
 };

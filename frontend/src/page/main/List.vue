@@ -134,8 +134,6 @@ export default {
   name: "Post",
   components: {Footer},
   created() {
-    this.authUser();
-    
   },
   watch: {},
 
