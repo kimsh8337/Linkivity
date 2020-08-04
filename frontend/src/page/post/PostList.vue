@@ -11,7 +11,7 @@
             v-model="key"
           >
             <div role="separator" class="dropdown-divider"></div>
-            <option value="">All</option>
+            <option value>All</option>
             <!-- <option value="all">All</option> -->
             <option value="title">Title</option>
             <option value="activity">Activity</option>
@@ -31,7 +31,7 @@
         <a type="button" class="btn btn-outline form-check mb-2" @click="gocreate">
           <i class="fas fa-pen"></i> 상품 등록
         </a>
-      </div> -->
+      </div>-->
       <div class="row justify-content-left">
         <div
           class="col-12 col-sm-12 col-md-3 card-deck"
@@ -41,83 +41,94 @@
         >
           <div class="card mb-3 profile-post mr-0 ml-0">
             <div class="card-body" style="padding: 0;">
-              <img
-                :src="post.imgurl"
-                class="card-img"
-                
-                style="height:10rem"
-              />
-              <div class="card-img-overlay" @click="getdetail(post.pid)" style="padding:4rem 0; text-align:center; font-size:1.3rem; font-weight:bold; color: white;">
+              <img :src="post.imgurl" class="card-img" style="height:10rem" />
+              <div
+                class="card-img-overlay"
+                @click="getdetail(post.pid)"
+                style="padding:4rem 0; text-align:center; font-size:1.3rem; font-weight:bold; color: white;"
+              >
                 <!-- <button class="location-button">{{post.location}}</button> -->
-                <p>{{post.location}}</p>
-            </div>
-            <div class="col-md-12 p-0">
-              <div class="card-body" style="padding: 5px;">
+                <p>{{ post.location }}</p>
+              </div>
+              <div class="col-md-12 p-0">
+                <div class="card-body" style="padding: 5px;">
                   <p
                     class="card-text mb-2"
                     style="font-size: 1rem; text-align: left; text-overflow:ellipsis;overflow: hidden;white-space: nowrap; color:gray"
-                  >{{post.sdate}}~{{post.edate}}</p>
-                <h5
-                  class="card-title"
-                  @click="getdetail(post.pid)"
-                  style="font-size: 1rem; text-align: left; margin-bottom: 1rem; text-overflow:ellipsis;overflow: hidden;white-space: nowrap;"
-                >{{post.title}}</h5>
-                <div class="text d-flex justify-content-between">
-                  <p
-                    class="card-text"
-                    style="font-size: 1rem; text-align: left; text-overflow:ellipsis;overflow: hidden;white-space: nowrap;"
-                  >가격 : {{post.price}}</p>
+                  >
+                    {{ post.sdate }}~{{ post.edate }}
+                  </p>
+                  <h5
+                    class="card-title"
+                    @click="getdetail(post.pid)"
+                    style="font-size: 1rem; text-align: left; margin-bottom: 1rem; text-overflow:ellipsis;overflow: hidden;white-space: nowrap;"
+                  >
+                    {{ post.title }}
+                  </h5>
+                  <div class="text d-flex justify-content-between">
+                    <p
+                      class="card-text"
+                      style="font-size: 1rem; text-align: left; text-overflow:ellipsis;overflow: hidden;white-space: nowrap;"
+                    >
+                      가격 : {{ post.price }}
+                    </p>
 
-                  <!-- heart like -->
-                  <div id="heart" @click="registlike(post.pid)">
-                  {{post.likecnt}}
-                  <i
-                    v-if="check(post.pid)"
-                    class="fas fa-heart select-button like-button"
-                    style="text-align: right; font-size: 20px; color:crimson;"
-                  ></i>
-                  <i
-                    v-if="!check(post.pid)"
-                    class="far fa-heart"
-                    style="text-align: right; font-size: 20px;"
-                  ></i>
-                </div>
-
-
+                    <!-- heart like -->
+                    <div id="heart" @click="registlike(post.pid)">
+                      {{ post.likecnt }}
+                      <i
+                        v-if="check(post.pid)"
+                        class="fas fa-heart select-button like-button"
+                        style="text-align: right; font-size: 20px; color:crimson;"
+                      ></i>
+                      <i
+                        v-if="!check(post.pid)"
+                        class="far fa-heart"
+                        style="text-align: right; font-size: 20px;"
+                      ></i>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
 
-    <!-- top button -->
-    <i class="fas fa-2x fa-angle-double-up upBtn" @click="toTop" style="cursor:pointer;"></i>
-    <!-- infinite loading -->
-    <infinite-loading :identifier="infiniteId" @infinite="infiniteHandler" spinner="waveDots">
-      <div slot="no-more">
-        <a @click="toTop">Top</a>
-      </div>
-    </infinite-loading>
-  </div>
+      <!-- top button -->
+      <i
+        class="fas fa-2x fa-angle-double-up upBtn"
+        @click="toTop"
+        style="cursor:pointer;"
+      ></i>
+      <!-- infinite loading -->
+      <infinite-loading
+        :identifier="infiniteId"
+        @infinite="infiniteHandler"
+        spinner="waveDots"
+      >
+        <div slot="no-more">
+          <a @click="toTop">Top</a>
+        </div>
+        <div slot="no-results"></div>
+      </infinite-loading>
+    </div>
   </div>
 </template>
- 
+
 <script>
 import "../../assets/css/postlist.css";
 import axios from "axios";
-import InfiniteLoading from 'vue-infinite-loading'
-import Swal from 'sweetalert2'
+import InfiniteLoading from "vue-infinite-loading";
+import Swal from "sweetalert2";
 
 // const Swal = require('sweetalert2')
 
 const baseURL = "http://localhost:8080";
 
-
 export default {
   components: {
-    InfiniteLoading
+    InfiniteLoading,
   },
   data() {
     return {
@@ -131,60 +142,95 @@ export default {
         location: "",
         imgurl: "",
         price: "",
-        sdate:"",
-        edate:"",
-        likecnt:""
+        sdate: "",
+        edate: "",
+        likecnt: "",
       },
       key: "",
       word: "",
       email: "",
       postLike: [],
       cntLike: [],
+      filter: "",
     };
   },
   methods: {
+    authUser() {
+      axios
+        .get(`${baseURL}/account/authuser/${this.$cookies.get("Auth-Token")}`)
+        .then((response) => {
+            this.email = response.data.email;
+            this.init();
+    this.checklike();
+        })
+        .catch((err) => {
+          console.log(err.response);
+        });
+    },
     toTop() {
       scroll(0, 0);
     },
     infiniteHandler($state) {
-      if(this.key==""){
-        axios.get(`${baseURL}/post/getList?page=` + this.page)
-        .then( res => {
-          setTimeout(() => {
-            if(res.data.length) {
-              this.posts = this.posts.concat(res.data);
-              $state.loaded();
-              this.page += 1;
-              if(this.posts.length / 9 == 0) {
+      if (this.filter != null) {
+        axios
+          .get(`${baseURL}/post/types/${this.page}`)
+          .then((res) => {
+            setTimeout(() => {
+              if (res.data.length) {
+                this.posts = this.posts.concat(res.data);
+                $state.loaded();
+                this.page += 1;
+                if (this.posts.length / 9 == 0) {
+                  $state.complete();
+                }
+              } else {
                 $state.complete();
               }
-            } else {
-              $state.complete();
-            }
-          }, 1000);
-        })
-        .catch( err => {
-          console.log(err);
-        })
-      } else {
-        axios.get(`${baseURL}/post/search/${this.key}/${this.word}?page=` + this.page)
-        .then( res => {
-          setTimeout(() => {
-            if(res.data.length) {
-              this.posts = this.posts.concat(res.data);
-              $state.loaded();
-              this.page += 1;
-              if(this.posts.length / 9 == 0) {
+            }, 1000);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      } else if (this.key == "" && this.filter == null) {
+        axios
+          .get(`${baseURL}/post/getList/${this.page}`)
+          .then((res) => {
+            setTimeout(() => {
+              if (res.data.length) {
+                this.posts = this.posts.concat(res.data);
+                $state.loaded();
+                this.page += 1;
+                if (this.posts.length / 9 == 0) {
+                  $state.complete();
+                }
+              } else {
                 $state.complete();
               }
-            } else {
-              $state.complete();
-            }
-          }, 1000);
-        })
-        .catch( err => {
-          console.log(err);
-        })
+            }, 1000);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      } else if (this.key != "" && this.filter == "") {
+        axios
+          .get(`${baseURL}/post/search/${this.key}/${this.word}/${this.page}`)
+          .then((res) => {
+            setTimeout(() => {
+              if (res.data.length) {
+                this.posts = this.posts.concat(res.data);
+                $state.loaded();
+                this.page += 1;
+                if (this.posts.length / 9 == 0) {
+                  $state.complete();
+                }
+              } else {
+                $state.complete();
+              }
+            }, 1000);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
       }
     },
     check(pid) {
@@ -218,24 +264,24 @@ export default {
       }
     },
     registlike(pid) {
-      if (this.$cookies.get('Auth-Token')) {
+      if (this.email!=null) {
         axios
           .get(`${baseURL}/like/registDelete/${this.email}/${pid}`)
           .then((res) => {
             this.checklike();
             this.init();
             if (this.check(pid) == false) {
-              this.$toasted.show('좋아좋아요!', {
-              theme: 'bubble',
-              position: 'top-right',
-              duration:1000,
-            })
+              this.$toasted.show("좋아좋아요!", {
+                theme: "bubble",
+                position: "top-right",
+                duration: 1000,
+              });
             } else {
-              this.$toasted.show('싫어싫어요!', {
-              theme: 'bubble',
-              position: 'top-right',
-              duration:1000,
-            })
+              this.$toasted.show("싫어싫어요!", {
+                theme: "bubble",
+                position: "top-right",
+                duration: 1000,
+              });
             }
           })
           .catch((err) => {
@@ -243,17 +289,18 @@ export default {
           });
       } else {
         Swal.fire({
-          icon: 'error',
-          text: '로그인 후 이용해주세요...',
-          confirmButtonColor: '#fff',
-          width:350,
-          confirmButtonText: '<a data-toggle="modal" data-target="#LoginModal" style="font-size:1rem; color:black" >Login</a>',
+          icon: "error",
+          text: "로그인 후 이용해주세요...",
+          confirmButtonColor: "#fff",
+          width: 350,
+          confirmButtonText:
+            '<a data-toggle="modal" data-target="#LoginModal" style="font-size:1rem; color:black" >Login</a>',
           showCancelButton: true,
           cancelButtonText: '<a style="font-size:1rem; color:black">Cancel</a>',
-          cancelButtonColor: '#fff',
+          cancelButtonColor: "#fff",
         }).then((result) => {
-          Swal.close()
-        })
+          Swal.close();
+        });
       }
     },
     checklike() {
@@ -276,44 +323,47 @@ export default {
           alert(err);
         });
     },
-    init() {
-      // axios
-      //   .get(`${baseURL}/post/list/`)
-      //   .then((res) => {
-      //     this.posts = res.data;
-      //   })
-      //   .catch((err) => {
-      //     console.log(err);
-      //   });
-       if(this.key ==""){
-        axios
-        .get(`${baseURL}/post/getList?page=0`)
+    filtering() {
+      axios
+        .get(`${baseURL}/post/types/${this.filter}/0`)
         .then((res) => {
           this.posts = res.data;
         })
         .catch((err) => {
           console.log(err);
         });
-      } else {
+    },
+    init() {
+      if (this.key == "") {
         axios
-        .get(`${baseURL}/post/search/${this.key}/${this.word}?page=0`)
-        .then((res) => {
-          this.posts = res.data;
-        })
-        .catch((err) => {
-          console.log(err);
-        })
+          .get(`${baseURL}/post/getList/0`)
+          .then((res) => {
+            this.posts = res.data;
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      } else if (this.key != "") {
+        axios
+          .get(`${baseURL}/post/search/${this.key}/${this.word}/0`)
+          .then((res) => {
+            this.posts = res.data;
+          })
+          .catch((err) => {
+            console.log(err);
+          });
       }
     },
   },
   created() {
-    this.email = this.$cookies.get("User");
-    // if(this.email == null) {
-    //   this.flag = false;
-    // } else {
-    //   this.flag = true;
-    // }
-    this.init();
+    
+    this.authUser();
+    this.filter = this.$route.params.TYPE;
+    if (this.filter != null) {
+      this.filtering();
+    } else {
+      this.init();
+    }
     this.checklike();
   },
 };
@@ -338,13 +388,14 @@ export default {
 .postlist {
   cursor: pointer;
 }
-.card-title, .card-img-overlay{
-  cursor:pointer;
+.card-title,
+.card-img-overlay {
+  cursor: pointer;
 }
-.upBtn { 
-  position:fixed;
-  right:5%;
-  top:90%;
+.upBtn {
+  position: fixed;
+  right: 5%;
+  top: 90%;
   color: red;
 }
 </style>
