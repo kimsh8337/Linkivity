@@ -154,8 +154,9 @@ export default {
     }
   },
   created() {
+   
+        this.pid = this.$route.params.ID,
         this.email = this.$cookies.get("User");
-        this.pid = this.$route.params.ID;
         this.getPost();
         this.fetchComment(),
         Kakao.init('765ed14c0d508f8aa48c6d173446acba');

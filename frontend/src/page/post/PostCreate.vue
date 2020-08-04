@@ -293,8 +293,8 @@ export default {
         alert("정보를 모두 입력해주세요.");
         return;
       }
-      this.PostCreate.location =
-        "(" + this.addr1 + ") " + this.addr2 + " " + this.addr3;
+      this.PostCreate.location = this.addr2 + " " + this.addr3;
+
       for (var i = 0; i < this.seasons.length; i++) {
         if (this.seasons[i] == "spring") {
           this.PostCreate.spring = 1;
