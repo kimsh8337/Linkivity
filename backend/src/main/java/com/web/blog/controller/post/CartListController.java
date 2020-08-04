@@ -136,20 +136,35 @@ public class CartListController {
         }
         return likelist;
     }
-
+    
+    
+    @GetMapping("/likelist/{email}")
+    @ApiOperation("like 리스트")
+    public List<LikeList> selectLike(@PathVariable String email) throws SQLException, IOException {
+        List<LikeList> list = new LinkedList<>();
+        list = likeListDao.findByEmailAndCart(email, 1);
+        return list;
+    }
+    
     @DeleteMapping("/delete/{no}")
     @ApiOperation("장바구니 삭제")
-    public String delete(@PathVariable int no) throws SQLException, IOException {
-        likeListDao.delete(likeListDao.findByNo(no));
+    public String delete(@PathVariable List<Integer> no) throws SQLException, IOException {
+        likeListDao.deleteAll(likeListDao.findByNoIn(no));
         return "장바구니 삭제 완료";
     }
+    
+    @GetMapping("/preview/{no}")
+    @ApiOperation("구매할 목록 미리보기")
+    public List<PostList> preview(@PathVariable List<Integer> no) throws SQLException, IOException {
+        
+        List<LikeList> tlist = new LinkedList<>();
+        tlist = likeListDao.findByNoIn(no);
 
+        List<PostList> plist = new LinkedList<>();
+        for (LikeList likeList : tlist) {
+            plist.add(postListDao.findByPid(likeList.getPid()));
+        }
 
-    @GetMapping("/likelist")
-    @ApiOperation("like 리스트")
-    public List<LikeList> selectLike() throws SQLException, IOException {
-        List<LikeList> list = new LinkedList<>();
-        list = likeListDao.findAll();
-        return list;
+        return plist;
     }
 }

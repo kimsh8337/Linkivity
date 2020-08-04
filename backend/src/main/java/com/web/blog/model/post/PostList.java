@@ -43,6 +43,6 @@ public class PostList {
     private int winter;
     private String place;
     private int likecnt;
-    private String tag;
+    // private String tag;
     private LocalDateTime createDate;
 }
