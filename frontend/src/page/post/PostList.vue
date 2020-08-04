@@ -380,11 +380,7 @@ export default {
       .get(`${baseURL}/account/authuser/${this.$cookies.get("Auth-Token")}`)
       .then((response) => {
         this.email = response.data.email;
-        if (this.filter != null) {
-          this.filtering();
-        } else {
-          this.init();
-        }
+        this.init();
         this.checklike();
       })
       .catch((err) => {
