@@ -37,9 +37,9 @@ public class PostListController {
     @Autowired
     PostListDao postDao;
 
-    @GetMapping("/search/{key}/{word}")
+    @GetMapping("/search/{key}/{word}/{page}")
     @ApiOperation(value = "검색")
-    public List<PostList> search(@PathVariable String key, @PathVariable String word, @RequestParam int page)
+    public List<PostList> search(@PathVariable String key, @PathVariable String word, @PathVariable int page)
             throws SQLException, IOException {
         List<PostList> post = new LinkedList<>();
         if (key.equals("")) {
@@ -85,9 +85,9 @@ public class PostListController {
     }
 
     // infinite-loading paging
-    @GetMapping("/getList")
+    @GetMapping("/getList/{page}")
     @ResponseBody
-    public List<PostList> getList(@RequestParam int page) {
+    public List<PostList> getList(@PathVariable int page) {
         int start = page * 9;
         int end = start + 9;
 
@@ -198,9 +198,12 @@ public class PostListController {
         }
     }
 
-    @GetMapping("/types/{typename}")
+    @GetMapping("/types/{typename}/{page}")
     @ApiOperation(value = "타입 별 포스트")
-    public List<PostList> seasons(@PathVariable String typename) throws SQLException, IOException {
+    public List<PostList> seasons(@PathVariable String typename, @PathVariable int page) throws SQLException, IOException {
+        int start = page * 9;
+        int end = start + 9;
+        
         List<PostList> list = new LinkedList<>();
         if (typename.equals("spring")) {
             list = postDao.findBySpring(1);
@@ -210,10 +213,20 @@ public class PostListController {
             list = postDao.findByAutumn(1);
         } else if(typename.equals("winter")){
             list = postDao.findByWinter(1);
-        }else{
+        } else {
             list = postDao.findByPlace(typename);
         }
-        return list;
+        
+        if (end > list.size()) {
+            end = list.size();
+        }
+
+        List<PostList> plist = new LinkedList<>();
+        for (int i = start; i < end; i++) {
+            plist.add(list.get(i));
+        }
+
+        return plist;
     }
     
 
