@@ -81,9 +81,8 @@ export default {
     Paginate,
     BasketPackingModal,
   },
-  created(){
+  created() {
     this.authUser();
-    
   },
   data() {
     return {
@@ -115,12 +114,21 @@ export default {
     };
   },
   methods: {
+    changetf() {
+      this.clicknum += 1;
+      this.checktf = 0;
+      if (this.clicknum % 2 != 0) {
+        this.checktf = 1;
+      } else {
+        this.checktf = 0;
+      }
+    },
     authUser() {
       axios
         .get(`${baseURL}/account/authuser/${this.$cookies.get("Auth-Token")}`)
         .then((response) => {
-            this.email = response.data.email;
-            this.init();
+          this.email = response.data.email;
+          this.init();
         })
         .catch((err) => {
           console.log(err.response);
