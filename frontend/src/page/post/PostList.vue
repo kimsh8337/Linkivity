@@ -155,6 +155,18 @@ export default {
     };
   },
   methods: {
+    authUser() {
+      axios
+        .get(`${baseURL}/account/authuser/${this.$cookies.get("Auth-Token")}`)
+        .then((response) => {
+            this.email = response.data.email;
+            this.init();
+    this.checklike();
+        })
+        .catch((err) => {
+          console.log(err.response);
+        });
+    },
     toTop() {
       scroll(0, 0);
     },
@@ -252,7 +264,7 @@ export default {
       }
     },
     registlike(pid) {
-      if (this.$cookies.get("Auth-Token")) {
+      if (this.email!=null) {
         axios
           .get(`${baseURL}/like/registDelete/${this.email}/${pid}`)
           .then((res) => {
@@ -344,7 +356,8 @@ export default {
     },
   },
   created() {
-    this.email = this.$cookies.get("User");
+    
+    this.authUser();
     this.filter = this.$route.params.TYPE;
     if (this.filter != null) {
       this.filtering();
