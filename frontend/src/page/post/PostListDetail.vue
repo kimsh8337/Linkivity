@@ -104,17 +104,17 @@
 
 
     <!-- 댓글 List -->
-    <br v-if="this.$cookies.get('User')">
+    <br v-if="this.email">
     <div class="d-flex bg-white">Comment : {{receiveComment.length}}</div>
     <CommentList v-for="comment in receiveComment" :key="comment.rid" :comment="comment" @comment-delete="commentDelete"/>
 
     <!-- 댓글 작성 -->
-    <CommentInput class="mt-3" v-if="this.$cookies.get('User')" @create-comment="createcomment" />
+    <CommentInput class="mt-3" v-if="this.email" @create-comment="createcomment" />
   
     
       
       <!-- 글 수정 삭제 -->
-      <div class="d-flex justify-content-end mt-3 mb-3" v-if="this.$cookies.get('User') == this.post.email">
+      <div class="d-flex justify-content-end mt-3 mb-3" v-if="this.email == this.post.email">
         <button class="btn btn-success" @click="goModify"><i class="far fa-edit mr-2"></i>수정하기</button>
         <button class="btn btn-danger" @click="goDelete"><i class="far fa-trash-alt mr-2"></i>삭제하기</button>
       </div>
@@ -149,13 +149,23 @@ export default {
     }
   },
   created() {
-        this.email = this.$cookies.get("User");
         this.pid = this.$route.params.ID;
-        this.getPost();
-        this.fetchComment(),
+        this.authUser();
         Kakao.init('765ed14c0d508f8aa48c6d173446acba');
   },
   methods: {
+    authUser() {
+      axios
+        .get(`${baseURL}/account/authuser/${this.$cookies.get("Auth-Token")}`)
+        .then((response) => {
+            this.email = response.data.email;
+            this.getPost();
+            this.fetchComment();
+        })
+        .catch((err) => {
+          console.log(err.response);
+        });
+    },
          test(){
             Kakao.Link.createDefaultButton({
             container: '#kakao-link-btn',

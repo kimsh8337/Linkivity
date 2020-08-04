@@ -235,6 +235,16 @@ export default {
     },
   },
   methods: {
+    authUser() {
+      axios
+        .get(`${baseURL}/account/authuser/${this.$cookies.get("Auth-Token")}`)
+        .then((response) => {
+            this.email = response.data.email;
+        })
+        .catch((err) => {
+          console.log(err.response);
+        });
+    },
     Search() {
       let x = this;
       new daum.Postcode({
@@ -369,8 +379,8 @@ export default {
     },
   },
   created() {
-    this.PostCreate.email = this.$cookies.get("User");
-  },
+    this.authUser()
+    }
 };
 </script>
 <style>
