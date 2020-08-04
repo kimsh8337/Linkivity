@@ -2,7 +2,7 @@
   <div id="header" class="p-0" v-if="isHeader">
     <nav class="navbar navbar-expand-lg navbar-light fixed-top header-nav col-md-7" >
       <router-link class="nav-title" v-bind:to="{name:constants.URL_TYPE.POST.MAIN}">
-        <h5 class="mt-3 font-weight-bold nav-title">𝑳𝒊𝒏𝒌𝒊𝒗𝒊𝒕𝒚</h5>
+        <h5 class="my-auto font-weight-bold nav-title">𝑳𝒊𝒏𝒌𝒊𝒗𝒊𝒕𝒚</h5>
       </router-link>
       <button
         class="navbar-toggler navbar-toggler-right text-black"
