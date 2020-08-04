@@ -29,7 +29,7 @@
         <div class="modal-body">
           <!-- {{checked}} -->
           <!-- <div v-if="this.checked.changetf"> -->
-          <div v-for="(post, index) in checked" :key="index">
+          <div v-for="(post, index) in prePosts" :key="index">
             <img
               :src="post.imgurl"
               alt=""
@@ -48,6 +48,7 @@
               <p class="mb-0">가격 : {{ post.price }}</p>
             </div>
           </div>
+
           <!-- </div> -->
         </div>
         <div class="modal-footer">
@@ -69,30 +70,15 @@ const baseURL = "http://localhost:8080";
 export default {
   created() {
     this.email = this.$cookies.get("User");
-    this.init();
   },
-  // props:{
-  //   checked:Array,
-  // },
+  props: {
+    prePosts: Array,
+  },
+
   data() {
     return {
-      checked: [],
       sum: 0,
     };
-  },
-  methods: {
-    init() {
-      axios
-        .get(`${baseURL}/cart/list/${this.email}`)
-        .then((res) => {
-          this.checked = res.data;
-          this.no = res.data.index;
-          console.log(res.data);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    },
   },
 };
 </script>
