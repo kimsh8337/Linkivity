@@ -5,7 +5,7 @@
       <p class="shopping-list">
         <i class="fas fa-shopping-basket mr-2"></i>Shopping List
       </p>
-      <button class="btn btn-delete" @click="checkdelete(no)">
+      <button class="btn btn-delete" @click="checkdelete">
         <i class="fas fa-trash-alt mr-2"></i>선택항목 삭제하기
       </button>
     </div>
@@ -15,9 +15,9 @@
           <input
             type="checkbox"
             aria-label="Checkbox for following text input"
-            :value="post.price"
+            :value="post"
             v-model="checked"
-            @click="changetf"
+            @click="changetf(index)"
           />
         </div>
       </div>
@@ -58,10 +58,11 @@
         class="btn btn-danger"
         data-toggle="modal"
         data-target="#BasketPackingModal"
+        @click="btnClick"
       >
         <i class="far fa-hand-point-up mr-2"></i>구매하기
       </button>
-      <BasketPackingModal />
+      <BasketPackingModal :prePosts="prePosts" />
     </div>
   </div>
 </template>
@@ -99,7 +100,6 @@ export default {
         sdate: "",
         edate: "",
         likecnt: "",
-        checktf: 0,
       },
       checked: [],
       sum: 0,
@@ -109,18 +109,37 @@ export default {
         email: "",
         cart: "",
       },
-      no: [],
+      len: 0,
+      no: {},
+      temp: [],
       clicknum: 0,
+      prePosts: [],
     };
   },
   methods: {
-    changetf() {
-      this.clicknum += 1;
-      this.checktf = 0;
-      if (this.clicknum % 2 != 0) {
-        this.checktf = 1;
+    btnClick() {
+      this.temp = [];
+      for (let i = 0; i < this.len; i++) {
+        if (this.no[i] == 1) {
+          this.temp.push(this.likes[i].no);
+        }
+      }
+
+      axios
+        .get(`${baseURL}/cart/preview/${this.temp}`)
+        .then((res) => {
+          this.prePosts = res.data;
+          console.log(prePosts);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    changetf(index) {
+      if (this.no[index] == null) {
+        this.no[index] = 1;
       } else {
-        this.checktf = 0;
+        this.no[index] = null;
       }
     },
     authUser() {
@@ -139,7 +158,6 @@ export default {
         .get(`${baseURL}/cart/list/${this.email}/${this.page}`)
         .then((res) => {
           this.carts = res.data;
-          console.log(res.data);
         })
         .catch((err) => {
           console.log(err);
@@ -160,7 +178,7 @@ export default {
         .get(`${baseURL}/cart/likelist/${this.email}`)
         .then((res) => {
           this.likes = res.data;
-          console.log(this.likes);
+          this.len = this.likes.length;
         })
         .catch((err) => {
           console.log(err);
@@ -174,20 +192,20 @@ export default {
     },
     pageClick: function(pageNum) {
       this.page = pageNum - 1;
-      console.log(this.page);
     },
     checkPage() {
       axios
         .get(`${baseURL}/cart/list/${this.email}/${this.page}`)
         .then((res) => {
           this.carts = res.data;
-          console.log(res.data);
         })
         .catch((err) => {
           console.log(err);
         });
     },
-    checkdelete(no) {
+    checkdelete() {
+      this.btnClick();
+
       Swal.fire({
         width: 350,
         text: "선택항목을 삭제하시겠습니까?",
@@ -215,7 +233,7 @@ export default {
             title: "장바구니에서 삭제되었습니다.",
           });
           axios
-            .delete(`${baseURL}/cart/delete/${this.no}`)
+            .delete(`${baseURL}/cart/delete/${this.temp}`)
             .then(() => {
               this.$router.push(`/user/basket`);
             })
@@ -230,7 +248,7 @@ export default {
     checkedprice(price) {
       this.sum = 0;
       for (var i = 0; i < this.checked.length; i++) {
-        this.sum += this.checked[i];
+        this.sum += this.checked[i].price;
       }
       return this.sum;
     },
