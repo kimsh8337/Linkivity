@@ -251,7 +251,7 @@ export default {
       axios
         .get(`${baseURL}/account/authuser/${this.$cookies.get("Auth-Token")}`)
         .then((response) => {
-            this.email = response.data.email;
+            this.PostCreate.email = response.data.email;
         })
         .catch((err) => {
           console.log(err.response);
