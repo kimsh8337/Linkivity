@@ -29,27 +29,26 @@ import org.springframework.web.bind.annotation.RestController;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.PostMapping;
 
-
 @CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/post")
 public class PostListController {
-    //test
+    // test
     @Autowired
     PostListDao postDao;
 
-
     @GetMapping("/search/{key}/{word}")
     @ApiOperation(value = "검색")
-    public List<PostList> search(@PathVariable String key, @PathVariable String word, @RequestParam int page) throws SQLException, IOException {
+    public List<PostList> search(@PathVariable String key, @PathVariable String word, @RequestParam int page)
+            throws SQLException, IOException {
         List<PostList> post = new LinkedList<>();
-        if(key.equals("")){
+        if (key.equals("")) {
             post = postDao.findByFlagOrderByCreateDateDesc(1);
-        }else if(key.equals("title")){
-            post = postDao.findByTitleLikeOrderByCreateDateDesc("%"+word+"%");
-        }else if(key.equals("activity")){
-            post = postDao.findByActivityLikeOrderByCreateDateDesc("%"+word+"%");
-        }else if(key.equals("price")){
+        } else if (key.equals("title")) {
+            post = postDao.findByTitleLikeOrderByCreateDateDesc("%" + word + "%");
+        } else if (key.equals("activity")) {
+            post = postDao.findByActivityLikeOrderByCreateDateDesc("%" + word + "%");
+        } else if (key.equals("price")) {
             int price = Integer.parseInt(word);
             post = postDao.findByPriceLessThanEqualOrderByCreateDateDesc(price);
         }
@@ -57,7 +56,7 @@ public class PostListController {
         int start = page * 9;
         int end = start + 9;
 
-        if(end > post.size()) {
+        if (end > post.size()) {
             end = post.size();
         }
 
@@ -78,7 +77,7 @@ public class PostListController {
     }
 
     @GetMapping("/listbylike")
-    @ApiOperation(value="포스트 리스트 좋아요 정렬")
+    @ApiOperation(value = "포스트 리스트 좋아요 정렬")
     public List<PostList> selectAllByLike() throws SQLException, IOException {
         List<PostList> temp = new LinkedList<>();
         temp = postDao.findAllByOrderByLikecntDesc();
@@ -95,7 +94,7 @@ public class PostListController {
         List<PostList> temp = new LinkedList<>();
         temp = postDao.findByFlagOrderByCreateDateDesc(1);
 
-        if(end > temp.size()) {
+        if (end > temp.size()) {
             end = temp.size();
         }
 
@@ -111,21 +110,20 @@ public class PostListController {
     @ApiOperation(value = "포스트 상세정보")
     public Object selectDetail(@PathVariable int pid) throws SQLException, IOException {
         PostList post = postDao.findByPid(pid);
-        if(post!=null){
+        if (post != null) {
             // System.out.println(post);
             return post;
-        }else {
+        } else {
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
     }
-    
 
     @PutMapping("/modify")
     @ApiOperation(value = "포스트 수정하기")
     public Object modify(@Valid @RequestBody PostList request) throws SQLException, IOException {
         try {
             PostList post = postDao.findByPid(request.getPid());
-            if(post!=null){
+            if (post != null) {
 
                 PostList newTemp = post;
                 newTemp.setTitle(request.getTitle());
@@ -137,6 +135,11 @@ public class PostListController {
                 newTemp.setCompanyInfo(request.getCompanyInfo());
                 newTemp.setDetail(request.getDetail());
                 newTemp.setActivity(request.getActivity());
+                newTemp.setSpring(request.getSpring());
+                newTemp.setSummer(request.getSummer());
+                newTemp.setAutumn(request.getAutumn());
+                newTemp.setWinter(request.getWinter());
+                newTemp.setPlace(request.getPlace());
                 LocalDateTime time = LocalDateTime.now();
                 newTemp.setCreateDate(time);
                 // System.out.println(newTemp);
@@ -156,7 +159,7 @@ public class PostListController {
     @ApiOperation(value = "포스트 삭제")
     public Object delete(@PathVariable int pid) throws SQLException, IOException {
         PostList post = postDao.findByPid(pid);
-        if(post!=null){
+        if (post != null) {
             postDao.delete(post);
             return "포스트 삭제 완료";
         } else {
@@ -180,14 +183,38 @@ public class PostListController {
             temp.setDetail(request.getDetail());
             temp.setFlag(1);
             temp.setActivity(request.getActivity());
+            temp.setSpring(request.getSpring());
+            temp.setSummer(request.getSummer());
+            temp.setAutumn(request.getAutumn());
+            temp.setWinter(request.getWinter());
+            temp.setPlace(request.getPlace());
             LocalDateTime time = LocalDateTime.now();
             temp.setCreateDate(time);
             postDao.save(temp);
 
-            return temp;    
+            return temp;
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @GetMapping("/types/{typename}")
+    @ApiOperation(value = "타입 별 포스트")
+    public List<PostList> seasons(@PathVariable String typename) throws SQLException, IOException {
+        List<PostList> list = new LinkedList<>();
+        if (typename.equals("spring")) {
+            list = postDao.findBySpring(1);
+        } else if (typename.equals("summer")) {
+            list = postDao.findBySummer(1);
+        } else if (typename.equals("autumn")) {
+            list = postDao.findByAutumn(1);
+        } else if(typename.equals("winter")){
+            list = postDao.findByWinter(1);
+        }else{
+            list = postDao.findByPlace(typename);
+        }
+        return list;
+    }
     
+
 }

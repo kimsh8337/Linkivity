@@ -37,6 +37,12 @@ public class PostList {
     private String detail;
     private int flag;
     private String activity;
+    private int spring;
+    private int summer;
+    private int autumn;
+    private int winter;
+    private String place;
     private int likecnt;
+    private String tag;
     private LocalDateTime createDate;
 }

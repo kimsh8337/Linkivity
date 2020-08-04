@@ -23,7 +23,7 @@
                 <p
                   class="card-text"
                   style="font-size: 1rem; color: rgb(168, 168, 168); text-align: left; text-overflow:ellipsis;overflow: hidden;white-space: nowrap;"
-                >{{post.sdate}}~{{post.edate}}</p>
+                >{{post.sdate}}~{{post.edate}}<br>[{{post.location}}]</p>
                   <a href="javascript:;" @click="test()" id="kakao-link-btn">  
                 <img src="//developers.kakao.com/assets/img/about/logos/kakaolink/kakaolink_btn_small.png" width="28px" />
                   </a>
@@ -61,7 +61,7 @@
 
                 </div>
                 <div class="d-flex justify-content-end">
-                  <button type="button" class="btn btn-primary mr-1" data-toggle="modal" data-target="#BasketModal" @click="alertbasket(post)"><i class="fas fa-shopping-basket mr-2"></i>장바구니</button>
+                  <button type="button" class="btn btn-primary mr-1" @click="alertbasket(post)"><i class="fas fa-shopping-basket mr-2"></i>장바구니</button>
                   <!-- <BasketModal /> -->
                   <button class="btn btn-danger"><i class="far fa-hand-point-up mr-2"></i>바로구매</button>
                 </div>
@@ -148,15 +148,14 @@ export default {
   },
   data(){
     return{
-      post:[],
-      pid:"",
+      post: [],
+      pid: "",
       receiveComment: [],
     }
   },
   created() {
-   
-        this.pid = this.$route.params.ID,
-
+        this.email = this.$cookies.get("User");
+        this.pid = this.$route.params.ID;
         this.getPost();
         this.fetchComment(),
         Kakao.init('765ed14c0d508f8aa48c6d173446acba');
@@ -323,11 +322,19 @@ export default {
       Swal.fire({
         title: `${post.title}`,
         text: '장바구니에 담겼습니다.',
-        imageUrl: `${imgurl}`,
+        imageUrl: `${post.imgurl}`,
         imageWidth: 400,
         imageHeight: 200,
         imageAlt: 'Custom image',
-      })
+      }),
+      axios
+        .get(`${baseURL}/cart/regist/${this.email}/${this.pid}`)
+        .then((res)=>{
+          this.posts = this.res;
+        })
+        .catch((err)=>{
+          console.log(err)
+        })
       // alert(`'${title}'상품을 장바구니에 담았습니다!`)
     },
 
