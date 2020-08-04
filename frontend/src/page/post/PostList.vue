@@ -55,17 +55,23 @@
                   <p
                     class="card-text mb-2"
                     style="font-size: 1rem; text-align: left; text-overflow:ellipsis;overflow: hidden;white-space: nowrap; color:gray"
-                  >{{ post.sdate }}~{{ post.edate }}</p>
+                  >
+                    {{ post.sdate }}~{{ post.edate }}
+                  </p>
                   <h5
                     class="card-title"
                     @click="getdetail(post.pid)"
                     style="font-size: 1rem; text-align: left; margin-bottom: 1rem; text-overflow:ellipsis;overflow: hidden;white-space: nowrap;"
-                  >{{ post.title }}</h5>
+                  >
+                    {{ post.title }}
+                  </h5>
                   <div class="text d-flex justify-content-between">
                     <p
                       class="card-text"
                       style="font-size: 1rem; text-align: left; text-overflow:ellipsis;overflow: hidden;white-space: nowrap;"
-                    >가격 : {{ post.price }}</p>
+                    >
+                      가격 : {{ post.price }}
+                    </p>
 
                     <!-- heart like -->
                     <div id="heart" @click="registlike(post.pid)">
@@ -90,9 +96,17 @@
       </div>
 
       <!-- top button -->
-      <i class="fas fa-2x fa-angle-double-up upBtn" @click="toTop" style="cursor:pointer;"></i>
+      <i
+        class="fas fa-2x fa-angle-double-up upBtn"
+        @click="toTop"
+        style="cursor:pointer;"
+      ></i>
       <!-- infinite loading -->
-      <infinite-loading :identifier="infiniteId" @infinite="infiniteHandler" spinner="waveDots">
+      <infinite-loading
+        :identifier="infiniteId"
+        @infinite="infiniteHandler"
+        spinner="waveDots"
+      >
         <div slot="no-more">
           <a @click="toTop">Top</a>
         </div>
@@ -166,7 +180,7 @@ export default {
                 this.posts = this.posts.concat(res.data);
                 $state.loaded();
                 this.page += 1;
-                if (this.posts.length / 9 == 0) {
+                if (this.posts.length / 9 < 1) {
                   $state.complete();
                 }
               } else {
@@ -186,7 +200,7 @@ export default {
                 this.posts = this.posts.concat(res.data);
                 $state.loaded();
                 this.page += 1;
-                if (this.posts.length / 9 == 0) {
+                if (this.posts.length / 9 < 1) {
                   $state.complete();
                 }
               } else {
@@ -197,7 +211,7 @@ export default {
           .catch((err) => {
             console.log(err);
           });
-      } else if (this.key != "" && this.filter == "") {
+      } else if (this.key != "" && this.filter == null) {
         axios
           .get(`${baseURL}/post/search/${this.key}/${this.word}/${this.page}`)
           .then((res) => {
@@ -206,7 +220,7 @@ export default {
                 this.posts = this.posts.concat(res.data);
                 $state.loaded();
                 this.page += 1;
-                if (this.posts.length / 9 == 0) {
+                if (this.posts.length / 9 < 1) {
                   $state.complete();
                 }
               } else {
