@@ -165,6 +165,14 @@
       <small class="form-text d-flex" style="color:red;" v-if="error.detail">{{error.detail}}</small>
     </div>
 
+    <!-- HashTag -->
+    <div>
+      <label for="tags-basic" class="d-flex">#HASHTAG#</label>
+      <b-form-tags input-id="tags-basic" v-model="tagValue" class="mb-2"></b-form-tags>
+      <!-- <p>Value: {{ tagValue }}</p> -->
+      <small class="form-text text-muted d-flex">해시태그를 입력해주세요.</small>
+    </div>
+
     <div class="d-flex justify-content-end mb-5">
       <button
         type="submit"
@@ -186,8 +194,11 @@ import axios from "axios";
 import Swal from "sweetalert2";
 
 export default {
+  components: {
+  },
   data() {
     return {
+      // 
       PostCreate: {
         email: "",
         title: "",
@@ -220,6 +231,7 @@ export default {
       addr2: "",
       addr3: "",
       seasons: [],
+      tagValue: [],
     };
   },
   watch: {
@@ -319,7 +331,7 @@ export default {
       });
 
       axios
-        .post(`${baseURL}/post/regist`, this.PostCreate)
+        .post(`${baseURL}/post/regist/${this.tagValue}`, this.PostCreate)
         .then((response) => {
           console.log(response.data);
           Toast.fire({
@@ -340,7 +352,7 @@ export default {
         return;
       }
       axios
-        .post(`${baseURL}/temp/regist`, this.PostCreate)
+        .post(`${baseURL}/temp/regist/${this.tagValue}`, this.PostCreate)
         .then((response) => {
           console.log(response.data);
           this.$router.push("/posts");

@@ -208,13 +208,12 @@ public class PostListController {
             list = postDao.findBySummer(1);
         } else if (typename.equals("autumn")) {
             list = postDao.findByAutumn(1);
-        } else if(typename.equals("winter")){
+        } else if (typename.equals("winter")) {
             list = postDao.findByWinter(1);
-        }else{
+        } else {
             list = postDao.findByPlace(typename);
         }
         return list;
     }
-    
 
 }

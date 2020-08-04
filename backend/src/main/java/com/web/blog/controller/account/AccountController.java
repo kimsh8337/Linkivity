@@ -61,8 +61,7 @@ public class AccountController {
 
     @GetMapping("/login/{email}/{password}")
     @ApiOperation(value = "로그인")
-    public Object login(@PathVariable String email, @PathVariable String password)
-            throws SQLException, IOException {
+    public Object login(@PathVariable String email, @PathVariable String password) throws SQLException, IOException {
         try {
             Optional<User> userOpt = userDao.findUserByEmailAndPassword(email, password);
             ResponseEntity response = null;
@@ -85,15 +84,15 @@ public class AccountController {
     // @GetMapping("/getuserinfo")
     // @ApiOperation(value = "세션정보가져오기")
     // public Object getUserInfo(HttpServletRequest req) {
-    //     HttpStatus status = null;
-    //     try {
-    //         status = HttpStatus.ACCEPTED;
-    //         String loginuser = (String) req.getSession().getAttribute("login_user");
-    //         return loginuser;
-    //         // return new ResponseEntity<>(loginuser, status);
-    //     } catch (Exception e) {
-    //         return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-    //     }
+    // HttpStatus status = null;
+    // try {
+    // status = HttpStatus.ACCEPTED;
+    // String loginuser = (String) req.getSession().getAttribute("login_user");
+    // return loginuser;
+    // // return new ResponseEntity<>(loginuser, status);
+    // } catch (Exception e) {
+    // return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+    // }
     // }
 
     @Autowired
@@ -113,7 +112,7 @@ public class AccountController {
         user.setNickname(request.getNickname());
         user.setCheckType(request.getCheckType());
         user.setImgurl(request.getImgurl());
-        if(request.getCheckType().equals("business")){
+        if (request.getCheckType().equals("business")) {
             user.setClocation(request.getClocation());
             user.setCphone(request.getCphone());
         }
