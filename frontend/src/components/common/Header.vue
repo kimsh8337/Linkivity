@@ -48,7 +48,7 @@ import '../../assets/css/header.css'
 import constants from "../../lib/constants";
 
 import axios from "axios";
-const baseURL = "http://localhost:8080/account";
+const baseURL = "http://localhost:8080";
 
 export default {
   name: "Header",
@@ -67,7 +67,7 @@ export default {
   methods: {
     authUser() {
       axios
-        .get(`${baseURL}/authuser/${this.$cookies.get("Auth-Token")}`)
+        .get(`${baseURL}/account/authuser/${this.$cookies.get("Auth-Token")}`)
         .then((response) => {
           this.usertype = response.data.checkType;
         })
