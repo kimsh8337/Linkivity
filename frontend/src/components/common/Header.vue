@@ -22,11 +22,7 @@
             <a class="nav-link mt-3 mr-2" @click="goPost"><i class="fas fa-stream mr-1"></i><br>Post</a>
           </li>
           <li class="nav-item">
-<<<<<<< HEAD
-            <a v-if="this.$cookies.isKey('Auth-Token')" class="nav-link mt-3 mr-2"  @click="gocreate"><i class="fas fa-pen mr-1"></i><br>Write</a>
-=======
             <a v-if="this.$cookies.isKey('Auth-Token') && this.usertype == 'business'" class="nav-link mt-3 mr-2" @click="gocreate"><i class="fas fa-pen mr-1"></i><br>Write</a>
->>>>>>> 5f35371d6b8689eabe187bac18bd3bd2c62b9f4b
           </li>
           <li class="nav-item">
             <a v-if="this.$cookies.isKey('Auth-Token')" class="nav-link mt-3 mr-2"  @click="goBasket"><i class="fas fa-shopping-basket"></i><br>Basket</a>
