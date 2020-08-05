@@ -1,15 +1,15 @@
 <template>
   <div class="row justify-content-left">
-    <div class="col-12 col-sm-12 col-md-3 card-deck" style="margin:auto 0;" v-for="(likePost, lindex) in likePosts" :key="lindex">
+    <div class="col-12 col-sm-12 col-md-3 card-deck" style="margin:auto 0;" v-for="(cartPost, cindex) in cartPosts" :key="cindex">
       <div class="card mb-3 profile-post mr-0 ml-0">
         <div class="card-body" style="padding: 0;">
-          <img :src="likePost.imgurl" class="card-img" style="height:10rem" />
+          <img :src="cartPost.imgurl" class="card-img" style="height:10rem" />
           <div
             class="card-img-overlay"
-            @click="getdetail(likePost.pid)"
+            @click="getdetail(cartPost.pid)"
             style="padding:4rem 0; text-align:center; font-size:1.3rem; font-weight:bold; color: white;"
           >
-            <p>{{ likePost.location }}</p>
+            <p>{{ cartPost.location }}</p>
           </div>
           <div class="col-md-12 p-0">
             <div class="card-body" style="padding: 5px;">
@@ -17,21 +17,21 @@
                 class="card-text mb-2"
                 style="font-size: 1rem; text-align: left; text-overflow:ellipsis;overflow: hidden;white-space: nowrap; color:gray"
               >
-                {{ likePost.sdate }}~{{ likePost.edate }}
+                {{ cartPost.sdate }}~{{ cartPost.edate }}
               </p>
               <h5
                 class="card-title"
-                @click="getdetail(likePost.pid)"
+                @click="getdetail(cartPost.pid)"
                 style="font-size: 1rem; text-align: left; margin-bottom: 1rem; text-overflow:ellipsis;overflow: hidden;white-space: nowrap;"
               >
-                {{ likePost.title }}
+                {{ cartPost.title }}
               </h5>
               <div class="text d-flex justify-content-between">
                 <p
                   class="card-text"
                   style="font-size: 1rem; text-align: left; text-overflow:ellipsis;overflow: hidden;white-space: nowrap;"
                 >
-                  가격 : {{ likePost.price }}
+                  가격 : {{ cartPost.price }}
                 </p>
               </div>
             </div>
@@ -51,7 +51,7 @@ const baseURL = 'http://localhost:8080';
 export default {
   data() {
     return {
-      likePosts: {
+      cartPosts: {
         pid: '',
         email: '',
         activity: '',
@@ -79,9 +79,9 @@ export default {
     },
     init() {
       axios
-        .get(`${baseURL}/like/list/${this.email}`)
+        .get(`${baseURL}/cart/list/${this.email}/0`)
         .then((res) => {
-          this.likePosts = res.data;
+          this.cartPosts = res.data;
         })
         .catch((err) => {
           console.log(err);

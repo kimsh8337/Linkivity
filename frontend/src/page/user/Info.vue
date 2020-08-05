@@ -107,8 +107,8 @@
 
         <div>
           <b-tabs content-class="mt-3" fill>
-            <b-tab title="장바구니">장바구니</b-tab>
-            <b-tab title="좋아요" active><Like /></b-tab>
+            <b-tab title="장바구니" active><Cart /></b-tab>
+            <b-tab title="좋아요"><Like /></b-tab>
             <b-tab title="구매목록">구매목록</b-tab>
             <b-tab title="임시저장"><Temp /></b-tab>
           </b-tabs>
@@ -141,11 +141,13 @@ import axios from 'axios';
 import '../../assets/css/info.css';
 import Like from '../post/PostLike.vue';
 import Temp from '../post/PostTemp.vue';
+import Cart from '../post/PostCart.vue';
 
 const baseURL = 'http://localhost:8080/account';
 
 export default {
   components: {
+    Cart,
     Like,
     Temp,
   },
