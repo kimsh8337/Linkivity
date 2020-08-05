@@ -40,7 +40,7 @@
       <br />
       <br />Sky
     </button>
-    <div class="container col-md-6">
+    <div class="container col-md-7">
       <div class="input-group mb-5">
         <div class="input-group-prepend">
           <select
@@ -93,6 +93,24 @@
               </div>
               <div class="col-md-12 p-0">
                 <div class="card-body" style="padding: 5px;">
+                <!-- tag -->
+                <!-- <div v-for="tagg in tag" :key="tagg.pid">
+                  <div v-if="tagg.pid == post.pid" >
+                    {{tagg.tag}}
+                  </div>
+                </div> -->
+                <!-- </div> -->
+                 <div v-for="tagg in tag" :key="tagg.pid" style="text-align: left; text-overflow:ellipsis;overflow: hidden;white-space: nowrap;">
+                   <div v-if="tagg.pid == post.pid" >
+                  <span
+                    class="card-text mb-2 text-primary"
+                    v-for="tagname in tagg.tag"
+                    :key="tagname"
+                    style="font-size: 0.8rem; font-weight:bold;"
+                  >#{{tagname}} </span>
+                   </div>
+                   
+                 </div>
                   <p
                     class="card-text mb-2"
                     style="font-size: 1rem; text-align: left; text-overflow:ellipsis;overflow: hidden;white-space: nowrap; color:gray"
@@ -107,7 +125,6 @@
                       class="card-text"
                       style="font-size: 1rem; text-align: left; text-overflow:ellipsis;overflow: hidden;white-space: nowrap;"
                     >가격 : {{ post.price }}</p>
-
                     <!-- heart like -->
                     <div id="heart" @click="registlike(post.pid)">
                       {{ post.likecnt }}
@@ -145,6 +162,7 @@
 </template>
 
 <script>
+
 import "../../assets/css/postlist.css";
 import axios from "axios";
 import InfiniteLoading from "vue-infinite-loading";
@@ -180,6 +198,7 @@ export default {
       email: "",
       postLike: [],
       cntLike: [],
+      tag: [],
       // filter: "",
     };
   },
@@ -235,14 +254,6 @@ export default {
             console.log(err);
           });
       }
-    },
-    check(pid) {
-      for (var i = 0; i < this.postLike.length; i++) {
-        if (this.postLike[i] == pid) {
-          return true;
-        }
-      }
-      return false;
     },
     getdetail(pid) {
       this.$router.push({
@@ -315,6 +326,14 @@ export default {
         });
       }
     },
+    check(pid) {
+      for (var i = 0; i < this.postLike.length; i++) {
+        if (this.postLike[i] == pid) {
+          return true;
+        }
+      }
+      return false;
+    },
     checklike() {
       axios
         .get(`${baseURL}/like/check/${this.email}`)
@@ -340,10 +359,24 @@ export default {
         .get(`${baseURL}/post/getList/${this.type}/0`)
         .then((res) => {
           this.posts = res.data;
+          this.nextTag();
         })
         .catch((err) => {
           console.log(err);
         });
+    },
+    nextTag() {
+      console.log(this.posts);
+      for (let i = 0; i < this.posts.length; i++) {
+        axios.get(`${baseURL}/tag/list/${this.posts[i].pid}`)
+          .then( res => { 
+            let a = {tag: res.data, pid : this.posts[i].pid}
+            this.tag.push(a)
+          })
+          .catch(err => {
+            console.log(err);
+          })
+      }
     },
   },
   created() {
@@ -363,7 +396,10 @@ export default {
         console.log(err.response);
       });
   },
-};
+  computed: {
+  },
+  
+}
 </script>
 
 <style>
@@ -385,7 +421,7 @@ export default {
 .postlist {
   cursor: pointer;
 }
-.card-title,
+
 .card-img-overlay {
   cursor: pointer;
 }
