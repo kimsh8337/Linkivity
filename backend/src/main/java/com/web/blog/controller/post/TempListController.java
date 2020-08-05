@@ -40,7 +40,7 @@ public class TempListController {
     public List<PostList> selectAll(@PathVariable String email) throws SQLException, IOException {
         List<PostList> temp = new LinkedList<>();
         temp = postDao.findByEmailAndFlagOrderByCreateDateDesc(email,0);
-        System.out.println(temp);
+        // System.out.println(temp);
         return temp;
     }
 
@@ -49,7 +49,7 @@ public class TempListController {
     public Object selectDetail(@PathVariable int pid) throws SQLException, IOException {
         PostList post = postDao.findByPid(pid);
         if(post!=null){
-            System.out.println(post);
+            // System.out.println(post);
             return post;
         }else {
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
