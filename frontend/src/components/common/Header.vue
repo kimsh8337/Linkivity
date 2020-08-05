@@ -76,7 +76,7 @@ export default {
   methods: {
     authUser() {
       axios
-        .get(`${baseURL}/account/authuser/${this.$cookies.get('Auth-Token')}`)
+        .get(`${baseURL}/account/authuser/${this.$cookies.get("Auth-Token")}`)
         .then((response) => {
           this.usertype = response.data.checkType;
         })

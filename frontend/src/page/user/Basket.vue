@@ -60,7 +60,7 @@
         data-target="#BasketPackingModal"
         @click="btnClick"
       >
-        <i class="far fa-hand-point-up mr-2"></i>구매하기
+        <i class="far fa-hand-point-up mr-2"></i>패키징
       </button>
       <BasketPackingModal :prePosts="prePosts" />
     </div>
@@ -129,7 +129,6 @@ export default {
         .get(`${baseURL}/cart/preview/${this.temp}`)
         .then((res) => {
           this.prePosts = res.data;
-          console.log(prePosts);
         })
         .catch((err) => {
           console.log(err);
