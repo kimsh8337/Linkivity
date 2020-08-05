@@ -49,7 +49,7 @@ export default {
   data: function () {
         return {
             isHeader: true,
-            constants
+            constants,
         } 
     }
 }
