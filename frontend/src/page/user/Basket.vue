@@ -27,15 +27,7 @@
     </div>
 
     <!-- paging -->
-    <paginate
-      :page-count="this.totalPage"
-      :click-handler="pageClick"
-      :prev-text="'Prev'"
-      :next-text="'Next'"
-      :container-class="'pagination'"
-      :page-class="'page-item'"
-    >
-    </paginate>
+    <b-pagination v-model="page" :total-rows="len" pills :per-page="8"></b-pagination>
 
     <!-- 구매하기 button -->
     <div class="d-flex justify-content-end mb-5">
@@ -50,8 +42,8 @@
 <script>
 import axios from 'axios';
 import '../../assets/css/basket.css';
-import Paginate from 'vuejs-paginate';
 import BasketPackingModal from '../../components/modal/BasketPackingModal.vue';
+import BPagenation from 'bootstrap-vue';
 
 import Swal from 'sweetalert2';
 
@@ -59,7 +51,7 @@ const baseURL = 'http://localhost:8080';
 
 export default {
   components: {
-    Paginate,
+    BPagenation,
     BasketPackingModal,
   },
   created() {
@@ -67,8 +59,7 @@ export default {
   },
   data() {
     return {
-      page: 0,
-      totalPage: 0,
+      page: 1,
       carts: {
         pid: '',
         email: '',
@@ -142,16 +133,6 @@ export default {
           console.log(err);
         });
 
-      // count
-      axios
-        .get(`${baseURL}/cart/count/${this.email}`)
-        .then((res) => {
-          this.totalPage = res.data / 10;
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-
       // likelist
       axios
         .get(`${baseURL}/cart/likelist/${this.email}`)
@@ -169,9 +150,6 @@ export default {
         params: { ID: pid },
       });
     },
-    pageClick: function(pageNum) {
-      this.page = pageNum - 1;
-    },
     checkPage() {
       axios
         .get(`${baseURL}/cart/list/${this.email}/${this.page}`)
@@ -181,6 +159,7 @@ export default {
         .catch((err) => {
           console.log(err);
         });
+      scroll(0, 0);
     },
     checkdelete() {
       this.btnClick();
@@ -240,13 +219,4 @@ export default {
 };
 </script>
 
-<style>
-.pagination {
-  width: 159px;
-  margin: 0 auto;
-  text-align: left;
-}
-.page-item {
-  background-color: red;
-}
-</style>
+<style></style>
