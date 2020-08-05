@@ -89,6 +89,9 @@
     </nav>
     <br />
     <div data-spy="scroll" data-target="#navbar-example2" data-offset="0">
+        <h4>지 도</h4>
+        {{post.location}}
+      <div id="map" style="width:500px; height:300px;"></div>
       <h4 id="item-info">상세 정보</h4>
       <p>{{post.detail}}</p>
       <br>
@@ -99,9 +102,6 @@
      <br>
       <h4 id="qna">Q&A</h4>
       </div>
-      <h4>지 도</h4>
-       {{post.location}}
-    <div id="map" style="width:1100px; height:500px;"></div>
  
     <hr>
 
@@ -116,11 +116,11 @@
   
     
       
-      <!-- 글 수정 삭제 -->
-      <div class="d-flex justify-content-end mt-3 mb-3" v-if="this.email == this.post.email">
-        <button class="btn btn-success" @click="goModify"><i class="far fa-edit mr-2"></i>수정하기</button>
-        <button class="btn btn-danger" @click="goDelete"><i class="far fa-trash-alt mr-2"></i>삭제하기</button>
-      </div>
+    <!-- 글 수정 삭제 -->
+    <div class="d-flex justify-content-end mt-3 mb-3" v-if="this.email == this.post.email">
+      <button class="btn btn-success" @click="goModify"><i class="far fa-edit mr-2"></i>수정하기</button>
+      <button class="btn btn-danger" @click="goDelete"><i class="far fa-trash-alt mr-2"></i>삭제하기</button>
+    </div>
       
   </div>
 </template>

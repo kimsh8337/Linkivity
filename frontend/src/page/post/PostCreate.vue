@@ -168,8 +168,16 @@
     <!-- HashTag -->
     <div>
       <label for="tags-basic" class="d-flex">#HASHTAG#</label>
-      <b-form-tags input-id="tags-basic" v-model="tagValue" class="mb-2"></b-form-tags>
-      <!-- <p>Value: {{ tagValue }}</p> -->
+      <b-form-tags
+        input-id="tags-pills"
+        v-model="tagValue"
+        tag-variant="primary"
+        tag-pills
+        size="md"
+        separator=" "
+        placeholder="원하는 태그를 입력해주세요."
+        class="mb-2"
+      ></b-form-tags>
       <small class="form-text text-muted d-flex">해시태그를 입력해주세요.</small>
     </div>
 
