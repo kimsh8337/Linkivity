@@ -9,8 +9,8 @@
     aria-hidden="true"
   >
     <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content" style="margin:auto;height:40rem; width:45rem;">
-        <div class="modal-header pl-0">
+      <div class="modal-content">
+        <div class="modal-header border-0 pl-0">
           <h5
             class="modal-title w-100 text-center font-weight-bold position-absolute"
             id="exampleModalLabel"
@@ -20,19 +20,18 @@
           </button>
         </div>
         <div class="modal-body">
-          <!-- {{checked}} -->
-          <!-- <div v-if="this.checked.changetf"> -->
-          <div v-for="(post, index) in prePosts" :key="index">
+          <div class="d-flex justify-content-start mb-4" v-for="(post, index) in prePosts" :key="index">
             <img
               :src="post.imgurl"
               alt
               @click="getdetail(post.pid)"
-              style="width:4rem; height:3rem;"
+              data-dismiss="modal"
             />
             <div
               type="text"
               class="basket-list col-md-8"
               aria-label="Text input with checkbox"
+              data-dismiss="modal"
               @click="getdetail(post.pid)"
             >
               <p class="mb-0">제목 : {{ post.title }}</p>
@@ -41,12 +40,14 @@
               <p class="mb-0">가격 : {{ post.price }}</p>
             </div>
           </div>
-
-          <!-- </div> -->
+            <p class="packaging-price mb-1">Single Price : {{ Singleprice }}</p>
+            <p class="packaging-price mb-1">Packaging Price : {{ Packagingprice }}</p>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary" @click="purchase">구매하기</button>
+          <button type="button" class="btn btn-outline" data-dismiss="modal"><i class="fas fa-times mr-2"></i>
+            취소
+          </button>
+          <button type="button" class="btn btn-danger"><i class="far fa-hand-point-up mr-2"></i>구매하기</button>
         </div>
       </div>
     </div>
@@ -55,6 +56,7 @@
 
 <script>
 import axios from "axios";
+import '../../assets/css/basketmodal.css';
 
 const baseURL = "http://localhost:8080";
 
@@ -64,6 +66,45 @@ export default {
   },
   props: {
     prePosts: Array,
+  },
+  methods:{
+    getdetail(pid) {
+      this.$router.push({
+        name: "PostListDetail",
+        params: { ID: pid },
+      });
+    },
+  },
+  computed: {
+    Singleprice(price) {
+      this.sum = 0;
+      for (var i = 0; i < this.prePosts.length; i++) {
+        this.sum += this.prePosts[i].price;
+      }
+      return this.sum;
+    },
+    Packagingprice(price) {
+      this.sum = 0;
+      this.subsum = 0;
+      if(this.prePosts.length == 1){
+        this.Singleprice;
+      }else if(this.prePosts.length == 2){
+        for (var i = 0; i < this.prePosts.length; i++) {
+          this.subsum += this.prePosts[i].price;
+          this.sum = this.subsum * 0.95;
+        }
+      }else if(this.prePosts.length == 3){
+        for (var i = 0; i < this.prePosts.length; i++) {
+          this.subsum += this.prePosts[i].price;
+          this.sum = this.subsum * 0.90;
+        }
+      }else{
+        for (var i = 0; i < this.prePosts.length; i++) {
+          this.subsum += this.prePosts[i].price;
+          this.sum = this.subsum * 0.85;
+        }
+      }return this.sum;
+    },
   },
   data() {
     return {
@@ -100,4 +141,5 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+</style>

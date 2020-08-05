@@ -25,8 +25,10 @@
             <a v-if="this.$cookies.isKey('Auth-Token') && this.usertype == 'business'" class="nav-link mt-3 mr-2" @click="gocreate"><i class="fas fa-pen mr-1"></i><br>Write</a>
           </li>
           <li class="nav-item">
-            <a v-if="this.$cookies.isKey('Auth-Token')" class="nav-link mt-3 mr-2" @click="goBasket"><i class="fas fa-shopping-basket"></i><br>Basket</a>
+            <a v-if="this.$cookies.isKey('Auth-Token')" class="nav-link mt-3 mr-2"  @click="goBasket"><i class="fas fa-shopping-basket"></i><br>Basket</a>
           </li>
+          
+
           <li class="nav-item">
             <a v-if="this.$cookies.isKey('Auth-Token')" @click="info" class="nav-link mt-3 mr-2"><i class="far fa-user mr-1"></i><br>MyPage</a>
           </li>
@@ -52,9 +54,10 @@ const baseURL = "http://localhost:8080";
 
 export default {
   name: "Header",
-  components: {},
+  components: {
+  },
   props: {
-    isHeader: Boolean
+    isHeader: Boolean,
   },
   computed: {},
   watch: {},
@@ -108,7 +111,7 @@ export default {
       this.$router.go();
     },
   },
-  data: function() {
+  data() {
     return {
       constants,
       keyword: "",
