@@ -2,32 +2,17 @@
   <div class="container col-md-6">
     <!-- shooping list  -->
     <div class="d-flex justify-content-between">
-      <p class="shopping-list">
-        <i class="fas fa-shopping-basket mr-2"></i>Shopping List
-      </p>
-      <button class="btn btn-delete" @click="checkdelete">
-        <i class="fas fa-trash-alt mr-2"></i>선택항목 삭제하기
-      </button>
+      <p class="shopping-list"><i class="fas fa-shopping-basket mr-2"></i>Shopping List</p>
+      <button class="btn btn-delete" @click="checkdelete"><i class="fas fa-trash-alt mr-2"></i>선택항목 삭제하기</button>
     </div>
     <div class="input-group mb-5" v-for="(post, index) in carts" :key="index">
       <div class="input-group-prepend">
         <div class="input-group-text">
-          <input
-            type="checkbox"
-            aria-label="Checkbox for following text input"
-            :value="post"
-            v-model="checked"
-            @click="changetf(index)"
-          />
+          <input type="checkbox" aria-label="Checkbox for following text input" :value="post" v-model="checked" @click="changetf(index)" />
         </div>
       </div>
       <img :src="post.imgurl" alt="" @click="getdetail(post.pid)" />
-      <div
-        type="text"
-        class="basket-list col-md-8"
-        aria-label="Text input with checkbox"
-        @click="getdetail(post.pid)"
-      >
+      <div type="text" class="basket-list col-md-8" aria-label="Text input with checkbox" @click="getdetail(post.pid)">
         <p class="mb-0">제목 : {{ post.title }}</p>
         <p class="mb-0">기간 : {{ post.sdate }}~{{ post.edate }}</p>
         <p class="mb-0">위치 : {{ post.location }}</p>
@@ -54,12 +39,7 @@
 
     <!-- 구매하기 button -->
     <div class="d-flex justify-content-end mb-5">
-      <button
-        class="btn btn-danger"
-        data-toggle="modal"
-        data-target="#BasketPackingModal"
-        @click="btnClick"
-      >
+      <button class="btn btn-danger" data-toggle="modal" data-target="#BasketPackingModal" @click="btnClick">
         <i class="far fa-hand-point-up mr-2"></i>패키징
       </button>
       <BasketPackingModal :prePosts="prePosts" />
@@ -68,14 +48,14 @@
 </template>
 
 <script>
-import axios from "axios";
-import "../../assets/css/basket.css";
-import Paginate from "vuejs-paginate";
-import BasketPackingModal from "../../components/modal/BasketPackingModal.vue";
+import axios from 'axios';
+import '../../assets/css/basket.css';
+import Paginate from 'vuejs-paginate';
+import BasketPackingModal from '../../components/modal/BasketPackingModal.vue';
 
-import Swal from "sweetalert2";
+import Swal from 'sweetalert2';
 
-const baseURL = "http://localhost:8080";
+const baseURL = 'http://localhost:8080';
 
 export default {
   components: {
@@ -90,24 +70,24 @@ export default {
       page: 0,
       totalPage: 0,
       carts: {
-        pid: "",
-        email: "",
-        activity: "",
-        title: "",
-        location: "",
-        imgurl: "",
-        price: "",
-        sdate: "",
-        edate: "",
-        likecnt: "",
+        pid: '',
+        email: '',
+        activity: '',
+        title: '',
+        location: '',
+        imgurl: '',
+        price: '',
+        sdate: '',
+        edate: '',
+        likecnt: '',
       },
       checked: [],
       sum: 0,
       likes: {
-        no: "",
-        pid: "",
-        email: "",
-        cart: "",
+        no: '',
+        pid: '',
+        email: '',
+        cart: '',
       },
       len: 0,
       no: {},
@@ -143,7 +123,7 @@ export default {
     },
     authUser() {
       axios
-        .get(`${baseURL}/account/authuser/${this.$cookies.get("Auth-Token")}`)
+        .get(`${baseURL}/account/authuser/${this.$cookies.get('Auth-Token')}`)
         .then((response) => {
           this.email = response.data.email;
           this.init();
@@ -185,7 +165,7 @@ export default {
     },
     getdetail(pid) {
       this.$router.push({
-        name: "PostListDetail",
+        name: 'PostListDetail',
         params: { ID: pid },
       });
     },
@@ -207,29 +187,29 @@ export default {
 
       Swal.fire({
         width: 350,
-        text: "선택항목을 삭제하시겠습니까?",
-        icon: "warning",
+        text: '선택항목을 삭제하시겠습니까?',
+        icon: 'warning',
         showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
         confirmButtonText: '<a style="font-size:1rem; color:black">Delete</a>',
         cancelButtonText: '<a style="font-size:1rem; color:black">Cancel</a>',
       }).then((result) => {
         if (result.value) {
           const Toast = Swal.mixin({
             toast: true,
-            position: "top-end",
+            position: 'top-end',
             showConfirmButton: false,
             timer: 3000,
             timerProgressBar: true,
             onOpen: (toast) => {
-              toast.addEventListener("mouseenter", Swal.stopTimer);
-              toast.addEventListener("mouseleave", Swal.resumeTimer);
+              toast.addEventListener('mouseenter', Swal.stopTimer);
+              toast.addEventListener('mouseleave', Swal.resumeTimer);
             },
           });
           Toast.fire({
-            icon: "success",
-            title: "장바구니에서 삭제되었습니다.",
+            icon: 'success',
+            title: '장바구니에서 삭제되었습니다.',
           });
           axios
             .delete(`${baseURL}/cart/delete/${this.temp}`)
@@ -260,4 +240,13 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+.pagination {
+  width: 159px;
+  margin: 0 auto;
+  text-align: left;
+}
+.page-item {
+  background-color: red;
+}
+</style>
