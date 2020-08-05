@@ -35,12 +35,20 @@ public class TagController {
     @Autowired
     TagDao tagDao;
 
-    @GetMapping("/regist/{tagname}")
-    @ApiOperation("태그 등록")
-    public Object regist(@PathVariable String tagname) throws SQLException, IOException {
+    @GetMapping("/list/{pid}")
+    @ApiOperation("태그 리스트")
+    public Object regist(@PathVariable int pid) throws SQLException, IOException {
+        List<String> tagname = new LinkedList<>();
         try {
-
-            return "태그 등록";
+            List<Tag> list = new LinkedList<>();
+            list = tagDao.findByPid(pid);
+            if (list != null){
+                for(Tag tag : list){
+                    tagname.add(tag.getTagname());
+                }
+                return new ResponseEntity<>(tagname, HttpStatus.ACCEPTED);
+            }else
+                return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
