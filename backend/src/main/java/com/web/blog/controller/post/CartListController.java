@@ -35,8 +35,8 @@ public class CartListController {
     @GetMapping("/list/{email}/{page}")
     @ApiOperation("장바구니 리스트")
     public List<PostList> selectAll(@PathVariable String email, @PathVariable int page) throws SQLException, IOException {
-        int start = page * 10;
-        int end = start + 10;
+        int start = (page - 1) * 8;
+        int end = start + 8;
         
         List<LikeList> plist = new LinkedList<>();
         plist = likeListDao.findByEmailAndCart(email,1);
