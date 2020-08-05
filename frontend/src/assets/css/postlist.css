@@ -32,3 +32,11 @@
 .card-body img{
     border-radius: 5px;
 }
+
+/* .card-body p{
+    font-weight: bold;
+} */
+
+.card-body h5{
+    font-weight: bold;
+}
