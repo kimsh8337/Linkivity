@@ -14,15 +14,8 @@
           <h5
             class="modal-title w-100 text-center font-weight-bold position-absolute"
             id="exampleModalLabel"
-          >
-            Packing List
-          </h5>
-          <button
-            type="button"
-            class="close"
-            data-dismiss="modal"
-            aria-label="Close"
-          >
+          >Packing List</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
@@ -30,7 +23,7 @@
           <div class="d-flex justify-content-start mb-4" v-for="(post, index) in prePosts" :key="index">
             <img
               :src="post.imgurl"
-              alt=""
+              alt
               @click="getdetail(post.pid)"
               data-dismiss="modal"
             />
@@ -69,7 +62,7 @@ const baseURL = "http://localhost:8080";
 
 export default {
   created() {
-    this.email = this.$cookies.get("User");
+    this.authUser();
   },
   props: {
     prePosts: Array,
@@ -116,7 +109,34 @@ export default {
   data() {
     return {
       sum: 0,
+      packPost: [],
     };
+  },
+  methods: {
+    authUser() {
+      axios
+        .get(`${baseURL}/account/authuser/${this.$cookies.get("Auth-Token")}`)
+        .then((response) => {
+          this.email = response.data.email;
+          this.init();
+        })
+        .catch((err) => {
+          console.log(err.response);
+        });
+    },
+    purchase() {
+      for (var i = 0; i < this.prePosts.length; i++) {
+        this.packPost.push(this.prePosts[i].pid);
+      }
+      axios
+        .get(`${baseURL}/purchase/regist/${this.packPost}`)
+        .then((response) => {
+          alert(respose.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
   },
 };
 </script>
