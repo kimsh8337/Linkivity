@@ -10,7 +10,9 @@ import java.util.Optional;
 import javax.validation.Valid;
 
 import com.web.blog.dao.post.PostListDao;
+import com.web.blog.dao.post.TagDao;
 import com.web.blog.model.post.PostList;
+import com.web.blog.model.post.Tag;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -33,24 +35,88 @@ import org.springframework.web.bind.annotation.PostMapping;
 @RestController
 @RequestMapping("/post")
 public class PostListController {
-    // test
+
     @Autowired
     PostListDao postDao;
 
-    @GetMapping("/search/{key}/{word}/{page}")
+    @Autowired
+    TagDao tagDao;
+
+    // infinite-loading paging
+    @GetMapping("/getList/{type}/{page}")
+    @ResponseBody
+    public List<PostList> getList(@PathVariable String type, @PathVariable int page) {
+        int start = page * 9;
+        int end = start + 9;
+
+        List<PostList> temp = new LinkedList<>();
+        if (type.equals("all")) {
+            temp = postDao.findByFlagOrderByCreateDateDesc(1);
+        } else if (type.equals("spring")) {
+            temp = postDao.findBySpringAndFlagOrderByCreateDateDesc(1, 1);
+        } else if (type.equals("summer")) {
+            temp = postDao.findBySummerAndFlagOrderByCreateDateDesc(1, 1);
+        } else if (type.equals("autumn")) {
+            temp = postDao.findByAutumnAndFlagOrderByCreateDateDesc(1, 1);
+        } else if (type.equals("winter")) {
+            temp = postDao.findByWinterAndFlagOrderByCreateDateDesc(1, 1);
+        } else {
+            temp = postDao.findByPlaceAndFlagOrderByCreateDateDesc(type, 1);
+        }
+
+        if (end > temp.size()) {
+            end = temp.size();
+        }
+
+        List<PostList> list = new LinkedList<>();
+        for (int i = start; i < end; i++) {
+            list.add(temp.get(i));
+        }
+
+        return list;
+    }
+
+    @GetMapping("/search/{type}/{key}/{word}/{page}")
     @ApiOperation(value = "검색")
-    public List<PostList> search(@PathVariable String key, @PathVariable String word, @PathVariable int page)
-            throws SQLException, IOException {
-        List<PostList> post = new LinkedList<>();
-        if (key.equals("")) {
-            post = postDao.findByFlagOrderByCreateDateDesc(1);
-        } else if (key.equals("title")) {
-            post = postDao.findByTitleLikeOrderByCreateDateDesc("%" + word + "%");
+    public List<PostList> search(@PathVariable String type, @PathVariable String key, @PathVariable String word,
+            @PathVariable int page) throws SQLException, IOException {
+        List<PostList> searchpost = new LinkedList<>();
+        if (key.equals("title")) {
+            searchpost = postDao.findByTitleLikeOrderByCreateDateDesc("%" + word + "%");
         } else if (key.equals("activity")) {
-            post = postDao.findByActivityLikeOrderByCreateDateDesc("%" + word + "%");
+            searchpost = postDao.findByActivityLikeOrderByCreateDateDesc("%" + word + "%");
         } else if (key.equals("price")) {
             int price = Integer.parseInt(word);
-            post = postDao.findByPriceLessThanEqualOrderByCreateDateDesc(price);
+            searchpost = postDao.findByPriceLessThanEqualOrderByCreateDateDesc(price);
+        }
+        List<PostList> post = new LinkedList<>();
+        if (type.equals("all")) {
+            post = searchpost;
+        } else if (type.equals("spring")) {
+            for (PostList p : searchpost) {
+                if (p.getSpring() == 1)
+                    post.add(p);
+            }
+        } else if (type.equals("summer")) {
+            for (PostList p : searchpost) {
+                if (p.getSummer() == 1)
+                    post.add(p);
+            }
+        } else if (type.equals("autumn")) {
+            for (PostList p : searchpost) {
+                if (p.getAutumn() == 1)
+                    post.add(p);
+            }
+        } else if (type.equals("winter")) {
+            for (PostList p : searchpost) {
+                if (p.getWinter() == 1)
+                    post.add(p);
+            }
+        } else {
+            for (PostList p : searchpost) {
+                if (p.getPlace().equals(type))
+                    post.add(p);
+            }
         }
 
         int start = page * 9;
@@ -82,28 +148,6 @@ public class PostListController {
         List<PostList> temp = new LinkedList<>();
         temp = postDao.findAllByOrderByLikecntDesc();
         return temp;
-    }
-
-    // infinite-loading paging
-    @GetMapping("/getList/{page}")
-    @ResponseBody
-    public List<PostList> getList(@PathVariable int page) {
-        int start = page * 9;
-        int end = start + 9;
-
-        List<PostList> temp = new LinkedList<>();
-        temp = postDao.findByFlagOrderByCreateDateDesc(1);
-
-        if (end > temp.size()) {
-            end = temp.size();
-        }
-
-        List<PostList> list = new LinkedList<>();
-        for (int i = start; i < end; i++) {
-            list.add(temp.get(i));
-        }
-
-        return list;
     }
 
     @GetMapping("/detail/{pid}")
@@ -167,9 +211,10 @@ public class PostListController {
         }
     }
 
-    @PostMapping("/regist")
+    @PostMapping("/regist/{tagValue}")
     @ApiOperation("포스트 등록")
-    public Object regist(@RequestBody PostList request) throws SQLException, IOException {
+    public Object regist(@RequestBody PostList request, @PathVariable List<String> tagValue)
+            throws SQLException, IOException {
         try {
             PostList temp = new PostList();
             temp.setEmail(request.getEmail());
@@ -188,45 +233,53 @@ public class PostListController {
             temp.setAutumn(request.getAutumn());
             temp.setWinter(request.getWinter());
             temp.setPlace(request.getPlace());
-            LocalDateTime time = LocalDateTime.now();
-            temp.setCreateDate(time);
             postDao.save(temp);
 
+            int pid = temp.getPid();
+            List<String> tags = new LinkedList<>();
+            tags = tagValue;
+            for (String tagname : tags) {
+                Tag newTag = new Tag();
+                newTag.setPid(pid);
+                newTag.setTagname(tagname);
+                tagDao.save(newTag);
+            }
             return temp;
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-    @GetMapping("/types/{typename}/{page}")
-    @ApiOperation(value = "타입 별 포스트")
-    public List<PostList> seasons(@PathVariable String typename, @PathVariable int page) throws SQLException, IOException {
-        int start = page * 9;
-        int end = start + 9;
-        
-        List<PostList> list = new LinkedList<>();
-        if (typename.equals("spring")) {
-            list = postDao.findBySpring(1);
-        } else if (typename.equals("summer")) {
-            list = postDao.findBySummer(1);
-        } else if (typename.equals("autumn")) {
-            list = postDao.findByAutumn(1);
-        } else if (typename.equals("winter")) {
-            list = postDao.findByWinter(1);
-        } else {
-            list = postDao.findByPlace(typename);
-        }
-        
-        if (end > list.size()) {
-            end = list.size();
-        }
+    // @GetMapping("/types/{typename}/{page}")
+    // @ApiOperation(value = "타입 별 포스트")
+    // public List<PostList> seasons(@PathVariable String typename, @PathVariable
+    // int page) throws SQLException, IOException {
+    // int start = page * 9;
+    // int end = start + 9;
 
-        List<PostList> plist = new LinkedList<>();
-        for (int i = start; i < end; i++) {
-            plist.add(list.get(i));
-        }
+    // List<PostList> list = new LinkedList<>();
+    // if (typename.equals("spring")) {
+    // list = postDao.findBySpring(1);
+    // } else if (typename.equals("summer")) {
+    // list = postDao.findBySummer(1);
+    // } else if (typename.equals("autumn")) {
+    // list = postDao.findByAutumn(1);
+    // } else if (typename.equals("winter")) {
+    // list = postDao.findByWinter(1);
+    // } else {
+    // list = postDao.findByPlace(typename);
+    // }
 
-        return plist;
-    }
+    // if (end > list.size()) {
+    // end = list.size();
+    // }
+
+    // List<PostList> plist = new LinkedList<>();
+    // for (int i = start; i < end; i++) {
+    // plist.add(list.get(i));
+    // }
+
+    // return plist;
+    // }
 
 }

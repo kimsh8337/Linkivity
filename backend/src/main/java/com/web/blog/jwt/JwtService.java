@@ -32,7 +32,7 @@ public class JwtService{
 		long curTime = System.currentTimeMillis();
 		return  Jwts.builder()
                  .setHeaderParam("typ", "JWT")
-				 .setExpiration(new Date(curTime + 3600000))
+				//  .setExpiration(new Date(curTime + 3600000))
 				 .setIssuedAt(new Date(curTime))
 				 .claim(DATA_KEY, user)
 				 .signWith(SignatureAlgorithm.HS256, this.generateKey())
