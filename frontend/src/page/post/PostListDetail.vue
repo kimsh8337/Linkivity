@@ -63,13 +63,8 @@
                   </div>
                 </div>
                 <div class="d-flex justify-content-end">
-                  <button type="button" class="btn btn-primary mr-1" @click="alertbasket(post)">
-                    <i class="fas fa-shopping-basket mr-2"></i>장바구니
-                  </button>
-                  <!-- <BasketModal /> -->
-                  <button class="btn btn-danger">
-                    <i class="far fa-hand-point-up mr-2"></i>바로구매
-                  </button>
+                  <button type="button" class="btn btn-primary mr-1" @click="alertbasket(post)"><i class="fas fa-shopping-basket mr-2"></i>장바구니</button>
+                  <button class="btn btn-danger"><i class="far fa-hand-point-up mr-2"></i>바로구매</button>
                 </div>
               </div>
             </div>
@@ -138,9 +133,8 @@
 
 <script>
 import axios from "axios";
-import "../../assets/css/postlistdetail.css";
-import PostUpdateVue from "./PostUpdate.vue";
-// import BasketModal from '../../components/modal/BasketModal.vue'
+import '../../assets/css/postlistdetail.css'
+import PostUpdateVue from './PostUpdate.vue';
 
 import CommentInput from "../../components/comment/CommentInput.vue";
 import CommentList from "../../components/comment/CommentList.vue";
@@ -153,7 +147,6 @@ export default {
   components: {
     CommentInput,
     CommentList,
-    // BasketModal
   },
   data() {
     return {
@@ -384,18 +377,18 @@ export default {
           console.log(result);
           var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
 
-          // 결과값으로 받은 위치를 마커로 표시합니다
-          var marker = new kakao.maps.Marker({
-            map: map,
-            position: coords,
-          });
-
-          // 인포윈도우로 장소에 대한 설명을 표시합니다
-          var infowindow = new kakao.maps.InfoWindow({
-            content:
-              '<div style="width:150px;text-align:center;padding:6px 0;">위 치</div>',
-          });
-          infowindow.open(map, marker);
+            // 결과값으로 받은 위치를 마커로 표시합니다
+            var marker = new kakao.maps.Marker({
+                map: map,
+                position: coords
+            });
+            var test = loc;
+            
+            // 인포윈도우로 장소에 대한 설명을 표시합니다
+            var infowindow = new kakao.maps.InfoWindow({
+                content: test
+            });
+            infowindow.open(map, marker);
 
           // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
           map.setCenter(coords);
