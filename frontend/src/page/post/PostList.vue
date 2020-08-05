@@ -1,6 +1,51 @@
 <template>
   <div class="post">
+    <button class="btn btn-spring btn-circle btn-xl mb-5 mr-5" @click="settype('all')">
+      <br />
+      <br />
+      <br />All
+    </button>
+    <button class="btn btn-spring btn-circle btn-xl mb-5 mr-5" @click="settype('spring')">
+      <br />
+      <br />
+      <br />Spring
+    </button>
+    <button class="btn btn-summer btn-circle btn-xl mb-5 mr-5" @click="settype('summer')">
+      <br />
+      <br />
+      <br />Summer
+    </button>
+    <button class="btn btn-fall btn-circle btn-xl mb-5 mr-5" @click="settype('autumn')">
+      <br />
+      <br />
+      <br />Fall
+    </button>
+    <button class="btn btn-winter btn-circle btn-xl mb-5 mr-5" @click="settype('winter')">
+      <br />
+      <br />
+      <br />Winter
+    </button>
+    <button class="btn btn-ground btn-circle btn-xl mb-5 mr-5" @click="settype('ground')">
+      <br />
+      <br />
+      <br />Ground
+    </button>
+    <button class="btn btn-water btn-circle btn-xl mb-5 mr-5" @click="settype('water')">
+      <br />
+      <br />
+      <br />Water
+    </button>
+    <button class="btn btn-sky btn-circle btn-xl mb-5" @click="settype('sky')">
+      <br />
+      <br />
+      <br />Sky
+    </button>
     <div class="container col-md-6">
+
+
+      
+
+
       <div class="input-group mb-5">
         <div class="input-group-prepend">
           <select
@@ -11,8 +56,9 @@
             v-model="key"
           >
             <div role="separator" class="dropdown-divider"></div>
-            <option value>All</option>
+            <!-- <option value>All</option> -->
             <!-- <option value="all">All</option> -->
+            <option value disabled>검색조건</option>
             <option value="title">Title</option>
             <option value="activity">Activity</option>
             <option value="price">Price</option>
@@ -55,17 +101,23 @@
                   <p
                     class="card-text mb-2"
                     style="font-size: 1rem; text-align: left; text-overflow:ellipsis;overflow: hidden;white-space: nowrap; color:gray"
-                  >{{ post.sdate }}~{{ post.edate }}</p>
+                  >
+                    {{ post.sdate }}~{{ post.edate }}
+                  </p>
                   <h5
                     class="card-title"
                     @click="getdetail(post.pid)"
                     style="font-size: 1rem; text-align: left; margin-bottom: 1rem; text-overflow:ellipsis;overflow: hidden;white-space: nowrap;"
-                  >{{ post.title }}</h5>
+                  >
+                    {{ post.title }}
+                  </h5>
                   <div class="text d-flex justify-content-between">
                     <p
                       class="card-text"
                       style="font-size: 1rem; text-align: left; text-overflow:ellipsis;overflow: hidden;white-space: nowrap;"
-                    >가격 : {{ post.price }}</p>
+                    >
+                      가격 : {{ post.price }}
+                    </p>
 
                     <!-- heart like -->
                     <div id="heart" @click="registlike(post.pid)">
@@ -90,9 +142,17 @@
       </div>
 
       <!-- top button -->
-      <i class="fas fa-2x fa-angle-double-up upBtn" @click="toTop" style="cursor:pointer;"></i>
+      <i
+        class="fas fa-2x fa-angle-double-up upBtn"
+        @click="toTop"
+        style="cursor:pointer;"
+      ></i>
       <!-- infinite loading -->
-      <infinite-loading :identifier="infiniteId" @infinite="infiniteHandler" spinner="waveDots">
+      <infinite-loading
+        :identifier="infiniteId"
+        @infinite="infiniteHandler"
+        spinner="waveDots"
+      >
         <div slot="no-more">
           <a @click="toTop">Top</a>
         </div>
@@ -134,39 +194,32 @@ export default {
       },
       key: "",
       word: "",
+      type: "all",
       email: "",
       postLike: [],
       cntLike: [],
-      filter: "",
+      // filter: "",
     };
   },
   methods: {
-    authUser() {
-      axios
-        .get(`${baseURL}/account/authuser/${this.$cookies.get("Auth-Token")}`)
-        .then((response) => {
-          this.email = response.data.email;
-          this.init();
-          this.checklike();
-        })
-        .catch((err) => {
-          console.log(err.response);
-        });
+    settype(typename){
+      this.type = typename;
+      this.init();
     },
     toTop() {
       scroll(0, 0);
     },
     infiniteHandler($state) {
-      if (this.filter != null) {
+      if (this.key == "") {
         axios
-          .get(`${baseURL}/post/types/${this.page}`)
+          .get(`${baseURL}/post/getList/${this.type}/${this.page}`)
           .then((res) => {
             setTimeout(() => {
               if (res.data.length) {
                 this.posts = this.posts.concat(res.data);
                 $state.loaded();
                 this.page += 1;
-                if (this.posts.length / 9 == 0) {
+                if (this.posts.length / 9 < 1) {
                   $state.complete();
                 }
               } else {
@@ -177,36 +230,16 @@ export default {
           .catch((err) => {
             console.log(err);
           });
-      } else if (this.key == "" && this.filter == null) {
+      } else {
         axios
-          .get(`${baseURL}/post/getList/${this.page}`)
+          .get(`${baseURL}/post/search/${this.type}/${this.key}/${this.word}/${this.page}`)
           .then((res) => {
             setTimeout(() => {
               if (res.data.length) {
                 this.posts = this.posts.concat(res.data);
                 $state.loaded();
                 this.page += 1;
-                if (this.posts.length / 9 == 0) {
-                  $state.complete();
-                }
-              } else {
-                $state.complete();
-              }
-            }, 1000);
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-      } else if (this.key != "" && this.filter == "") {
-        axios
-          .get(`${baseURL}/post/search/${this.key}/${this.word}/${this.page}`)
-          .then((res) => {
-            setTimeout(() => {
-              if (res.data.length) {
-                this.posts = this.posts.concat(res.data);
-                $state.loaded();
-                this.page += 1;
-                if (this.posts.length / 9 == 0) {
+                if (this.posts.length / 9 < 1) {
                   $state.complete();
                 }
               } else {
@@ -239,13 +272,20 @@ export default {
 
       if (this.key == "") {
         this.word = "";
-        this.init();
       } else {
         if (this.word == "") {
           alert("검색어를 입력하세요.");
         } else {
           this.page = 1;
-          this.init();
+          // this.init();
+          axios
+          .get(`${baseURL}/post/search/${this.type}/${this.key}/${this.word}/0`)
+          .then((res) => {
+            this.posts = res.data;
+          })
+          .catch((err) => {
+            console.log(err);
+          });
         }
       }
     },
@@ -309,49 +349,29 @@ export default {
           alert(err);
         });
     },
-    filtering() {
-      axios
-        .get(`${baseURL}/post/types/${this.filter}/0`)
-        .then((res) => {
-          this.posts = res.data;
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    },
     init() {
-      if (this.key == "") {
+      
         axios
-          .get(`${baseURL}/post/getList/0`)
+          .get(`${baseURL}/post/getList/${this.type}/0`)
           .then((res) => {
             this.posts = res.data;
           })
           .catch((err) => {
             console.log(err);
           });
-      } else if (this.key != "") {
-        axios
-          .get(`${baseURL}/post/search/${this.key}/${this.word}/0`)
-          .then((res) => {
-            this.posts = res.data;
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-      }
     },
   },
   created() {
     this.filter = this.$route.params.TYPE;
+    if(this.$cookies.get("Auth-Token")==null){
+      this.init();
+      return;
+    }
     axios
       .get(`${baseURL}/account/authuser/${this.$cookies.get("Auth-Token")}`)
       .then((response) => {
         this.email = response.data.email;
-        if (this.filter != null) {
-          this.filtering();
-        } else {
-          this.init();
-        }
+        this.init();
         this.checklike();
       })
       .catch((err) => {
