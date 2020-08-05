@@ -29,61 +29,61 @@
 
     <!-- 계절 checkbox -->
     <div class="form-group">
-    <label class="d-flex justify-content-start">Seasons</label>
-    <div class="d-flex">
-      <div class="form-check form-check-inline">
-        <input
-          class="form-check-input"
-          type="checkbox"
-          id="spring"
-          value="spring"
-          v-model="seasons"
-        />
-        <label class="form-check-label">Spring</label>
+      <label class="d-flex justify-content-start">Seasons</label>
+      <div class="d-flex">
+        <div class="form-check form-check-inline">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            id="spring"
+            value="spring"
+            v-model="seasons"
+          />
+          <label class="form-check-label" for="spring">Spring</label>
+        </div>
+        <div class="form-check form-check-inline ml-3">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            id="summer"
+            value="summer"
+            v-model="seasons"
+          />
+          <label class="form-check-label" for="summer">Summer</label>
+        </div>
+        <div class="form-check form-check-inline ml-3">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            id="autumn"
+            value="autumn"
+            v-model="seasons"
+          />
+          <label class="form-check-label" for="autumn">Autumn</label>
+        </div>
+        <div class="form-check form-check-inline ml-3">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            id="winter"
+            value="winter"
+            v-model="seasons"
+          />
+          <label class="form-check-label" for="winter">Winter</label>
+        </div>
       </div>
-      <div class="form-check form-check-inline ml-3">
-        <input
-          class="form-check-input"
-          type="checkbox"
-          id="summer"
-          value="summer"
-          v-model="seasons"
-        />
-        <label class="form-check-label">Summer</label>
-      </div>
-      <div class="form-check form-check-inline ml-3">
-        <input
-          class="form-check-input"
-          type="checkbox"
-          id="autumn"
-          value="autumn"
-          v-model="seasons"
-        />
-        <label class="form-check-label">Autumn</label>
-      </div>
-      <div class="form-check form-check-inline ml-3">
-        <input
-          class="form-check-input"
-          type="checkbox"
-          id="winter"
-          value="winter"
-          v-model="seasons"
-        />
-        <label class="form-check-label">Winter</label>
-      </div>
-    </div>
-    <small class="form-text text-muted d-flex" v-if="!error.seasons">상품 이용 계절을 선택하세요.(중복가능)</small>
-    <small class="form-text d-flex" style="color:red;" v-if="error.seasons">{{error.seasons}}</small>
+      <small class="form-text text-muted d-flex" v-if="!error.seasons">상품 이용 계절을 선택하세요.(중복가능)</small>
+      <small class="form-text d-flex" style="color:red;" v-if="error.seasons">{{error.seasons}}</small>
     </div>
 
     <!-- Place Type -->
     <div class="form-group">
       <!-- <div class="input-group-prepend"> -->
-        <label class="d-flex justify-content-start">Field</label>
+      <label class="d-flex justify-content-start">Field</label>
       <!-- </div> -->
       <select class="form-control" id="place" v-model="PostCreate.place">
         <option value="ground">Ground</option>
-        <option value="summer">Summer</option>
+        <option value="water">Water</option>
         <option value="sky">Sky</option>
       </select>
       <small class="form-text text-muted d-flex" v-if="!error.place">필드를 선택하세요.</small>
@@ -196,17 +196,16 @@
 </template>
 
 <script>
-const baseURL = "http://localhost:8080/";
+const baseURL = "http://localhost:8080";
 
 import axios from "axios";
 import Swal from "sweetalert2";
 
 export default {
-  components: {
-  },
+  components: {},
   data() {
     return {
-      // 
+      //
       PostCreate: {
         email: "",
         title: "",
@@ -259,7 +258,7 @@ export default {
       axios
         .get(`${baseURL}/account/authuser/${this.$cookies.get("Auth-Token")}`)
         .then((response) => {
-            this.PostCreate.email = response.data.email;
+          this.PostCreate.email = response.data.email;
         })
         .catch((err) => {
           console.log(err.response);
@@ -399,8 +398,8 @@ export default {
     },
   },
   created() {
-    this.authUser()
-    }
+    this.authUser();
+  },
 };
 </script>
 <style>
