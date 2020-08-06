@@ -7,12 +7,12 @@
           <td>{{ index + 1 }}</td>
         </tr>
         <tr>
-          <th>Image</th>
-          <th>Activity</th>
-          <th>Date</th>
-          <th>Price</th>
-          <th>Code</th>
-          <th>Use</th>
+          <th>사진</th>
+          <th>상품명</th>
+          <th>기간</th>
+          <th>가격</th>
+          <th>일련번호</th>
+          <th>사용여부</th>
         </tr>
       </thead>
       <tbody v-for="(itm, idx) in item" :key="idx">
@@ -22,7 +22,23 @@
           <td>{{ itm.sdate }} ~ {{ itm.edate }}</td>
           <td>{{ itm.price }}</td>
           <td>{{ itm.serialno }}</td>
-          <td>{{ itm.puse }}</td>
+          <td>
+              <b-badge
+                    v-if="itm.puse == 0"
+                    pill
+                    variant
+                    style="background-color: #003399"
+                  >미사용</b-badge>
+              <b-badge
+                    v-if="itm.puse == 1"
+                    pill
+                    variant
+                    style="background-color: #C4302B"
+                  >사용완료</b-badge>
+
+
+
+          </td>
         </tr>
       </tbody>
     </table>
@@ -38,7 +54,6 @@ const baseURL = 'http://localhost:8080';
 export default {
   data() {
     return {
-      num: 2,
       items: [],
     };
   },

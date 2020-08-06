@@ -121,4 +121,13 @@ public class PurchaseController {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @GetMapping("/checkuse/{purid}")
+    @ApiOperation("사용 확정 처리")
+    public Object checkuse(@PathVariable int purid) throws SQLException, IOException {
+        Purchase purchase = purchaseDao.findByPurid(purid);
+        purchase.setPuse(1);
+        purchaseDao.save(purchase);
+        return purchase;
+    }
 }
