@@ -260,6 +260,13 @@ public class AccountController {
         }
     }
 
+    @GetMapping("/getImg/{email}")
+    @ApiOperation(value = "그림가져오기")
+    public String getImg(@PathVariable String email) {
+        Optional<User> user = userDao.findUserByEmail(email);
+        return user.get().getImgurl();
+
+
     @GetMapping("/pwd/{email}/{name}")
     @ApiOperation(value = "임시비밀번호 발급")
     public void sendMail(@PathVariable String email, @PathVariable String name) throws Exception {
