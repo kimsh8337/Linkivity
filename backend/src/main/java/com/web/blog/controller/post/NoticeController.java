@@ -72,6 +72,15 @@ public class NoticeController {
         return plist;
     }
 
+    //detail
+    @GetMapping("/detail/{nid}")
+    @ApiOperation("공지사항 상세")
+    public Notice detail(@PathVariable int nid) throws SQLException, IOException {
+        Notice notice = new Notice();
+        notice = noticeDao.findByNid(nid);
+        return notice;
+    }
+
     //update
     @PutMapping("/modify")
     @ApiOperation("공지사항 수정")

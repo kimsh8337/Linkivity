@@ -1,5 +1,5 @@
 <template>
-  <div class="container col-md-6 col-sm-12" id="join">
+  <div class="container col-md-10 col-sm-12" id="join">
     <div class="wrapC table">
       <div class="middle">
         <!-- <h1 v-if="validated == 1">회원정보 조회</h1> -->
@@ -109,7 +109,7 @@
           <b-tabs content-class="mt-3" fill>
             <b-tab title="장바구니" active><Cart /></b-tab>
             <b-tab title="좋아요"><Like /></b-tab>
-            <b-tab title="구매목록">구매목록<p>asdf</p><p>asdf</p><p>asdf</p><p>asdf</p><p>asdf</p><p>asdf</p><p>asdf</p><p>asdf</p><p>asdf</p><p>asdf</p><p>asdf</p><p>asdf</p><p>asdf</p><p>asdf</p><p>asdf</p><p>asdf</p><p>asdf</p><p>asdf</p><p>asdf</p><p>asdf</p><p>asdf</p><p>asdf</p><p>asdf</p><p>asdf</p><p>asdf</p><p>asdf</p><p>asdf</p><p>asdf</p><p>asdf</p><p>asdf</p><p>asdf</p><p>asdf</p><p>asdf</p><p>asdf</p><p>asdf</p><p>asdf</p><p>asdf</p><p>asdf</p><p>asdf</p><p>asdf</p><p>asdf</p><p>asdf</p><p>asdf</p><p>asdf</p><p>asdf</p><p>asdf</p><p>asdf</p><p>asdf</p><p>asdf</p><p>asdf</p><p>asdf</p><p>asdf</p></b-tab>
+            <b-tab title="구매목록"><Buy /></b-tab>
             <b-tab title="임시저장"><Temp /></b-tab>
           </b-tabs>
         </div>
@@ -142,6 +142,7 @@ import '../../assets/css/info.css';
 import Like from '../post/PostLike.vue';
 import Temp from '../post/PostTemp.vue';
 import Cart from '../post/PostCart.vue';
+import Buy from '../post/PostBuy.vue';
 
 const baseURL = 'http://localhost:8080/account';
 
@@ -150,6 +151,7 @@ export default {
     Cart,
     Like,
     Temp,
+    Buy,
   },
   created() {
     this.passwordSchema
