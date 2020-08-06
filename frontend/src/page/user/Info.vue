@@ -107,10 +107,11 @@
 
         <div>
           <b-tabs content-class="mt-3" fill>
-            <b-tab title="장바구니" active><Cart /></b-tab>
+            <b-tab title="장바구니" active v-if="this.checkType=='normal'"><Cart /></b-tab>
             <b-tab title="좋아요"><Like /></b-tab>
-            <b-tab title="구매목록"><Buy /></b-tab>
-            <b-tab title="임시저장"><Temp /></b-tab>
+            <b-tab title="구매목록" v-if="this.checkType=='normal'"><Buy /></b-tab>
+            <b-tab title="판매목록" v-if="this.checkType=='business'"><Sell /></b-tab>
+            <b-tab title="임시저장" v-if="this.checkType=='business'"><Temp /></b-tab>
           </b-tabs>
         </div>
 
@@ -143,6 +144,7 @@ import Like from '../post/PostLike.vue';
 import Temp from '../post/PostTemp.vue';
 import Cart from '../post/PostCart.vue';
 import Buy from '../post/PostBuy.vue';
+import Sell from '../post/PostSell.vue';
 
 const baseURL = 'http://localhost:8080/account';
 
@@ -152,6 +154,7 @@ export default {
     Like,
     Temp,
     Buy,
+    Sell,
   },
   created() {
     this.passwordSchema
@@ -180,6 +183,7 @@ export default {
         .get(`${baseURL}/authuser/${this.$cookies.get('Auth-Token')}`)
         .then((response) => {
           this.email = response.data.email;
+          this.checkType = response.data.checkType;
           this.getuser();
         })
         .catch((err) => {
@@ -293,6 +297,7 @@ export default {
       imgurl: null,
       validated: 1,
       pwvalidated: 0,
+      checkType:'',
     };
   },
 };

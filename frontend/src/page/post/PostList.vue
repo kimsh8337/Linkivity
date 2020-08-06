@@ -40,7 +40,7 @@
       <br />
       <br />Sky
     </button>
-    <div class="container col-md-10">
+    <div class="container col-md-8">
       <div class="input-group mb-5">
         <div class="input-group-prepend">
           <select
@@ -78,16 +78,16 @@
             <div class="card-body" style="padding: 0;">
               <img :src="post.imgurl" class="card-img" style="height:10rem" />
               <div
-                class="card-img-overlay pt-2 pr-2"
+                class="card-img-overlay pt-0 pr-2"
                 @click="getdetail(post.pid)"
-                style="text-align:right; font-size:1rem; font-weight:bold; color: white;"
+                style="text-align:right; font-size:0.8rem; font-weight:bold; color: white; background-color:00004D; "
               >
                 <!-- <button class="location-button">{{post.location}}</button> -->
                 <!-- <p>{{ post.location.substring(0,2) }}</p> -->
-                <p>{{localarea(post.location)}}</p>
+                <p><i class="fa fa-map-marker" style="font-size:0.8rem;"></i> {{localarea(post.location)}}</p>
               </div>
               <div class="col-md-12 p-0">
-                <div class="card-body" style="padding: 5px;">
+                <div class="card-body" style="padding: 5px; height:10rem;">
                   <!-- tag -->
                   <!-- <div v-for="tagg in tag" :key="tagg.pid">
                   <div v-if="tagg.pid == post.pid" >
