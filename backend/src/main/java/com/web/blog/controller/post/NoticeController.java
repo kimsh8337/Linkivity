@@ -84,15 +84,6 @@ public class NoticeController {
         return plist;
     }
 
-    //count
-    @GetMapping("/count")
-    @ApiOperation("공지사항 리스트")
-    public int count() {
-        List<Notice> list = new LinkedList<>();
-        list = noticeDao.findAll();
-        return list.size();
-    }
-
     //detail
     @GetMapping("/detail/{nid}")
     @ApiOperation("공지사항 상세")

@@ -265,7 +265,7 @@ public class AccountController {
     public String getImg(@PathVariable String email) {
         Optional<User> user = userDao.findUserByEmail(email);
         return user.get().getImgurl();
-
+    }
 
     @GetMapping("/pwd/{email}/{name}")
     @ApiOperation(value = "임시비밀번호 발급")
