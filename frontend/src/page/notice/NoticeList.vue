@@ -18,7 +18,7 @@
         <tbody>
             <tr v-for="(notice,index) in notices" :key="index">
             <th scope="row">{{index+1}}</th>
-            <td class="notice-title" @click="gonoticedetail(nid)">{{notice.title}}</td>
+            <td class="notice-title" @click="gonoticedetail(notice.nid)">{{notice.title}}</td>
             <td>{{writeDate(notice.createDate)}}</td>
             </tr>
         </tbody>
@@ -55,7 +55,7 @@ export default {
         .get(`${baseURL}/notice/list/${this.page}`)
         .then((res) => {
             this.notices = res.data;
-            console.log(this.notices)
+            // console.log(this.notices)
         })
         .catch((err) => {
           console.log(err);
@@ -67,7 +67,7 @@ export default {
     gonoticedetail(nid){
         this.$router.push({
             name: 'NoticeListDetail',
-            params: {ID:nid},
+            params: { ID:nid },
         })
     },
     writeDate(createDate){
