@@ -81,6 +81,20 @@ public class NoticeController {
         return notice;
     }
 
+    //visit++
+    @PutMapping("/visitPlus/{nid}")
+    @ApiOperation("조회수 증가")
+    public int visitPlus(@PathVariable int nid) throws SQLException, IOException {
+        Notice notice = new Notice();
+        notice = noticeDao.findByNid(nid);
+        int visit = notice.getVisit();
+        visit += 1;
+        notice.setVisit(visit);
+        noticeDao.save(notice);
+
+        return visit;
+    }
+
     //update
     @PutMapping("/modify")
     @ApiOperation("공지사항 수정")
