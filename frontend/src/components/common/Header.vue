@@ -22,6 +22,9 @@
             <a class="nav-link mt-3 mr-2" @click="goPost"><i class="fas fa-stream mr-1"></i><br />Post</a>
           </li>
           <li class="nav-item">
+            <a class="nav-link mt-3 mr-2" @click="goNotice"><i class="fas fa-flag"></i><br />Notice</a>
+          </li>
+          <li class="nav-item">
             <a v-if="this.$cookies.isKey('Auth-Token') && this.usertype == 'business'" class="nav-link mt-3 mr-2" @click="gocreate"
               ><i class="fas fa-pen mr-1"></i><br />Write</a
             >
@@ -116,6 +119,10 @@ export default {
       this.$router.push('/user/basket/');
       this.$router.go();
     },
+    goNotice: function() {
+      this.$router.push('/notice/');
+    }
+    
   },
   data() {
     return {

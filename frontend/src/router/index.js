@@ -19,6 +19,11 @@ import Map from '../page/msg/map.vue'
 // main
 import List from '../page/main/List.vue'
 
+// notice
+import NoticeList from '../page/notice/NoticeList.vue'
+import NoticeListDetail from '../page/notice/NoticeListDetail.vue'
+import NoticeCreate from '../page/notice/NoticeCreate.vue'
+
 // post
 import PostList from '../page/post/PostList.vue'
 import PostListDetail from '../page/post/PostListDetail.vue'
@@ -74,6 +79,25 @@ export default new Router({
             component: Params,
             name: 'Params'
         },
+
+        // 공지사항
+        {
+            path: '/notice',
+            component: NoticeList,
+            name: 'NoticeList'
+        },
+        {
+            path: '/notice/:ID',
+            component: NoticeListDetail,
+            name: 'NoticeListDetail'
+        },
+        {
+            path: '/noticecreate',
+            component: NoticeCreate,
+            name: 'NoticeCreate'
+        },
+
+
 
         // 포스트
         {

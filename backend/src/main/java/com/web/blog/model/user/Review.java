@@ -1,4 +1,6 @@
-package com.web.blog.model.packaging;
+package com.web.blog.model.user;
+
+import java.time.LocalDateTime;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -16,14 +18,16 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class Sell {
+public class Review {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int sid;
-
-    private String semail;
-    private String pemail;
+    private int rvid;
+    
     private int pid;
-    private int cnt;
-    private int suse;
+    private String email;
+    private String title;
+    private String content;
+    private String img;
+    private int star;
+    private LocalDateTime createDate;
 }
