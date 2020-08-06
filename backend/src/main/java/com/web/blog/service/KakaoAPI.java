@@ -8,14 +8,14 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.HashMap;
-
-
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
  
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.web.blog.model.user.User;
  
 @Service
 public class KakaoAPI {

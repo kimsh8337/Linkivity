@@ -169,7 +169,7 @@ export default {
   created() {
     (this.pid = this.$route.params.ID), this.authUser();
     this.fetchHashTag();
-    Kakao.init('765ed14c0d508f8aa48c6d173446acba');
+    // Kakao.init('765ed14c0d508f8aa48c6d173446acba');
   },
   methods: {
     scrollIntoView(evt) {

@@ -8,7 +8,7 @@ import Login from '../page/user/Login.vue'
 import Join from '../page/user/Join.vue'
 import Info from '../page/user/Info.vue'
 import Basket from '../page/user/Basket.vue'
-
+import Pwsearch from '../page/user/Pwsearch.vue'
 // error
 import NotFound from '../page/error/NotFound.vue'
 import Params from '../page/error/Params.vue'
@@ -141,6 +141,10 @@ export default new Router({
         {
             path: '/msg/map',
             component: Map
+        },
+        {
+            path: '/user/pwsearch',
+            component: Pwsearch
         }
     ]
 })
