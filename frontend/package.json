@@ -23,6 +23,7 @@
     "vue-cookies": "^1.7.2",
     "vue-hashtag-textarea": "^0.3.7",
     "vue-infinite-loading": "^2.4.5",
+    "vue-kakao-login": "^1.0.5",
     "vue-msgbox": "^0.2.14",
     "vue-router": "^3.3.4",
     "vue-scrollspy": "^0.1.3",
