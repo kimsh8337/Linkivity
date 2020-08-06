@@ -16,7 +16,7 @@
         </tr>
       </thead>
       <tbody v-for="(itm, idx) in item" :key="idx">
-        <tr id="tt">
+        <tr id="tt" @click="goDetail(itm.pid)">
           <td><img :src="itm.img" style="width: 100px; height: 100px;" /></td>
           <td>{{ itm.title }}</td>
           <td>{{ itm.sdate }} ~ {{ itm.edate }}</td>
@@ -65,6 +65,13 @@ export default {
           console.log(err);
         });
     },
+    goDetail(pid) {
+      scroll(0, 0);
+      this.$router.push({
+        name: 'PostListDetail',
+        params: { ID: pid },
+      });
+    },
   },
   created() {
     this.authUser();
@@ -76,5 +83,8 @@ export default {
 #tt td {
   text-align: center;
   vertical-align: middle;
+}
+#tt:hover {
+  background-color: rgba(127, 172, 255, 0.25);
 }
 </style>
