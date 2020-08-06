@@ -1,58 +1,54 @@
 <template>
   <div id="app">
-    <Header :isHeader="isHeader"/>
+    <Header :isHeader="isHeader" />
     <LoginModal />
     <router-view />
+    <Footer />
   </div>
 </template>
 
-<script src="https://use.fontawesome.com/releases/v5.2.0/js/all.js"></script>  
-<script> 
-import Header from './components/common/Header.vue'
-import constants from './lib/constants'
-import LoginModal from './components/modal/LoginModal.vue'
-
+<script src="https://use.fontawesome.com/releases/v5.2.0/js/all.js"></script>
+<script>
+import Header from './components/common/Header.vue';
+import constants from './lib/constants';
+import LoginModal from './components/modal/LoginModal.vue';
+import Footer from './components/common/Footer.vue';
 
 export default {
   name: 'App',
-  components: { 
+  components: {
     Header,
     LoginModal,
+    Footer,
   },
   created() {
-      let url = this.$route.name;
+    let url = this.$route.name;
 
-      this.checkUrl(url);
+    this.checkUrl(url);
   },
   watch: {
-      $route (to){
-
-          this.checkUrl(to.name);
-      }
+    $route(to) {
+      this.checkUrl(to.name);
+    },
   },
-  methods : {
-      checkUrl(url) { 
+  methods: {
+    checkUrl(url) {
+      let array = [constants.URL_TYPE.USER.LOGIN];
 
-          let array = [
-              constants.URL_TYPE.USER.LOGIN,
-          ];
-
-          let isHeader = true;
-          array.map(path => {
-              if (url === path)
-                  isHeader = false;
-          })
-          this.isHeader = isHeader;
-
-      },
+      let isHeader = true;
+      array.map((path) => {
+        if (url === path) isHeader = false;
+      });
+      this.isHeader = isHeader;
+    },
   },
-  data: function () {
-        return {
-            isHeader: true,
-            constants,
-        } 
-    }
-}
+  data: function() {
+    return {
+      isHeader: true,
+      constants,
+    };
+  },
+};
 </script>
 
 <style>
@@ -60,7 +56,7 @@ export default {
   font-family: 'Lexend Zetta', sans-serif;
   /* font-family: Avenir, Helvetica, Arial, sans-serif; */
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale; 
+  -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
   margin-top: 7rem;
