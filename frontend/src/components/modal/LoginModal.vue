@@ -19,11 +19,15 @@
         <div class="modal-footer border-0 pt-0">
             <!-- 카카오 로그인 이미지 -->
             <!-- <img src="../../assets/img/kakaologin.png"> -->
-            <img id="kakao-login-btn" @click="test()" src="../../assets/img/kakaologin.png" style="cursor: pointer; width :100px" onmouseover="this.src=../../assets/img/kakaologin.png" onmouseout="this.src=../../assets/img/kakaologin.png">
             <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> -->
+            <div style="">
+
             <button type="button" class="btn" @click="join" data-dismiss="modal" ><i class="far fa-user mr-1"></i><br>회원가입</button>
             <button type="button" class="btn" @click="login" data-dismiss="modal" ><i class="fas fa-sign-in-alt mr-1"></i><br>로그인</button>
-             <button type="button" class="btn" @click="pwsearch" data-dismiss="modal" ><i class="fas fa-sign-in-alt mr-1"></i><br>비밀번호 찾기</button>
+            <button type="button" class="btn" @click="pwsearch" data-dismiss="modal" ><i class="fas fa-unlock"></i><br>비밀번호 찾기</button>
+            <img id="kakao-login-btn" @click="test()" src="../../assets/img/kakaologin.png" style="cursor: pointer; width :120px;" onmouseover="this.src=../../assets/img/kakaologin.png" onmouseout="this.src=../../assets/img/kakaologin.png">
+            </div>
+        
         </div>
         </div>
     </div>
