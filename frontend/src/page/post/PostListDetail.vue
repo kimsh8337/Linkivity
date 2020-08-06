@@ -133,52 +133,57 @@
         </div>
       </div>
     </div>
-    <hr />
-    <!-- 지도 -->
-    <p class="d-flex" style="font-size:1.5rem; font-weight:bold;">진행 장소</p>
-    <div id="map" style="max-width: 100%; height:300px;"></div>
-    <small class="d-flex mt-2" style="font-weight:bold;">{{ post.location }}</small>
-    <hr class="mt-2 mb-0" />
+    
 
     <!-- Scrollspy  -->
-    <div>
-      <b-card no-body>
-        <b-nav pills card-header slot="header" v-b-scrollspy:nav-scroller>
-          <b-nav-item href="#fat" @click="scrollIntoView">@fat</b-nav-item>
-          <b-nav-item href="#mdo" @click="scrollIntoView">@mdo</b-nav-item>
-          <b-nav-item href="#pi0" @click="scrollIntoView">@pi0</b-nav-item>
-        </b-nav>
-
-        <b-card-body
-          id="nav-scroller"
-          ref="content"
-          style="position:relative; height:300px; overflow-y:scroll;"
-        >
-          <p>{{ text }}</p>
-          <h4 id="fat">@fat</h4>
-          <p v-for="i in 3" :key="i.id">{{ text }}</p>
-          <h4 id="mdo">@mdo</h4>
-          <p v-for="i in 3" :key="i.id">{{ text }}</p>
-          <h4 id="pi0">@pi0</h4>
-          <p v-for="i in 3" :key="i.id">{{ text }}</p>
-        </b-card-body>
-      </b-card>
+    <nav id="navbar-example2" class="navbar nav-info">
+      <ul class="nav justify-content-between" style="width:100%;">
+        <li class="nav-item">
+          <a class="nav-link info-link" href="#item" @click="scroll">상세 정보</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link info-link" href="#corp" @click="scroll">업체 정보</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link info-link" href="#review" @click="scroll">후기</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link info-link" href="#qna" @click="scroll">Q&A</a>
+        </li>
+      </ul>
+    </nav>
+    <br />
+    <div data-spy="scroll" data-target="#navbar-example2" data-offset="0">
+      <!-- 상세 정봉 -->
+      <h4 id="item" class="d-flex mb-3" style="font-weight:bold">상세 정보</h4>
+      <p class="d-flex" style="font-align:left">{{ post.detail }}</p>
+      <hr>
+      <!-- 업체 정보 -->
+      <h4 id="corp" class="d-flex mb-3" style="font-weight:bold">업체 정보</h4>
+      <p class="d-flex">{{ post.companyInfo }}</p>
+      <hr>
+      <!-- 지도 -->
+      <p class="d-flex" style="font-size:1.5rem; font-weight:bold;">진행 장소</p>
+      <div id="map" style="max-width: 100%; height:300px;"></div>
+      <small class="d-flex mt-2" style="font-weight:bold;">{{ post.location }}</small>
+      <hr class="mt-2" />
+      <!-- 후기 -->
+      <h4 id="review" class="d-flex mb-3" style="font-weight:bold">후기</h4>
+      <p>d</p>
+      <hr>
+      <!-- Q & A -->
+      <h4 id="qna" class="d-flex mb-3" style="font-weight:bold">Q&A</h4>
+      <!-- 댓글 List -->
+      <div class="d-flex bg-white">Comment : {{ receiveComment.length }}</div>
+      <CommentList v-for="comment in receiveComment" :key="comment.rid" :comment="comment" @comment-delete="commentDelete" />
+      <!-- 댓글 작성 -->
+      <CommentInput class="mt-3" v-if="this.email" @create-comment="createcomment" />
+      
     </div>
 
     <hr class="mt-0" />
 
-    <!-- 댓글 List -->
-    <br v-if="this.email" />
-    <div class="d-flex bg-white">Comment : {{ receiveComment.length }}</div>
-    <CommentList
-      v-for="comment in receiveComment"
-      :key="comment.rid"
-      :comment="comment"
-      @comment-delete="commentDelete"
-    />
 
-    <!-- 댓글 작성 -->
-    <CommentInput class="mt-3" v-if="this.email" @create-comment="createcomment" />
 
     <!-- 글 수정 삭제 -->
     <div class="d-flex justify-content-end mt-3 mb-3" v-if="this.email == this.post.email">
@@ -232,13 +237,11 @@ export default {
     Kakao.init("765ed14c0d508f8aa48c6d173446acba");
   },
   methods: {
-    scrollIntoView(evt) {
+    scroll(evt) {
       evt.preventDefault();
-      const href = evt.target.getAttribute("href");
-      const el = href ? document.querySelector(href) : null;
-      if (el) {
-        this.$refs.content.scrollTop = el.offsetTop;
-      }
+      const href = evt.target.getAttribute('href');
+      var location = document.querySelector(href).offsetTop;
+      window.scrollTo({top:location, behavior:'smooth'})
     },
     authUser() {
       axios
