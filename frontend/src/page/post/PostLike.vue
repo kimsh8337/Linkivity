@@ -9,9 +9,7 @@
               class="card-img-overlay"
               @click="getdetail(likePost.pid)"
               style="padding:4rem 0; text-align:center; font-size:1.3rem; font-weight:bold; color: white;"
-            >
-              <p>{{ likePost.location }}</p>
-            </div>
+            ></div>
             <div class="col-md-12 p-0">
               <div class="card-body" style="padding: 5px;">
                 <p
@@ -34,6 +32,7 @@
                   >
                     가격 : {{ likePost.price }}
                   </p>
+                  <button type="button" class="btn btn-outline-danger" @click="deleteLike(likePost.pid)">삭제</button>
                 </div>
               </div>
             </div>
@@ -43,6 +42,9 @@
     </div>
     <!-- paging -->
     <b-pagination v-if="ltotalPage > 8" v-model="lpage" :total-rows="ltotalPage" pills :per-page="8"></b-pagination>
+    <br />
+    <br />
+    <br />
   </div>
 </template>
 
@@ -50,6 +52,7 @@
 // import '../../assets/css/postlist.css';
 import axios from 'axios';
 import BPagenation from 'bootstrap-vue';
+import Swal from 'sweetalert2';
 
 const baseURL = 'http://localhost:8080';
 
@@ -121,6 +124,44 @@ export default {
         .catch((err) => {
           console.log(err);
         });
+    },
+    deleteLike(pid) {
+      Swal.fire({
+        width: 350,
+        text: '삭제하시겠습니까?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: '<a style="font-size:1rem; color:black">Delete</a>',
+        cancelButtonText: '<a style="font-size:1rem; color:black">Cancel</a>',
+      }).then((result) => {
+        if (result.value) {
+          const Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            onOpen: (toast) => {
+              toast.addEventListener('mouseenter', Swal.stopTimer);
+              toast.addEventListener('mouseleave', Swal.resumeTimer);
+            },
+          });
+          Toast.fire({
+            icon: 'success',
+            title: '삭제되었습니다.',
+          });
+          axios
+            .delete(`${baseURL}/cart/deleteCart/${pid}/${this.email}/0`)
+            .then((res) => {
+              this.init();
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+        }
+      });
     },
   },
   watch: {

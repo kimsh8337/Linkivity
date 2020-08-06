@@ -1,4 +1,4 @@
-package com.web.blog.controller.post;
+package com.web.blog.controller.account;
 
 import java.io.IOException;
 import java.sql.SQLException;
