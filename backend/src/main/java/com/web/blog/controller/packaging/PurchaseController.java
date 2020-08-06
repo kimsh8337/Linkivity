@@ -11,13 +11,11 @@ import javax.validation.Valid;
 
 import com.web.blog.dao.packaging.PackDao;
 import com.web.blog.dao.packaging.PurchaseDao;
-import com.web.blog.dao.packaging.SellDao;
 import com.web.blog.dao.post.LikeListDao;
 import com.web.blog.dao.post.PostListDao;
 import com.web.blog.dao.post.TagDao;
 import com.web.blog.model.packaging.Pack;
 import com.web.blog.model.packaging.Purchase;
-import com.web.blog.model.packaging.Sell;
 import com.web.blog.model.post.LikeList;
 import com.web.blog.model.post.PostList;
 import com.web.blog.model.post.Tag;
@@ -53,9 +51,6 @@ public class PurchaseController {
     PurchaseDao purchaseDao;
 
     @Autowired
-    SellDao sellDao;
-
-    @Autowired
     LikeListDao likeDao;
 
     @GetMapping("/regist/{packPost}/{email}/{sum}")
@@ -75,6 +70,8 @@ public class PurchaseController {
             pidlist = packPost;
             for (String s : pidlist) {
                 int pid = Integer.parseInt(s);
+                PostList post = postDao.findByPid(pid);
+
                 Purchase purchase = new Purchase();
                 purchase.setEmail(email);
                 purchase.setPid(pid);
@@ -88,16 +85,15 @@ public class PurchaseController {
                     serialno.append(charSet[idx]);
                 }
                 purchase.setSerialno(serialno.toString());
+                purchase.setSeller(post.getEmail());
+                purchase.setTitle(post.getTitle());
+                purchase.setSdate(post.getSdate());
+                purchase.setEdate(post.getEdate());
+                purchase.setLocation(post.getLocation());
+                purchase.setPrice(post.getPrice());
+                purchase.setImg(post.getImgurl());
                 purchaseDao.save(purchase);
                 ///// 구매테이블에 저장/////
-
-                Sell sell = new Sell();
-                sell.setSemail(email);
-                sell.setPid(pid);
-                sell.setPemail(postDao.findByPid(pid).getEmail());
-                sell.setCnt(1);
-                sellDao.save(sell);
-                ///// 판매테이블에 저장/////
 
                 LikeList like = likeDao.findByEmailAndPidAndCart(email, pid, 1);
                 likeDao.delete(like);
