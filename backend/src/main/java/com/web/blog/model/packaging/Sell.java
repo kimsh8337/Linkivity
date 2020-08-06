@@ -25,5 +25,5 @@ public class Sell {
     private String pemail;
     private int pid;
     private int cnt;
-    private int use;
+    private int suse;
 }

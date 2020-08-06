@@ -208,6 +208,7 @@ export default {
       for (var i = 0; i < this.checked.length; i++) {
         this.sum += this.checked[i].price;
       }
+      // console.log(this.sum)
       return this.sum;
     },
   },

@@ -9,8 +9,14 @@ import java.util.Optional;
 
 import javax.validation.Valid;
 
+import com.web.blog.dao.packaging.PackDao;
+import com.web.blog.dao.packaging.PurchaseDao;
+import com.web.blog.dao.packaging.SellDao;
 import com.web.blog.dao.post.PostListDao;
 import com.web.blog.dao.post.TagDao;
+import com.web.blog.model.packaging.Pack;
+import com.web.blog.model.packaging.Purchase;
+import com.web.blog.model.packaging.Sell;
 import com.web.blog.model.post.PostList;
 import com.web.blog.model.post.Tag;
 
@@ -29,7 +35,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.annotations.ApiOperation;
-import org.springframework.web.bind.annotation.PostMapping;
 
 @CrossOrigin(origins = "*")
 @RestController
@@ -40,222 +45,88 @@ public class PurchaseController {
     PostListDao postDao;
 
     @Autowired
-    TagDao tagDao;
+    PackDao packDao;
 
-    // infinite-loading paging
-    @GetMapping("/getList/{type}/{page}")
-    @ResponseBody
-    public List<PostList> getList(@PathVariable String type, @PathVariable int page) {
-        int start = page * 9;
-        int end = start + 9;
+    @Autowired
+    PurchaseDao purchaseDao;
 
-        List<PostList> temp = new LinkedList<>();
-        if (type.equals("all")) {
-            temp = postDao.findByFlagOrderByCreateDateDesc(1);
-        } else if (type.equals("spring")) {
-            temp = postDao.findBySpringAndFlagOrderByCreateDateDesc(1, 1);
-        } else if (type.equals("summer")) {
-            temp = postDao.findBySummerAndFlagOrderByCreateDateDesc(1, 1);
-        } else if (type.equals("autumn")) {
-            temp = postDao.findByAutumnAndFlagOrderByCreateDateDesc(1, 1);
-        } else if (type.equals("winter")) {
-            temp = postDao.findByWinterAndFlagOrderByCreateDateDesc(1, 1);
-        } else {
-            temp = postDao.findByPlaceAndFlagOrderByCreateDateDesc(type, 1);
-        }
+    @Autowired
+    SellDao sellDao;
+    // @DeleteMapping("/delete/{pid}")
+    // @ApiOperation(value = "포스트 삭제")
+    // public Object delete(@PathVariable int pid) throws SQLException, IOException
+    // {
+    // PostList post = postDao.findByPid(pid);
+    // if (post != null) {
+    // postDao.delete(post);
+    // return "포스트 삭제 완료";
+    // } else {
+    // return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+    // }
+    // }
 
-        if (end > temp.size()) {
-            end = temp.size();
-        }
 
-        List<PostList> list = new LinkedList<>();
-        for (int i = start; i < end; i++) {
-            list.add(temp.get(i));
-        }
-
-        return list;
-    }
-
-    @GetMapping("/search/{type}/{key}/{word}/{page}")
-    @ApiOperation(value = "검색")
-    public List<PostList> search(@PathVariable String type, @PathVariable String key, @PathVariable String word,
-            @PathVariable int page) throws SQLException, IOException {
-        List<PostList> searchpost = new LinkedList<>();
-        if (key.equals("title")) {
-            searchpost = postDao.findByTitleLikeOrderByCreateDateDesc("%" + word + "%");
-        } else if (key.equals("activity")) {
-            searchpost = postDao.findByActivityLikeOrderByCreateDateDesc("%" + word + "%");
-        } else if (key.equals("price")) {
-            int price = Integer.parseInt(word);
-            searchpost = postDao.findByPriceLessThanEqualOrderByCreateDateDesc(price);
-        }
-        List<PostList> post = new LinkedList<>();
-        if (type.equals("all")) {
-            post = searchpost;
-        } else if (type.equals("spring")) {
-            for (PostList p : searchpost) {
-                if (p.getSpring() == 1)
-                    post.add(p);
-            }
-        } else if (type.equals("summer")) {
-            for (PostList p : searchpost) {
-                if (p.getSummer() == 1)
-                    post.add(p);
-            }
-        } else if (type.equals("autumn")) {
-            for (PostList p : searchpost) {
-                if (p.getAutumn() == 1)
-                    post.add(p);
-            }
-        } else if (type.equals("winter")) {
-            for (PostList p : searchpost) {
-                if (p.getWinter() == 1)
-                    post.add(p);
-            }
-        } else {
-            for (PostList p : searchpost) {
-                if (p.getPlace().equals(type))
-                    post.add(p);
-            }
-        }
-
-        int start = page * 9;
-        int end = start + 9;
-
-        if (end > post.size()) {
-            end = post.size();
-        }
-
-        List<PostList> list = new LinkedList<>();
-        for (int i = start; i < end; i++) {
-            list.add(post.get(i));
-        }
-
-        return list;
-    }
-
-    @GetMapping("/list")
-    @ApiOperation(value = "포스트 리스트")
-    public List<PostList> selectAll() throws SQLException, IOException {
-        List<PostList> temp = new LinkedList<>();
-        temp = postDao.findByFlagOrderByCreateDateDesc(1);
-        return temp;
-    }
-
-    @GetMapping("/listbylike")
-    @ApiOperation(value = "포스트 리스트 좋아요 정렬")
-    public List<PostList> selectAllByLike() throws SQLException, IOException {
-        List<PostList> temp = new LinkedList<>();
-        temp = postDao.findAllByOrderByLikecntDesc();
-        return temp;
-    }
-
-    @GetMapping("/detail/{pid}")
-    @ApiOperation(value = "포스트 상세정보")
-    public Object selectDetail(@PathVariable int pid) throws SQLException, IOException {
-        PostList post = postDao.findByPid(pid);
-        if (post != null) {
-            // System.out.println(post);
-            return post;
-        } else {
-            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
-        }
-    }
-
-    @PutMapping("/modify")
-    @ApiOperation(value = "포스트 수정하기")
-    public Object modify(@Valid @RequestBody PostList request) throws SQLException, IOException {
-        try {
-            PostList post = postDao.findByPid(request.getPid());
-            if (post != null) {
-
-                PostList newTemp = post;
-                newTemp.setTitle(request.getTitle());
-                newTemp.setLocation(request.getLocation());
-                newTemp.setImgurl(request.getImgurl());
-                newTemp.setPrice(request.getPrice());
-                newTemp.setSdate(request.getSdate());
-                newTemp.setEdate(request.getEdate());
-                newTemp.setCompanyInfo(request.getCompanyInfo());
-                newTemp.setDetail(request.getDetail());
-                newTemp.setActivity(request.getActivity());
-                newTemp.setSpring(request.getSpring());
-                newTemp.setSummer(request.getSummer());
-                newTemp.setAutumn(request.getAutumn());
-                newTemp.setWinter(request.getWinter());
-                newTemp.setPlace(request.getPlace());
-                LocalDateTime time = LocalDateTime.now();
-                newTemp.setCreateDate(time);
-                // System.out.println(newTemp);
-                postDao.save(newTemp);
-                return newTemp;
-            } else {
-                System.out.println("DB에 없음.");
-                return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
-            }
-        } catch (Exception e) {
-            System.out.println(e);
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
-    @DeleteMapping("/delete/{pid}")
-    @ApiOperation(value = "포스트 삭제")
-    public Object delete(@PathVariable int pid) throws SQLException, IOException {
-        PostList post = postDao.findByPid(pid);
-        if (post != null) {
-            postDao.delete(post);
-            return "포스트 삭제 완료";
-        } else {
-            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
-        }
-    }
-
-    @GetMapping("/regist/{packPost}")
+    @GetMapping("/regist/{packPost}/{email}/{sum}")
     @ApiOperation("상품 구매")
-    public Object regist(@PathVariable List<Integer> packPost)
+    public Object regist(@PathVariable List<String> packPost, @PathVariable String email, @PathVariable int sum)
             throws SQLException, IOException {
         try {
-            List<Integer> item = new LinkedList<>();
-            item = packPost;
-            
-            
-            return item;
+
+            Pack pack = new Pack();
+            pack.setEmail(email);
+            pack.setPrice(sum);
+            packDao.save(pack);
+            ///// 패키지테이블에 저장/////
+
+            int packno = pack.getPackno();
+            List<String> pidlist = new LinkedList<>();
+            pidlist = packPost;
+            for (String s : pidlist) {
+                int pid = Integer.parseInt(s);
+                Purchase purchase = new Purchase();
+                purchase.setEmail(email);
+                purchase.setPid(pid);
+                purchase.setPackno(packno);
+                purchase.setPuse(0);
+                char[] charSet = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F', 'G',
+                        'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z' };
+                StringBuffer serialno = new StringBuffer();
+                for (int i = 0; i < 8; i++) {
+                    int idx = (int) (charSet.length * Math.random());
+                    serialno.append(charSet[idx]);
+                }
+                purchase.setSerialno(serialno.toString());
+                purchaseDao.save(purchase);
+                ///// 구매테이블에 저장/////
+
+                Sell sell = new Sell();
+                sell.setSemail(email);
+                sell.setPid(pid);
+                sell.setPemail(postDao.findByPid(pid).getEmail());
+                sell.setCnt(1);
+                sellDao.save(sell);
+                ///// 판매테이블에 저장/////
+            }
+            return pack;
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-    // @GetMapping("/types/{typename}/{page}")
-    // @ApiOperation(value = "타입 별 포스트")
-    // public List<PostList> seasons(@PathVariable String typename, @PathVariable
-    // int page) throws SQLException, IOException {
-    // int start = page * 9;
-    // int end = start + 9;
-
-    // List<PostList> list = new LinkedList<>();
-    // if (typename.equals("spring")) {
-    // list = postDao.findBySpring(1);
-    // } else if (typename.equals("summer")) {
-    // list = postDao.findBySummer(1);
-    // } else if (typename.equals("autumn")) {
-    // list = postDao.findByAutumn(1);
-    // } else if (typename.equals("winter")) {
-    // list = postDao.findByWinter(1);
-    // } else {
-    // list = postDao.findByPlace(typename);
-    // }
-
-    // if (end > list.size()) {
-    // end = list.size();
-    // }
-
-    // List<PostList> plist = new LinkedList<>();
-    // for (int i = start; i < end; i++) {
-    // plist.add(list.get(i));
-    // }
-
-    // return plist;
-    // }
-
+    @GetMapping("/list/{email}")
+    @ApiOperation("사용자 구매 리스트")
+    public Object purchaseList(@PathVariable String email) throws SQLException, IOException {
+        try {
+            List<Pack> packlist = packDao.findByEmail(email);
+            List<List<Purchase>> purlist = new LinkedList<>();
+            for (Pack pack : packlist) {
+                int packno = pack.getPackno();
+                List<Purchase> list = purchaseDao.findByPackno(packno);
+                purlist.add(list);
+            }
+            return new ResponseEntity<>(purlist, HttpStatus.ACCEPTED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }
