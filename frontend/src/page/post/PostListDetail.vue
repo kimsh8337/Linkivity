@@ -168,8 +168,16 @@
       <small class="d-flex mt-2" style="font-weight:bold;">{{ post.location }}</small>
       <hr class="mt-2" />
       <!-- 후기 -->
-      <h4 id="review" class="d-flex mb-3" style="font-weight:bold">후기</h4>
-      <p>d</p>
+      <div class="d-flex justify-content-between mb-2">
+        <div>
+          <h4 id="review" class="" style="font-weight:bold">후기</h4>
+        </div>
+        <div>
+          <i class="fas fa-pen mr-1"><small>후기 작성</small></i>
+        </div>
+      </div>
+      <ReviewSlide />
+
       <hr>
       <!-- Q & A -->
       <h4 id="qna" class="d-flex mb-3" style="font-weight:bold">Q&A</h4>
@@ -205,6 +213,8 @@ import PostUpdateVue from "./PostUpdate.vue";
 import CommentInput from "../../components/comment/CommentInput.vue";
 import CommentList from "../../components/comment/CommentList.vue";
 
+import ReviewSlide from "../../components/review/ReviewSlide.vue"
+
 import Swal from "sweetalert2";
 
 const baseURL = "http://localhost:8080";
@@ -213,6 +223,7 @@ export default {
   components: {
     CommentInput,
     CommentList,
+    ReviewSlide,
   },
   data() {
     return {
@@ -227,14 +238,12 @@ export default {
       autumnCheck: "",
       winterCheck: "",
       placeCheck: "",
-      text:
-        "asldjfasdklfjklmbcgnvmvbcnbcncfhcnvcmnvvnbcg nvcghcnchgnchfcnchccyxhgcuktxxctufjhftycmhgjdctuchkdckhcutdcgcfcutcjxckxktucgjuktxhgccuktdjvjfiycjcy",
     };
   },
   created() {
     (this.pid = this.$route.params.ID), this.authUser();
     this.fetchHashTag();
-    Kakao.init("765ed14c0d508f8aa48c6d173446acba");
+    // Kakao.init('765ed14c0d508f8aa48c6d173446acba');
   },
   methods: {
     scroll(evt) {

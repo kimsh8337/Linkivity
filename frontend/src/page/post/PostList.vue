@@ -67,7 +67,7 @@
           <i class="fas fa-pen"></i> 상품 등록
         </a>
       </div>-->
-      <div class="row justify-content-left">
+      <div class="row justify-content-left" v-if="posts.length > 0">
         <div
           class="col-12 col-sm-12 col-md-3 card-deck"
           style="margin:auto 0; padding:0 20px ;"
@@ -254,6 +254,7 @@ export default {
       }
     },
     getdetail(pid) {
+      scroll(0, 0);
       this.$router.push({
         name: 'PostListDetail',
         params: { ID: pid },
@@ -361,7 +362,7 @@ export default {
         });
     },
     nextTag() {
-      this.tag = []
+      this.tag = [];
       for (let i = 0; i < this.posts.length; i++) {
         axios
           .get(`${baseURL}/tag/list/${this.posts[i].pid}`)
@@ -374,10 +375,10 @@ export default {
           });
       }
     },
-    localarea(location){
-      var la = location+"";
-      return la.substring(0,2);
-    }
+    localarea(location) {
+      var la = location + '';
+      return la.substring(0, 2);
+    },
   },
   created() {
     this.filter = this.$route.params.TYPE;

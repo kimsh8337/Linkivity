@@ -50,6 +50,15 @@ public class NoticeController {
         }
     }
 
+    //count
+    @GetMapping("/count")
+    @ApiOperation("공지사항 리스트")
+    public int count() {
+        List<Notice> list = new LinkedList<>();
+        list = noticeDao.findAll();
+        return list.size();
+    }
+
     //read(paging)
     @GetMapping("/list/{page}")
     @ApiOperation("공지사항 리스트")
@@ -79,6 +88,20 @@ public class NoticeController {
         Notice notice = new Notice();
         notice = noticeDao.findByNid(nid);
         return notice;
+    }
+
+    //visit++
+    @PutMapping("/visitPlus/{nid}")
+    @ApiOperation("조회수 증가")
+    public int visitPlus(@PathVariable int nid) throws SQLException, IOException {
+        Notice notice = new Notice();
+        notice = noticeDao.findByNid(nid);
+        int visit = notice.getVisit();
+        visit += 1;
+        notice.setVisit(visit);
+        noticeDao.save(notice);
+
+        return visit;
     }
 
     //update
