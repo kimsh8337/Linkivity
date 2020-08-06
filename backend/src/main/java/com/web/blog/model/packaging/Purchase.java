@@ -1,5 +1,7 @@
 package com.web.blog.model.packaging;
 
+import java.time.LocalDate;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -26,4 +28,11 @@ public class Purchase {
     private String email;
     private int packno;
     private String serialno;
+    private String seller;
+    private String title;
+    private LocalDate sdate;
+    private LocalDate edate;
+    private String location;
+    private int price;
+    private String img;
 }
