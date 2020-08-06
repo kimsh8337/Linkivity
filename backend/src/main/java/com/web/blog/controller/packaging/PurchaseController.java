@@ -12,11 +12,13 @@ import javax.validation.Valid;
 import com.web.blog.dao.packaging.PackDao;
 import com.web.blog.dao.packaging.PurchaseDao;
 import com.web.blog.dao.packaging.SellDao;
+import com.web.blog.dao.post.LikeListDao;
 import com.web.blog.dao.post.PostListDao;
 import com.web.blog.dao.post.TagDao;
 import com.web.blog.model.packaging.Pack;
 import com.web.blog.model.packaging.Purchase;
 import com.web.blog.model.packaging.Sell;
+import com.web.blog.model.post.LikeList;
 import com.web.blog.model.post.PostList;
 import com.web.blog.model.post.Tag;
 
@@ -52,19 +54,9 @@ public class PurchaseController {
 
     @Autowired
     SellDao sellDao;
-    // @DeleteMapping("/delete/{pid}")
-    // @ApiOperation(value = "포스트 삭제")
-    // public Object delete(@PathVariable int pid) throws SQLException, IOException
-    // {
-    // PostList post = postDao.findByPid(pid);
-    // if (post != null) {
-    // postDao.delete(post);
-    // return "포스트 삭제 완료";
-    // } else {
-    // return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
-    // }
-    // }
 
+    @Autowired
+    LikeListDao likeDao;
 
     @GetMapping("/regist/{packPost}/{email}/{sum}")
     @ApiOperation("상품 구매")
@@ -106,8 +98,12 @@ public class PurchaseController {
                 sell.setCnt(1);
                 sellDao.save(sell);
                 ///// 판매테이블에 저장/////
+
+                LikeList like = likeDao.findByEmailAndPidAndCart(email, pid, 1);
+                likeDao.delete(like);
+                ///// 장바구니테이블에서 삭제/////
             }
-            return pack;
+            return new ResponseEntity<>(pack, HttpStatus.ACCEPTED);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }

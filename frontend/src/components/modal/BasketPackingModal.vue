@@ -94,6 +94,8 @@ export default {
         .get(`${baseURL}/purchase/regist/${this.packPost}/${this.email}/${this.sum}`)
         .then((response) => {
           alert("구매 완료");
+          this.$router.push("/user/basket");
+          this.$router.go();
         })
         .catch((err) => {
           console.log(err);
@@ -135,7 +137,7 @@ export default {
   data() {
     return {
       sum: 0,
-      packPost: [],
+      packPost: []
     };
   },
 };

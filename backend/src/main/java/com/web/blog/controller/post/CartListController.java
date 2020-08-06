@@ -87,54 +87,16 @@ public class CartListController {
         }
     }
 
-    // @GetMapping("/registDelete/{email}/{pid}")
-    // @ApiOperation("좋아요 등록 및 삭제")
-    // public Object registDelete(@PathVariable String email, @PathVariable String pid) throws SQLException, IOException {
-    //     LikeList like = likeListDao.findByEmailAndPidAndCart(email, Integer.parseInt(pid),0);
-    //     if (like == null) { // 등록
-    //         try {
-    //             LikeList list = new LikeList();
-    //             list.setPid(Integer.parseInt(pid));
-    //             list.setEmail(email);
-    //             list.setCart(1);
-    //             likeListDao.save(list);
-    //             PostList post = postListDao.findByPid(Integer.parseInt(pid));
-    //             post.setLikecnt(post.getLikecnt() + 1);
-    //             post.setSdate(post.getSdate().plusDays(1));
-    //             post.setEdate(post.getEdate().plusDays(1));
 
-    //             postListDao.save(post);
-    //             // return list;
-    //             return "regist";
-    //         } catch (Exception e) {
-    //             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-    //         }
-    //     } else { // 삭제
-    //         try {
-    //             likeListDao.delete(likeListDao.findByNo(like.getNo()));
-    //             PostList post = postListDao.findByPid(Integer.parseInt(pid));
-    //             post.setLikecnt(post.getLikecnt() - 1);
-    //             post.setSdate(post.getSdate().plusDays(1));
-    //             post.setEdate(post.getEdate().plusDays(1));
-    //             postListDao.save(post);
-    //             // return like;
-    //             return "del";
-    //         } catch (Exception e) {
-    //             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-
-    //         }
-    //     }
-    // }
-
-    @GetMapping("/check/{email}")
-    @ApiOperation("장바구니 확인")
-    public Object check(@PathVariable String email) throws SQLException, IOException {
-        List<LikeList> like = likeListDao.findByEmailAndCart(email,1);
-        List<Integer> likelist = new LinkedList<>();
-        for(LikeList ll : like){
-            likelist.add(ll.getPid());
+    @GetMapping("/check/{email}/{pid}")
+    @ApiOperation("장바구니 동일상품 확인")
+    public Object check(@PathVariable String email, @PathVariable int pid) throws SQLException, IOException {
+        LikeList like = likeListDao.findByEmailAndPidAndCart(email, pid, 1);
+        if(like != null){ //이미 존재
+            return true;
+        }else{
+            return false;
         }
-        return likelist;
     }
     
     
