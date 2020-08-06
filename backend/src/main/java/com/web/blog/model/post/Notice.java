@@ -28,6 +28,5 @@ public class Notice {
     private String content;
     private int visit;
 
-    @JsonIgnore
     private LocalDateTime createDate;
 }
