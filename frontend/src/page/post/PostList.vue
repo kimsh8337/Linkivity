@@ -59,7 +59,13 @@
             <option value="price">Price</option>
           </select>
         </div>
-        <input type="text" class="form-control" placeholder="Search" v-model="word" @keypress.enter="search" />
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Search"
+          v-model="word"
+          @keypress.enter="search"
+        />
       </div>
 
       <!-- <div class="d-flex justify-content-end">
@@ -80,11 +86,14 @@
               <div
                 class="card-img-overlay pt-0 pr-2"
                 @click="getdetail(post.pid)"
-                style="text-align:right; font-size:0.8rem; font-weight:bold; color: white; background-color:00004D; "
+                style="text-align:right; font-size:0.7rem; font-weight:400; color: white; "
               >
                 <!-- <button class="location-button">{{post.location}}</button> -->
                 <!-- <p>{{ post.location.substring(0,2) }}</p> -->
-                <p><i class="fa fa-map-marker" style="font-size:0.8rem;"></i> {{localarea(post.location)}}</p>
+                <span class="pr-2 pl-2 pb-1" style="background-color:rgba(0,0,0,0.3);z-index:34;">
+                  <i class="fa fa-map-marker" style="font-size:0.7rem;"></i>
+                  {{localarea(post.location)}}
+                </span>
               </div>
               <div class="col-md-12 p-0">
                 <div class="card-body" style="padding: 5px; height:10rem;">
@@ -93,7 +102,7 @@
                   <div v-if="tagg.pid == post.pid" >
                     {{tagg.tag}}
                   </div>
-                </div> -->
+                  </div>-->
                   <!-- </div> -->
                   <div
                     v-for="tagg in tag"
@@ -106,30 +115,25 @@
                         v-for="tagname in tagg.tag"
                         :key="tagname"
                         style="font-size: 0.8rem; font-weight:bold;"
-                        >#{{ tagname }}
-                      </span>
+                      >#{{ tagname }}</span>
                     </div>
                   </div>
-                  <p
-                    class="card-text mb-2"
-                    style="font-size: 1rem; text-align: left; text-overflow:ellipsis;overflow: hidden;white-space: nowrap; color:gray"
-                  >
-                    {{ post.sdate }}~{{ post.edate }}
-                  </p>
                   <h5
                     class="card-title"
                     @click="getdetail(post.pid)"
                     style="font-size: 1rem; text-align: left; margin-bottom: 1rem; text-overflow:ellipsis;overflow: hidden;white-space: nowrap;"
-                  >
-                    {{ post.title }}
-                  </h5>
+                  >{{ post.title }}</h5>
+                  <!-- pre-line; -->
+                  <p
+                    class="card-text mb-2"
+                    style="font-size: 1rem; text-align: left; text-overflow:ellipsis;overflow: hidden;white-space: nowrap; color:gray"
+                  >{{ post.sdate }}~{{ post.edate }}</p>
+
                   <div class="text d-flex justify-content-between">
                     <p
                       class="card-text"
-                      style="font-size: 1rem; text-align: left; text-overflow:ellipsis;overflow: hidden;white-space: nowrap;"
-                    >
-                      가격 : {{ post.price }}
-                    </p>
+                      style="font-size: 1rem; font-weight:bold; text-align: left; text-overflow:ellipsis;overflow: hidden;white-space: nowrap;"
+                    >{{ addComma(post.price) }}원</p>
                     <!-- heart like -->
                     <div id="heart" @click="registlike(post.pid)">
                       {{ post.likecnt }}
@@ -138,7 +142,11 @@
                         class="fas fa-heart select-button like-button"
                         style="text-align: right; font-size: 20px; color:crimson;"
                       ></i>
-                      <i v-if="!check(post.pid)" class="far fa-heart" style="text-align: right; font-size: 20px;"></i>
+                      <i
+                        v-if="!check(post.pid)"
+                        class="far fa-heart"
+                        style="text-align: right; font-size: 20px;"
+                      ></i>
                     </div>
                     <!--  -->
                   </div>
@@ -163,14 +171,14 @@
 </template>
 
 <script>
-import '../../assets/css/postlist.css';
-import axios from 'axios';
-import InfiniteLoading from 'vue-infinite-loading';
-import Swal from 'sweetalert2';
+import "../../assets/css/postlist.css";
+import axios from "axios";
+import InfiniteLoading from "vue-infinite-loading";
+import Swal from "sweetalert2";
 
 // const Swal = require('sweetalert2')
 
-const baseURL = 'http://localhost:8080';
+const baseURL = "http://localhost:8080";
 
 export default {
   components: {
@@ -181,21 +189,21 @@ export default {
       page: 1,
       infiniteId: 0,
       posts: {
-        pid: '',
-        email: '',
-        activity: '',
-        title: '',
-        location: '',
-        imgurl: '',
-        price: '',
-        sdate: '',
-        edate: '',
-        likecnt: '',
+        pid: "",
+        email: "",
+        activity: "",
+        title: "",
+        location: "",
+        imgurl: "",
+        price: "",
+        sdate: "",
+        edate: "",
+        likecnt: "",
       },
-      key: '',
-      word: '',
-      type: 'all',
-      email: '',
+      key: "",
+      word: "",
+      type: "all",
+      email: "",
       postLike: [],
       cntLike: [],
       tag: [],
@@ -211,7 +219,7 @@ export default {
       scroll(0, 0);
     },
     infiniteHandler($state) {
-      if (this.key == '') {
+      if (this.key == "") {
         axios
           .get(`${baseURL}/post/getList/${this.type}/${this.page}`)
           .then((res) => {
@@ -233,7 +241,9 @@ export default {
           });
       } else {
         axios
-          .get(`${baseURL}/post/search/${this.type}/${this.key}/${this.word}/${this.page}`)
+          .get(
+            `${baseURL}/post/search/${this.type}/${this.key}/${this.word}/${this.page}`
+          )
           .then((res) => {
             setTimeout(() => {
               if (res.data.length) {
@@ -256,7 +266,7 @@ export default {
     getdetail(pid) {
       scroll(0, 0);
       this.$router.push({
-        name: 'PostListDetail',
+        name: "PostListDetail",
         params: { ID: pid },
       });
     },
@@ -264,16 +274,18 @@ export default {
       this.page = 1;
       this.infiniteId += 1;
 
-      if (this.key == '') {
-        this.word = '';
+      if (this.key == "") {
+        this.word = "";
       } else {
-        if (this.word == '') {
-          alert('검색어를 입력하세요.');
+        if (this.word == "") {
+          alert("검색어를 입력하세요.");
         } else {
           this.page = 1;
           // this.init();
           axios
-            .get(`${baseURL}/post/search/${this.type}/${this.key}/${this.word}/0`)
+            .get(
+              `${baseURL}/post/search/${this.type}/${this.key}/${this.word}/0`
+            )
             .then((res) => {
               this.posts = res.data;
             })
@@ -291,15 +303,15 @@ export default {
             this.checklike();
             this.init();
             if (this.check(pid) == false) {
-              this.$toasted.show('좋아좋아요!', {
-                theme: 'bubble',
-                position: 'top-right',
+              this.$toasted.show("좋아좋아요!", {
+                theme: "bubble",
+                position: "top-right",
                 duration: 1000,
               });
             } else {
-              this.$toasted.show('싫어싫어요!', {
-                theme: 'bubble',
-                position: 'top-right',
+              this.$toasted.show("싫어싫어요!", {
+                theme: "bubble",
+                position: "top-right",
                 duration: 1000,
               });
             }
@@ -309,14 +321,15 @@ export default {
           });
       } else {
         Swal.fire({
-          icon: 'error',
-          text: '로그인 후 이용해주세요...',
-          confirmButtonColor: '#fff',
+          icon: "error",
+          text: "로그인 후 이용해주세요...",
+          confirmButtonColor: "#fff",
           width: 350,
-          confirmButtonText: '<a data-toggle="modal" data-target="#LoginModal" style="font-size:1rem; color:black" >Login</a>',
+          confirmButtonText:
+            '<a data-toggle="modal" data-target="#LoginModal" style="font-size:1rem; color:black" >Login</a>',
           showCancelButton: true,
           cancelButtonText: '<a style="font-size:1rem; color:black">Cancel</a>',
-          cancelButtonColor: '#fff',
+          cancelButtonColor: "#fff",
         }).then((result) => {
           Swal.close();
         });
@@ -376,18 +389,22 @@ export default {
       }
     },
     localarea(location) {
-      var la = location + '';
+      var la = location + "";
       return la.substring(0, 2);
+    },
+    addComma(num) {
+      var regexp = /\B(?=(\d{3})+(?!\d))/g;
+      return num.toString().replace(regexp, ",");
     },
   },
   created() {
     this.filter = this.$route.params.TYPE;
-    if (this.$cookies.get('Auth-Token') == null) {
+    if (this.$cookies.get("Auth-Token") == null) {
       this.init();
       return;
     }
     axios
-      .get(`${baseURL}/account/authuser/${this.$cookies.get('Auth-Token')}`)
+      .get(`${baseURL}/account/authuser/${this.$cookies.get("Auth-Token")}`)
       .then((response) => {
         this.email = response.data.email;
         this.init();
