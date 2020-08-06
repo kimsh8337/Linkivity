@@ -366,7 +366,7 @@ export default {
         });
     },
     nextTag() {
-      console.log(this.posts);
+      this.tag = []
       for (let i = 0; i < this.posts.length; i++) {
         axios.get(`${baseURL}/tag/list/${this.posts[i].pid}`)
           .then( res => { 
