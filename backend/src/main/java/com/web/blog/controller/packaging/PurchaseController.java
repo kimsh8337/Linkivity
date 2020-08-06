@@ -2,36 +2,25 @@ package com.web.blog.controller.packaging;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.time.LocalDateTime;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Optional;
-
-import javax.validation.Valid;
 
 import com.web.blog.dao.packaging.PackDao;
 import com.web.blog.dao.packaging.PurchaseDao;
 import com.web.blog.dao.post.LikeListDao;
 import com.web.blog.dao.post.PostListDao;
-import com.web.blog.dao.post.TagDao;
 import com.web.blog.model.packaging.Pack;
 import com.web.blog.model.packaging.Purchase;
 import com.web.blog.model.post.LikeList;
 import com.web.blog.model.post.PostList;
-import com.web.blog.model.post.Tag;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.annotations.ApiOperation;
@@ -117,6 +106,17 @@ public class PurchaseController {
                 purlist.add(list);
             }
             return new ResponseEntity<>(purlist, HttpStatus.ACCEPTED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/sellList/{seller}")
+    @ApiOperation("사업자 판매 리스트")
+    public Object sellList(@PathVariable String seller) throws SQLException, IOException {
+        try {
+            List<Purchase>  selllist = purchaseDao.findBySeller(seller);
+            return new ResponseEntity<>(selllist, HttpStatus.ACCEPTED);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }

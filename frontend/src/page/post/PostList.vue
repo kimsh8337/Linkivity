@@ -84,7 +84,7 @@
               >
                 <!-- <button class="location-button">{{post.location}}</button> -->
                 <!-- <p>{{ post.location.substring(0,2) }}</p> -->
-                <p>{{localarea(post.location)}}</p>
+                <p>{{ localarea(post.location) }}</p>
               </div>
               <div class="col-md-12 p-0">
                 <div class="card-body" style="padding: 5px;">
@@ -254,6 +254,7 @@ export default {
       }
     },
     getdetail(pid) {
+      scroll(0, 0);
       this.$router.push({
         name: 'PostListDetail',
         params: { ID: pid },
@@ -361,7 +362,7 @@ export default {
         });
     },
     nextTag() {
-      this.tag = []
+      this.tag = [];
       for (let i = 0; i < this.posts.length; i++) {
         axios
           .get(`${baseURL}/tag/list/${this.posts[i].pid}`)
@@ -374,10 +375,10 @@ export default {
           });
       }
     },
-    localarea(location){
-      var la = location+"";
-      return la.substring(0,2);
-    }
+    localarea(location) {
+      var la = location + '';
+      return la.substring(0, 2);
+    },
   },
   created() {
     this.filter = this.$route.params.TYPE;
