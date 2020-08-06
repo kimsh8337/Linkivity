@@ -40,7 +40,7 @@
       <br />
       <br />Sky
     </button>
-    <div class="container col-md-7">
+    <div class="container col-md-10">
       <div class="input-group mb-5">
         <div class="input-group-prepend">
           <select
@@ -68,17 +68,23 @@
         </a>
       </div>-->
       <div class="row justify-content-left">
-        <div class="col-12 col-sm-12 col-md-3 card-deck" style="margin:auto 0;" v-for="(post, index) in posts" :key="index">
+        <div
+          class="col-12 col-sm-12 col-md-3 card-deck"
+          style="margin:auto 0; padding:0 20px ;"
+          v-for="(post, index) in posts"
+          :key="index"
+        >
           <div class="card mb-3 profile-post mr-0 ml-0">
             <div class="card-body" style="padding: 0;">
               <img :src="post.imgurl" class="card-img" style="height:10rem" />
               <div
-                class="card-img-overlay"
+                class="card-img-overlay pt-2 pr-2"
                 @click="getdetail(post.pid)"
-                style="padding:4rem 0; text-align:center; font-size:1.3rem; font-weight:bold; color: white;"
+                style="text-align:right; font-size:1rem; font-weight:bold; color: white;"
               >
                 <!-- <button class="location-button">{{post.location}}</button> -->
-                <p>{{ post.location }}</p>
+                <!-- <p>{{ post.location.substring(0,2) }}</p> -->
+                <p>{{localarea(post.location)}}</p>
               </div>
               <div class="col-md-12 p-0">
                 <div class="card-body" style="padding: 5px;">
@@ -368,6 +374,10 @@ export default {
           });
       }
     },
+    localarea(location){
+      var la = location+"";
+      return la.substring(0,2);
+    }
   },
   created() {
     this.filter = this.$route.params.TYPE;
