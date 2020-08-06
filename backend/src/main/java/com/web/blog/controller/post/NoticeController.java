@@ -41,6 +41,8 @@ public class NoticeController {
             notice.setTitle(request.getTitle());
             notice.setContent(request.getContent());
             notice.setVisit(request.getVisit());
+            LocalDateTime time = LocalDateTime.now();
+            notice.setCreateDate(time);
             noticeDao.save(notice);
             return notice;
         } catch (Exception e) {
@@ -55,7 +57,7 @@ public class NoticeController {
         List<Notice> list = new LinkedList<>();
         list = noticeDao.findAll();
 
-        int start = page * 10;
+        int start = (page-1) * 10;
         int end = start + 10;
 
         if(end > list.size()) {
