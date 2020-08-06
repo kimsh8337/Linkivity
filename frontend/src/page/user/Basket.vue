@@ -201,7 +201,9 @@ export default {
           axios
             .delete(`${baseURL}/cart/delete/${this.temp}`)
             .then(() => {
-              this.$router.push(`/user/basket`);
+              // this.$router.push(`/user/basket`);
+              this.checked = [];
+              this.init();
             })
             .catch((error) => {
               console.log(error.response.data);
