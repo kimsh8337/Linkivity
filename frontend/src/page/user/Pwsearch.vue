@@ -1,16 +1,24 @@
 <template>
   <div class="user" id="login">
-    <div class="wrapC table">
+    <div style="height:50px;"></div>
+    <div class="container wrapC table col-md-3">
       <div class="middle">
-        <h1>비밀번호 찾기</h1>
-        <div class="input-wrap">
-          <input v-model="email" id="email" placeholder="이메일을 입력해주세요" type="text" />
-        </div>
-        <div class="input-wrap">
-          <input v-model="name" id="name" placeholder="이름을 입력하세요" type="text" />
-        </div>
-        <button @click="test()" class="btn btn--back btn--login">비밀번호 찾기</button>
+        <h1>비밀번호 찾기</h1><br>
+        <div class="form-group">
+      <label for="example2" style="float:left">이메일</label>
+      <input v-model="email" id="email" placeholder="이메일을 입력해주세요" type="text" class="form-control form-control-md">
+         </div>
+
+      <div class="form-group">
+      <label for="example2" style="float:left">이름</label>
+     <input v-model="name" id="name" placeholder="이름을 입력하세요" type="text" class="form-control form-control-md">
+        </div><br>
+      
+        <button @click="test()" class="btn btn--back btn--login">비밀번호 찾기</button><br>
       </div>
+    </div>
+    <div style="height:190px;">
+
     </div>
   </div>
 </template>
