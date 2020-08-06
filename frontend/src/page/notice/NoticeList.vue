@@ -54,8 +54,8 @@ export default {
       axios
         .get(`${baseURL}/notice/list/${this.page}`)
         .then((res) => {
-          this.notices = res.data;
-          console.log(this.notices);
+            this.notices = res.data;
+            // console.log(this.notices)
         })
         .catch((err) => {
           console.log(err);

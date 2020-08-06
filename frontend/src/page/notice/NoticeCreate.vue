@@ -1,5 +1,5 @@
 <template>
-  <div class="container taeduri col-md-8">
+  <div class="container col-md-8">
     <!-- Title -->
     <div class="form-group mb-4">
         <div class="d-flex justify-content-start">
