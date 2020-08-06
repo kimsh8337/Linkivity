@@ -67,7 +67,7 @@
           <i class="fas fa-pen"></i> 상품 등록
         </a>
       </div>-->
-      <div class="row justify-content-left">
+      <div class="row justify-content-left" v-if="posts.length > 0">
         <div
           class="col-12 col-sm-12 col-md-3 card-deck"
           style="margin:auto 0; padding:0 20px ;"
