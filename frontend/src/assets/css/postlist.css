@@ -11,8 +11,8 @@
     border: none !important;
 }
 
-/* .card-img-overlay p{
-    visibility: hidden;
+/* .card-img-overlay{
+    visibility: visible;
 } */
 
 /* .card-img-overlay:hover p{
