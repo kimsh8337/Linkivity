@@ -30,4 +30,6 @@ public class Review {
     private String img;
     private int star;
     private LocalDateTime createDate;
+    private String proimg;
+    private String nickname;
 }

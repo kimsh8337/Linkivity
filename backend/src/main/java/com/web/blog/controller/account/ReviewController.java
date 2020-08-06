@@ -45,8 +45,12 @@ public class ReviewController {
             review.setContent(request.getContent());
             review.setImg(request.getImg());
             review.setStar(request.getStar());
-            
+            review.setProimg(request.getProimg());
+            LocalDateTime time = LocalDateTime.now();
+            review.setCreateDate(time);
+            review.setNickname(request.getNickname());
             reviewDao.save(review);
+
             return new ResponseEntity<>(review, HttpStatus.ACCEPTED);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);

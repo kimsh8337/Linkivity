@@ -172,11 +172,12 @@
         <div>
           <h4 id="review" class="" style="font-weight:bold">후기</h4>
         </div>
-        <div>
-          <i class="fas fa-pen mr-1"><small>후기 작성</small></i>
+        <div class="review-button">
+          <i data-toggle="modal" data-target="#reviewWrite" class="fas fa-pen mr-1"><small>후기 작성</small></i>
         </div>
       </div>
-      <ReviewSlide />
+      <ReviewWrite :pid="pid" :email="email"/>
+      <ReviewSlide :pid="pid"/>
 
       <hr>
       <!-- Q & A -->
@@ -214,6 +215,7 @@ import CommentInput from "../../components/comment/CommentInput.vue";
 import CommentList from "../../components/comment/CommentList.vue";
 
 import ReviewSlide from "../../components/review/ReviewSlide.vue"
+import ReviewWrite from "../../components/review/ReviewModal.vue"
 
 import Swal from "sweetalert2";
 
@@ -224,6 +226,7 @@ export default {
     CommentInput,
     CommentList,
     ReviewSlide,
+    ReviewWrite,
   },
   data() {
     return {
@@ -519,6 +522,9 @@ export default {
 
 <style>
 .fa-heart {
+  cursor: pointer;
+}
+.review-button {
   cursor: pointer;
 }
 </style>
