@@ -20,10 +20,10 @@ public class Purchase {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int purid;
-    
+
     private int pid;
-    private int use;
-    private int serialno;
+    private int puse;
     private String email;
     private int packno;
+    private String serialno;
 }

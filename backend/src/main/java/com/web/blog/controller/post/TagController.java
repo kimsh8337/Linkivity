@@ -42,12 +42,12 @@ public class TagController {
         try {
             List<Tag> list = new LinkedList<>();
             list = tagDao.findByPid(pid);
-            if (list != null){
-                for(Tag tag : list){
+            if (list != null) {
+                for (Tag tag : list) {
                     tagname.add(tag.getTagname());
                 }
                 return new ResponseEntity<>(tagname, HttpStatus.ACCEPTED);
-            }else
+            } else
                 return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
