@@ -21,21 +21,17 @@
 
     <!-- Button -->
     <div class="d-flex justify-content-end mb-5 mt-5">
+      <button type="submit" class="btn btn-delete pr-0 mr-2" style="font-size: 1.1rem;" @click="noticemodify">
+        <i class="far fa-edit mr-2"></i>수정하기
+      </button>
+      <button type="submit" class="btn btn-delete pr-0 mr-2" style="font-size: 1.1rem;" @click="noticedelete">
+        <i class="fas fa-trash-alt mr-2"></i>삭제하기
+      </button>
       <button type="submit" class="btn btn-outline pr-0" style="font-size: 1.1rem;" @click="goNotice">
         <i class="fas fa-th-list mr-2"></i>목록으로
       </button>
     </div>
   </div>
-<!-- <div class="container col-md-8">
-    <div class="card col-md-8" style="max-width: 100%;">
-    <div class="card-body col-md-8" style="max-width: 100%;">
-        <span class="card-title">{{notice.title}}</span>
-        <h6 class="card-subtitle mb-2 text-muted">조회수 : {{notice.visit}}</h6>
-        <span>{{writeDate(notice.createDate)}}</span>
-        <p class="card-text">{{notice.content}}</p>
-    </div>
-    </div>
-</div> -->
 </template>
 
 <script>
@@ -69,11 +65,54 @@ export default {
             var wd = this.notice.createDate+"";
             return wd.substring(0,10);
         },
-        goNotice: function() {
-            this.$router.push('/notice/');
+        goNotice() {
+            this.$router.push('/notice');
         },
-    }
-
+        noticedelete(){
+            Swal.fire({
+                width: 350,
+                text: '글을 삭제하시겠습니까?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: '<a style="font-size:1rem; color:black">Delete</a>',
+                cancelButtonText: '<a style="font-size:1rem; color:black">Cancel</a>',
+            }).then((result) => {
+                if (result.value) {
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true,
+                    onOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer);
+                    toast.addEventListener('mouseleave', Swal.resumeTimer);
+                    },
+                });
+                Toast.fire({
+                    icon: 'success',
+                    title: '글이 삭제되었습니다.',
+                });
+                axios
+                  .delete(`${baseURL}/notice/delete/${this.$route.params.ID}`)
+                  .then(()=>{
+                    this.$router.push(`/notice/`)
+                  })
+                  .catch((err)=>{
+                    console.log(err)
+                  });
+                }
+            });
+        },
+        noticemodify(){
+            this.$router.push({
+                name: 'NoticeUpdate',
+                params: { ID: this.$route.params.ID }
+            })
+        },
+    },
 }
 </script>
 

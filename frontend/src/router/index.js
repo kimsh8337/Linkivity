@@ -23,6 +23,7 @@ import List from '../page/main/List.vue'
 import NoticeList from '../page/notice/NoticeList.vue'
 import NoticeListDetail from '../page/notice/NoticeListDetail.vue'
 import NoticeCreate from '../page/notice/NoticeCreate.vue'
+import NoticeUpdate from '../page/notice/NoticeUpdate.vue'
 
 // post
 import PostList from '../page/post/PostList.vue'
@@ -95,6 +96,11 @@ export default new Router({
             path: '/noticecreate',
             component: NoticeCreate,
             name: 'NoticeCreate'
+        },
+        {
+            path: '/notice/:ID/noticeupdate',
+            component: NoticeUpdate,
+            name: 'NoticeUpdate'
         },
 
 

@@ -14,21 +14,25 @@
           <th scope="col" class="table-date">Visit</th>
         </tr>
       </thead>
-      <tbody>
+      <tbody v-if="notices.length > 0">
         <tr v-for="(notice, index) in notices" :key="index">
-          <th scope="row">{{ index + 1 }}</th>
+          <td scope="row">{{ ((page - 1) * 10) + (index + 1) }}</td>
           <td class="notice-title" @click="gonoticedetail(notice.nid)">{{ notice.title }}</td>
           <td>{{ writeDate(notice.createDate) }}</td>
           <td>{{ notice.visit }}</td>
         </tr>
       </tbody>
     </table>
+
+    <!-- paging -->
+    <b-pagination class="pagination" v-model="page" :total-rows="len" pills :per-page="10"></b-pagination>
+
   </div>
 </template>
 
 <script>
 import axios from 'axios';
-
+import BPagenation from 'bootstrap-vue';
 import Swal from 'sweetalert2';
 
 const baseURL = 'http://localhost:8080';
@@ -37,6 +41,7 @@ export default {
   data() {
     return {
       page: 1,
+      len: 0,
       notices: {
         nid: '',
         title: '',
@@ -60,6 +65,14 @@ export default {
         .catch((err) => {
           console.log(err);
         });
+        axios
+          .get(`${baseURL}/notice/count`)
+          .then((res)=>{
+              this.len = res.data;
+          })
+          .catch((err)=>{
+              console.log(err)
+          });
     },
     gonoticecreate() {
       this.$router.push('/noticecreate');
@@ -83,6 +96,23 @@ export default {
       var wd = createDate + '';
       return wd.substring(0, 10);
     },
+    checkPage() {
+      axios
+        .get(`${baseURL}/notice/list/${this.page}`)
+        .then((res) => {
+          this.notices = res.data;
+          console.log(this.notices);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+      scroll(0, 0);
+    },
+  },
+  watch: {
+    page: function(v) {
+      this.checkPage();
+    },
   },
 };
 </script>
@@ -101,6 +131,7 @@ export default {
 
 .table {
   margin-bottom: 3rem;
+  table-layout: fixed;
 }
 
 .table-num {
@@ -118,5 +149,14 @@ export default {
 .notice-title {
   text-align: left;
   cursor: pointer;
+  text-overflow:ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.pagination{
+    display: flex;
+    justify-content: center;
+    margin-bottom: 2rem;
 }
 </style>

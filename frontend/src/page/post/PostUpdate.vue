@@ -79,7 +79,7 @@ export default {
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
-        confirmButtonText: '<a style="font-size:1rem; color:black">Udate</a>',
+        confirmButtonText: '<a style="font-size:1rem; color:black">Update</a>',
         cancelButtonText: '<a style="font-size:1rem; color:black">Cancel</a>',
       }).then((result) => {
         if (result.value) {
