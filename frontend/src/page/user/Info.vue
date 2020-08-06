@@ -10,12 +10,7 @@
             <div class="inputimg">
               <input ref="imageInput" type="file" hidden @change="onChangeImages" />
               <img class="infoimg" v-if="this.imgurl" :src="this.imgurl" />
-              <button
-                type="button"
-                class="btn btn-outline"
-                @click="onClickImageUpload"
-                v-if="validated == 0"
-              >
+              <button type="button" class="btn btn-outline" @click="onClickImageUpload" v-if="validated == 0">
                 <i class="fas fa-image mr-2"></i>이미지 업로드
               </button>
             </div>
@@ -30,7 +25,7 @@
                   type="text"
                   style="font-size: 30px; font-weight:bold;"
                 />
-                <span class="nickname-edit" v-if="validated==0">
+                <span class="nickname-edit" v-if="validated == 0">
                   <!-- <i class="fas fa-arrow-up mr-2"></i> -->
                   닉네임 클릭하여 변경
                   <!-- <i class="fas fa-arrow-up"></i> -->
@@ -40,7 +35,7 @@
                 <!-- <label for="email">이메일</label> -->
                 <input
                   class="form-control mt-2 mb-3"
-                  v-if="pwvalidated==0"
+                  v-if="pwvalidated == 0"
                   disabled="false"
                   v-model="email"
                   id="email"
@@ -52,7 +47,7 @@
                 <!-- <label for="name">이름</label> -->
                 <input
                   class="form-control mb-3"
-                  v-if="pwvalidated==0"
+                  v-if="pwvalidated == 0"
                   disabled="false"
                   v-model="name"
                   id="name"
@@ -61,68 +56,74 @@
                 />
               </div>
 
-              <button
-                @click="passwordModify"
-                v-if="pwvalidated==0 && validated==0"
-                class="btn btn-link btn-sm" style="font-size:1rem;"
-              >비밀번호 변경</button>
+              <button @click="passwordModify" v-if="pwvalidated == 0 && validated == 0" class="btn btn-link btn-sm" style="font-size:1rem;">
+                비밀번호 변경
+              </button>
 
-              <div class="form-group-pw mb-2 mt-1" align="left" v-if="pwvalidated==1">
+              <div class="form-group-pw mb-2 mt-1" align="left" v-if="pwvalidated == 1">
                 <label class="mt-2" for="pw">비밀번호</label>
                 <input
                   class="form-control mb-1"
                   v-model="password"
-                  v-bind:class="{error : error.password, complete:!error.password&&password.length!==0}"
+                  v-bind:class="{ error: error.password, complete: !error.password && password.length !== 0 }"
                   id="password"
                   :type="passwordType"
                 />
                 <div class="d-flex justify-contetn-between">
-                  <span v-if="error.password" :class="{active : passwordType==='text'}">
+                  <span v-if="error.password" :class="{ active: passwordType === 'text' }">
                     <i class="fas fa-eye mr-2"></i>
                   </span>
-                  <div class="error-text mt-1" v-if="error.password">{{error.password}}</div>
+                  <div class="error-text mt-1" v-if="error.password">{{ error.password }}</div>
                 </div>
               </div>
 
-              <div class="form-group-pw" align="left" v-if="pwvalidated==1">
+              <div class="form-group-pw" align="left" v-if="pwvalidated == 1">
                 <label for="name">비밀번호 확인</label>
                 <input
                   class="form-control mb-1"
                   v-model="passwordconfirm"
-                  v-bind:class="{error : error.passwordconfirm, complete:!error.passwordconfirm&&passwordconfirm.length!==0}"
+                  v-bind:class="{ error: error.passwordconfirm, complete: !error.passwordconfirm && passwordconfirm.length !== 0 }"
                   id="passwordconfirm"
                   :type="passwordConfirmType"
                 />
                 <div class="d-flex justify-contetn-between">
-                  <span v-if="error.passwordconfirm" :class="{active : passwordConfirmType==='text'}">
+                  <span v-if="error.passwordconfirm" :class="{ active: passwordConfirmType === 'text' }">
                     <i class="fas fa-eye mr-2"></i>
                   </span>
-                  <div class="error-text mt-1" v-if="error.passwordconfirm">{{error.passwordconfirm}}</div>
+                  <div class="error-text mt-1" v-if="error.passwordconfirm">{{ error.passwordconfirm }}</div>
                 </div>
               </div>
               <div class="d-flex justify-content-end">
-              <button v-if="pwvalidated==1" @click="modify" class="btn btn-link btn-sm mb-2"><i class="fas fa-check mr-2"></i>완료</button>
-              <button @click="cancel" v-if="pwvalidated==1" class="btn btn-link btn-sm mb-2 ml-2 p-0"><i class="fas fa-times mr-2"></i>취소</button>
+                <button v-if="pwvalidated == 1" @click="modify" class="btn btn-link btn-sm mb-2">
+                  <i class="fas fa-check mr-2"></i>완료
+                </button>
+                <button @click="cancel" v-if="pwvalidated == 1" class="btn btn-link btn-sm mb-2 ml-2 p-0">
+                  <i class="fas fa-times mr-2"></i>취소
+                </button>
               </div>
             </div>
           </div>
         </div>
-        <div class="d-flex justify-content-start">
-          <a class="mypage-select"><i class="fas fa-shopping-basket mr-2"></i>장바구니</a>
-          <a class="mypage-select"><i class="fas fa-heart mr-2"></i>좋아요</a>
-          <a class="mypage-select"><i class="fas fa-list-ul mr-2"></i>구매목록</a>
-          <a class="mypage-select" @click="templist"><i class="fas fa-save mr-2"></i>임시저장 리스트</a>
-        </div>
-        <hr class="border-bottom-1 border-black mt-1">
 
-        <div class="card col-sm-12 mt-1"></div>
+        <div>
+          <b-tabs content-class="mt-3" fill>
+            <b-tab title="장바구니" active><Cart /></b-tab>
+            <b-tab title="좋아요"><Like /></b-tab>
+            <b-tab title="구매목록">구매목록<p>asdf</p><p>asdf</p><p>asdf</p><p>asdf</p><p>asdf</p><p>asdf</p><p>asdf</p><p>asdf</p><p>asdf</p><p>asdf</p><p>asdf</p><p>asdf</p><p>asdf</p><p>asdf</p><p>asdf</p><p>asdf</p><p>asdf</p><p>asdf</p><p>asdf</p><p>asdf</p><p>asdf</p><p>asdf</p><p>asdf</p><p>asdf</p><p>asdf</p><p>asdf</p><p>asdf</p><p>asdf</p><p>asdf</p><p>asdf</p><p>asdf</p><p>asdf</p><p>asdf</p><p>asdf</p><p>asdf</p><p>asdf</p><p>asdf</p><p>asdf</p><p>asdf</p><p>asdf</p><p>asdf</p><p>asdf</p><p>asdf</p><p>asdf</p><p>asdf</p><p>asdf</p><p>asdf</p><p>asdf</p><p>asdf</p><p>asdf</p><p>asdf</p><p>asdf</p></b-tab>
+            <b-tab title="임시저장"><Temp /></b-tab>
+          </b-tabs>
+        </div>
+
+        <!-- <hr class="border-bottom-1 border-black mt-1" />
+        <div class="card col-sm-12 mt-1"></div> -->
+
         <button @click="deluser" class="btn">
           <span>탈퇴하기</span>
         </button>
-        <button v-if="validated==1" @click="gomodify" class="btn">
+        <button v-if="validated == 1" @click="gomodify" class="btn">
           <span>수정하기</span>
         </button>
-        <button v-if="validated==0" @click="modify" class="btn">
+        <button v-if="validated == 0" @click="modify" class="btn">
           <span>완료</span>
         </button>
         <!-- <button @click="templist" class="btn">
@@ -134,15 +135,22 @@
 </template>
 
 <script>
-import PV from "password-validator";
-import * as EmailValidator from "email-validator";
-import axios from "axios";
-import "../../assets/css/info.css";
+import PV from 'password-validator';
+import * as EmailValidator from 'email-validator';
+import axios from 'axios';
+import '../../assets/css/info.css';
+import Like from '../post/PostLike.vue';
+import Temp from '../post/PostTemp.vue';
+import Cart from '../post/PostCart.vue';
 
-const baseURL = "http://localhost:8080/account";
+const baseURL = 'http://localhost:8080/account';
 
 export default {
-  components: {},
+  components: {
+    Cart,
+    Like,
+    Temp,
+  },
   created() {
     this.passwordSchema
       .is()
@@ -155,42 +163,41 @@ export default {
       .letters();
 
     this.authUser();
-    
   },
   watch: {
-    password: function (v) {
+    password: function(v) {
       this.checkForm();
     },
-    passwordconfirm: function (v) {
+    passwordconfirm: function(v) {
       this.checkForm();
     },
   },
   methods: {
     authUser() {
       axios
-        .get(`${baseURL}/authuser/${this.$cookies.get("Auth-Token")}`)
+        .get(`${baseURL}/authuser/${this.$cookies.get('Auth-Token')}`)
         .then((response) => {
-            this.email = response.data.email;
-            this.getuser();
+          this.email = response.data.email;
+          this.getuser();
         })
         .catch((err) => {
           console.log(err.response);
         });
     },
-    getuser(){
+    getuser() {
       axios
-      .get(`${baseURL}/viewInfo/${this.email}`)
-      .then((response) => {
-        this.name = response.data.name;
-        this.nickname = response.data.nickname;
-        this.imgurl = response.data.imgurl;
-      })
-      .catch((err) => {
-        this.$router.push({
-          name: "Params",
-          params: { name: err.response.status },
+        .get(`${baseURL}/viewInfo/${this.email}`)
+        .then((response) => {
+          this.name = response.data.name;
+          this.nickname = response.data.nickname;
+          this.imgurl = response.data.imgurl;
+        })
+        .catch((err) => {
+          this.$router.push({
+            name: 'Params',
+            params: { name: err.response.status },
+          });
         });
-      });
     },
     passwordModify() {
       this.pwvalidated = 1;
@@ -199,20 +206,15 @@ export default {
       this.pwvalidated = 0;
     },
     templist() {
-      this.$router.push("/posttemp");
+      this.$router.push('/posttemp');
     },
+
     checkForm() {
-      if (
-        this.password.length > 0 &&
-        !this.passwordSchema.validate(this.password)
-      )
-        this.error.password = "영문,숫자 포함 8 자리이상이어야 합니다.";
+      if (this.password.length > 0 && !this.passwordSchema.validate(this.password))
+        this.error.password = '영문,숫자 포함 8 자리이상이어야 합니다.';
       else this.error.password = false;
-      if (
-        this.passwordconfirm.length > 0 &&
-        this.passwordconfirm != this.password
-      )
-        this.error.passwordconfirm = "비밀번호를 다시 확인해주세요.";
+      if (this.passwordconfirm.length > 0 && this.passwordconfirm != this.password)
+        this.error.passwordconfirm = '비밀번호를 다시 확인해주세요.';
       else this.error.passwordconfirm = false;
     },
     gomodify() {
@@ -222,9 +224,9 @@ export default {
       axios
         .delete(`${baseURL}/delete/${this.email}`)
         .then((response) => {
-          alert("탈퇴 완료");
-          this.$cookies.remove("Auth-Token");
-          this.$router.push("/");
+          alert('탈퇴 완료');
+          this.$cookies.remove('Auth-Token');
+          this.$router.push('/');
           this.$router.go();
         })
         .catch(() => {
@@ -243,12 +245,12 @@ export default {
       axios
         .put(`${baseURL}/modify/${this.pwvalidated}`, data)
         .then((response) => {
-          alert("수정 완료");
-          this.$router.push("/user/info");
+          alert('수정 완료');
+          this.$router.push('/user/info');
           this.$router.go();
         })
         .catch(() => {
-          alert("정보를 입력하세요.");
+          alert('정보를 입력하세요.');
           // this.$router.push({name: 'Params', params: {name: err.response.status}});
         });
     },
@@ -273,26 +275,23 @@ export default {
   },
   data: () => {
     return {
-      email: "",
-      name: "",
-      nickname: "",
-      password: "",
-      passwordconfirm: "",
+      email: '',
+      name: '',
+      nickname: '',
+      password: '',
+      passwordconfirm: '',
       passwordSchema: new PV(),
       error: {
         password: false,
         passwordconfirm: false,
       },
       isTerm: false,
-      passwordType: "password",
-      passwordConfirmType: "password",
+      passwordType: 'password',
+      passwordConfirmType: 'password',
       imgurl: null,
       validated: 1,
       pwvalidated: 0,
-      
     };
   },
 };
 </script>
-
-

@@ -14,15 +14,8 @@
           <h5
             class="modal-title w-100 text-center font-weight-bold position-absolute"
             id="exampleModalLabel"
-          >
-            Packing List
-          </h5>
-          <button
-            type="button"
-            class="close"
-            data-dismiss="modal"
-            aria-label="Close"
-          >
+          >Packing List</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
@@ -30,7 +23,7 @@
           <div class="d-flex justify-content-start mb-4" v-for="(post, index) in prePosts" :key="index">
             <img
               :src="post.imgurl"
-              alt=""
+              alt
               @click="getdetail(post.pid)"
               data-dismiss="modal"
             />
@@ -47,14 +40,14 @@
               <p class="mb-0">가격 : {{ post.price }}</p>
             </div>
           </div>
-            <p class="packaging-price mb-1">Single Price : {{ Singleprice }}</p>
+            <!-- <p class="packaging-price mb-1">Singled Price : {{ Singleprice }}</p> -->
             <p class="packaging-price mb-1">Packaging Price : {{ Packagingprice }}</p>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-outline" data-dismiss="modal"><i class="fas fa-times mr-2"></i>
             취소
           </button>
-          <button type="button" class="btn btn-danger"><i class="far fa-hand-point-up mr-2"></i>구매하기</button>
+          <button type="button" class="btn btn-danger" @click="purchase"><i class="far fa-hand-point-up mr-2"></i>구매하기</button>
         </div>
       </div>
     </div>
@@ -69,7 +62,7 @@ const baseURL = "http://localhost:8080";
 
 export default {
   created() {
-    this.email = this.$cookies.get("User");
+    this.authUser();
   },
   props: {
     prePosts: Array,
@@ -81,41 +74,70 @@ export default {
         params: { ID: pid },
       });
     },
+    authUser() {
+      axios
+        .get(`${baseURL}/account/authuser/${this.$cookies.get("Auth-Token")}`)
+        .then((response) => {
+          this.email = response.data.email;
+          this.Singleprice();
+          this.Packagingprice();
+        })
+        .catch((err) => {
+          console.log(err.response);
+        });
+    },
+    purchase() {
+      for (var i = 0; i < this.prePosts.length; i++) {
+        this.packPost.push(this.prePosts[i].pid);
+      }
+      axios
+        .get(`${baseURL}/purchase/regist/${this.packPost}/${this.email}/${this.sum}`)
+        .then((response) => {
+          alert("구매 완료");
+          this.$router.push("/user/basket");
+          this.$router.go();
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
   },
   computed: {
-    Singleprice(price) {
-      this.sum = 0;
-      for (var i = 0; i < this.prePosts.length; i++) {
-        this.sum += this.prePosts[i].price;
-      }
-      return this.sum;
-    },
+    // Singleprice(price) {
+    //   this.sum = 0;
+    //   this.sum = this.prePosts.price;
+    //   return this.sum;
+    // },
     Packagingprice(price) {
       this.sum = 0;
       this.subsum = 0;
       if(this.prePosts.length == 1){
-        this.Singleprice;
+        for (var i = 0; i < this.prePosts.length; i++) {
+        this.sum += this.prePosts[i].price;
+      }
       }else if(this.prePosts.length == 2){
         for (var i = 0; i < this.prePosts.length; i++) {
           this.subsum += this.prePosts[i].price;
-          this.sum = this.subsum * 0.95;
         }
+        this.sum = this.subsum * 0.95;
       }else if(this.prePosts.length == 3){
         for (var i = 0; i < this.prePosts.length; i++) {
           this.subsum += this.prePosts[i].price;
-          this.sum = this.subsum * 0.90;
         }
-      }else{
+          this.sum = this.subsum * 0.90;
+      }else if(this.prePosts.length > 3){
         for (var i = 0; i < this.prePosts.length; i++) {
           this.subsum += this.prePosts[i].price;
-          this.sum = this.subsum * 0.85;
         }
-      }return this.sum;
+          this.sum = this.subsum * 0.85;
+      }
+      return this.sum;
     },
   },
   data() {
     return {
       sum: 0,
+      packPost: []
     };
   },
 };

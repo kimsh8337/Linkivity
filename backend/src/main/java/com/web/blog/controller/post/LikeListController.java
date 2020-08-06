@@ -35,17 +35,41 @@ public class LikeListController {
     @Autowired
     PostListDao postListDao;
 
-    @GetMapping("/list/{email}")
+    @GetMapping("/list/{email}/{page}")
     @ApiOperation("좋아요 리스트")
-    public List<PostList> selectAll(@PathVariable String email) throws SQLException, IOException {
+    public List<PostList> selectAll(@PathVariable String email, @PathVariable int page) throws SQLException, IOException {
         List<LikeList> plist = new LinkedList<>();
         plist = likeListDao.findByEmailAndCart(email,0);
+
+        int start = (page - 1) * 8;
+        int end = start + 8;
+
+        if(end > plist.size()) {
+            end = plist.size();
+        }
 
         List<PostList> list = new LinkedList<>();
         for (LikeList likeList : plist) {
             list.add(postListDao.findByPid(likeList.getPid()));
         }
-        return list;
+
+        List<PostList> tlist = new LinkedList<>();
+        for (int i = start; i < end; i++) {
+            tlist.add(list.get(i));
+        }
+
+        return tlist;
+    }
+
+    @GetMapping("/count/{email}")
+    @ApiOperation("좋아요 리스트 카운트")
+    public int count(@PathVariable String email) throws SQLException, IOException {
+        List<LikeList> plist = new LinkedList<>();
+        plist = likeListDao.findByEmailAndCart(email,0);
+
+        int cnt = plist.size();
+
+        return cnt;
     }
 
     @GetMapping("/regist/{email}/{pid}")

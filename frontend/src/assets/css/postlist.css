@@ -11,14 +11,14 @@
     border: none !important;
 }
 
-.card-img-overlay p{
+/* .card-img-overlay p{
     visibility: hidden;
-}
+} */
 
-.card-img-overlay:hover p{
+/* .card-img-overlay:hover p{
     cursor: pointer;
     visibility: visible;
-}
+} */
 
 /* .location-button{
     border: none;
@@ -31,4 +31,12 @@
 
 .card-body img{
     border-radius: 5px;
+}
+
+/* .card-body p{
+    font-weight: bold;
+} */
+
+.card-body h5{
+    font-weight: bold;
 }
