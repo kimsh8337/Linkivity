@@ -223,4 +223,11 @@ public class AccountController {
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
     }
+
+    @GetMapping("/getImg/{email}")
+    @ApiOperation(value = "그림가져오기")
+    public String getImg(@PathVariable String email) {
+        Optional<User> user = userDao.findUserByEmail(email);
+        return user.get().getImgurl();
+    }
 }
