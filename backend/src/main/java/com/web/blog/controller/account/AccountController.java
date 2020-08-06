@@ -17,6 +17,7 @@ import com.web.blog.dao.user.UserDao;
 import com.web.blog.model.BasicResponse;
 import com.web.blog.model.user.SignupRequest;
 import com.web.blog.model.user.User;
+import com.web.blog.service.FindUtil;
 
 import org.springframework.web.bind.annotation.RestController;
 import org.thymeleaf.context.Context;
@@ -31,6 +32,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.apache.commons.mail.HtmlEmail;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import io.swagger.annotations.ApiResponse;
@@ -144,6 +146,40 @@ public class AccountController {
         return user;
     }
 
+
+    @PostMapping("/kakaologin")
+    @ApiOperation(value = "카카오 로그인")
+    public Object viewInfo(@RequestBody User request) throws SQLException, IOException {
+        String token = null;
+        try {
+            Optional<User> userOpt = userDao.findUserByEmail(request.getEmail());
+            if(userOpt.isPresent()){
+                User tokenuser = new User();
+                tokenuser.setEmail(userOpt.get().getEmail());
+                tokenuser.setPassword(userOpt.get().getPassword());
+                token = jwtService.createLoginToken(tokenuser);
+            }else{
+                User user = new User();
+                user.setEmail(request.getEmail());
+                user.setNickname(request.getNickname());
+                user.setName(request.getNickname());
+                user.setCheckType("normal");
+                user.setPassword("kakaopassword123");
+                userDao.save(user);
+
+                User tokenuser = new User();
+                tokenuser.setEmail(user.getEmail());
+                tokenuser.setPassword(user.getPassword());
+                token = jwtService.createLoginToken(tokenuser);
+            }
+            return new ResponseEntity<>(token, HttpStatus.ACCEPTED);
+
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+    }
+
     @GetMapping("/viewInfo/{email}")
     @ApiOperation(value = "회원정보조회")
     public Object viewInfo(@PathVariable String email) throws SQLException, IOException {
@@ -224,10 +260,61 @@ public class AccountController {
         }
     }
 
-    @GetMapping("/getImg/{email}")
-    @ApiOperation(value = "그림가져오기")
-    public String getImg(@PathVariable String email) {
-        Optional<User> user = userDao.findUserByEmail(email);
-        return user.get().getImgurl();
+    @GetMapping("/pwd/{email}/{name}")
+    @ApiOperation(value = "임시비밀번호 발급")
+    public void sendMail(@PathVariable String email, @PathVariable String name) throws Exception {
+        
+        // String keyCode = FindUtil.createKey();
+    
+
+        //Mail Server 설정
+
+        String charSet = "utf-8";
+        String hostSMTP = "smtp.naver.com";
+        // SMTP 서버명
+
+        String hostSMTPid = "eagleeye0117@naver.com";
+        String hostSMTPpwd = "mine0117tjdrhd12";
+
+
+        // email = "mine011776@gmail.com";
+       
+        // 보내는 사람
+        String fromEmail = hostSMTPid;
+        String fromName = "링키비티";
+       
+        String subject = "링키비티 임시 비밀번호 찾기";
+       
+        String newPwd = FindUtil.getNewPwd();
+        Optional<User> userOpt = userDao.findUserByEmail(email);
+        if(userOpt.isPresent()){
+            User user = userOpt.get();
+            user.setPassword(newPwd);
+            userDao.save(user);
+        }
+
+
+        // email 전송
+        try {
+            HtmlEmail mail = new HtmlEmail();
+            mail.setDebug(true);
+            mail.setCharset(charSet);
+            mail.setSSLOnConnect(true);
+
+        //SSL 사용(TLS가 없는 경우 SSL 사용)
+            mail.setHostName(hostSMTP);
+            mail.setSmtpPort(587);
+            mail.setAuthentication(hostSMTPid, hostSMTPpwd);
+            mail.setStartTLSEnabled(true);
+            mail.addTo(email);
+            mail.setFrom(fromEmail, fromName, charSet);
+            mail.setSubject(subject);
+            // 내용
+            mail.setHtmlMsg(""+newPwd);
+            mail.send();
+            System.out.println("성공");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

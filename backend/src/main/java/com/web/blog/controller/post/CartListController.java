@@ -114,6 +114,15 @@ public class CartListController {
         likeListDao.deleteAll(likeListDao.findByNoIn(no));
         return "장바구니 삭제 완료";
     }
+
+    //0: 좋아요, 1: 장바구니
+    @DeleteMapping("/deleteCart/{pid}/{email}/{cart}")
+    @ApiOperation("마이페이지 장바구니 삭제")
+    public void delete(@PathVariable int pid, @PathVariable String email, @PathVariable int cart) {
+        LikeList likeList = new LikeList();
+        likeList = likeListDao.findByEmailAndPidAndCart(email, pid, cart);
+        likeListDao.delete(likeList);
+    }
     
     @GetMapping("/preview/{no}")
     @ApiOperation("구매할 목록 미리보기")

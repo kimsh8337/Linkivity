@@ -17,9 +17,17 @@
 
         </div>
         <div class="modal-footer border-0 pt-0">
+            <!-- 카카오 로그인 이미지 -->
+            <!-- <img src="../../assets/img/kakaologin.png"> -->
             <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> -->
+            <div style="">
+
             <button type="button" class="btn" @click="join" data-dismiss="modal" ><i class="far fa-user mr-1"></i><br>회원가입</button>
             <button type="button" class="btn" @click="login" data-dismiss="modal" ><i class="fas fa-sign-in-alt mr-1"></i><br>로그인</button>
+            <button type="button" class="btn" @click="pwsearch" data-dismiss="modal" ><i class="fas fa-unlock"></i><br>비밀번호 찾기</button>
+            <img id="kakao-login-btn" @click="test()" src="../../assets/img/kakaologin.png" style="cursor: pointer; width :120px;" onmouseover="this.src=../../assets/img/kakaologin.png" onmouseout="this.src=../../assets/img/kakaologin.png">
+            </div>
+        
         </div>
         </div>
     </div>
@@ -33,11 +41,12 @@ import axios from 'axios'
 import Swal from 'sweetalert2'
 
 const baseURL = "http://localhost:8080/account"
-
+const KbaseURL = "http://localhost:8080";
 export default {
   name: "Post",
   components: {},
   created() {
+    //  Kakao.init('765ed14c0d508f8aa48c6d173446acba')
     this.passwordSchema
       .is()
       .min(8)
@@ -90,7 +99,76 @@ export default {
     join: function() {
       this.$router.push("/user/join/");
       this.$router.go()
-    }
+    },
+     pwsearch: function() {
+      this.$router.push("/user/Pwsearch/");
+      this.$router.go()
+    },
+
+      test(){
+         let x = this;
+             Kakao.Auth.createLoginButton({
+            container: '#kakao-login-btn',
+            success: function(authObj) {
+             Kakao.API.request({
+                url: '/v2/user/me',
+            success: function(res) {
+        //  alert(JSON.stringify(res)); //<---- kakao.api.request 에서 불러온 결과값 json형태로 출력
+
+        //  alert(JSON.stringify(authObj)); //<----Kakao.Auth.createLoginButton에서 불러온 결과값 json형태로 출력
+           
+           console.log(res);//<---- 콘솔 로그에 id 정보 출력(id는 res안에 있기 때문에  res.id 로 불러온다)
+          //  console.log(res.kakao_account.email);//<---- 콘솔 로그에 email 정보 출력 (어딨는지 알겠죠?)
+          //  console.log(res.properties.nickname);//<---- 콘솔 로그에 닉네임 출력(properties에 있는 nickname 접근 
+
+          x.kakao.email = res.kakao_account.email;
+           x.kakao.nickname = res.properties.nickname;
+
+           axios
+        .post(`${KbaseURL}/account/kakaologin`,x.kakao)
+        .then(response => {
+          alert("로그인 성공");
+          console.log(response.data);
+          x.$cookies.set("Auth-Token", response.data);
+              x.$router.push("/");
+              x.$router.go();
+        })
+        .catch(err => {
+          console.log(err);
+          // this.$router.push({name: 'Params', params: {name: err.response.status}});
+        });
+
+      // res.properties.nickname으로도 접근 가능 )
+
+          //console.log(authObj.access_token);//<---- 콘솔 로그에 토큰값 출력
+
+        }
+
+      })
+
+    },
+
+    fail: function(error) {
+
+      alert(JSON.stringify(error));
+
+    },
+
+  });     
+   },
+      fetch: function() {
+     axios
+     .post(`${KbaseURL}/kko/kakao/login`, this.kakao)
+     .then(res => {
+       alert("테스트입니다")
+        this.$router.push("/main");
+     })
+     .catch(() => {
+       alert("테스트 실패ㅠ")
+     })
+
+   }
+
   },
   data: () => {
     return {
@@ -101,7 +179,11 @@ export default {
         email: false,
         password: false
       },
-      passwordType: "password"
+      passwordType: "password",
+      kakao: {
+        email: "",
+        nickname: "",
+      },
     };
   }
 };

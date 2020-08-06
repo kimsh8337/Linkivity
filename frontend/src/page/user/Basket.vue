@@ -5,36 +5,44 @@
       <p class="shopping-list"><i class="fas fa-shopping-basket mr-2"></i>Shopping List</p>
       <button class="btn btn-delete" @click="checkdelete"><i class="fas fa-trash-alt mr-2"></i>선택항목 삭제하기</button>
     </div>
-    <div class="input-group mb-5" v-for="(post, index) in carts" :key="index">
-      <div class="input-group-prepend">
-        <div class="input-group-text">
-          <input type="checkbox" aria-label="Checkbox for following text input" :value="post" v-model="checked" @click="changetf(index)" />
+    <div v-if="carts.length > 0">
+      <div class="input-group mb-5" v-for="(post, index) in carts" :key="index">
+        <div class="input-group-prepend">
+          <div class="input-group-text">
+            <input
+              type="checkbox"
+              aria-label="Checkbox for following text input"
+              :value="post"
+              v-model="checked"
+              @click="changetf(index)"
+            />
+          </div>
+        </div>
+        <img :src="post.imgurl" alt="" @click="getdetail(post.pid)" />
+        <div type="text" class="basket-list col-md-8" aria-label="Text input with checkbox" @click="getdetail(post.pid)">
+          <p class="mb-0">제목 : {{ post.title }}</p>
+          <p class="mb-0">기간 : {{ post.sdate }}~{{ post.edate }}</p>
+          <p class="mb-0">위치 : {{ post.location }}</p>
+          <p class="mb-0">가격 : {{ post.price }}</p>
+          <!-- <p>{{checked}}</p> -->
         </div>
       </div>
-      <img :src="post.imgurl" alt="" @click="getdetail(post.pid)" />
-      <div type="text" class="basket-list col-md-8" aria-label="Text input with checkbox" @click="getdetail(post.pid)">
-        <p class="mb-0">제목 : {{ post.title }}</p>
-        <p class="mb-0">기간 : {{ post.sdate }}~{{ post.edate }}</p>
-        <p class="mb-0">위치 : {{ post.location }}</p>
-        <p class="mb-0">가격 : {{ post.price }}</p>
-        <!-- <p>{{checked}}</p> -->
+
+      <!-- price -->
+      <div>
+        <p class="checked-price">Total : {{ checkedprice }}</p>
       </div>
-    </div>
 
-    <!-- price -->
-    <div>
-      <p class="checked-price">Total : {{ checkedprice }}</p>
-    </div>
+      <!-- paging -->
+      <b-pagination v-model="page" :total-rows="len" pills :per-page="8"></b-pagination>
 
-    <!-- paging -->
-    <b-pagination v-model="page" :total-rows="len" pills :per-page="8"></b-pagination>
-
-    <!-- 구매하기 button -->
-    <div class="d-flex justify-content-end mb-5">
-      <button class="btn btn-danger" data-toggle="modal" data-target="#BasketPackingModal" @click="btnClick">
-        <i class="far fa-hand-point-up mr-2"></i>패키징
-      </button>
-      <BasketPackingModal :prePosts="prePosts" />
+      <!-- 구매하기 button -->
+      <div class="d-flex justify-content-end mb-5">
+        <button class="btn btn-danger" data-toggle="modal" data-target="#BasketPackingModal" @click="btnClick">
+          <i class="far fa-hand-point-up mr-2"></i>패키징
+        </button>
+        <BasketPackingModal :prePosts="prePosts" />
+      </div>
     </div>
   </div>
 </template>
@@ -193,7 +201,9 @@ export default {
           axios
             .delete(`${baseURL}/cart/delete/${this.temp}`)
             .then(() => {
-              this.$router.push(`/user/basket`);
+              // this.$router.push(`/user/basket`);
+              this.checked = [];
+              this.init();
             })
             .catch((error) => {
               console.log(error.response.data);

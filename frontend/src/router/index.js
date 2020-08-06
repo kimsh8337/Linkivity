@@ -8,7 +8,7 @@ import Login from '../page/user/Login.vue'
 import Join from '../page/user/Join.vue'
 import Info from '../page/user/Info.vue'
 import Basket from '../page/user/Basket.vue'
-
+import Pwsearch from '../page/user/Pwsearch.vue'
 // error
 import NotFound from '../page/error/NotFound.vue'
 import Params from '../page/error/Params.vue'
@@ -23,6 +23,7 @@ import List from '../page/main/List.vue'
 import NoticeList from '../page/notice/NoticeList.vue'
 import NoticeListDetail from '../page/notice/NoticeListDetail.vue'
 import NoticeCreate from '../page/notice/NoticeCreate.vue'
+import NoticeUpdate from '../page/notice/NoticeUpdate.vue'
 
 // post
 import PostList from '../page/post/PostList.vue'
@@ -96,6 +97,11 @@ export default new Router({
             component: NoticeCreate,
             name: 'NoticeCreate'
         },
+        {
+            path: '/notice/:ID/noticeupdate',
+            component: NoticeUpdate,
+            name: 'NoticeUpdate'
+        },
 
 
 
@@ -165,6 +171,10 @@ export default new Router({
         {
             path: '/msg/map',
             component: Map
+        },
+        {
+            path: '/user/pwsearch',
+            component: Pwsearch
         }
     ]
 })

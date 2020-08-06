@@ -1,21 +1,30 @@
 package com.web.blog.controller.account;
 
+import java.io.Console;
+import java.net.http.HttpClient.Redirect;
 import java.sql.SQLException;
 import java.util.HashMap;
+
+import javax.validation.Valid;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.web.blog.dao.user.UserDao;
+import com.web.blog.jwt.JwtService;
+import com.web.blog.model.user.SignupRequest;
 import com.web.blog.model.user.User;
 import com.web.blog.service.KakaoAPI;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -33,6 +42,37 @@ public class kakaoController {
     @Autowired
     UserDao userDao;
 
+    @Autowired
+    JwtService jwtService;
+
+      @PostMapping("/signup")
+      public Object signup(@Valid @RequestBody SignupRequest request) throws  SQLException{
+        
+         User user = new User();
+         if(userDao.findUserByEmail(request.getEmail()).isPresent()) {
+            System.out.println("디비에 있는 아이디");
+            String token = jwtService.createLoginToken(user);
+            System.out.println(token+" "+"토큰 나오라라라라");
+            return new ResponseEntity<>(token, HttpStatus.ACCEPTED);
+         } else {
+            System.out.println("디비에 없는 아이디");
+            user.setEmail(request.getEmail());
+            // user.setNickname();
+            user.setCheckType("normal");
+            user.setName("카카오 사용자");
+            user.setPassword("qwer1234");
+            
+            userDao.save(user);
+            String token = jwtService.createLoginToken(user);
+            System.out.println(token+" "+"토큰 나와라 ===============");
+            return new ResponseEntity<>(token, HttpStatus.ACCEPTED);
+          
+         }
+   
+   }
+
+
+
     @GetMapping("/kakao/login")
    public String login() throws SQLException {
       System.out.println("logger - " + "/kakao/login");
@@ -47,7 +87,7 @@ public class kakaoController {
    ResponseEntity<String>
 */
    @GetMapping("/logink")
-   public HashMap<String, Object> login(@RequestParam("code") String code) throws SQLException {
+   public Object login(@RequestParam("code") String code) throws SQLException {
       System.out.println("logger - kakao login 후에 getCode");
       System.out.println("code : " + code);
       System.out.println("logger - code를 기반으로 getAccessToken");
@@ -78,6 +118,9 @@ public class kakaoController {
       User user = new User();
       if(userDao.findUserByEmail(userEmail).isPresent()) {
          System.out.println("디비에 있는 아이디");
+         String token = jwtService.createLoginToken(user);
+         System.out.println(token+" "+"토큰 나오라라라라");
+         return new ResponseEntity<>(token, HttpStatus.ACCEPTED);
       } else {
          System.out.println("디비에 없는 아이디");
          user.setEmail(userEmail);
@@ -87,15 +130,11 @@ public class kakaoController {
          user.setPassword("qwer1234");
          
          userDao.save(user);
+         String token = jwtService.createLoginToken(user);
+         System.out.println(token+" "+"토큰 나와라 ===============");
+         return new ResponseEntity<>(token, HttpStatus.ACCEPTED);
+       
       }
-
-      return userInfo;
-
-//      클라이언트의 이메일이 존재할 때 세션에 해당 이메일과 토큰 등록
-//  if (userInfo.get("email") != null) {
-//      session.setAttribute("userId", userInfo.get("email"));
-//      session.setAttribute("access_Token", access_Token);
-//  }
 
 //   return "index";
    }

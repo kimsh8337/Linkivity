@@ -1,6 +1,6 @@
 <template>
   <div id="header" class="p-0" v-if="isHeader">
-    <nav class="navbar navbar-expand-lg navbar-light fixed-top header-nav col-md-12" >
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top header-nav col-md-12">
       <router-link class="nav-title" v-bind:to="{name:constants.URL_TYPE.POST.MAIN}">
         <h5 class="my-auto font-weight-bold nav-title ml-5">𝑳𝒊𝒏𝒌𝒊𝒗𝒊𝒕𝒚</h5>
       </router-link>

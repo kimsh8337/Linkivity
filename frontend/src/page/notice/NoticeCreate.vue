@@ -54,6 +54,7 @@ export default {
         this.superadviser()
     },
     methods:{
+        // 수정해야함
         superadviser(){
             axios
               .get(`${baseURL}/account/authuser/${this.$cookies.get("Auth-Token")}`)
@@ -67,13 +68,13 @@ export default {
         noticeregist(){
             var flag = 0;
             if (this.NoticeCreate.title == "") {
-                this.error.title = "제목은 빈칸일 수 없습니다.";
+                this.error.title = "제목을 입력해주세요.";
                 flag = 1;
             } else {
                 this.error.title = false;
             }
             if (this.NoticeCreate.content == "") {
-                this.error.content = "상품 세부정보는 빈칸일 수 없습니다.";
+                this.error.content = "내용을 입력해주세요.";
                 flag = 1;
             } else {
                 this.error.content = false;

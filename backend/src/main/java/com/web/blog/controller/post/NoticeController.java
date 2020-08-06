@@ -10,6 +10,8 @@ import com.web.blog.dao.post.NoticeDao;
 import com.web.blog.model.post.Notice;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -23,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.annotations.ApiOperation;
+import javassist.runtime.Desc;
 
 @CrossOrigin(origins = "*")
 @RestController
@@ -50,12 +53,21 @@ public class NoticeController {
         }
     }
 
+    //count
+    @GetMapping("/count")
+    @ApiOperation("공지사항 리스트")
+    public int count() {
+        List<Notice> list = new LinkedList<>();
+        list = noticeDao.findAll();
+        return list.size();
+    }
+
     //read(paging)
     @GetMapping("/list/{page}")
     @ApiOperation("공지사항 리스트")
     public List<Notice> selectAll(@PathVariable int page) {
         List<Notice> list = new LinkedList<>();
-        list = noticeDao.findAll();
+        list = noticeDao.findAllByOrderByCreateDateDesc();
 
         int start = (page-1) * 10;
         int end = start + 10;
@@ -70,6 +82,15 @@ public class NoticeController {
         }
 
         return plist;
+    }
+
+    //count
+    @GetMapping("/count")
+    @ApiOperation("공지사항 리스트")
+    public int count() {
+        List<Notice> list = new LinkedList<>();
+        list = noticeDao.findAll();
+        return list.size();
     }
 
     //detail
@@ -107,8 +128,8 @@ public class NoticeController {
                 nTemp.setTitle(request.getTitle());
                 nTemp.setContent(request.getContent());
     
-                LocalDateTime time = LocalDateTime.now();
-                nTemp.setCreateDate(time);
+                // LocalDateTime time = LocalDateTime.now();
+                // nTemp.setCreateDate(time);
     
                 noticeDao.save(nTemp);
 
