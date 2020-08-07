@@ -172,7 +172,7 @@
         <div>
           <h4 id="review" class="" style="font-weight:bold">후기</h4>
         </div>
-        <div class="review-button">
+        <div v-if="this.checkType == 'normal'" class="review-button">
           <i data-toggle="modal" data-target="#reviewWrite" class="fas fa-pen mr-1"><small>후기 작성</small></i>
         </div>
       </div>
