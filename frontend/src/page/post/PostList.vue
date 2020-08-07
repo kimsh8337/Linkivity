@@ -231,6 +231,7 @@ export default {
                 if (this.posts.length / 9 < 1) {
                   $state.complete();
                 }
+                this.nextTag();
               } else {
                 $state.complete();
               }
