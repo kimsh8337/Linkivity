@@ -42,7 +42,7 @@ const baseURL = "http://localhost:8080";
 
 export default {
     props: {
-      pid:String,
+      pid: Number,
     },
     data() {
       return {

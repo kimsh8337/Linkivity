@@ -49,7 +49,7 @@
           <b-form-rating v-model="reviewCreate.star" variant="danger"></b-form-rating>
           <small class="d-flex">액티비티에 대한 별점을 남겨주세요.</small>
         </div>
-        
+
       </div>
       <div class="modal-footer">
         <button @click="reviewRegist" type="button" class="btn btn-success" data-dismiss="modal"><i class="fas fa-plus-circle">후기 등록</i></button>
@@ -80,7 +80,7 @@ export default {
     }
   },
   props: {
-    pid: String,
+    pid: Number,
     email: String,
   },
   created() {
