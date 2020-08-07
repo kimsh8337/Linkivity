@@ -127,7 +127,6 @@ export default {
            axios
         .post(`${KbaseURL}/account/kakaologin`,x.kakao)
         .then(response => {
-          alert("로그인 성공");
           console.log(response.data);
           x.$cookies.set("Auth-Token", response.data);
               x.$router.push("/");
