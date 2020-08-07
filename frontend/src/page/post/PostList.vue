@@ -1,6 +1,6 @@
 <template>
   <div class="post">
-    <button class="btn btn-spring btn-circle btn-xl mb-5 mr-5" @click="settype('all')">
+    <button class="btn btn-all btn-circle btn-xl mb-5 mr-5" @click="settype('all')">
       <br />
       <br />
       <br />All
@@ -162,7 +162,7 @@
       <!-- infinite loading -->
       <infinite-loading :identifier="infiniteId" @infinite="infiniteHandler" spinner="waveDots">
         <div slot="no-more">
-          <a @click="toTop">Top</a>
+          <a @click="toTop"></a>
         </div>
         <div slot="no-results"></div>
       </infinite-loading>
@@ -303,13 +303,13 @@ export default {
             this.checklike();
             this.init();
             if (this.check(pid) == false) {
-              this.$toasted.show("좋아좋아요!", {
+              this.$toasted.show("좋아좋아요", {
                 theme: "bubble",
                 position: "top-right",
                 duration: 1000,
               });
             } else {
-              this.$toasted.show("싫어싫어요!", {
+              this.$toasted.show("좋아요 취소", {
                 theme: "bubble",
                 position: "top-right",
                 duration: 1000,

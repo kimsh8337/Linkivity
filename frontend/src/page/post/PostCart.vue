@@ -2,7 +2,7 @@
   <div>
     <div class="row justify-content-left" v-if="cartPosts.length > 0">
       <div class="col-12 col-sm-12 col-md-3 card-deck" style="margin:auto 0;" v-for="(cartPost, cindex) in cartPosts" :key="cindex">
-        <div class="card mb-3 profile-post mr-0 ml-0">
+        <div class="card mb-3 profile-post mr-0 ml-0" >
           <div class="card-body" style="padding: 0;">
             <img :src="cartPost.imgurl" class="card-img" style="height:10rem" />
             <div
@@ -32,7 +32,7 @@
                   >
                     가격 : {{ cartPost.price }}
                   </p>
-                  <button type="button" class="btn btn-outline-danger" @click="deleteCart(cartPost.pid)">삭제</button>
+                  <button type="button" class="btn btn-outline-danger btn-sm" style="height:30px;" @click="deleteCart(cartPost.pid)">삭제</button>
                 </div>
               </div>
             </div>
