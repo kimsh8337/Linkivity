@@ -1,5 +1,9 @@
 <template>
-  <div class="container taeduri col-md-6">
+<div class="container col-sm-12 col-md-12 col-lg-12 p-0">
+  <!-- background image -->
+  <div class="post-img" style="display:block;">
+  </div>
+  <div class="container taeduri col-md-6 mt-5">
     <div class="form-group">
       <label class="d-flex">Image</label>
       <!-- <input type="text" class="form-control" id="imgurl" v-model="PostCreate.imgurl"> -->
@@ -193,12 +197,14 @@
       </button>
     </div>
   </div>
+</div>
 </template>
 
 <script>
 const baseURL = "http://localhost:8080";
 
 import axios from "axios";
+import '../../assets/css/postcreate.css'
 import Swal from "sweetalert2";
 
 export default {
@@ -403,7 +409,5 @@ export default {
 };
 </script>
 <style>
-.sdate {
-  margin: 0 !important;
-}
+
 </style>

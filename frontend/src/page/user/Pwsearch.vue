@@ -1,5 +1,9 @@
 <template>
-  <div class="user" id="login">
+<div class="container col-sm-12 col-md-12 col-lg-12 p-0">
+  <!-- background image -->
+  <div class="pwsearch-img" style="display:block;">
+  </div>
+  <div class="user mt-5" id="login">
     <div style="height:50px;"></div>
     <div class="container wrapC table col-md-3">
       <div class="middle">
@@ -21,10 +25,12 @@
 
     </div>
   </div>
+</div>
 </template>
 
 <script>
 import axios from 'axios';
+import '../../assets/css/pwsearch.css'
 const baseURL = "http://localhost:8080/account";
 
 export default {

@@ -1,5 +1,9 @@
 <template>
-  <div class="container col-md-8 col-sm-12" id="join">
+<div class="container col-sm-12 col-md-12 col-lg-12 p-0">
+  <!-- background image -->
+  <div class="info-img" style="display:block;">
+  </div>
+  <div class="container col-md-8 col-sm-12 mt-5" id="join">
     <div class="wrapC table">
       <div class="middle">
         <!-- <h1 v-if="validated == 1">회원정보 조회</h1> -->
@@ -105,7 +109,7 @@
           </div>
         </div>
 
-        <div class="mt-3">
+        <div class="mt-5">
           <b-tabs content-class="mt-3" fill>
             <b-tab title="장바구니" active v-if="this.checkType=='normal'"><Cart /></b-tab>
             <b-tab title="좋아요"><Like /></b-tab>
@@ -133,6 +137,7 @@
       </div>
     </div>
   </div>
+</div>
 </template>
 
 <script>

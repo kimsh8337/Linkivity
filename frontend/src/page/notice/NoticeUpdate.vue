@@ -1,7 +1,11 @@
 <template>
+<div class="container col-sm-12 col-md-12 col-lg-12 p-0">
+  <!-- background image -->
+  <div class="notice-img" style="display:block;">
+  </div>
   <div class="container col-md-8">
     <!-- Title -->
-    <div class="form-group mb-4">
+    <div class="form-group mb-4 mt-5">
         <div class="d-flex justify-content-start">
             <label class="d-flex notice-title-font mr-3">Title</label>
             <small class="form-text notice-content-font text-muted d-flex">제목을 수정해주세요.</small>
@@ -25,10 +29,12 @@
       </button>
     </div>
   </div>
+</div>
 </template>
 
 <script>
 import axios from 'axios';
+import '../../assets/css/noticeupdate.css';
 import Swal from "sweetalert2";
 
 const baseURL = "http://localhost:8080";

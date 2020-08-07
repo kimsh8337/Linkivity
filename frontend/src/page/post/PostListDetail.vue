@@ -1,4 +1,8 @@
 <template>
+<div class="container col-sm-12 col-md-12 col-lg-12 p-0">
+  <!-- background image -->
+  <div class="post-img" style="display:block;">
+  </div>
   <div class="container col-md-7" style="margin-top: 100px">
     <div class="column">
       <div class="card mt-5 mb-3" style="max-width: 100%;">
@@ -204,6 +208,7 @@
       </button>
     </div>
   </div>
+</div>
 </template>
 
 <script>
@@ -521,10 +526,5 @@ export default {
 </script>
 
 <style>
-.fa-heart {
-  cursor: pointer;
-}
-.review-button {
-  cursor: pointer;
-}
+
 </style>
