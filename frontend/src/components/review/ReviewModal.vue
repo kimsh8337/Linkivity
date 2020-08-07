@@ -80,7 +80,7 @@ export default {
     }
   },
   props: {
-    pid: Number,
+    pid: String,
     email: String,
   },
   created() {

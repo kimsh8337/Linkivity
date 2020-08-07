@@ -19,7 +19,17 @@
                 <i class="fas fa-star" style="color:Salmon" v-for="i in slide.star" :key="i.id"></i>
             </div>
         </div>
-        <div class="d-flex align-items-end mb-2 mr-3">
+        <!-- 날짜 및 수정 삭제 -->
+        <div v-if="email == slide.email" class="mt-2">
+          <div class="d-flex justify-content-end mr-3">
+            <small style="color:blue;"><i class="fas fa-wrench" title="수정"></i></small>
+            <small @click="reviewDelete(slide.rvid)" style="color:red"><i class="fas fa-trash-alt ml-2" title="삭제"></i></small>
+          </div>
+          <div class="d-flex align-items-end mt-1 mr-3">
+            <small style="font-weight:bold">{{datecut(slide.createDate)}}</small>
+          </div>
+        </div>
+        <div v-if="email != slide.email" class="d-flex align-items-center mt-4 mr-3">
             <small style="font-weight:bold">{{datecut(slide.createDate)}}</small>
         </div>
       </div>
@@ -27,9 +37,12 @@
       <div class="d-flex mt-2 ml-2 p-2">
         <span style="font-weight:bold;">{{slide.title}}</span>
       </div>
-      <div class="d-flex mt-2 ml-2 p-2">
+      <!-- 내용 -->
+      <div class="d-flex ml-2 p-2">
         <small>{{slide.content}}</small>
       </div>
+      <!-- {{email}}
+      {{slide.email}} -->
     </div>
   </div>
 </div>
@@ -42,7 +55,7 @@ const baseURL = "http://localhost:8080";
 
 export default {
     props: {
-      pid: Number,
+      pid: String,
     },
     data() {
       return {
@@ -98,6 +111,9 @@ export default {
         datecut(date) {
             var tempdatecut = date+""
             return tempdatecut.substring(0,10)
+        },
+        reviewDelete(rvid) {
+          this.$emit('review-delete',rvid)
         },
     },
     created() {
