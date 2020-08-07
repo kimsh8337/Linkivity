@@ -1,99 +1,57 @@
-.btn-circle.btn-xl {
-    width: 70px;
-    height: 70px;
-    border-radius: 35px;
-    font-size: 1rem;
-    line-height: 1.33;
+.main-img{
+    background: url('../img/ski.jpg') no-repeat;
+    /* opacity: 0.8; */
+    width: 100%;
+    background-size: cover;
+    background-position: center;
 }
 
-.btn-circle {
-    width: 30px;
-    height: 30px;
-    padding: 6px 0px;
-    border-radius: 15px;
+.main3button{
+    width: 22rem !important;
+    height: 5rem !important;
+    background-color: white;
+    border-radius: 10px;
+    border: none;
+    box-shadow: 0 0 8px rgba(0,0,0,.15);
     text-align: center;
-    font-size: 12px;
-    line-height: 1.42857;
+    line-height: 5rem;
+    font-size: 1.2rem;
+    cursor: pointer;
 }
 
-.btn-spring{
-    background-image: url(https://fpost.co.kr/board/data/editor/2003/d4bf3e4345bf3dee5d7a04d5a62302e4_1583479481_1401.jpg);
-    font-weight: bold !important;
-    padding-left: 10px !important;
-    padding-top: 10px !important;
+.main-btn-intro:hover{
+    background:url('../img/sky1.png') no-repeat;
+    background-size: 22rem 5rem;
+    color: white !important;
+    transform: scale(1.05);
+    transition: all .3s ease-in-out;
+    opacity: 0.8;
+    font-weight: bold;
 }
 
-.btn-spring:hover{
-    transform: rotate(15deg);
+.main-btn-item:hover{
+    background:url('../img/Paragliding.jpg') no-repeat;
+    background-size: 22rem 5rem;
+    color: white !important;
+    transform: scale(1.05);
+    transition: all .3s ease-in-out;
+    opacity: 0.8;
+    font-weight: bold;
 }
 
-.btn-summer{
-    background-image: url(https://t1.daumcdn.net/cfile/tistory/2543984557A18BF133);
-    font-weight: bold !important;
-    padding-left: 3px !important;
-    padding-top: 10px !important;
-
+.main-btn-notice:hover{
+    background:url('../img/Kayaking.jpg') no-repeat;
+    background-size: 22rem 5rem;
+    color: white !important;
+    transform: scale(1.05);
+    transition: all .3s ease-in-out;
+    opacity: 0.8;
+    font-weight: bold;
 }
 
-.btn-summer:hover{
-    transform: rotate(15deg);
-}
-
-.btn-fall{
-    background-image: url(https://rimage.gnst.jp/livejapan.com/public/article/detail/a/00/02/a0002718/img/basic/a0002718_main.jpg?20200707153932&q=80&rw=750&rh=536);
-    font-weight: bold !important;
-    padding-top: 10px !important;
-
-}
-
-.btn-fall:hover{
-    transform: rotate(15deg);
-}
-
-.btn-winter{
-    background-image: url(https://dimg.donga.com/wps/NEWS/IMAGE/2019/12/01/98576905.2.jpg);
-    padding-left: 10px !important;
-    font-weight: bold !important;
-    padding-top: 10px !important;
-
-}
-
-.btn-winter:hover{
-    transform: rotate(15deg);
-}
-
-.btn-ground{
-    background-image: url(https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQPz9xoBP6vegsSE_1ycAiuwhe4kDWvkVI55w&usqp=CAU);
-    font-weight: bold !important;
-    padding-left: 7px !important;
-    padding-top: 10px !important;
-
-}
-
-.btn-ground:hover{
-    transform: rotate(15deg);
-}
-
-.btn-water{
-    background-image: url(https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcT_Gy5HbcA7w4lV4vfaFCLO6pzZlh7JHKBCmw&usqp=CAU);
-    font-weight: bold !important;
-    padding-top: 10px !important;
-
-}
-
-.btn-water:hover{
-    transform: rotate(15deg);
-}
-
-.btn-sky{
-    background-image: url(https://img1.daumcdn.net/thumb/R800x0/?scode=mtistory2&fname=https%3A%2F%2Ft1.daumcdn.net%2Fcfile%2Ftistory%2F1909213E4FD817CD1F);
-    font-weight: bold !important;
-    padding-top: 10px !important;
-
-}
-
-.btn-sky:hover{
-    transform: rotate(15deg);
+.img1 img{
+    width: 4rem;
+    height: 5rem;
 }
 
 .hot-item{
@@ -101,9 +59,37 @@
     font-size: 1.5rem;
     text-align: left;
     color: red;
+    margin-top: 2rem;
+    cursor: pointer;
 }
 
 .more{
     font-size: 1.1rem;
     cursor: pointer;
+    margin-top: 2.4rem;
+}
+
+.carousel-inner {
+  width: 100%;
+  height: 25rem;
+  border-radius: 10px;
+}
+.carousel-inner img {
+  height: 25rem;
+}
+
+.card-img-left {
+  width: 15rem;
+}
+.post-title {
+  font-size: 3rem;
+  text-align: center;
+}
+.postlist {
+  cursor: pointer;
+}
+
+.card img:hover{
+  transform: scale(1.05);
+  transition: all .3s ease-in-out;
 }

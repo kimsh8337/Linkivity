@@ -1,5 +1,10 @@
 <template>
-  <div class="post">
+<div class="container col-sm-12 col-md-12 col-lg-12 p-0">
+  <!-- background image -->
+  <div class="post-img" style="display:block;">
+  </div>
+
+  <div class="post mt-5">
     <button class="btn btn-spring btn-circle btn-xl mb-5 mr-5" @click="settype('all')">
       <br />
       <br />
@@ -167,6 +172,7 @@
         <div slot="no-results"></div>
       </infinite-loading>
     </div>
+  </div>
   </div>
 </template>
 
@@ -419,25 +425,6 @@ export default {
 </script>
 
 <style>
-.carousel-inner {
-  width: 100%;
-  height: 25rem;
-}
-.carousel-inner img {
-  height: 25rem;
-}
-
-.card-img-left {
-  width: 15rem;
-}
-.post-title {
-  font-size: 3rem;
-  text-align: center;
-}
-.postlist {
-  cursor: pointer;
-}
-
 .card-img-overlay {
   cursor: pointer;
 }

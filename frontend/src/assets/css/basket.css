@@ -1,3 +1,12 @@
+.basket-img{
+  background: url('../img/atv.jpg') no-repeat;
+  /* opacity: 0.8; */
+  width: 100%;
+  height: 20rem;
+  background-size: 100% 20rem;
+  background-position: center;
+}
+
 .shopping-list {
   font-size: 1.5rem;
   font-weight: bold;

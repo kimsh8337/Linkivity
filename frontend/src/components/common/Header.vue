@@ -1,8 +1,8 @@
 <template>
   <div id="header" class="p-0" v-if="isHeader">
-    <nav class="navbar navbar-expand-lg navbar-light fixed-top header-nav col-md-12">
-      <router-link class="nav-title" v-bind:to="{name:constants.URL_TYPE.POST.MAIN}">
-        <h5 class="my-auto font-weight-bold nav-title ml-5">𝑳𝒊𝒏𝒌𝒊𝒗𝒊𝒕𝒚</h5>
+    <nav class="navbar navbar-expand-lg navbar-light header-nav col-md-12">
+      <router-link class="nav-title m-0" v-bind:to="{name:constants.URL_TYPE.POST.MAIN}">
+        <h5 class="my-auto font-weight-bold nav-title">𝑳𝒊𝒏𝒌𝒊𝒗𝒊𝒕𝒚</h5>
       </router-link>
       <button
         class="navbar-toggler navbar-toggler-right text-black"
@@ -17,7 +17,7 @@
       </button>
 
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav ml-auto mr-5">
+        <ul class="navbar-nav nav-sub ml-auto">
           <li class="nav-item">
             <a class="nav-link mt-3 mr-2" @click="goPost"><i class="fas fa-stream mr-1"></i><br />Post</a>
           </li>

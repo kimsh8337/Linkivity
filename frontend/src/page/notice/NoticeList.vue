@@ -1,6 +1,12 @@
 <template>
-  <div class="container col-md-8">
-    <div class="d-flex justify-content-between">
+<div class="container col-sm-12 col-md-12 col-lg-12 p-0">
+  <!-- background image -->
+  <div class="notice-img" style="display:block;">
+  </div>
+
+  <!-- NoticeList -->
+  <div class="container col-md-8 mt-5">
+    <div class="d-flex justify-content-between notice-main">
       <p class="notice"><i class="fas fa-flag mr-2"></i>Notice</p>
       <button class="btn btn-regist" @click="gonoticecreate"><i class="fas fa-pen mr-2"></i>공지사항 등록</button>
     </div>
@@ -28,10 +34,12 @@
     <b-pagination class="pagination" v-model="page" :total-rows="len" pills :per-page="10"></b-pagination>
 
   </div>
+</div>
 </template>
 
 <script>
 import axios from 'axios';
+import '../../assets/css/noticelist.css'
 import BPagenation from 'bootstrap-vue';
 import Swal from 'sweetalert2';
 
@@ -118,45 +126,5 @@ export default {
 </script>
 
 <style scoped>
-.notice {
-  font-size: 1.5rem;
-  font-weight: bold;
-  text-align: left;
-}
 
-.btn-regist {
-  color: crimson;
-  font-size: 0.9rem;
-}
-
-.table {
-  margin-bottom: 3rem;
-  table-layout: fixed;
-}
-
-.table-num {
-  width: 20%;
-}
-
-.table-title {
-  width: 60%;
-}
-
-.table-date {
-  width: 20%;
-}
-
-.notice-title {
-  text-align: left;
-  cursor: pointer;
-  text-overflow:ellipsis;
-  overflow: hidden;
-  white-space: nowrap;
-}
-
-.pagination{
-    display: flex;
-    justify-content: center;
-    margin-bottom: 2rem;
-}
 </style>

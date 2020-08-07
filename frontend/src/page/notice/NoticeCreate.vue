@@ -1,7 +1,10 @@
 <template>
+<div class="container col-sm-12 col-md-12 col-lg-12 p-0">
+  <div class="notice-img" style="display:block;">
+  </div>
   <div class="container col-md-8">
     <!-- Title -->
-    <div class="form-group mb-4">
+    <div class="form-group form-group mb-4 mt-5">
         <div class="d-flex justify-content-start">
             <label class="d-flex notice-title-font mr-3">Title</label>
             <small class="form-text notice-content-font text-muted d-flex" v-if="!error.title">제목을 입력하세요.</small>
@@ -22,15 +25,17 @@
 
     <!-- Button -->
     <div class="d-flex justify-content-end mb-5">
-      <button type="submit" class="btn btn-outline pr-0" style="font-size: 1.1rem;" @click="noticeregist">
+      <button type="submit" class="btn btn-outline pr-0" style="font-size: 1.1rem; color:red; font-weight:bold;" @click="noticeregist">
         <i class="fas fa-pen mr-1"></i>등록
       </button>
     </div>
   </div>
+</div>
 </template>
 
 <script>
 import axios from 'axios'
+import '../../assets/css/noticecreate.css'
 
 import Swal from "sweetalert2";
 
@@ -115,11 +120,5 @@ export default {
 </script>
 
 <style scoped>
-.notice-title-font{
-    font-size: 1.5rem;
-}
 
-.notice-content-font{
-    margin-top: 0.8rem;
-}
 </style>

@@ -1,7 +1,12 @@
 <template>
-  <div class="container col-md-6">
+<div class="container col-sm-12 col-md-12 col-lg-12 p-0">
+  <!-- background image -->
+  <div class="basket-img" style="display:block;">
+  </div>
+
+  <div class="container col-md-8">
     <!-- shooping list  -->
-    <div class="d-flex justify-content-between">
+    <div class="d-flex justify-content-between mt-5 mb-3">
       <p class="shopping-list"><i class="fas fa-shopping-basket mr-2"></i>Shopping List</p>
       <button class="btn btn-delete" @click="checkdelete"><i class="fas fa-trash-alt mr-2"></i>선택항목 삭제하기</button>
     </div>
@@ -10,6 +15,7 @@
         <div class="input-group-prepend">
           <div class="input-group-text">
             <input
+              style="width:1.1rem; height:1.1rem;"
               type="checkbox"
               aria-label="Checkbox for following text input"
               :value="post"
@@ -45,6 +51,7 @@
       </div>
     </div>
   </div>
+</div>
 </template>
 
 <script>

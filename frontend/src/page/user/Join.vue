@@ -1,5 +1,9 @@
 <template>
-  <div class="user" id="join">
+<div class="container col-sm-12 col-md-12 col-lg-12 p-0">
+  <!-- background image -->
+  <div class="info-img" style="display:block;">
+  </div>
+  <div class="user my-5" id="join">
     <div class="wrapC table">
       <div class="middle">
         <h1 class="text-center font-weight-bold">회원가입</h1>
@@ -20,12 +24,14 @@
       </div>
     </div>
   </div>
+</div>
 </template>
 
 <script>
 import PV from "password-validator";
 import * as EmailValidator from "email-validator";
 import axios from "axios";
+import '../../assets/css/join.css'
 
 import Business from '../../components/joinform/Business.vue'
 import Normal from '../../components/joinform/Normal.vue'

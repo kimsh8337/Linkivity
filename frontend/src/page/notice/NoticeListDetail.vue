@@ -1,12 +1,16 @@
 <template>
+<div class="container col-sm-12 col-md-12 col-lg-12 p-0">
+  <!-- background image -->
+  <div class="notice-img" style="display:block;">
+  </div>
 <div class="container col-md-8">
     <!-- Title -->
-    <div class="form-group mb-4">
+    <div class="form-group mb-4 mt-5">
         <div class="d-flex justify-content-between" style="width:100%">
             <label class="d-flex notice-title-main mb-0 mr-3">{{notice.title}}</label>
                 <div class="d-flex justify-content-end">
                     <small class="form-text notice-title-sub text-muted d-flex mr-2">작성일 : {{writeDate(this.notice.createDate)}}</small>
-                    <small class="notice-title-sub">|</small>
+                    <small class="form-text notice-title-sub text-muted d-flex">|</small>
                     <small class="form-text notice-title-sub text-muted d-flex ml-2">조회수 : {{notice.visit}}</small>
                 </div>
         </div>
@@ -32,10 +36,12 @@
       </button>
     </div>
   </div>
+</div>
 </template>
 
 <script>
 import axios from 'axios';
+import '../../assets/css/noticelistdetail.css';
 
 import Swal from 'sweetalert2';
 
@@ -117,26 +123,5 @@ export default {
 </script>
 
 <style scoped>
-.notice-title-main{
-    text-align: left;
-    font-size: 1.7rem;
-    font-weight: bold;
-    max-width: 70%;
-}
 
-.notice-title-sub{
-    font-size: 1rem;
-    max-width: 100%;
-    margin-top: auto;
-}
-
-.notice-content-main{
-    font-size: 1.5rem;
-    font-weight: bold;
-}
-
-.notice-content-sub{
-    text-align: left;
-    font-size: 1.2rem;
-}
 </style>

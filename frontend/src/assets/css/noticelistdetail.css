@@ -1,0 +1,33 @@
+.notice-img{
+    background: url('../img/Kayaking.jpg') no-repeat;
+    /* opacity: 0.8; */
+    width: 100%;
+    height: 20rem;
+    background-size: 100% 20rem;
+    background-position: center;
+}
+
+.notice-title-main{
+    text-align: left;
+    font-size: 1.7rem;
+    font-weight: bold;
+    max-width: 70%;
+}
+
+.notice-title-sub{
+    font-size: 1rem;
+    max-width: 100%;
+    margin-top: auto;
+}
+
+.notice-content-main{
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.notice-content-sub{
+    text-align: left;
+    font-size: 1.2rem;
+    min-height: 30rem;
+
+}

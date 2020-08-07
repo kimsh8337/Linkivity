@@ -1,86 +1,77 @@
 <template>
   <div>
-    <div class="container col-md-7">
-      <button class="btn btn-spring btn-circle btn-xl mb-5 mr-5" @click="spring">
-        <br />
-        <br />
-        <br />Spring
-      </button>
-      <button class="btn btn-summer btn-circle btn-xl mb-5 mr-5" @click="summer">
-        <br />
-        <br />
-        <br />Summer
-      </button>
-      <button class="btn btn-fall btn-circle btn-xl mb-5 mr-5" @click="autumn">
-        <br />
-        <br />
-        <br />Fall
-      </button>
-      <button class="btn btn-winter btn-circle btn-xl mb-5 mr-5" @click="winter">
-        <br />
-        <br />
-        <br />Winter
-      </button>
-      <button class="btn btn-ground btn-circle btn-xl mb-5 mr-5" @click="ground">
-        <br />
-        <br />
-        <br />Ground
-      </button>
-      <button class="btn btn-water btn-circle btn-xl mb-5 mr-5" @click="water">
-        <br />
-        <br />
-        <br />Water
-      </button>
-      <button class="btn btn-sky btn-circle btn-xl mb-5" @click="sky">
-        <br />
-        <br />
-        <br />Sky
-      </button>
+    <div class="container col-sm-12 col-md-12 col-lg-12 p-0">
+      <!-- background image -->
+      <div class="main-img" style="display:block; height: 40rem;">
+      </div>
+
+      <div class="col-md-10" style="margin: 3rem auto;">
+        <!-- main3button -->
+        <div class="d-flex justify-content-between mb-5">
+          <a class="main3button main-btn-intro"><i class="far fa-handshake mr-2"></i>액티비티 소개</a>
+          <a class="main3button main-btn-item"><i class="fas fa-gift mr-2"></i>상품 둘러보기</a>
+          <a class="main3button main-btn-notice"><i class="fas fa-flag mr-2"></i>공지사항</a>
+        </div>
+
+      <!-- carousel -->
       <div id="carouselExampleControls" class="carousel slide" style="margin: auto;" data-ride="carousel">
-        <div class="carousel-inner">
+        <div class="carousel-inner" style="height:18rem">
           <div class="carousel-item active">
             <img
-              src="https://t2.daumcdn.net/thumb/R720x0/?fname=http://t1.daumcdn.net/brunch/service/user/2OhT/image/O8cC0T4PchZkbqSc09Fvv8kVHOc.jpg"
+              src="https://www.10wallpaper.com/wallpaper/1366x768/1703/Flowers_branch_bloom_spring-2017_High_Quality_Wallpaper_1366x768.jpg"
               class="d-block w-100"
+              style="height:18rem;"
               alt="paragliding"
             />
           </div>
           <div class="carousel-item">
             <img
-              src="https://img1.daumcdn.net/thumb/R800x0/?scode=mtistory2&fname=https%3A%2F%2Ft1.daumcdn.net%2Fcfile%2Ftistory%2F997560335A1C150A27"
+              src="https://t1.daumcdn.net/cfile/tistory/9991CD365E49EF9D05"
               class="d-block w-100"
+              style="height:18rem;"
               alt="snowboarding"
             />
           </div>
           <div class="carousel-item">
             <img
-              src="https://img1.daumcdn.net/thumb/R800x0/?scode=mtistory2&fname=https%3A%2F%2Ft1.daumcdn.net%2Fcfile%2Ftistory%2F997560335A1C150A27"
+              src="https://t1.daumcdn.net/cfile/tistory/206D80344EACF2ED04"
               class="d-block w-100"
+              style="height:18rem;"
+              alt="wingsuit"
+            />
+          </div>
+          <div class="carousel-item">
+            <img
+              src="https://t1.daumcdn.net/cfile/tistory/182F304D4EF06F1C30"
+              class="d-block w-100"
+              style="height:18rem;"
               alt="wingsuit"
             />
           </div>
         </div>
-        <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+        <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev" style="opacity: 0;">
           <span class="carousel-control-prev-icon" aria-hidden="true"></span>
           <span class="sr-only">Previous</span>
         </a>
-        <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+        <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next" style="opacity: 0;">
           <span class="carousel-control-next-icon" aria-hidden="true"></span>
           <span class="sr-only">Next</span>
         </a>
       </div>
+
+      <!-- HOt item -->
       <div class="d-flex justify-content-between">
-        <p class="hot-item mt-3 mb-0">HOT ITEM</p>
-        <span class="more mt-4" @click="goPost">+ more</span>
+        <p class="hot-item mb-0" @click="goPost">HOT ITEM</p>
+        <span class="more" @click="goPost">+ more</span>
       </div>
       <div class="row">
-        <div class="card col-12 col-sm-12 col-md-3 p-3" v-for="(post, index) in posts" :key="index" style="width: 18rem; border: none;">
-          <div v-if="index < 4">
+        <div class="card col-12 col-sm-12 col-md-2 p-3" v-for="(post, index) in posts" :key="index" style="width: 18rem; border: none;">
+          <div v-if="index < 6">
             <img :src="post.imgurl" class="card-img-top" style="height:11rem; cursor: pointer;" @click="getdetail(post.pid)" />
             <div class="card-body p-0">
               <p
-                class="card-text mb-1"
-                style="text-overflow:ellipsis;overflow: hidden;white-space: nowrap; font-weight: bold; color: gray;"
+                class="card-text mt-2  mb-0"
+                style="text-overflow:ellipsis;overflow: hidden;white-space: nowrap; font-weight: bold; color: black; text-align:left;"
               >
                 {{ post.title }}
               </p>
@@ -92,6 +83,7 @@
           </div>
         </div>
       </div>
+    </div>
     </div>
   </div>
 </template>
