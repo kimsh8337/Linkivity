@@ -16,6 +16,12 @@
     line-height: 1.42857;
 }
 
+.btn-all{
+    border: 2px solid crimson !important;
+    font-weight: bold !important;
+    padding-left: 10px !important;
+    padding-top: 10px !important;
+}
 .btn-spring{
     background-image: url(https://fpost.co.kr/board/data/editor/2003/d4bf3e4345bf3dee5d7a04d5a62302e4_1583479481_1401.jpg);
     font-weight: bold !important;

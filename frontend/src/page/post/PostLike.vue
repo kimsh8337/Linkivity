@@ -32,7 +32,7 @@
                   >
                     가격 : {{ likePost.price }}
                   </p>
-                  <button type="button" class="btn btn-outline-danger" @click="deleteLike(likePost.pid)">삭제</button>
+                  <button type="button" class="btn btn-outline-danger btn-sm" style="height:30px;" @click="deleteLike(likePost.pid)">삭제</button>
                 </div>
               </div>
             </div>
