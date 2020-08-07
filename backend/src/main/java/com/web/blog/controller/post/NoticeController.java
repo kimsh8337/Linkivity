@@ -10,8 +10,6 @@ import com.web.blog.dao.post.NoticeDao;
 import com.web.blog.model.post.Notice;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -25,7 +23,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.annotations.ApiOperation;
-import javassist.runtime.Desc;
 
 @CrossOrigin(origins = "*")
 @RestController
@@ -44,6 +41,7 @@ public class NoticeController {
             notice.setTitle(request.getTitle());
             notice.setContent(request.getContent());
             notice.setVisit(request.getVisit());
+            notice.setImportance(request.getImportance());
             LocalDateTime time = LocalDateTime.now();
             notice.setCreateDate(time);
             noticeDao.save(notice);
