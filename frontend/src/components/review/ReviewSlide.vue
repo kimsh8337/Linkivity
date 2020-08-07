@@ -23,9 +23,13 @@
             <small style="font-weight:bold">{{datecut(slide.createDate)}}</small>
         </div>
       </div>
-      <!--  -->
-      <p>제목 : {{slide.title}}</p><br>
-      <small>내용 : {{slide.content}}</small>
+      <!-- 제목 -->
+      <div class="d-flex mt-2 ml-2 p-2">
+        <span style="font-weight:bold;">{{slide.title}}</span>
+      </div>
+      <div class="d-flex mt-2 ml-2 p-2">
+        <small>{{slide.content}}</small>
+      </div>
     </div>
   </div>
 </div>
@@ -38,7 +42,7 @@ const baseURL = "http://localhost:8080";
 
 export default {
     props: {
-      pid:String,
+      pid: Number,
     },
     data() {
       return {

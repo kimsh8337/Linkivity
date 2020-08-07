@@ -40,7 +40,7 @@
       </div>
 
       <!-- paging -->
-      <b-pagination v-model="page" :total-rows="len" pills :per-page="8"></b-pagination>
+      <b-pagination v-model="page" :total-rows="len" pills :per-page="8" style="align:center;"></b-pagination>
 
       <!-- 구매하기 button -->
       <div class="d-flex justify-content-end mb-5">
@@ -237,4 +237,10 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+.pagination{
+    display: flex;
+    justify-content: center;
+    margin-bottom: 2rem;
+}
+</style>
