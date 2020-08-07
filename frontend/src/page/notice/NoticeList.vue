@@ -16,8 +16,13 @@
       </thead>
       <tbody v-if="notices.length > 0">
         <tr v-for="(notice, index) in notices" :key="index">
-          <td scope="row">{{ ((page - 1) * 10) + (index + 1) }}</td>
-          <td class="notice-title" @click="gonoticedetail(notice.nid)">{{ notice.title }}</td>
+          <td scope="row">{{ (page - 1) * 10 + (index + 1) }}</td>
+          <td class="notice-title" @click="gonoticedetail(notice.nid)">
+            <span class="badge badge-pill badge-danger" v-if="notice.importance == 3">필독</span>
+            <span class="badge badge-pill badge-warning" v-if="notice.importance == 2">중요</span>
+            <span class="badge badge-pill badge-success" v-if="notice.importance == 1">일반</span>
+            {{ notice.title }}
+          </td>
           <td>{{ writeDate(notice.createDate) }}</td>
           <td>{{ notice.visit }}</td>
         </tr>
@@ -26,7 +31,6 @@
 
     <!-- paging -->
     <b-pagination class="pagination" v-model="page" :total-rows="len" pills :per-page="10"></b-pagination>
-
   </div>
 </template>
 
@@ -59,20 +63,20 @@ export default {
       axios
         .get(`${baseURL}/notice/list/${this.page}`)
         .then((res) => {
-            this.notices = res.data;
-            // console.log(this.notices)
+          this.notices = res.data;
+          // console.log(this.notices)
         })
         .catch((err) => {
           console.log(err);
         });
-        axios
-          .get(`${baseURL}/notice/count`)
-          .then((res)=>{
-              this.len = res.data;
-          })
-          .catch((err)=>{
-              console.log(err)
-          });
+      axios
+        .get(`${baseURL}/notice/count`)
+        .then((res) => {
+          this.len = res.data;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
     gonoticecreate() {
       this.$router.push('/noticecreate');
@@ -149,14 +153,14 @@ export default {
 .notice-title {
   text-align: left;
   cursor: pointer;
-  text-overflow:ellipsis;
+  text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
 }
 
-.pagination{
-    display: flex;
-    justify-content: center;
-    margin-bottom: 2rem;
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2rem;
 }
 </style>

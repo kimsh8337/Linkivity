@@ -27,6 +27,7 @@ public class Notice {
     private String title;
     private String content;
     private int visit;
+    private int importance;
 
     private LocalDateTime createDate;
 }
