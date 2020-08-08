@@ -181,7 +181,7 @@
         </div>
       </div>
       <ReviewWrite :pid="pid" :email="email"/>
-      <ReviewSlide :pid="pid"/>
+      <ReviewSlide :pid="pid" @review-delete="reviewDelete"/>
 
       <hr>
       <!-- Q & A -->
@@ -520,6 +520,46 @@ export default {
         .catch((error) => {
           console.log(error);
         });
+    },
+    reviewDelete(rvid) {
+      Swal.fire({
+      width: 300,
+      text: "후기를 삭제하시겠습니까?",
+      icon: "warning",
+      background: 'url(http://file3.instiz.net/data/file3/2019/03/08/f/2/7/f27e95a6737331ed0922425100928369.gif)',
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: '<a style="font-size:1rem; color:black">Delete</a>',
+      cancelButtonText: '<a style="font-size:1rem; color:black">Cancel</a>',
+    }).then((result) => {
+      if (result.value) {
+        const Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 1000,
+        timerProgressBar: true,
+        onOpen: (toast) => {
+          toast.addEventListener('mouseenter', Swal.stopTimer)
+          toast.addEventListener('mouseleave', Swal.resumeTimer)
+        }
+      })
+
+      Toast.fire({
+        icon: 'success',
+        title: '후기 삭제 완료!'
+      })
+      axios.delete(`${baseURL}/review/delete/${rvid}`)
+        .then(() => {
+          setTimeout(() => {
+            this.$router.go()
+          },1000)
+        }).catch((error) => {
+          console.log(error)
+        }) 
+      }
+    })
     },
   },
 };
