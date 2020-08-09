@@ -1,4 +1,4 @@
-﻿package com.web.blog.controller.post;
+package com.web.blog.controller.post;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -250,37 +250,5 @@ public class PostListController {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
-    // @GetMapping("/types/{typename}/{page}")
-    // @ApiOperation(value = "타입 별 포스트")
-    // public List<PostList> seasons(@PathVariable String typename, @PathVariable
-    // int page) throws SQLException, IOException {
-    // int start = page * 9;
-    // int end = start + 9;
-
-    // List<PostList> list = new LinkedList<>();
-    // if (typename.equals("spring")) {
-    // list = postDao.findBySpring(1);
-    // } else if (typename.equals("summer")) {
-    // list = postDao.findBySummer(1);
-    // } else if (typename.equals("autumn")) {
-    // list = postDao.findByAutumn(1);
-    // } else if (typename.equals("winter")) {
-    // list = postDao.findByWinter(1);
-    // } else {
-    // list = postDao.findByPlace(typename);
-    // }
-
-    // if (end > list.size()) {
-    // end = list.size();
-    // }
-
-    // List<PostList> plist = new LinkedList<>();
-    // for (int i = start; i < end; i++) {
-    // plist.add(list.get(i));
-    // }
-
-    // return plist;
-    // }
 
 }
