@@ -40,8 +40,8 @@ import * as EmailValidator from "email-validator";
 import axios from 'axios'
 import Swal from 'sweetalert2'
 
-const baseURL = "http://localhost:8080/account"
-const KbaseURL = "http://localhost:8080";
+const baseURL = "http://http://i3b206.p.ssafy.io/:8080/account"
+const KbaseURL = "http://http://i3b206.p.ssafy.io/:8080";
 export default {
   name: "Post",
   components: {},
