@@ -1,15 +1,10 @@
 package com.web.blog.controller.account;
 
-import java.io.Console;
-import java.net.http.HttpClient.Redirect;
 import java.sql.SQLException;
 import java.util.HashMap;
 
 import javax.validation.Valid;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import com.web.blog.dao.user.UserDao;
 import com.web.blog.jwt.JwtService;
 import com.web.blog.model.user.SignupRequest;
@@ -19,7 +14,6 @@ import com.web.blog.service.KakaoAPI;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,7 +21,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @CrossOrigin(origins = "*")

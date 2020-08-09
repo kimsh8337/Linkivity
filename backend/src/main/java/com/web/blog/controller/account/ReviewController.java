@@ -6,9 +6,7 @@ import java.time.LocalDateTime;
 import java.util.LinkedList;
 import java.util.List;
 
-import com.web.blog.dao.post.NoticeDao;
 import com.web.blog.dao.user.ReviewDao;
-import com.web.blog.model.post.Notice;
 import com.web.blog.model.user.Review;
 
 import org.springframework.beans.factory.annotation.Autowired;

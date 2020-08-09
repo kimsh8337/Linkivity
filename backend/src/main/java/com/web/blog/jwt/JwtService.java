@@ -2,7 +2,6 @@ package com.web.blog.jwt;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Date;
-import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,7 +10,6 @@ import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.web.blog.model.user.User;
-import com.web.blog.jwt.JWTException;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;

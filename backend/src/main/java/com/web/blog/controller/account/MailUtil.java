@@ -1,12 +1,7 @@
 package com.web.blog.controller.account;
 
-import java.io.IOException;
-import java.sql.SQLException;
 import java.util.Optional;
 
-import javax.mail.Session;
-import javax.servlet.http.HttpSession;
-import javax.validation.Valid;
 
 import com.web.blog.dao.user.UserDao;
 import com.web.blog.model.user.User;
@@ -15,10 +10,7 @@ import com.web.blog.service.FindUtil;
 import org.apache.commons.mail.HtmlEmail;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 

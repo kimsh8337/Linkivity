@@ -6,8 +6,6 @@ import java.time.LocalDateTime;
 import java.util.LinkedList;
 import java.util.List;
 
-import javax.validation.Valid;
-
 import com.web.blog.dao.post.ReplyListDao;
 import com.web.blog.model.post.ReplyList;
 
