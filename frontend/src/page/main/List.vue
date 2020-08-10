@@ -83,6 +83,31 @@
           </div>
         </div>
       </div>
+
+      <!-- RECENT REVIEW -->
+      <div class="d-flex justify-content-between">
+        <p class="recent-review mb-0">RECENT REVIEW</p>
+        <span class="more">+ more</span>
+      </div>
+      <div class="row">
+        <div class="card col-12 col-sm-12 col-md-2 p-3" v-for="(post, index) in posts" :key="index" style="width: 18rem; border: none;">
+          <div v-if="index < 6">
+            <img :src="post.imgurl" class="card-img-top" style="height:11rem; cursor: pointer; box-shadow:5px 5px 5px rgba(0,0,0,.15);" @click="getdetail(post.pid)" />
+            <div class="card-body p-0">
+              <p
+                class="card-text mt-2  mb-0"
+                style="text-overflow:ellipsis;overflow: hidden;white-space: nowrap; font-weight: bold; color: black; text-align:left;"
+              >
+                {{ post.title }}
+              </p>
+              <p class="card-text d-flex justify-content-start" style="text-overflow:ellipsis; overflow: hidden; white-space: nowrap;">
+                <i class="fas fa-heart select-button like-button mr-2 mt-1" style="text-align: left; font-size: 18px; color: crimson; "></i>
+                {{ post.likecnt }}명이 좋아합니다.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
     </div>
   </div>

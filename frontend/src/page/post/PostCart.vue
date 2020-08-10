@@ -4,7 +4,7 @@
       <div class="col-12 col-sm-12 col-md-3 card-deck" style="margin:auto 0;" v-for="(cartPost, cindex) in cartPosts" :key="cindex">
         <div class="card mb-3 profile-post mr-0 ml-0" >
           <div class="card-body" style="padding: 0;">
-            <img :src="cartPost.imgurl" class="card-img" style="height:10rem" />
+            <img :src="cartPost.imgurl" class="card-img" style="height:10rem; box-shadow:5px 5px 5px rgba(0,0,0,.15)" />
             <div
               class="card-img-overlay"
               @click="getdetail(cartPost.pid)"

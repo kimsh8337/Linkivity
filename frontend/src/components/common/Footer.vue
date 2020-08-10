@@ -37,7 +37,7 @@
           </a>
         </div>
         <div class="d-flex col-md-8 mt-2 pl-1">
-          <span class="text-white"> 이용약관</span>
+          <span class="text-white" style="cursor:pointer;" @click="goagreement"> 이용약관</span>
           <span class="text-white text-muted ml-2 mr-2"> | </span>
           <span class="text-white"> 개인정보처리방침</span>
           <span class="text-white text-muted ml-2 mr-2"> | </span>
@@ -52,7 +52,13 @@
 </template>
 
 <script>
-export default {};
+export default {
+  methods:{
+    goagreement(){
+      this.$router.push('/agreement')
+    },
+  },
+};
 </script>
 
 <style>

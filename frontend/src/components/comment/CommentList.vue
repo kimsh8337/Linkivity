@@ -4,7 +4,7 @@
       <div class="card-header d-flex bg-white">
         <strong class="mr-3 text-dark" style="width:8rem; text-align:left;">{{comment.nickname}}</strong>
         <span>{{comment.content}}</span>
-        <small class="my-auto ml-auto text-dark">{{comment.createDate}}</small>
+        <small class="my-auto ml-auto text-dark">{{commentdate(comment.createDate)}}</small>
       </div>
       <ul class="list-group list-group-flush">
         <li class="list-group-item d-flex p-1">
@@ -83,6 +83,10 @@ export default {
     fetchCommentRID() {
       this.rid = this.comment.rid
     },
+    commentdate(createDate){
+      var cd = createDate+''
+      return cd.substring(0,10)+'  '+ cd.substring(11,16)
+    }
   },
   created() {
     this.authUser();

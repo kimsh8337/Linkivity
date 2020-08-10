@@ -8,7 +8,7 @@
       <div class="card mt-5 mb-3" style="max-width: 100%;">
         <div class="row no-gutters">
           <div class="col-md-5">
-            <img :src="post.imgurl" class="card-img" style="height: 16rem;" alt />
+            <img :src="post.imgurl" class="card-img" style="height: 16rem; box-shadow:5px 5px 5px rgba(0,0,0,.15)" alt />
           </div>
           <div class="col-md-7">
             <div class="card-body" style="padding: 0 0 0 20px">

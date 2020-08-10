@@ -9,6 +9,8 @@ import Join from '../page/user/Join.vue'
 import Info from '../page/user/Info.vue'
 import Basket from '../page/user/Basket.vue'
 import Pwsearch from '../page/user/Pwsearch.vue'
+import Agreement from '../page/user/Agreement.vue'
+
 // error
 import NotFound from '../page/error/NotFound.vue'
 import Params from '../page/error/Params.vue'
@@ -64,6 +66,11 @@ export default new Router({
             path: '/user/basket',
             name: 'Basket',
             component: Basket
+        },
+        {
+            path: '/agreement',
+            name: 'Agreement',
+            component: Agreement
         },
         // 메인
         {

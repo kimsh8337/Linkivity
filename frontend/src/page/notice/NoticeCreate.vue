@@ -1,16 +1,23 @@
 <template>
-<div class="container col-sm-12 col-md-12 col-lg-12 p-0">
-  <div class="notice-img" style="display:block;">
-  </div>
-  <div class="container col-md-8">
-    <!-- Title -->
-    <div class="form-group form-group mb-0 mt-5 d-flex justify-content-between">
+  <div class="container col-sm-12 col-md-12 col-lg-12 p-0">
+    <div class="notice-img" style="display:block;"></div>
+    <div class="container col-md-8">
+      <!-- Title -->
+      <div class="form-group form-group mb-0 mt-5 d-flex justify-content-between">
         <div class="d-flex justify-content-start">
-            <label class="d-flex notice-title-font mr-3">Title</label>
-            <small class="form-text notice-content-font text-muted d-flex" v-if="!error.title">제목을 입력하세요.</small>
+          <label class="d-flex notice-title-font mr-3">Title</label>
+          <small
+            class="form-text notice-content-font text-muted d-flex"
+            v-if="!error.title"
+          >제목을 입력하세요.</small>
         </div>
         <div>
-          <select class="form-control col-md-12" id="imp" v-model="NoticeCreate.importance" style="float:right;">
+          <select
+            class="form-control col-md-12"
+            id="imp"
+            v-model="NoticeCreate.importance"
+            style="float:right;"
+          >
             <option value="0">중요도</option>
             <option value="1">일반</option>
             <option value="2">중요</option>
@@ -19,50 +26,64 @@
         </div>
       </div>
       <div class="mb-4">
-
-      <input type="text" class="form-control" id="title" v-model="NoticeCreate.title" />
-      <!-- <small class="form-text notice-content-font text-muted d-flex" v-if="!error.title">제목을 입력하세요.</small> -->
-      <small class="form-text d-flex" style="color:red;" v-if="error.title">{{ error.title }}</small>
+        <input type="text" class="form-control" id="title" v-model="NoticeCreate.title" />
+        <!-- <small class="form-text notice-content-font text-muted d-flex" v-if="!error.title">제목을 입력하세요.</small> -->
+        <small class="form-text d-flex" style="color:red;" v-if="error.title">{{ error.title }}</small>
       </div>
 
-
-    <!-- Detail-Info -->
-    <div class="form-group">
-      <div class="d-flex justify-content-start">
-        <label class="d-flex notice-title-font mr-3">Detail-Info</label>
-        <small class="form-text notice-content-font text-muted d-flex" v-if="!error.content">내용을 입력하세요.</small>
+      <!-- Detail-Info -->
+      <div class="form-group">
+        <div class="d-flex justify-content-start">
+          <label class="d-flex notice-title-font mr-3">Detail-Info</label>
+          <small
+            class="form-text notice-content-font text-muted d-flex"
+            v-if="!error.content"
+          >내용을 입력하세요.</small>
+        </div>
+        <textarea
+          class="form-control"
+          style="height:30rem;"
+          id="detail"
+          v-model="NoticeCreate.content"
+        ></textarea>
+        <small class="form-text d-flex" style="color:red;" v-if="error.detail">{{ error.detail }}</small>
       </div>
-      <textarea class="form-control" style="height:30rem;" id="detail" v-model="NoticeCreate.content"></textarea>
-      <small class="form-text d-flex" style="color:red;" v-if="error.detail">{{ error.detail }}</small>
-    </div>
 
-    <!-- Button -->
-    <div class="d-flex justify-content-end mb-5">
-      <button type="submit" class="btn btn-outline pr-0" style="font-size: 1.1rem; color:red; font-weight:bold;" @click="noticeregist">
-        <i class="fas fa-pen mr-1"></i>등록
-      </button>
+      <!-- Button -->
+      <div class="d-flex justify-content-end mb-5">
+        <button
+          type="submit"
+          class="btn btn-outline pr-0"
+          style="font-size: 1.1rem; color:red; font-weight:bold;"
+          @click="noticeregist"
+        >
+          <i class="fas fa-pen mr-1"></i>등록
+        </button>
+      </div>
     </div>
   </div>
-</div>
 </template>
 
 <script>
-import axios from 'axios'
-import '../../assets/css/noticecreate.css'
+import axios from "axios";
+import "../../assets/css/noticecreate.css";
 
-import Swal from 'sweetalert2';
+import Swal from "sweetalert2";
+// import { component } from 'vue/types/umd';
 
-const baseURL = 'http://localhost:8080';
+const baseURL = "http://localhost:8080";
 
 export default {
   data() {
     return {
       page: 1,
       NoticeCreate: {
-        title: '',
-        content: '',
-        importance: '0',
+        title: "",
+        content: "",
+        importance: "0",
       },
+      email: "",
+      superadmin: "ssafy@ssafy.com",
       error: {
         title: false,
         content: false,
@@ -70,47 +91,88 @@ export default {
     };
   },
   created() {
-    // this.superadviser();
+    this.chcekadmin();
   },
   methods: {
-    // 수정해야함
-    // superadviser() {
-    //   axios
-    //     .get(`${baseURL}/account/authuser/${this.$cookies.get('Auth-Token')}`)
-    //     .then((response) => {
-    //       this.PostCreate.email = response.data.email;
-    //     })
-    //     .catch((err) => {
-    //       console.log(err.response);
-    //     });
-    // },
+    chcekadmin() {
+      axios
+        .get(`${baseURL}/account/authuser/${this.$cookies.get("Auth-Token")}`)
+        .then((response) => {
+          this.email = response.data.email;
+          if (this.email != this.superadmin) {
+            let timerInterval;
+            Swal.fire({
+              title: "관리자만 글 작성가능합니다!",
+              html: "<b></b> 후 전 페이지로 돌아갑니다.",
+              timer: 3000,
+              timerProgressBar: true,
+              onBeforeOpen: () => {
+                Swal.showLoading();
+                timerInterval = setInterval(() => {
+                  const content = Swal.getContent();
+                  if (content) {
+                    const b = content.querySelector("b");
+                    if (b) {
+                      b.textContent = Swal.getTimerLeft();
+                    }
+                  }
+                }, 100);
+              },
+              onClose: () => {
+                clearInterval(timerInterval);
+                this.$router.go(-1);
+              },
+            }).then((result) => {
+              /* Read more about handling dismissals below */
+              if (result.dismiss === Swal.DismissReason.timer) {
+                console.log("I was closed by the timer");
+              }
+            });
+            // Swal.fire({
+            //   title: "관리자만 작성가능합니다.",
+            //   showClass: {
+            //     popup: "animate__animated animate__fadeInDown",
+            //   },
+            //   hideClass: {
+            //     popup: "animate__animated animate__fadeOutUp",
+            //   },
+            // });
+            // setTimeout(() => {
+            //   this.$router.go(-1);
+            // }, 1000);
+          }
+        })
+        .catch((err) => {
+          console.log(err.response);
+        });
+    },
     noticeregist() {
       var flag = 0;
-      if (this.NoticeCreate.title == '') {
-        this.error.title = '제목을 입력해주세요.';
+      if (this.NoticeCreate.title == "") {
+        this.error.title = "제목을 입력해주세요.";
         flag = 1;
       } else {
         this.error.title = false;
       }
-      if (this.NoticeCreate.content == '') {
-        this.error.content = '내용을 입력해주세요.';
+      if (this.NoticeCreate.content == "") {
+        this.error.content = "내용을 입력해주세요.";
         flag = 1;
       } else {
         this.error.content = false;
       }
       if (flag == 1) {
-        alert('정보를 모두 입력해주세요.');
+        alert("정보를 모두 입력해주세요.");
         return;
       }
       const Toast = Swal.mixin({
         toast: true,
-        position: 'top-end',
+        position: "top-end",
         showConfirmButton: false,
         timer: 3000,
         timerProgressBar: true,
         onOpen: (toast) => {
-          toast.addEventListener('mouseenter', Swal.stopTimer);
-          toast.addEventListener('mouseleave', Swal.resumeTimer);
+          toast.addEventListener("mouseenter", Swal.stopTimer);
+          toast.addEventListener("mouseleave", Swal.resumeTimer);
         },
       });
 
@@ -119,13 +181,13 @@ export default {
         .then((response) => {
           console.log(response.data);
           Toast.fire({
-            icon: 'success',
-            title: '작성이 완료되었습니다.',
+            icon: "success",
+            title: "작성이 완료되었습니다.",
           });
           this.$router.push(`/notice`);
         })
         .catch((error) => {
-          console.log('error입니다.');
+          console.log("error입니다.");
         });
     },
   },
@@ -133,5 +195,4 @@ export default {
 </script>
 
 <style scoped>
-
 </style>
