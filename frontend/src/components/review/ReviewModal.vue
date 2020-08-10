@@ -68,7 +68,7 @@ export default {
   data() {
     return {
       reviewCreate: {
-        pid: "",
+        pid: 0,
         email: "",
         img: "",
         title: "",
@@ -80,7 +80,7 @@ export default {
     }
   },
   props: {
-    pid: String,
+    pid: Number,
     email: String,
   },
   created() {
