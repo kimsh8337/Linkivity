@@ -79,20 +79,21 @@ public class kakaoController {
    map.put("url", url);
    ResponseEntity<String>
 */
-   @GetMapping("/logink")
-   public Object login(@RequestParam("code") String code) throws SQLException {
+  @RequestMapping("/logink")
+   public Object login(@RequestParam("code") String code)  {
       System.out.println("logger - kakao login 후에 getCode");
       System.out.println("code : " + code);
       System.out.println("logger - code를 기반으로 getAccessToken");
+    
       String access_Token = "";
       try {
-         access_Token = kakao.getAccessToken(code);
-         
-         System.out.println(kakao.getUserInfo(access_Token));
-         
+          access_Token = kakao.getAccessToken(code);
+          System.out.println("controller access_token : " + access_Token);
+          System.out.println(kakao.getUserInfo(access_Token));
       } catch (Exception e) {
-         e.printStackTrace();
+          e.printStackTrace();
       }
+
       System.out.println("controller access_token : " + access_Token);
 
       HashMap<String, Object> userInfo = null;

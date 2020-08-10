@@ -1,5 +1,4 @@
 package com.web.blog.service;
-
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -9,12 +8,12 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.HashMap;
 
-import org.springframework.stereotype.Service;
- 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
- 
+
+import org.springframework.stereotype.Service;
+
 @Service
 public class KakaoAPI {
     
@@ -88,6 +87,7 @@ public class KakaoAPI {
            final URL url = new URL(reqURL);
            final HttpURLConnection conn = (HttpURLConnection) url.openConnection();
            conn.setRequestMethod("POST");
+           System.out.println(conn.toString());
            
            //    요청에 필요한 Header에 포함될 내용
            // System.out.println("!! "+access_Token);

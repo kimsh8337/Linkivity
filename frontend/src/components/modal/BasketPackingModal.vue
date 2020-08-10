@@ -87,19 +87,60 @@ export default {
         });
     },
     purchase() {
+ 
       for (var i = 0; i < this.prePosts.length; i++) {
         this.packPost.push(this.prePosts[i].pid);
       }
-      axios
-        .get(`${baseURL}/purchase/regist/${this.packPost}/${this.email}/${this.sum}`)
-        .then((response) => {
-          alert("구매 완료");
-          this.$router.push("/user/basket");
-          this.$router.go();
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+
+      let th = this;
+
+      var IMP = window.IMP; // 생략가능      
+            var msg;
+        IMP.init('imp40062977');
+
+              IMP.request_pay({
+              pg : 'html5_inicis',
+              pay_method : 'card',
+              merchant_uid : 'merchant_' + new Date().getTime(),
+              name : '링키비티',
+              amount : this.sum,
+              buyer_email : 'iamport@siot.do',
+              buyer_name : '구매자이름',
+              buyer_tel : '010-1234-5678',
+              buyer_addr : '서울특별시 강남구 삼성동',
+              buyer_postcode : '123-456'
+          }, function(rsp) {
+              if ( rsp.success ) {
+                  var msg = '결제가 완료되었습니다.';
+                  msg += '고유ID : ' + rsp.imp_uid;
+                  msg += '상점 거래ID : ' + rsp.merchant_uid;
+                  msg += '결제 금액 : ' + rsp.paid_amount;
+                  msg += '카드 승인번호 : ' + rsp.apply_num;
+
+                console.log(th.packPost)
+                console.log(th.sum)
+                console.log(th.email)                      
+
+                  axios
+                   .get(`${baseURL}/purchase/regist/${th.packPost}/${th.email}/${th.sum}`)
+                   .then((response) => {
+                   alert("구매 완료");
+                   th.$router.push("/user/basket");
+                   th.$router.go();
+                })
+                .catch((err) => {
+                  console.log(err);
+                });
+
+              } else {
+                  var msg = '결제에 실패하였습니다.';
+                  msg += '에러내용 : ' + rsp.error_msg;
+              }
+              alert(msg);
+          });
+
+
+      
     },
   },
   computed: {
