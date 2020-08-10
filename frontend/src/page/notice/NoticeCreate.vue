@@ -4,13 +4,13 @@
   </div>
   <div class="container col-md-8">
     <!-- Title -->
-    <div class="form-group form-group mb-4 mt-5">
+    <div class="form-group form-group mb-0 mt-5 d-flex justify-content-between">
         <div class="d-flex justify-content-start">
             <label class="d-flex notice-title-font mr-3">Title</label>
             <small class="form-text notice-content-font text-muted d-flex" v-if="!error.title">제목을 입력하세요.</small>
         </div>
         <div>
-          <select class="form-control col-md-2" id="imp" v-model="NoticeCreate.importance" style="float:right;">
+          <select class="form-control col-md-12" id="imp" v-model="NoticeCreate.importance" style="float:right;">
             <option value="0">중요도</option>
             <option value="1">일반</option>
             <option value="2">중요</option>
@@ -18,10 +18,13 @@
           </select>
         </div>
       </div>
+      <div class="mb-4">
+
       <input type="text" class="form-control" id="title" v-model="NoticeCreate.title" />
-      <small class="form-text notice-content-font text-muted d-flex" v-if="!error.title">제목을 입력하세요.</small>
+      <!-- <small class="form-text notice-content-font text-muted d-flex" v-if="!error.title">제목을 입력하세요.</small> -->
       <small class="form-text d-flex" style="color:red;" v-if="error.title">{{ error.title }}</small>
-    </div>
+      </div>
+
 
     <!-- Detail-Info -->
     <div class="form-group">
@@ -66,20 +69,20 @@ export default {
     };
   },
   created() {
-    this.superadviser();
+    // this.superadviser();
   },
   methods: {
     // 수정해야함
-    superadviser() {
-      axios
-        .get(`${baseURL}/account/authuser/${this.$cookies.get('Auth-Token')}`)
-        .then((response) => {
-          this.PostCreate.email = response.data.email;
-        })
-        .catch((err) => {
-          console.log(err.response);
-        });
-    },
+    // superadviser() {
+    //   axios
+    //     .get(`${baseURL}/account/authuser/${this.$cookies.get('Auth-Token')}`)
+    //     .then((response) => {
+    //       this.PostCreate.email = response.data.email;
+    //     })
+    //     .catch((err) => {
+    //       console.log(err.response);
+    //     });
+    // },
     noticeregist() {
       var flag = 0;
       if (this.NoticeCreate.title == '') {

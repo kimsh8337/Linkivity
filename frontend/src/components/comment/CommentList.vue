@@ -2,7 +2,7 @@
   <div>
     <div class="card mt-4">
       <div class="card-header d-flex bg-white">
-        <strong class="mr-3 text-dark">{{comment.nickname}}</strong>
+        <strong class="mr-3 text-dark" style="width:8rem; text-align:left;">{{comment.nickname}}</strong>
         <span>{{comment.content}}</span>
         <small class="my-auto ml-auto text-dark">{{comment.createDate}}</small>
       </div>
