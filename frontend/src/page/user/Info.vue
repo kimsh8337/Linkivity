@@ -114,6 +114,7 @@
             <b-tab title="장바구니" active v-if="this.checkType=='normal'"><Cart /></b-tab>
             <b-tab title="좋아요"><Like /></b-tab>
             <b-tab title="구매목록" v-if="this.checkType=='normal'"><Buy /></b-tab>
+            <b-tab title="후기" v-if="this.checkType=='normal'"><Review /></b-tab>
             <b-tab title="판매목록" v-if="this.checkType=='business'"><Sell /></b-tab>
             <b-tab title="임시저장" v-if="this.checkType=='business'"><Temp /></b-tab>
           </b-tabs>
@@ -150,6 +151,7 @@ import Temp from '../post/PostTemp.vue';
 import Cart from '../post/PostCart.vue';
 import Buy from '../post/PostBuy.vue';
 import Sell from '../post/PostSell.vue';
+import Review from '../post/PostReview.vue';
 
 const baseURL = 'http://localhost:8080/account';
 
@@ -160,6 +162,7 @@ export default {
     Temp,
     Buy,
     Sell,
+    Review
   },
   created() {
     this.passwordSchema

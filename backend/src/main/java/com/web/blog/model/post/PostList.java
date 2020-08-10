@@ -42,4 +42,5 @@ public class PostList {
     private String place;
     private int likecnt;
     private LocalDateTime createDate;
+    private int star;
 }

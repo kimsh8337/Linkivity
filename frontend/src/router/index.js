@@ -35,11 +35,6 @@ import PostUpdate from '../page/post/PostUpdate.vue'
 import PostTemp from '../page/post/PostTemp.vue'
 import PostTempDetail from '../page/post/PostTempDetail.vue'
 
-// activity
-import Ground from '../page/activity/Ground.vue'
-import Water from '../page/activity/Water.vue'
-import Sky from '../page/activity/Sky.vue'
-
 
 Vue.use(Router)
 
@@ -142,23 +137,6 @@ export default new Router({
             path: '/posts/:ID/posttempdetail',
             name: 'PostTempDetail',
             component: PostTempDetail,
-        },
-
-        //activity
-        {
-            path: '/ground',
-            name: 'Ground',
-            component: Ground,
-        },
-        {
-            path: '/water',
-            name: 'Water',
-            component: Water,
-        },
-        {
-            path: '/sky',
-            name: 'Sky',
-            component: Sky,
         },
 
         // kakao share
