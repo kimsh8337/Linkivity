@@ -43,7 +43,7 @@
       </div>
     </div>
   </div>
-      <ReviewUpdate :reviewInfo="reviewInfo"/>
+      <ReviewUpdate v-if="this.isUpdated" :reviewInfo="reviewInfo" @review-close="reviewClose"/>
 </div>
 </template>
 
@@ -71,6 +71,7 @@ export default {
         cardsX: 0,
         email: "",
         reviewInfo: {},
+        isUpdated: false,
       }
   },
   methods: {
@@ -122,6 +123,10 @@ export default {
       },
       update(slide) {
         this.reviewInfo = slide
+        this.isUpdated = true
+      },
+      reviewClose() {
+        this.isUpdated = false
       },
   },
   created() {
