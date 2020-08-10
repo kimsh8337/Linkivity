@@ -192,34 +192,40 @@ export default {
   },
   data() {
     return {
-      page: 1,
+      page: 0,
       infiniteId: 0,
-      posts: {
-        pid: "",
-        email: "",
-        activity: "",
-        title: "",
-        location: "",
-        imgurl: "",
-        price: "",
-        sdate: "",
-        edate: "",
-        likecnt: "",
-      },
+      posts: [],
+      // posts: {
+      //   pid: "",
+      //   email: "",
+      //   activity: "",
+      //   title: "",
+      //   location: "",
+      //   imgurl: "",
+      //   price: "",
+      //   sdate: "",
+      //   edate: "",
+      //   likecnt: "",
+      // },
       key: "",
       word: "",
       type: "all",
       email: "",
       postLike: [],
-      cntLike: [],
       tag: [],
+      searchCK: false,
       // filter: "",
     };
   },
   methods: {
     settype(typename) {
+      this.key = '';
+      this.word = '';
+      this.searchCK = false;
       this.type = typename;
-      this.init();
+      this.infiniteId += 1;
+      this.page = 1;
+      this.reloading(this.page);
     },
     toTop() {
       scroll(0, 0);
@@ -234,7 +240,7 @@ export default {
                 this.posts = this.posts.concat(res.data);
                 $state.loaded();
                 this.page += 1;
-                if (this.posts.length / 9 < 1) {
+                if (this.posts.length / 5 < 1) {
                   $state.complete();
                 }
                 this.nextTag();
@@ -257,7 +263,7 @@ export default {
                 this.posts = this.posts.concat(res.data);
                 $state.loaded();
                 this.page += 1;
-                if (this.posts.length / 9 < 1) {
+                if (this.posts.length / 5 < 1) {
                   $state.complete();
                 }
               } else {
@@ -287,6 +293,7 @@ export default {
         if (this.word == "") {
           alert("검색어를 입력하세요.");
         } else {
+          this.searchCK = true;
           this.page = 1;
           // this.init();
           axios
@@ -308,7 +315,8 @@ export default {
           .get(`${baseURL}/like/registDelete/${this.email}/${pid}`)
           .then((res) => {
             this.checklike();
-            this.init();
+            // this.init();
+            this.reloading(this.page);
             if (this.check(pid) == false) {
               this.$toasted.show("좋아좋아요", {
                 theme: "bubble",
@@ -350,21 +358,33 @@ export default {
       }
       return false;
     },
+    reloading(pg) {
+      // console.log('reloading this page = ' + pg);
+      if (this.searchCK) {
+        axios
+          .get(`${baseURL}/post/searchReloading/${this.type}/${this.key}/${this.word}/${pg - 1}`)
+          .then((res) => {
+            this.posts = res.data;
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      } else {
+        axios
+          .get(`${baseURL}/post/getThatList/${this.type}/${pg - 1}`)
+          .then((res) => {
+            this.posts = res.data;
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
+    },
     checklike() {
       axios
         .get(`${baseURL}/like/check/${this.email}`)
         .then((res) => {
           this.postLike = res.data;
-        })
-        .catch((err) => {
-          alert(err);
-        });
-    },
-    cntlike() {
-      axios
-        .get(`${baseURL}/like/cnt`)
-        .then((res) => {
-          this.cntLike = res.data;
         })
         .catch((err) => {
           alert(err);
@@ -407,14 +427,14 @@ export default {
   created() {
     this.filter = this.$route.params.TYPE;
     if (this.$cookies.get("Auth-Token") == null) {
-      this.init();
+      // this.init();
       return;
     }
     axios
       .get(`${baseURL}/account/authuser/${this.$cookies.get("Auth-Token")}`)
       .then((response) => {
         this.email = response.data.email;
-        this.init();
+        // this.init();
         this.checklike();
       })
       .catch((err) => {
