@@ -258,7 +258,7 @@ export default {
       evt.preventDefault();
       const href = evt.target.getAttribute('href');
       var location = document.querySelector(href).offsetTop;
-      window.scrollTo({top:location, behavior:'smooth'})
+      window.scrollTo({top:location + 400, behavior:'smooth'})
     },
     authUser() {
       axios
@@ -526,7 +526,6 @@ export default {
       width: 300,
       text: "후기를 삭제하시겠습니까?",
       icon: "warning",
-      background: 'url(http://file3.instiz.net/data/file3/2019/03/08/f/2/7/f27e95a6737331ed0922425100928369.gif)',
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",

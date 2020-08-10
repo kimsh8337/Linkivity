@@ -22,7 +22,7 @@
         <!-- 날짜 및 수정 삭제 -->
         <div v-if="email == slide.email" class="mt-2">
           <div class="d-flex justify-content-end mr-3">
-            <small style="color:blue;"><i class="fas fa-wrench" title="수정"></i></small>
+            <small @click="update(slide)" data-toggle="modal" data-target="#reviewUpdate" style="color:blue;"><i class="fas fa-wrench" title="수정"></i></small>
             <small @click="reviewDelete(slide.rvid)" style="color:red"><i class="fas fa-trash-alt ml-2" title="삭제"></i></small>
           </div>
           <div class="d-flex align-items-end mt-1 mr-3">
@@ -41,10 +41,9 @@
       <div class="d-flex ml-2 p-2">
         <small>{{slide.content}}</small>
       </div>
-      <!-- {{email}}
-      {{slide.email}} -->
     </div>
   </div>
+      <ReviewUpdate :reviewInfo="reviewInfo"/>
 </div>
 </template>
 
@@ -53,72 +52,81 @@ import axios from 'axios'
 
 const baseURL = "http://localhost:8080";
 
+import ReviewUpdate from './ReviewUpdateModal.vue'
+
 export default {
-    props: {
-      pid: String,
-    },
-    data() {
-      return {
-          slides: [],
-          selectedIndex: 0,
-          dragging: false,
-          initialMouseX: 0,
-          initialCardsX: 0,
-          cardsX: 0,
-          email: "",
-        }
-    },
-    methods: {
-        authUser() {
-            axios
-                .get(`${baseURL}/account/authuser/${this.$cookies.get("Auth-Token")}`)
-                .then((response) => {
-                    this.email = response.data.email
-                    this.name = response.data.name
-                    this.fetchReview()
-                })
-                .catch((err) => {
-                console.log(err.response);
-                });
-        },
-        fetchReview() {
-            axios.get(`${baseURL}/review/list/${this.pid}`)
-                .then((response) => {
-                    this.slides = response.data
-                }).catch((error) => {
-                    console.log(error)
-                })
-        },
-        startDrag(e) {
-            this.dragging = true
-            this.initialMouseX = e.pageX
-            this.initialCardsX = this.cardsX
-        },
-        stopDrag() {
-            this.dragging = false
-            const cardWidth = 290
-            const nearestSlide = -Math.round(this.cardsX / cardWidth)
-            this.selectedIndex = Math.min(Math.max(0, nearestSlide), this.slides.length -1)
-            TweenLite.to(this, 0.3, {cardsX: -this.selectedIndex * cardWidth})
-        },
-        mouseMoving (e) {
-            if (this.dragging) {
-                const dragAmount = e.pageX - this.initialMouseX
-                const targetX = this.initialCardsX + dragAmount
-                this.cardsX = targetX
-            }
-        },
-        datecut(date) {
-            var tempdatecut = date+""
-            return tempdatecut.substring(0,10)
-        },
-        reviewDelete(rvid) {
-          this.$emit('review-delete',rvid)
-        },
-    },
-    created() {
-        this.authUser()
-    },
+  components: {
+    ReviewUpdate,
+  },
+  props: {
+    pid: String,
+  },
+  data() {
+    return {
+        slides: [],
+        selectedIndex: 0,
+        dragging: false,
+        initialMouseX: 0,
+        initialCardsX: 0,
+        cardsX: 0,
+        email: "",
+        reviewInfo: {},
+      }
+  },
+  methods: {
+      authUser() {
+          axios
+              .get(`${baseURL}/account/authuser/${this.$cookies.get("Auth-Token")}`)
+              .then((response) => {
+                  this.email = response.data.email
+                  this.name = response.data.name
+                  this.fetchReview()
+              })
+              .catch((err) => {
+              console.log(err.response);
+              });
+      },
+      fetchReview() {
+          axios.get(`${baseURL}/review/list/${this.pid}`)
+              .then((response) => {
+                  this.slides = response.data
+              }).catch((error) => {
+                  console.log(error)
+              })
+      },
+      startDrag(e) {
+          this.dragging = true
+          this.initialMouseX = e.pageX
+          this.initialCardsX = this.cardsX
+      },
+      stopDrag() {
+          this.dragging = false
+          const cardWidth = 290
+          const nearestSlide = -Math.round(this.cardsX / cardWidth)
+          this.selectedIndex = Math.min(Math.max(0, nearestSlide), this.slides.length -1)
+          TweenLite.to(this, 0.3, {cardsX: -this.selectedIndex * cardWidth})
+      },
+      mouseMoving (e) {
+          if (this.dragging) {
+              const dragAmount = e.pageX - this.initialMouseX
+              const targetX = this.initialCardsX + dragAmount
+              this.cardsX = targetX
+          }
+      },
+      datecut(date) {
+          var tempdatecut = date+""
+          return tempdatecut.substring(0,10)
+      },
+      reviewDelete(rvid) {
+        this.$emit('review-delete',rvid)
+      },
+      update(slide) {
+        this.reviewInfo = slide
+      },
+  },
+  created() {
+      this.authUser()
+  },
 }
 </script>
 
