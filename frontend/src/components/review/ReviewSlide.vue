@@ -1,5 +1,9 @@
 <template>
-  <div id="slider" class="slider" @mousemove="mouseMoving" @mouseout="stopDrag" @mouseup="stopDrag" @mouseLeave="stopDrag">
+<div>
+  <div v-if="slides.length == 0">
+    <i class="far fa-surprise mr-1 mb-3"></i>등록된 후기가 없습니다. 처음으로 후기를 남겨보세요!<i class="far fa-surprise ml-1"></i>
+  </div>
+  <div v-if="slides.length > 0" id="slider" class="slider" @mousemove="mouseMoving" @mouseout="stopDrag" @mouseup="stopDrag" @mouseLeave="stopDrag">
   <div class="slider-cards" :style="`transform: translate3d(${cardsX}px,0,0)`">
     <div @mousedown="startDrag"
       @mouseup="stopDrag"
@@ -45,6 +49,7 @@
   </div>
       <ReviewUpdate v-if="this.isUpdated" :reviewInfo="reviewInfo" @review-close="reviewClose"/>
 </div>
+</div>
 </template>
 
 <script>
@@ -59,7 +64,7 @@ export default {
     ReviewUpdate,
   },
   props: {
-    pid: String,
+    pid: Number,
   },
   data() {
     return {
