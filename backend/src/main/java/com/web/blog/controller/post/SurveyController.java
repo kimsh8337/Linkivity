@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -97,12 +98,16 @@ public class SurveyController {
                 map.put(postList.getActivity(), cnt + 1);
             }
         }
-        
-        System.out.println(map.toString());
-        
-        System.out.println(map.toString());
 
-        return null;
+        List<String> mapSort = new ArrayList<>(map.keySet());
+        Collections.sort(mapSort, (o1, o2) -> (map.get(o2).compareTo(map.get(o1))));
+        
+        List<String> result = new LinkedList<>();
+        for (int i = 0; i < 3; i++) {
+            result.add(mapSort.get(i));
+        }
+
+        return result;
     }
     
 }
