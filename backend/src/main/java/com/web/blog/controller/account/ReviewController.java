@@ -6,7 +6,9 @@ import java.time.LocalDateTime;
 import java.util.LinkedList;
 import java.util.List;
 
+import com.web.blog.dao.post.PostListDao;
 import com.web.blog.dao.user.ReviewDao;
+import com.web.blog.model.post.PostList;
 import com.web.blog.model.user.Review;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +24,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
 @CrossOrigin(origins = "*")
@@ -33,10 +34,24 @@ public class ReviewController {
     @Autowired
     ReviewDao reviewDao;
 
+    @Autowired
+    PostListDao postDao;
+
     @PostMapping("/regist")
     @ApiOperation("후기 등록")
     public Object regist(@RequestBody Review request) throws SQLException, IOException {
         try {
+            // 평균 평점 구하기
+            int reviewCnt = reviewDao.findByPid(request.getPid()).size();
+            PostList post = postDao.findByPid(request.getPid());
+            if(reviewCnt == 0){
+                post.setStar(request.getStar());
+            }else{
+                int cur = post.getStar();
+                int newStar = (cur * reviewCnt + request.getStar())/(reviewCnt+1);
+                post.setStar(newStar);
+            }
+            // 후기 등록
             Review review = new Review();
             review.setPid(request.getPid());
             review.setEmail(request.getEmail());
@@ -126,4 +141,13 @@ public class ReviewController {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @GetMapping("/listbyemail/{email}")
+    @ApiOperation("내가 쓴 후기 리스트")
+    public List<Review> list(@PathVariable String email) {
+        List<Review> list = new LinkedList<>();
+        list = reviewDao.findByEmail(email);
+        return list;
+    }
+
 }

@@ -11,4 +11,5 @@ public interface ReviewDao extends JpaRepository<Review, Integer>{
     Review findByRvid(int rvid);
     List<Review> findTop6ByOrderByCreateDateDesc();
     Review findByPidAndRvid(int pid, int rvid);
+    List<Review> findByEmail(String email);
 }
