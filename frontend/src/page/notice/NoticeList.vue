@@ -8,7 +8,7 @@
   <div class="container col-md-8 mt-5">
     <div class="d-flex justify-content-between notice-main">
       <p class="notice"><i class="fas fa-flag mr-2"></i>Notice</p>
-      <button class="btn btn-regist" @click="gonoticecreate"><i class="fas fa-pen mr-2"></i>공지사항 등록</button>
+      <button v-if="this.email == superadmin" class="btn btn-regist" @click="gonoticecreate"><i class="fas fa-pen mr-2"></i>공지사항 등록</button>
     </div>
 
     <table class="table">
@@ -61,12 +61,25 @@ export default {
         visit: '',
         createDate: '',
       },
+      email:'',
+      superadmin:'ssafy@ssafy.com'
     };
   },
   created() {
+    this.authUser();
     this.init();
   },
   methods: {
+    authUser() {
+      axios
+        .get(`${baseURL}/account/authuser/${this.$cookies.get("Auth-Token")}`)
+        .then((response) => {
+          this.email = response.data.email;
+        })
+        .catch((err) => {
+          console.log(err.response);
+        });
+    },
     init() {
       axios
         .get(`${baseURL}/notice/list/${this.page}`)

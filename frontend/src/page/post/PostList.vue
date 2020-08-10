@@ -87,7 +87,7 @@
         >
           <div class="card mb-3 profile-post mr-0 ml-0">
             <div class="card-body" style="padding: 0;">
-              <img :src="post.imgurl" class="card-img" style="height:10rem" />
+              <img :src="post.imgurl" class="card-img" style="height:10rem; box-shadow:5px 5px 5px rgba(0,0,0,.15)" />
               <div
                 class="card-img-overlay pt-0 pr-2"
                 @click="getdetail(post.pid)"

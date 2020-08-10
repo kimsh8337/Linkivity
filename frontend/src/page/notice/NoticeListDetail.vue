@@ -25,10 +25,10 @@
 
     <!-- Button -->
     <div class="d-flex justify-content-end mb-5 mt-5">
-      <button type="submit" class="btn btn-delete pr-0 mr-2" style="font-size: 1.1rem;" @click="noticemodify">
+      <button v-if="this.email == superadmin" type="submit" class="btn btn-delete pr-0 mr-2" style="font-size: 1.1rem;" @click="noticemodify">
         <i class="far fa-edit mr-2"></i>수정하기
       </button>
-      <button type="submit" class="btn btn-delete pr-0 mr-2" style="font-size: 1.1rem;" @click="noticedelete">
+      <button v-if="this.email == superadmin" type="submit" class="btn btn-delete pr-0 mr-2" style="font-size: 1.1rem;" @click="noticedelete">
         <i class="fas fa-trash-alt mr-2"></i>삭제하기
       </button>
       <button type="submit" class="btn btn-outline pr-0" style="font-size: 1.1rem;" @click="goNotice">
@@ -49,14 +49,27 @@ const baseURL = 'http://localhost:8080';
 
 export default {
     created(){
-        this.init();
+      this.authUser();
+      this.init();
     },
     data(){
         return{
             notice:[],
+            superadmin:'ssafy@ssafy.com',
+            email:'',
         }
     },
     methods:{
+      authUser() {
+      axios
+        .get(`${baseURL}/account/authuser/${this.$cookies.get("Auth-Token")}`)
+        .then((response) => {
+          this.email = response.data.email;
+        })
+        .catch((err) => {
+          console.log(err.response);
+        });
+    },
         init() {
           axios
             .get(`${baseURL}/notice/detail/${this.$route.params.ID}`)

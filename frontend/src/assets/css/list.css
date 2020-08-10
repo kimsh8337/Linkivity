@@ -64,6 +64,15 @@
     cursor: pointer;
 }
 
+.recent-review{
+    font-weight: bold;
+    font-size: 1.5rem;
+    text-align: left;
+    color: royalblue;
+    margin-top: 2rem;
+    cursor: pointer;
+}
+
 .more{
     font-size: 1.1rem;
     cursor: pointer;
@@ -90,7 +99,7 @@
   cursor: pointer;
 }
 
-.card img:hover{
+.card-img-top:hover{
   transform: scale(1.05);
   transition: all .3s ease-in-out;
 }

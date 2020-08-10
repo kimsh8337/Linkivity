@@ -13,7 +13,7 @@
           <div class="d-flex justify-content-start">
             <div class="inputimg">
               <input ref="imageInput" type="file" hidden @change="onChangeImages" />
-              <img class="infoimg" v-if="this.imgurl" :src="this.imgurl" />
+              <img class="infoimg" v-if="this.imgurl" :src="this.imgurl" style="box-shadow:5px 5px 5px rgba(0,0,0,.15)" />
               <button type="button" class="btn btn-outline" @click="onClickImageUpload" v-if="validated == 0">
                 <i class="fas fa-image mr-2"></i>이미지 업로드
               </button>
@@ -27,7 +27,7 @@
                   v-model="nickname"
                   id="nickname"
                   type="text"
-                  style="font-size: 30px; font-weight:bold;"
+                  style="font-size: 30px; font-weight:bold;box-shadow:5px 5px 5px rgba(0,0,0,.15)"
                 />
                 <span class="nickname-edit" v-if="validated == 0">
                   <!-- <i class="fas fa-arrow-up mr-2"></i> -->
@@ -44,7 +44,7 @@
                   v-model="email"
                   id="email"
                   type="text"
-                  style="font-size: 20px;"
+                  style="font-size: 20px; "
                 />
               </div>
               <div class="form-group-info">

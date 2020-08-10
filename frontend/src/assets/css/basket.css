@@ -29,6 +29,7 @@
   width: 10rem;
   margin-bottom: 1rem;
   cursor: pointer;
+  box-shadow: 5px 5px 5px rgba(0,0,0,.15);
 }
 
 .basket-list {
