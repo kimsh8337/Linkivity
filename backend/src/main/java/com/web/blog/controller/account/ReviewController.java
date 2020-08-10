@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
 @CrossOrigin(origins = "*")
@@ -101,4 +102,28 @@ public class ReviewController {
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
     } 
+
+    @GetMapping("/getLastReview")
+    @ApiOperation("최신 리뷰 불러오기")
+    public List<Review> getLastReview() throws SQLException, IOException {
+        List<Review> list = new LinkedList<>();
+        list = reviewDao.findTop6ByOrderByCreateDateDesc();
+        return list;
+    }
+    
+    @GetMapping("/reviewDetail/{pid}/{rvid}")
+    @ApiOperation("pid와 rvid로 데이터 가져오기")
+    public Object reviewDetail(@PathVariable int pid, @PathVariable int rvid) throws SQLException, IOException {
+        Review review = new Review();
+        try {
+            review = reviewDao.findByPidAndRvid(pid, rvid);
+            if(review != null) {
+                return review;
+            } else {
+                return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+            }
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

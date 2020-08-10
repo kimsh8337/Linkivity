@@ -9,4 +9,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface ReviewDao extends JpaRepository<Review, Integer>{
     List<Review> findByPid(int pid);
     Review findByRvid(int rvid);
+    List<Review> findTop6ByOrderByCreateDateDesc();
+    Review findByPidAndRvid(int pid, int rvid);
 }
