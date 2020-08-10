@@ -1,4 +1,4 @@
-package com.web.blog.controller.post;
+﻿package com.web.blog.controller.post;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -44,8 +44,8 @@ public class PostListController {
     // @ResponseBody
     @ApiOperation(value = "리스트 가져오기")
     public List<PostList> getList(@PathVariable String type, @PathVariable int page) {
-        int start = page * 9;
-        int end = start + 9;
+        int start = page * 5;
+        int end = start + 5;
 
         List<PostList> temp = new LinkedList<>();
         if (type.equals("all")) {
@@ -72,6 +72,39 @@ public class PostListController {
         }
 
         return list;
+    }
+
+    @GetMapping("/getThatList/{type}/{page}")
+    @ApiOperation(value = "페이지 리로딩")
+    public List<PostList> getThatList(@PathVariable String type, @PathVariable int page) throws SQLException, IOException{
+        int start = page * 5;
+        int end = start + 5;
+
+        List<PostList> temp = new LinkedList<>();
+        if (type.equals("all")) {
+            temp = postDao.findByFlagOrderByCreateDateDesc(1);
+        } else if (type.equals("spring")) {
+            temp = postDao.findBySpringAndFlagOrderByCreateDateDesc(1, 1);
+        } else if (type.equals("summer")) {
+            temp = postDao.findBySummerAndFlagOrderByCreateDateDesc(1, 1);
+        } else if (type.equals("autumn")) {
+            temp = postDao.findByAutumnAndFlagOrderByCreateDateDesc(1, 1);
+        } else if (type.equals("winter")) {
+            temp = postDao.findByWinterAndFlagOrderByCreateDateDesc(1, 1);
+        } else {
+            temp = postDao.findByPlaceAndFlagOrderByCreateDateDesc(type, 1);
+        }
+
+        if(end > temp.size()) {
+            end = temp.size();
+        }
+
+        List<PostList> tlist = new LinkedList<>();
+        for (int i = 0; i < end; i++) {
+            tlist.add(temp.get(i));
+        }
+
+        return tlist;
     }
 
     @GetMapping("/search/{type}/{key}/{word}/{page}")
@@ -126,6 +159,64 @@ public class PostListController {
 
         List<PostList> list = new LinkedList<>();
         for (int i = start; i < end; i++) {
+            list.add(post.get(i));
+        }
+
+        return list;
+    }
+
+    @GetMapping("/searchReloading/{type}/{key}/{word}/{page}")
+    @ApiOperation(value = "검색 페이지 리로딩")
+    public List<PostList> searchReloading(@PathVariable String type, @PathVariable String key, @PathVariable String word,
+            @PathVariable int page) throws SQLException, IOException {
+        List<PostList> searchpost = new LinkedList<>();
+        if (key.equals("title")) {
+            searchpost = postDao.findByTitleLikeOrderByCreateDateDesc("%" + word + "%");
+        } else if (key.equals("activity")) {
+            searchpost = postDao.findByActivityLikeOrderByCreateDateDesc("%" + word + "%");
+        } else if (key.equals("price")) {
+            int price = Integer.parseInt(word);
+            searchpost = postDao.findByPriceLessThanEqualOrderByCreateDateDesc(price);
+        }
+        List<PostList> post = new LinkedList<>();
+        if (type.equals("all")) {
+            post = searchpost;
+        } else if (type.equals("spring")) {
+            for (PostList p : searchpost) {
+                if (p.getSpring() == 1)
+                    post.add(p);
+            }
+        } else if (type.equals("summer")) {
+            for (PostList p : searchpost) {
+                if (p.getSummer() == 1)
+                    post.add(p);
+            }
+        } else if (type.equals("autumn")) {
+            for (PostList p : searchpost) {
+                if (p.getAutumn() == 1)
+                    post.add(p);
+            }
+        } else if (type.equals("winter")) {
+            for (PostList p : searchpost) {
+                if (p.getWinter() == 1)
+                    post.add(p);
+            }
+        } else {
+            for (PostList p : searchpost) {
+                if (p.getPlace().equals(type))
+                    post.add(p);
+            }
+        }
+
+        int start = page * 5;
+        int end = start + 5;
+
+        if (end > post.size()) {
+            end = post.size();
+        }
+
+        List<PostList> list = new LinkedList<>();
+        for (int i = 0; i < end; i++) {
             list.add(post.get(i));
         }
 
