@@ -8,9 +8,10 @@
       <div class="col-md-10" style="margin: 3rem auto;">
         <!-- main3button -->
         <div class="d-flex justify-content-between mb-5">
-          <a class="main3button main-btn-intro"><i class="far fa-handshake mr-2"></i>액티비티 소개</a>
-          <a class="main3button main-btn-item"><i class="fas fa-gift mr-2"></i>상품 둘러보기</a>
-          <a class="main3button main-btn-notice"><i class="fas fa-flag mr-2"></i>공지사항</a>
+          <a class="main3button main-btn-intro" data-toggle="modal" data-target="#surveymodal"><i class="far fa-handshake mr-2"></i>액티비티 추천</a>
+          <SurveyModal />
+          <a class="main3button main-btn-item" @click="goPost"><i class="fas fa-gift mr-2"></i>상품 둘러보기</a>
+          <a class="main3button main-btn-notice" @click="goNotice"><i class="fas fa-flag mr-2"></i>공지사항</a>
         </div>
 
       <!-- carousel -->
@@ -87,22 +88,18 @@
       <!-- RECENT REVIEW -->
       <div class="d-flex justify-content-between">
         <p class="recent-review mb-0">RECENT REVIEW</p>
-        <span class="more">+ more</span>
+        <!-- <span class="more">+ more</span> -->
       </div>
       <div class="row">
-        <div class="card col-12 col-sm-12 col-md-2 p-3" v-for="(post, index) in posts" :key="index" style="width: 18rem; border: none;">
+        <div class="card col-12 col-sm-12 col-md-2 p-3" v-for="(review, index) in reviews" :key="index" style="width: 18rem; border: none;">
           <div v-if="index < 6">
-            <img :src="post.imgurl" class="card-img-top" style="height:11rem; cursor: pointer; box-shadow:5px 5px 5px rgba(0,0,0,.15);" @click="getdetail(post.pid)" />
+            <img :src="review.img" class="card-img-top" style="height:11rem; cursor: pointer; box-shadow:5px 5px 5px rgba(0,0,0,.15);" @click="getdetail(review.pid)" />
             <div class="card-body p-0">
               <p
                 class="card-text mt-2  mb-0"
                 style="text-overflow:ellipsis;overflow: hidden;white-space: nowrap; font-weight: bold; color: black; text-align:left;"
               >
-                {{ post.title }}
-              </p>
-              <p class="card-text d-flex justify-content-start" style="text-overflow:ellipsis; overflow: hidden; white-space: nowrap;">
-                <i class="fas fa-heart select-button like-button mr-2 mt-1" style="text-align: left; font-size: 18px; color: crimson; "></i>
-                {{ post.likecnt }}명이 좋아합니다.
+                {{ review.title }}
               </p>
             </div>
           </div>
@@ -116,15 +113,18 @@
 <script>
 import axios from 'axios';
 import '../../assets/css/list.css';
+
 import Footer from '../../components/common/Footer.vue';
+import SurveyModal from '../../components/modal/SurveyModal.vue'
 
 const baseURL = 'http://localhost:8080';
 
 export default {
   name: 'Post',
-  components: { Footer },
+  components: { Footer, SurveyModal },
   created() {
     this.init();
+    this.reviewinit();
   },
   watch: {},
 
@@ -138,6 +138,19 @@ export default {
         .catch((err) => {
           console.log(err);
         });
+    },
+    reviewinit(){
+      axios
+      .get(`${baseURL}/review/getLastReview`)
+      .then((res)=>{
+        this.reviews = res.data;
+      })
+      .catch((err)=>{
+        console.log(err);
+      })
+    },
+    goNotice: function() {
+      this.$router.push('/notice/');
     },
     goPost: function() {
       this.$router.push('/posts/');
@@ -209,6 +222,7 @@ export default {
         edate: '',
         likecnt: '',
       },
+      reviews:{},
     };
   },
 };

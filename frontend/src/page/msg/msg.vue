@@ -1,23 +1,80 @@
 <template>
   <div>
-<button type="button" class="btn btn-primary mr-1" @click="Search">검색</button><br>
-주소 : <input type="text" name="addr1" style="width:300px; height:30px;" readonly /><br>
-상세 : <input type="text" name="addr2" style="width:300px; height:30px;" />
+    <div style="height:300px"></div>
+    <button @click="test" class="btn btn--back btn--login">결제 하기</button>
   </div>
 </template>
 
 <script>
+
 export default {
-  methods: {
-          Search() {
-          new daum.Postcode({
-            oncomplete: function(data) {
-             // 우편번호 (5자리)
-              $('[name=addr1]').val(data.address);
-              $('[name=addr2]').val(data.buildingName);
-            }
-          }).open();
-}
+  created(){
+      
+      //        var IMP = window.IMP; // 생략가능      
+      //   var msg;
+      // IMP.init('imp40062977');
+      //         IMP.request_pay({
+      //         pg : 'kakaopay',
+      //         pay_method : 'card',
+      //         merchant_uid : 'merchant_' + new Date().getTime(),
+      //         name : '엑티비티',
+      //         amount : 1,
+      //         buyer_email : 'iamport@siot.do',
+      //         buyer_name : '구매자이름',
+      //         buyer_tel : '010-1234-5678',
+      //         buyer_addr : '서울특별시 강남구 삼성동',
+      //         buyer_postcode : '123-456'
+      //     }, function(rsp) {
+      //         if ( rsp.success ) {
+      //             var msg = '결제가 완료되었습니다.';
+      //             msg += '고유ID : ' + rsp.imp_uid;
+      //             msg += '상점 거래ID : ' + rsp.merchant_uid;
+      //             msg += '결제 금액 : ' + rsp.paid_amount;
+      //             msg += '카드 승인번호 : ' + rsp.apply_num;
+      //         } else {
+      //             var msg = '결제에 실패하였습니다.';
+      //             msg += '에러내용 : ' + rsp.error_msg;
+      //         }
+
+      //         alert(msg);
+      //     });
+    
+  },
+
+  methods : {
+    test(){
+      alert(1);
+            var IMP = window.IMP; // 생략가능      
+            var msg;
+        IMP.init('iamport');
+              IMP.request_pay({
+              pg : 'html5_inicis',
+              pay_method : 'card',
+              merchant_uid : 'merchant_' + new Date().getTime(),
+              name : '링키비티',
+              amount : 100,
+              buyer_email : 'iamport@siot.do',
+              buyer_name : '구매자이름',
+              buyer_tel : '010-1234-5678',
+              buyer_addr : '서울특별시 강남구 삼성동',
+              buyer_postcode : '123-456'
+          }, function(rsp) {
+              if ( rsp.success ) {
+                  var msg = '결제가 완료되었습니다.';
+                  msg += '고유ID : ' + rsp.imp_uid;
+                  msg += '상점 거래ID : ' + rsp.merchant_uid;
+                  msg += '결제 금액 : ' + rsp.paid_amount;
+                  msg += '카드 승인번호 : ' + rsp.apply_num;
+              } else {
+                  var msg = '결제에 실패하였습니다.';
+                  msg += '에러내용 : ' + rsp.error_msg;
+              }
+              alert(msg);
+          });
+    }
   }
-}
-</script>
+
+  }
+ 
+
+    </script>
