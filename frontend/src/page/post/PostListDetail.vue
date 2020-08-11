@@ -187,7 +187,7 @@
       <!-- Q & A -->
       <h4 id="qna" class="d-flex mb-3" style="font-weight:bold">Q&A</h4>
       <!-- 댓글 List -->
-      <div class="d-flex bg-white">Comment : {{ receiveComment.length }}</div>
+      <div class="d-flex bg-white">Question : {{ receiveComment.length }}</div>
       <CommentList v-for="comment in receiveComment" :key="comment.rid" :comment="comment" @comment-delete="commentDelete" />
       <!-- 댓글 작성 -->
       <CommentInput class="mt-3" v-if="this.email" @create-comment="createcomment" />
