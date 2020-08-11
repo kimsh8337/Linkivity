@@ -1,64 +1,106 @@
 <template>
   <div class="container col-md-6">
-      <!-- 이름 입력칸  -->
-      <div class="form-group">
-        <label for="exampleInputEmail1" class="d-flex">Name</label>
-        <input v-model="name" type="text" class="form-control" id="name" aria-describedby="emailHelp" placeholder="이름을 입력해주세요.">
-        <small id="emailHelp" class="form-text text-muted d-flex">본인의 성함을 기재해주세요.</small>
-      </div>
+    <!-- 이름 입력칸  -->
+    <div class="form-group">
+      <label for="exampleInputEmail1" class="d-flex">Name</label>
+      <input v-model="name" type="text" class="form-control" id="name" aria-describedby="emailHelp" placeholder="이름을 입력해주세요." />
+      <small id="emailHelp" class="form-text text-muted d-flex">본인의 성함을 기재해주세요.</small>
+    </div>
 
-      <!-- 닉네임 입력칸 -->
-      <div class="form-group">
-        <label for="exampleInputPassword1" class="d-flex">Nickname</label>
-        <input v-model="nickname" type="text" class="form-control" id="nickname" placeholder="닉네임을 입력해주세요.">
-        <small id="emailHelp" class="form-text text-muted d-flex">원하는 닉네임을 설정해주세요.</small>
-        <i class="fas fa-user-check d-flex"><span class="error-text d-flex" v-if="error.nickname">{{error.nickname}}</span></i>
-      </div>
-      
-      <!-- email 입력칸 -->
-      <div class="form-group">
-        <label for="exampleInputPassword1" class="d-flex">E-mail</label>
-        <input v-model="email" v-bind:class="{error : error.email, complete:!error.email&&email.length!==0}" type="email" class="form-control" id="email" placeholder="이메일을 입력해주세요.">
-        <small id="emailHelp" class="form-text text-muted d-flex">회원가입을 위한 이메일을 입력해주세요.</small>
-        <i class="fas fa-at d-flex"><span class="error-text" v-if="error.email">{{error.email}}</span></i>
-      </div>
-      
-      <!-- 비밀번호 입력칸 -->
-      <div class="form-group">
-        <label for="exampleInputPassword1" class="d-flex">Password</label>
-        <input v-model="password" v-bind:class="{error : error.password, complete:!error.password&&password.length!==0}" :type="passwordType" class="form-control" id="password" placeholder="비밀번호를 입력해주세요.">
-        <small id="emailHelp" class="form-text text-muted d-flex">회원가입을 위한 비밀번호를 설정해주세요.</small>
-        <span :class="{active : passwordType==='text'}">
-          <i class="fas fa-eye d-flex"><span class="error-text" v-if="error.password">{{error.password}}</span></i>
-        </span>
-      </div>
+    <!-- 닉네임 입력칸 -->
+    <div class="form-group">
+      <label for="exampleInputPassword1" class="d-flex">Nickname</label>
+      <input v-model="nickname" type="text" class="form-control" id="nickname" placeholder="닉네임을 입력해주세요." />
+      <small id="emailHelp" class="form-text text-muted d-flex">원하는 닉네임을 설정해주세요.</small>
+      <i class="fas fa-user-check d-flex"
+        ><span class="error-text d-flex" v-if="error.nickname">{{ error.nickname }}</span></i
+      >
+    </div>
 
-      <!-- 비밀번호 확인 입력칸 -->
-      <div class="form-group">
-        <label for="exampleInputPassword1" class="d-flex">Password</label>
-        <input v-model="passwordconfirm" v-bind:class="{error : error.passwordconfirm, complete:!error.passwordconfirm&&passwordconfirm.length!==0}" :type="passwordConfirmType" class="form-control" id="passwordconfirm" placeholder="비밀번호를 확인해주세요.">
-        <small id="emailHelp" class="form-text text-muted d-flex">비밀번호 확인을 위해 다시 작성해주세요.</small>
-        <span :class="{active : passwordConfirmType==='text'}">
-          <i class="fas fa-eye d-flex"><span class="error-text" v-if="error.passwordconfirm">{{error.passwordconfirm}}</span></i>
-        </span>
+    <!-- email 입력칸 -->
+    <div class="form-group">
+      <label for="exampleInputPassword1" class="d-flex">E-mail</label>
+      <input
+        v-model="email"
+        v-bind:class="{ error: error.email, complete: !error.email && email.length !== 0 }"
+        type="email"
+        class="form-control"
+        id="email"
+        placeholder="이메일을 입력해주세요."
+      />
+      <small id="emailHelp" class="form-text text-muted d-flex">회원가입을 위한 이메일을 입력해주세요.</small>
+      <i class="fas fa-at d-flex"
+        ><span class="error-text" v-if="error.email">{{ error.email }}</span></i
+      >
+    </div>
+
+    <!-- 비밀번호 입력칸 -->
+    <div class="form-group">
+      <label for="exampleInputPassword1" class="d-flex">Password</label>
+      <input
+        v-model="password"
+        v-bind:class="{ error: error.password, complete: !error.password && password.length !== 0 }"
+        :type="passwordType"
+        class="form-control"
+        id="password"
+        placeholder="비밀번호를 입력해주세요."
+      />
+      <small id="emailHelp" class="form-text text-muted d-flex">회원가입을 위한 비밀번호를 설정해주세요.</small>
+      <span :class="{ active: passwordType === 'text' }">
+        <i class="fas fa-eye d-flex"
+          ><span class="error-text" v-if="error.password">{{ error.password }}</span></i
+        >
+      </span>
+    </div>
+
+    <!-- 비밀번호 확인 입력칸 -->
+    <div class="form-group">
+      <label for="exampleInputPassword1" class="d-flex">Password</label>
+      <input
+        v-model="passwordconfirm"
+        v-bind:class="{ error: error.passwordconfirm, complete: !error.passwordconfirm && passwordconfirm.length !== 0 }"
+        :type="passwordConfirmType"
+        class="form-control"
+        id="passwordconfirm"
+        placeholder="비밀번호를 확인해주세요."
+      />
+      <small id="emailHelp" class="form-text text-muted d-flex">비밀번호 확인을 위해 다시 작성해주세요.</small>
+      <span :class="{ active: passwordConfirmType === 'text' }">
+        <i class="fas fa-eye d-flex"
+          ><span class="error-text" v-if="error.passwordconfirm">{{ error.passwordconfirm }}</span></i
+        >
+      </span>
+    </div>
+
+    <!-- 주소 입력칸 -->
+    <div class="form-group">
+      <label for="exampleInputEmail1" class="d-flex">Address</label>
+      <div>
+        <div class="d-flex mb-1">
+          <input type="text" class="form-control" v-model="addr1" style="width:200px;" placeholder="우편번호" />
+          <button type="button" class="btn btn-primary btn-sm ml-1" @click="Search">우편번호 찾기</button>
+        </div>
+        <input type="text" class="form-control mb-1" v-model="addr2" placeholder="주소" readonly />
+        <input type="text" class="form-control mb-1" v-model="addr3" placeholder="상세주소" />
       </div>
-      
-      <!-- 주소 입력칸 -->
-      <div class="form-group">
-        <label for="exampleInputEmail1" class="d-flex">Address</label>
-        <input v-model="clocation" type="text" class="form-control" id="location" aria-describedby="emailHelp" placeholder="주소를 입력해주세요.">
-        <small id="emailHelp" class="form-text text-muted d-flex">업체의 주소를 기재해주세요.</small>
-      </div>
-      
-      <!-- 핸드폰 번호 입력칸 -->
-      <div class="form-group">
-        <label for="exampleInputEmail1" class="d-flex">Phone Number</label>
-        <input v-model="cphone" type="text" class="form-control" id="phone" aria-describedby="emailHelp" placeholder="연락처를 입력해주세요.">
-        <small id="emailHelp" class="form-text text-muted d-flex">업체 및 본인 연락처를 기재해주세요.</small>
-      </div>
-    
+    </div>
+{{clocation}}
+    <!-- 핸드폰 번호 입력칸 -->
+    <div class="form-group">
+      <label for="exampleInputEmail1" class="d-flex">Phone Number</label>
+      <input
+        v-model="cphone"
+        type="text"
+        class="form-control"
+        id="phone"
+        aria-describedby="emailHelp"
+        placeholder="연락처를 입력해주세요."
+      />
+      <small id="emailHelp" class="form-text text-muted d-flex">업체 및 본인 연락처를 기재해주세요.</small>
+    </div>
+
     <!-- img upload -->
-    <button type="button" class = "btn btn-primary d-flex" @click="onClickImageUpload">이미지 업로드</button><br>
+    <button type="button" class="btn btn-primary d-flex" @click="onClickImageUpload">이미지 업로드</button><br />
     <i v-if="!this.imgurl" class="fas fa-images d-flex"><span>사진을 등록해주세요.</span></i>
     <div class="col-md-8 p-0" align="left">
       <input ref="imageInput" type="file" hidden @change="onChangeImages" />
@@ -68,18 +110,18 @@
     <!-- 제출 버튼 -->
     <button @click="join" class="btn d-flex ml-auto">
       <i class="fas fa-pen mr-1"></i>
-          <span>작성완료</span>
+      <span>작성완료</span>
     </button>
   </div>
 </template>
 
 <script>
-import PV from "password-validator";
-import * as EmailValidator from "email-validator";
+import PV from 'password-validator';
+import * as EmailValidator from 'email-validator';
 
-import axios from 'axios'
+import axios from 'axios';
 
-const baseURL = "http://localhost:8080/account";
+const baseURL = 'http://localhost:8080/account';
 
 export default {
   props: {
@@ -95,7 +137,7 @@ export default {
       .digits()
       .has()
       .letters();
-    this.checkForm()
+    this.checkForm();
   },
   watch: {
     password: function(v) {
@@ -110,47 +152,56 @@ export default {
     nickname: function(v) {
       this.checkForm();
     },
+    addr2: function(v) {
+      this.addrSum();
+    },
   },
   methods: {
+    addrSum() {
+      this.clocation = this.addr2 + ' ' + this.addr3;
+    },
     checkForm() {
       if (this.nickname.length > 0) {
         axios
           .get(`${baseURL}/checkNickname/${this.nickname}`)
-          .then(response => {
+          .then((response) => {
             this.error.nickname = response.data;
           })
           .catch(() => {
-            alert("에러");
+            alert('에러');
           });
       } else this.error.nickname = false;
-      if (this.email.length > 0 && !EmailValidator.validate(this.email))
-        this.error.email = "이메일 형식이 아닙니다.";
+      if (this.email.length > 0 && !EmailValidator.validate(this.email)) this.error.email = '이메일 형식이 아닙니다.';
       else if (this.email.length > 0 && EmailValidator.validate(this.email)) {
         axios
           .get(`${baseURL}/checkEmail/${this.email}`)
-          .then(response => {
+          .then((response) => {
             this.error.email = response.data;
           })
           .catch(() => {
-            alert("에러");
+            alert('에러');
           });
       } else this.error.email = false;
 
-      if (
-        this.password.length > 0 &&
-        !this.passwordSchema.validate(this.password)
-      )
-        this.error.password = "영문,숫자 포함 8 자리이상이어야 합니다.";
+      if (this.password.length > 0 && !this.passwordSchema.validate(this.password))
+        this.error.password = '영문,숫자 포함 8 자리이상이어야 합니다.';
       else this.error.password = false;
-      if (
-        this.passwordconfirm.length > 0 &&
-        this.passwordconfirm != this.password
-      )
-        this.error.passwordconfirm = "비밀번호를 다시 확인해주세요.";
+      if (this.passwordconfirm.length > 0 && this.passwordconfirm != this.password)
+        this.error.passwordconfirm = '비밀번호를 다시 확인해주세요.';
       else this.error.passwordconfirm = false;
     },
     join() {
-      this.$emit('join-create-business', this.email, this.nickname, this.password, this.name, this.checkType, this.imgurl, this.clocation, this.cphone)
+      this.$emit(
+        'join-create-business',
+        this.email,
+        this.nickname,
+        this.password,
+        this.name,
+        this.checkType,
+        this.imgurl,
+        this.clocation,
+        this.cphone
+      );
     },
     onClickImageUpload() {
       this.$refs.imageInput.click();
@@ -162,25 +213,35 @@ export default {
       this.createImage(img);
       // this.imgurl = URL.createObjectURL(file);
     },
-    createImage(file){
+    createImage(file) {
       this.imgurl = new Image();
       var reader = new FileReader();
-      reader.onload = e =>{
+      reader.onload = (e) => {
         this.imgurl = e.target.result;
       };
       reader.readAsDataURL(file);
-    }
+    },
+    Search() {
+      let x = this;
+      new daum.Postcode({
+        oncomplete: function(data) {
+          x.addr1 = data.zonecode;
+          x.addr2 = data.address;
+          x.addr3 = data.buildingName;
+        },
+      }).open();
+    },
   },
   data() {
     return {
-      email: "",
-      name: "",
-      nickname: "",
-      password: "",
-      passwordconfirm: "",
-      imgurl: "",
-      clocation: "",
-      cphone: "",
+      email: '',
+      name: '',
+      nickname: '',
+      password: '',
+      passwordconfirm: '',
+      imgurl: '',
+      clocation: '',
+      cphone: '',
       passwordSchema: new PV(),
       error: {
         email: false,
@@ -188,14 +249,15 @@ export default {
         nickname: false,
         passwordconfirm: false,
       },
+      addr1: '',
+      addr2: '',
+      addr3: '',
       isTerm: false,
-      passwordType: "password",
-      passwordConfirmType: "password"
-    }
+      passwordType: 'password',
+      passwordConfirmType: 'password',
+    };
   },
-}
+};
 </script>
 
-<style>
-
-</style>
+<style></style>
