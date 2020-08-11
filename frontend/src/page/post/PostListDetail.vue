@@ -1,187 +1,192 @@
 <template>
-<div class="container col-sm-12 col-md-12 col-lg-12 p-0">
-  <!-- background image -->
-  <div class="post-img" style="display:block;">
-  </div>
-  <div class="container col-md-7" style="margin-top: 100px">
-    <div class="column">
-      <div class="card mt-5 mb-3" style="max-width: 100%;">
-        <div class="row no-gutters">
-          <div class="col-md-5">
-            <img :src="post.imgurl" class="card-img" style="height: 16rem; box-shadow:5px 5px 5px rgba(0,0,0,.15)" alt />
-          </div>
-          <div class="col-md-7">
-            <div class="card-body" style="padding: 0 0 0 20px">
-              <div class="text">
-                <div class="d-flex justify-content-start">
-                  <!-- hashTag -->
-                  <small
-                    class="text-primary mr-1"
-                    style="text-align:left; font-size:1rem; text-overflow:ellipsis; overflow: hidden; white-space: nowrap;"
-                    v-for="hash in hashTag"
-                    :key="hash.id"
-                  >#{{ hash }}</small>
-                  <!-- 카카오톡 공유하기 -->
-                  <a
-                    href="javascript:;"
-                    @click="test()"
-                    id="kakao-link-btn"
-                    style="margin-left:auto"
-                  >
-                    <img
-                      src="//developers.kakao.com/assets/img/about/logos/kakaolink/kakaolink_btn_small.png"
-                      width="28px"
-                    />
-                  </a>
-                </div>
-                <div class="d-flex justify-content-start">
-                  <!-- 업체 위치 -->
-                  <p
-                    class="card-text"
-                    style="font-size: 1rem; color: rgb(168, 168, 168); text-align: left; text-overflow:ellipsis; overflow: hidden; white-space: nowrap;"
-                  >[{{ post.location }}]</p>
-                </div>
-                <!-- 제목 -->
-                <p
-                  class="card-text font-weight-bold"
-                  style="font-size: 1.2rem; text-align: left;"
-                >[{{ post.activity }}]{{ post.title }}</p>
-                <!-- season, place check badge -->
-                <div
-                  style="text-align: left; text-overflow:ellipsis; overflow: hidden; white-space: nowrap;"
-                >
-                  <b-badge
-                    v-if="this.springCheck == 1"
-                    pill
-                    variant
-                    style="background-color: #F699CD;"
-                  >Spring</b-badge>
-                  <b-badge
-                    v-if="this.summerCheck == 1"
-                    pill
-                    variant
-                    style="background-color: #32a852;"
-                  >Summer</b-badge>
-                  <b-badge
-                    v-if="this.autumnCheck == 1"
-                    pill
-                    variant
-                    style="background-color: #CCA38D"
-                  >Autumm</b-badge>
-                  <b-badge
-                    v-if="this.winterCheck == 1"
-                    pill
-                    variant
-                    style="background-color: #D3D3D3"
-                  >Winter</b-badge>
-                  <b-badge
-                    v-if="this.placeCheck == 'ground'"
-                    pill
-                    variant
-                    style="background-color: #501B00"
-                  >Ground</b-badge>
-                  <b-badge
-                    v-if="this.placeCheck == 'water'"
-                    pill
-                    variant
-                    style="background-color: #003399"
-                  >Water</b-badge>
-                  <b-badge
-                    v-if="this.placeCheck == 'sky'"
-                    pill
-                    variant
-                    style="background-color: #8DCCE7"
-                  >Sky</b-badge>
-                </div>
-                <!-- 사용 기간 -->
-                <p
-                  class="card-text d-flex mt-3"
-                  style="font-size: 1rem; text-overflow:ellipsis; overflow: hidden; white-space:nowrap;"
-                >가용 기간 : {{ post.sdate }} ~ {{ post.edate }}</p>
-                <!-- 이용 가격 -->
-                <div class="d-flex justify-content-end mt-3">
-                  <p
-                    class="card-text mt-2 mr-4 mb-0"
-                    style="font-size: 1rem; color: rgb(168, 168, 168); text-decoration:line-through;
-                  "
-                  >\{{ post.price }}</p>
-                  <p
-                    class="card-text font-weight-bold mb-0"
-                    style="font-size: 1.5rem; text-align: left; margin-bottom: 5px;
-                  "
-                  >{{ post.price * 0.95 }} 원</p>
-                </div>
-                <hr class="mt-0" />
-                <!-- like heart -->
-                <div class="d-flex justify-content-end mr-0 mt-3 mb-3">
+  <div class="container col-sm-12 col-md-12 col-lg-12 p-0">
+    <!-- background image -->
+    <div class="post-img" style="display:block;"></div>
+    <div class="container col-md-7" style="margin-top: 100px">
+      <div class="column">
+        <div class="card mt-5 mb-3" style="max-width: 100%;">
+          <div class="row no-gutters">
+            <div class="col-md-5">
+              <img
+                :src="post.imgurl"
+                class="card-img"
+                style="height: 16rem; box-shadow:5px 5px 5px rgba(0,0,0,.15)"
+                alt
+              />
+            </div>
+            <div class="col-md-7">
+              <div class="card-body" style="padding: 0 0 0 20px">
+                <div class="text">
                   <div class="d-flex justify-content-start">
-                    <i
-                      class="fas fa-heart select-button mr-2"
-                      style="text-align: right; font-size: 20px; color:crimson"
-                    ></i>
-                    {{ post.likecnt }}명이 좋아요를 눌렀습니다.
+                    <!-- hashTag -->
+                    <small
+                      class="text-primary mr-1"
+                      style="text-align:left; font-size:1rem; text-overflow:ellipsis; overflow: hidden; white-space: nowrap;"
+                      v-for="hash in hashTag"
+                      :key="hash.id"
+                    >#{{ hash }}</small>
+                    <!-- 카카오톡 공유하기 -->
+                    <a
+                      href="javascript:;"
+                      @click="test()"
+                      id="kakao-link-btn"
+                      style="margin-left:auto"
+                    >
+                      <img
+                        src="//developers.kakao.com/assets/img/about/logos/kakaolink/kakaolink_btn_small.png"
+                        width="28px"
+                      />
+                    </a>
                   </div>
-                </div>
-                <!-- 장바구니, 구매 -->
-                <div class="d-flex justify-content-end" v-if="this.checkType == 'normal'">
-                  <button type="button" class="btn btn-primary mr-1" @click="alertbasket(post)">
-                    <i class="fas fa-shopping-basket mr-2"></i>장바구니
-                  </button>
-                  <button class="btn btn-danger">
-                    <i class="far fa-hand-point-up mr-2"></i>바로구매
-                  </button>
+                  <div class="d-flex justify-content-start">
+                    <!-- 업체 위치 -->
+                    <p
+                      class="card-text"
+                      style="font-size: 1rem; color: rgb(168, 168, 168); text-align: left; text-overflow:ellipsis; overflow: hidden; white-space: nowrap;"
+                    >[{{ post.location }}]</p>
+                  </div>
+                  <!-- 제목 -->
+                  <p
+                    class="card-text font-weight-bold"
+                    style="font-size: 1.2rem; text-align: left;"
+                  >[{{ post.activity }}]{{ post.title }}</p>
+                  <!-- season, place check badge -->
+                  <div
+                    style="text-align: left; text-overflow:ellipsis; overflow: hidden; white-space: nowrap;"
+                  >
+                    <b-badge
+                      v-if="this.springCheck == 1"
+                      pill
+                      variant
+                      style="background-color: #F699CD;"
+                    >Spring</b-badge>
+                    <b-badge
+                      v-if="this.summerCheck == 1"
+                      pill
+                      variant
+                      style="background-color: #32a852;"
+                    >Summer</b-badge>
+                    <b-badge
+                      v-if="this.autumnCheck == 1"
+                      pill
+                      variant
+                      style="background-color: #CCA38D"
+                    >Autumm</b-badge>
+                    <b-badge
+                      v-if="this.winterCheck == 1"
+                      pill
+                      variant
+                      style="background-color: #D3D3D3"
+                    >Winter</b-badge>
+                    <b-badge
+                      v-if="this.placeCheck == 'ground'"
+                      pill
+                      variant
+                      style="background-color: #501B00"
+                    >Ground</b-badge>
+                    <b-badge
+                      v-if="this.placeCheck == 'water'"
+                      pill
+                      variant
+                      style="background-color: #003399"
+                    >Water</b-badge>
+                    <b-badge
+                      v-if="this.placeCheck == 'sky'"
+                      pill
+                      variant
+                      style="background-color: #8DCCE7"
+                    >Sky</b-badge>
+                  </div>
+                  <!-- 사용 기간 -->
+                  <p
+                    class="card-text d-flex mt-3"
+                    style="font-size: 1rem; text-overflow:ellipsis; overflow: hidden; white-space:nowrap;"
+                  >유효기간 {{ post.sdate }}~{{ post.edate }}</p>
+                  <!-- 이용 가격 -->
+                  <div class="d-flex justify-content-end mt-3">
+                    <p
+                      class="card-text mt-2 mr-4 mb-0"
+                      style="font-size: 1rem; color: rgb(168, 168, 168); text-decoration:line-through;
+                  "
+                    >\{{ post.price }}</p>
+                    <p
+                      class="card-text font-weight-bold mb-0"
+                      style="font-size: 1.5rem; text-align: left; margin-bottom: 5px;
+                  "
+                    >{{ post.price * 0.95 }} 원</p>
+                  </div>
+                  <hr class="mt-0" />
+                  <!-- like heart -->
+                  <div class="d-flex justify-content-end mr-0 mt-3 mb-3">
+                    <div class="d-flex justify-content-start">
+                      <i
+                        class="fas fa-heart select-button mr-2"
+                        style="text-align: right; font-size: 20px; color:crimson"
+                      ></i>
+                      {{ post.likecnt }}명이 좋아요를 눌렀습니다.
+                    </div>
+                  </div>
+                  <!-- 장바구니, 구매 -->
+                  <div class="d-flex justify-content-end" v-if="this.checkType == 'normal'">
+                    <button type="button" class="btn btn-primary mr-1" @click="alertbasket(post)">
+                      <i class="fas fa-shopping-basket mr-2"></i>장바구니
+                    </button>
+                    <button class="btn btn-danger">
+                      <i class="far fa-hand-point-up mr-2"></i>바로구매
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-    
 
-    <!-- Scrollspy  -->
-    <nav id="navbar-example2" class="navbar nav-info">
-      <ul class="nav justify-content-between" style="width:100%;">
-        <li class="nav-item">
-          <a class="nav-link info-link" href="#item" @click="scroll">상세 정보</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link info-link" href="#corp" @click="scroll">업체 정보</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link info-link" href="#review" @click="scroll">후기</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link info-link" href="#qna" @click="scroll">Q&A</a>
-        </li>
-      </ul>
-    </nav>
-    <br />
-    <div data-spy="scroll" data-target="#navbar-example2" data-offset="0">
-      <!-- 상세 정봉 -->
-      <h4 id="item" class="d-flex mb-3" style="font-weight:bold">상세 정보</h4>
-      <p class="d-flex" style="font-align:left">{{ post.detail }}</p>
-      <hr>
-      <!-- 업체 정보 -->
-      <h4 id="corp" class="d-flex mb-3" style="font-weight:bold">업체 정보</h4>
-      <p class="d-flex">{{ post.companyInfo }}</p>
-      <hr>
-      <!-- 지도 -->
-      <p class="d-flex" style="font-size:1.5rem; font-weight:bold;">진행 장소</p>
-      <div id="map" style="max-width: 100%; height:300px;"></div>
-      <small class="d-flex mt-2" style="font-weight:bold;">{{ post.location }}</small>
-      <hr class="mt-2" />
-      <!-- 후기 -->
-      <div class="d-flex justify-content-between mb-2">
-        <div>
-          <h4 id="review" class="" style="font-weight:bold">후기</h4>
+      <!-- Scrollspy  -->
+      <nav id="navbar-example2" class="navbar nav-info" style="position: sticky; top: 0; z-index:100;">
+        <ul class="nav justify-content-between" style="width:100%;">
+          <li class="nav-item">
+            <a class="nav-link info-link" href="#item" @click="scroll" style="font-size:0.9rem;">상세정보</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link info-link" href="#corp" @click="scroll" style="font-size:0.9rem;">업체정보</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link info-link" href="#review" @click="scroll" style="font-size:0.9rem;">후기</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link info-link" href="#qna" @click="scroll" style="font-size:0.9rem;">Q&A</a>
+          </li>
+        </ul>
+      </nav>
+      <br />
+      <div data-spy="scroll" data-target="#navbar-example2" data-offset="0">
+        <!-- 상세 정봉 -->
+        <h4 id="item" class="d-flex mb-3" style="font-weight:bold">상세정보</h4>
+        <p class="d-flex" style="font-align:left">{{ post.detail }}</p>
+        <hr />
+        <!-- 업체 정보 -->
+        <h4 id="corp" class="d-flex mb-3" style="font-weight:bold">업체정보</h4>
+        <p class="d-flex">{{ post.companyInfo }}</p>
+        <hr />
+        <!-- 지도 -->
+        <p class="d-flex" style="font-size:1.5rem; font-weight:bold;">위치</p>
+        <div id="map" style="max-width: 100%; height:300px;"></div>
+        <small class="d-flex mt-2" style="font-weight:bold;">{{ post.location }}</small>
+        <hr class="mt-2" />
+        <!-- 후기 -->
+        <div class="d-flex justify-content-between mb-2">
+          <div>
+            <h4 id="review" class style="font-weight:bold">후기</h4>
+          </div>
+          <div v-if="this.checkType == 'normal'" class="review-button">
+            <i data-toggle="modal" data-target="#reviewWrite" class="fas fa-pen mr-1">
+              <small>후기 작성</small>
+            </i>
+          </div>
         </div>
-        <div v-if="this.checkType == 'normal'" class="review-button">
-          <i data-toggle="modal" data-target="#reviewWrite" class="fas fa-pen mr-1"><small>후기 작성</small></i>
-        </div>
-      </div>
-      <ReviewWrite :pid="pid" :email="email"/>
-      <ReviewSlide :pid="pid" @review-delete="reviewDelete"/>
+        <ReviewWrite :pid="pid" :email="email" />
+        <ReviewSlide :pid="pid" @review-delete="reviewDelete" />
 
       <hr>
       <!-- Q & A -->
@@ -194,19 +199,19 @@
       
     </div>
 
-    <hr class="mt-0" />
+      <hr class="mt-0" />
 
-    <!-- 글 수정 삭제 -->
-    <div class="d-flex justify-content-end mt-3 mb-3" v-if="this.email == this.post.email">
-      <button class="btn btn-success" @click="goModify">
-        <i class="far fa-edit mr-2"></i>수정하기
-      </button>
-      <button class="btn btn-danger" @click="goDelete">
-        <i class="far fa-trash-alt mr-2"></i>삭제하기
-      </button>
+      <!-- 글 수정 삭제 -->
+      <div class="d-flex justify-content-end mt-3 mb-3" v-if="this.email == this.post.email">
+        <button class="btn btn-success" @click="goModify">
+          <i class="far fa-edit mr-2"></i>수정하기
+        </button>
+        <button class="btn btn-danger" @click="goDelete">
+          <i class="far fa-trash-alt mr-2"></i>삭제하기
+        </button>
+      </div>
     </div>
   </div>
-</div>
 </template>
 
 <script>
@@ -217,8 +222,8 @@ import PostUpdateVue from "./PostUpdate.vue";
 import CommentInput from "../../components/comment/CommentInput.vue";
 import CommentList from "../../components/comment/CommentList.vue";
 
-import ReviewSlide from "../../components/review/ReviewSlide.vue"
-import ReviewWrite from "../../components/review/ReviewModal.vue"
+import ReviewSlide from "../../components/review/ReviewSlide.vue";
+import ReviewWrite from "../../components/review/ReviewModal.vue";
 
 import Swal from "sweetalert2";
 
@@ -247,21 +252,27 @@ export default {
     };
   },
   created() {
-    (this.pid = this.$route.params.ID), this.authUser();
+    if (this.$cookies.get("Auth-Token") != null) {
+      this.authUser();
+    } else {
+      this.pid = this.$route.params.ID;
+      this.getPost();
+      this.fetchComment();
+    }
     this.fetchHashTag();
-    // Kakao.init('765ed14c0d508f8aa48c6d173446acba');
   },
   methods: {
     scroll(evt) {
       evt.preventDefault();
-      const href = evt.target.getAttribute('href');
+      const href = evt.target.getAttribute("href");
       var location = document.querySelector(href).offsetTop;
-      window.scrollTo({top:location + 400, behavior:'smooth'})
+      window.scrollTo({ top: location + 360, behavior: "smooth" });
     },
     authUser() {
       axios
         .get(`${baseURL}/account/authuser/${this.$cookies.get("Auth-Token")}`)
         .then((response) => {
+          this.pid = this.$route.params.ID;
           this.checkType = response.data.checkType;
           this.email = response.data.email;
           this.getPost();
@@ -285,9 +296,9 @@ export default {
           },
         },
         social: {
-          likeCount: 286, // LIKE 개수
-          commentCount: 45, // 댓글 개수
-          sharedCount: 845,
+          likeCount: this.post.likecnt, // LIKE 개수
+          commentCount: this.receiveComment.length, // 댓글 개수
+          // sharedCount: 845,
         },
         buttons: [
           {
@@ -521,47 +532,48 @@ export default {
     },
     reviewDelete(rvid) {
       Swal.fire({
-      width: 300,
-      text: "후기를 삭제하시겠습니까?",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: '<a style="font-size:1rem; color:black">Delete</a>',
-      cancelButtonText: '<a style="font-size:1rem; color:black">Cancel</a>',
-    }).then((result) => {
-      if (result.value) {
-        const Toast = Swal.mixin({
-        toast: true,
-        position: 'top-end',
-        showConfirmButton: false,
-        timer: 1000,
-        timerProgressBar: true,
-        onOpen: (toast) => {
-          toast.addEventListener('mouseenter', Swal.stopTimer)
-          toast.addEventListener('mouseleave', Swal.resumeTimer)
-        }
-      })
+        width: 300,
+        text: "후기를 삭제하시겠습니까?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: '<a style="font-size:1rem; color:black">Delete</a>',
+        cancelButtonText: '<a style="font-size:1rem; color:black">Cancel</a>',
+      }).then((result) => {
+        if (result.value) {
+          const Toast = Swal.mixin({
+            toast: true,
+            position: "top-end",
+            showConfirmButton: false,
+            timer: 1000,
+            timerProgressBar: true,
+            onOpen: (toast) => {
+              toast.addEventListener("mouseenter", Swal.stopTimer);
+              toast.addEventListener("mouseleave", Swal.resumeTimer);
+            },
+          });
 
-      Toast.fire({
-        icon: 'success',
-        title: '후기 삭제 완료!'
-      })
-      axios.delete(`${baseURL}/review/delete/${rvid}`)
-        .then(() => {
-          setTimeout(() => {
-            this.$router.go()
-          },1000)
-        }).catch((error) => {
-          console.log(error)
-        }) 
-      }
-    })
+          Toast.fire({
+            icon: "success",
+            title: "후기 삭제 완료!",
+          });
+          axios
+            .delete(`${baseURL}/review/delete/${rvid}`)
+            .then(() => {
+              setTimeout(() => {
+                this.$router.go();
+              }, 1000);
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+        }
+      });
     },
   },
 };
 </script>
 
 <style>
-
 </style>

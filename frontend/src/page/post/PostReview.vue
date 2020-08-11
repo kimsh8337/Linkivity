@@ -4,16 +4,17 @@
       <div
         v-for="(slide, index) in reviews"
         :key="index"
-        class="col-12 col-sm-12 col-md-3 card-deck"
-        style=" margin:auto 0;"
+        class="col-12 col-sm-12 col-md-3 p-3"
       >
-        <div class="card mb-3 profile-post mr-0 ml-0">
+        <!-- <div class="card mb-3 profile-post mr-0 ml-0"> -->
           <div class="card-body" style="padding: 0; cursor: pointer;" @click="getdetail(slide.pid)">
             <!-- img 보여주기 -->
-            <img class="review-img" :src="slide.img" :alt="slide.title" />
+            <img v-if="slide.img" class="review-img" :src="slide.img" :alt="slide.title" style="height:8rem;"/>
+            <img v-if="!slide.img" class="review-img" src="../../assets/img/noimage.jpg" style="height:8rem;" />
+              
             <!-- 프로필 보여주기 -->
             <div class="d-flex justify-content-between">
-              <img class="user-img d-flex m-1" :src="slide.proimg" style="border-radius:70px;"/>
+              <img class="user-img d-flex m-3" :src="slide.proimg" style="border-radius:70px;" />
               <div class="mt-2 mr-4">
                 <div class="d-flex">
                   <small
@@ -35,7 +36,7 @@
               <span style="font-weight:bold;">{{slide.title}}</span>
             </div>
           </div>
-        </div>
+        <!-- </div> -->
       </div>
     </div>
   </div>
@@ -79,13 +80,13 @@ export default {
       var tempdatecut = date + "";
       return tempdatecut.substring(0, 10);
     },
-    getdetail(pid){
-         scroll(0, 0);
+    getdetail(pid) {
+      scroll(0, 0);
       this.$router.push({
         name: "PostListDetail",
         params: { ID: pid },
       });
-    }
+    },
   },
   created() {
     this.authUser();
@@ -96,8 +97,8 @@ export default {
 <style>
 .review-img {
   width: 100%;
-  height: 50%;
-  box-shadow:5px 5px 5px rgba(0,0,0,.15)
+  height: 8rem;
+  box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.15);
 }
 .user-img {
   width: 50px;

@@ -219,9 +219,6 @@ export default {
     cancel() {
       this.pwvalidated = 0;
     },
-    templist() {
-      this.$router.push('/posttemp');
-    },
 
     checkForm() {
       if (this.password.length > 0 && !this.passwordSchema.validate(this.password))
