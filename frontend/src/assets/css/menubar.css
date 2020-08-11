@@ -1,0 +1,44 @@
+.side-menu{
+    width: 7rem;
+    height: 19rem;
+    z-index: 5;
+    position: fixed;
+    bottom: 5%;
+    right:1.5%
+}
+
+.side-main-button{
+    color: crimson;
+    border: 0.5px solid crimson;
+    background: none;
+    position: fixed;
+    bottom: 5.5%;
+    right: 4%;
+    border-radius: 25px;
+    width: 45px;
+    height:45px;
+    font-size: 1.2rem;
+}
+
+.side-main-button:focus{
+    outline: none;
+}
+
+
+
+.side-menu-bar{
+    text-align: left;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+
+.side-menu-bar li{
+    height: 2rem;
+    width: auto;
+    margin: 0;
+    margin-bottom: 0.5rem;
+    color: black;
+    font-size: 1.2rem;
+}

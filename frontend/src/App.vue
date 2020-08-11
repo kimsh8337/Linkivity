@@ -3,6 +3,7 @@
     <Header :isHeader="isHeader" />
     <LoginModal />
     <router-view />
+    <Menubar :scrollposition="scrollposition" @change-showbar="changeshowbar" :showbar="showbar" />
     <Footer />
   </div>
 </template>
@@ -13,6 +14,7 @@ import Header from './components/common/Header.vue';
 import constants from './lib/constants';
 import LoginModal from './components/modal/LoginModal.vue';
 import Footer from './components/common/Footer.vue';
+import Menubar from './components/common/MenuBar.vue';
 
 export default {
   name: 'App',
@@ -20,11 +22,15 @@ export default {
     Header,
     LoginModal,
     Footer,
+    Menubar,
   },
   created() {
     let url = this.$route.name;
 
     this.checkUrl(url);
+
+    window.addEventListener('scroll',this.updatescroll);
+
   },
   watch: {
     $route(to) {
@@ -41,11 +47,27 @@ export default {
       });
       this.isHeader = isHeader;
     },
+    updatescroll(){
+            this.scrollposition = window.scrollY
+            // 퍼센트계산
+            // this.scrollposition = Math.floor(window.scrollY) / ($(document).height())
+            console.log(this.scrollposition)
+            },
+    changeshowbar(showbar){
+            if(this.showbar == true){
+                this.showbar = false
+            }else{
+                this.showbar = true
+            }
+            console.log(this.showbar)
+            },
   },
-  data: function() {
+  data() {
     return {
       isHeader: true,
       constants,
+      scrollposition:0,
+      showbar:false,
     };
   },
 };

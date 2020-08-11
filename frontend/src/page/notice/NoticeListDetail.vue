@@ -22,37 +22,20 @@
       <div class="form-group">
         <label class="d-flex notice-content-main mr-3">Contents</label>
         <small class="form-text notice-content-sub text-muted d-flex">{{notice.content}}</small>
-      </div>
+    </div>
+    <hr>
 
-      <!-- Button -->
-      <div class="d-flex justify-content-end mb-5 mt-5">
-        <button
-          v-if="this.email == superadmin"
-          type="submit"
-          class="btn btn-delete pr-0 mr-2"
-          style="font-size: 1.1rem;"
-          @click="noticemodify"
-        >
-          <i class="far fa-edit mr-2"></i>수정하기
-        </button>
-        <button
-          v-if="this.email == superadmin"
-          type="submit"
-          class="btn btn-delete pr-0 mr-2"
-          style="font-size: 1.1rem;"
-          @click="noticedelete"
-        >
-          <i class="fas fa-trash-alt mr-2"></i>삭제하기
-        </button>
-        <button
-          type="submit"
-          class="btn btn-outline pr-0"
-          style="font-size: 1.1rem;"
-          @click="goNotice"
-        >
-          <i class="fas fa-th-list mr-2"></i>목록으로
-        </button>
-      </div>
+    <!-- Button -->
+    <div class="d-flex justify-content-end mb-5">
+      <button v-if="this.email == superadmin" type="submit" class="btn btn-delete pr-0 mr-2" style="font-size: 1.1rem;" @click="noticemodify">
+        <i class="far fa-edit mr-2"></i>수정하기
+      </button>
+      <button v-if="this.email == superadmin" type="submit" class="btn btn-delete pr-0 mr-2" style="font-size: 1.1rem;" @click="noticedelete">
+        <i class="fas fa-trash-alt mr-2"></i>삭제하기
+      </button>
+      <button type="submit" class="btn btn-outline pr-0" style="font-size: 1.1rem;" @click="goNotice">
+        <i class="fas fa-th-list mr-2"></i>목록으로
+      </button>
     </div>
   </div>
 </template>

@@ -94,7 +94,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .review-img {
   width: 100%;
   height: 8rem;
@@ -103,5 +103,11 @@ export default {
 .user-img {
   width: 50px;
   height: 50px;
+}
+
+.card-body:hover{
+  transform: scale(1.05);
+  transition: all .3s ease-in-out;
+  cursor: pointer;
 }
 </style>
