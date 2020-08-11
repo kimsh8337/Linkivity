@@ -1,53 +1,56 @@
 <template>
-<div class="container col-sm-12 col-md-12 col-lg-12 p-0">
-  <!-- background image -->
-  <div class="notice-img" style="display:block;">
-  </div>
+  <div class="container col-sm-12 col-md-12 col-lg-12 p-0">
+    <!-- background image -->
+    <div class="notice-img" style="display:block;"></div>
 
-  <!-- NoticeList -->
-  <div class="container col-md-8 mt-5">
-    <div class="d-flex justify-content-between notice-main">
-      <p class="notice"><i class="fas fa-flag mr-2"></i>Notice</p>
-      <button v-if="this.email == superadmin" class="btn btn-regist" @click="gonoticecreate"><i class="fas fa-pen mr-2"></i>공지사항 등록</button>
+    <!-- NoticeList -->
+    <div class="container col-md-8 mt-5">
+      <div class="d-flex justify-content-between notice-main">
+        <p class="notice">
+          <i class="fas fa-flag mr-2"></i>Notice
+        </p>
+        <button v-if="this.email == superadmin" class="btn btn-regist" @click="gonoticecreate">
+          <i class="fas fa-pen mr-2"></i>공지사항 등록
+        </button>
+      </div>
+
+      <table class="table">
+        <thead class="thead-light">
+          <tr>
+            <th scope="col" class="table-num">No</th>
+            <th scope="col" class="table-title">Title</th>
+            <th scope="col" class="table-date">Date</th>
+            <th scope="col" class="table-date">Visit</th>
+          </tr>
+        </thead>
+        <tbody v-if="notices.length > 0">
+          <tr v-for="(notice, index) in notices" :key="index">
+            <td scope="row">{{ (page - 1) * 10 + (index + 1) }}</td>
+            <td class="notice-title" @click="gonoticedetail(notice.nid)">
+              <span class="badge badge-pill badge-danger" v-if="notice.importance == 3">필독</span>
+              <span class="badge badge-pill badge-warning" v-if="notice.importance == 2">중요</span>
+              <span class="badge badge-pill badge-success" v-if="notice.importance == 1">일반</span>
+              {{ notice.title }}
+            </td>
+            <td>{{ writeDate(notice.createDate) }}</td>
+            <td>{{ notice.visit }}</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- paging -->
+      <b-pagination class="pagination" v-model="page" :total-rows="len" pills :per-page="10"></b-pagination>
     </div>
-
-    <table class="table">
-      <thead class="thead-light">
-        <tr>
-          <th scope="col" class="table-num">No</th>
-          <th scope="col" class="table-title">Title</th>
-          <th scope="col" class="table-date">Date</th>
-          <th scope="col" class="table-date">Visit</th>
-        </tr>
-      </thead>
-      <tbody v-if="notices.length > 0">
-        <tr v-for="(notice, index) in notices" :key="index">
-          <td scope="row">{{ (page - 1) * 10 + (index + 1) }}</td>
-          <td class="notice-title" @click="gonoticedetail(notice.nid)">
-            <span class="badge badge-pill badge-danger" v-if="notice.importance == 3">필독</span>
-            <span class="badge badge-pill badge-warning" v-if="notice.importance == 2">중요</span>
-            <span class="badge badge-pill badge-success" v-if="notice.importance == 1">일반</span>
-            {{ notice.title }}
-          </td>
-          <td>{{ writeDate(notice.createDate) }}</td>
-          <td>{{ notice.visit }}</td>
-        </tr>
-      </tbody>
-    </table>
-
-    <!-- paging -->
-    <b-pagination class="pagination" v-model="page" :total-rows="len" pills :per-page="10"></b-pagination>
   </div>
-</div>
 </template>
 
 <script>
-import axios from 'axios';
-import '../../assets/css/noticelist.css'
-import BPagenation from 'bootstrap-vue';
-import Swal from 'sweetalert2';
+import axios from "axios";
+import "../../assets/css/noticelist.css";
+import BPagenation from "bootstrap-vue";
+import Swal from "sweetalert2";
 
-const baseURL = 'http://localhost:8080';
+const baseURL = "http://localhost:8080";
 
 export default {
   data() {
@@ -55,23 +58,24 @@ export default {
       page: 1,
       len: 0,
       notices: {
-        nid: '',
-        title: '',
-        content: '',
-        visit: '',
-        createDate: '',
+        nid: "",
+        title: "",
+        content: "",
+        visit: "",
+        createDate: "",
       },
-      email:'',
-      superadmin:'ssafy@ssafy.com'
+      email: "",
+      superadmin: "ssafy@ssafy.com",
     };
   },
   created() {
-    this.authUser();
+    if (this.$cookies.get("Auth-Token") != null) this.authUser();
     this.init();
   },
   methods: {
     authUser() {
-      axios
+      if(this.$cookies.get("Auth-Token")) {
+        axios
         .get(`${baseURL}/account/authuser/${this.$cookies.get("Auth-Token")}`)
         .then((response) => {
           this.email = response.data.email;
@@ -79,6 +83,7 @@ export default {
         .catch((err) => {
           console.log(err.response);
         });
+      }
     },
     init() {
       axios
@@ -100,7 +105,7 @@ export default {
         });
     },
     gonoticecreate() {
-      this.$router.push('/noticecreate');
+      this.$router.push("/noticecreate");
     },
     gonoticedetail(nid) {
       axios
@@ -113,12 +118,12 @@ export default {
         });
 
       this.$router.push({
-        name: 'NoticeListDetail',
+        name: "NoticeListDetail",
         params: { ID: nid },
       });
     },
     writeDate(createDate) {
-      var wd = createDate + '';
+      var wd = createDate + "";
       return wd.substring(0, 10);
     },
     checkPage() {
@@ -135,13 +140,17 @@ export default {
     },
   },
   watch: {
-    page: function(v) {
+    page: function (v) {
       this.checkPage();
     },
   },
 };
 </script>
 
-<style scoped>
-
+<style>
+#__BVID__18___BV_tab_button__ {
+  height: 50px;
+  padding-top: 15px;
+  padding-bottom: 0;
+}
 </style>

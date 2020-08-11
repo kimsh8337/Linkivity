@@ -11,25 +11,31 @@
             ></div> -->
             <div class="col-md-12 p-0">
               <div class="card-body" style="padding: 5px;">
-                <p
+                <!-- <p
                   class="card-text mb-2"
                   style="font-size: 1rem; text-align: left; text-overflow:ellipsis;overflow: hidden;white-space: nowrap; color:gray"
                 >
                   {{ likePost.sdate }}~{{ likePost.edate }}
-                </p>
+                </p> -->
                 <h5
-                  class="card-title"
+                  class="card-title m-0"
                   @click="getdetail(likePost.pid)"
-                  style="font-size: 1rem; text-align: left; margin-bottom: 1rem; text-overflow:ellipsis;overflow: hidden;white-space: nowrap;"
+                  style="font-size: 1rem; text-align: left; text-overflow:ellipsis;overflow: hidden;white-space: nowrap;"
                 >
                   {{ likePost.title }}
                 </h5>
+                <div class="card-text mb-3" style="text-align: left; font-size: 0.8rem;">
+                      <span>
+                        <i class="fas fa-star mr-1" style="color:Salmon; font-size:0.7rem;"></i>
+                        {{round(likePost.star)}}
+                      </span>
+                    </div>
                 <div class="text d-flex justify-content-between">
                   <p
                     class="card-text"
                     style="font-size: 1rem; text-align: left; text-overflow:ellipsis;overflow: hidden;white-space: nowrap;"
                   >
-                    가격 : {{ likePost.price }}
+                    {{ likePost.price }}원
                   </p>
                   <button type="button" class="btn btn-outline-danger btn-sm" style="height:30px;" @click="deleteLike(likePost.pid)">삭제</button>
                 </div>
@@ -161,6 +167,9 @@ export default {
             });
         }
       });
+    },
+    round(star) {
+      return Math.round(star * 10) / 10.0;
     },
   },
   watch: {

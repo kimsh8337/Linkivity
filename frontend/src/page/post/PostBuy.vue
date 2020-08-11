@@ -16,9 +16,9 @@
         </tr>
       </thead>
       <tbody v-for="(itm, idx) in item" :key="idx">
-        <tr id="tt" @click="goDetail(itm.pid)">
-          <td><img :src="itm.img" style="width: 100px; height: 100px;" /></td>
-          <td>{{ itm.title }}</td>
+        <tr id="tt" >
+          <td><img :src="itm.img" @click="goDetail(itm.pid)" style="width: 100px; height: 100px; cursor:pointer;" /></td>
+          <td><div @click="goDetail(itm.pid)" style="cursor:pointer;">{{ itm.title }}</div></td>
           <td>{{ itm.sdate }} ~ {{ itm.edate }}</td>
           <td>{{ itm.price }}</td>
           <td>{{ itm.serialno }}</td>
@@ -100,6 +100,6 @@ export default {
   vertical-align: middle;
 }
 #tt:hover {
-  background-color: rgba(127, 172, 255, 0.25);
+  /* background-color: rgba(127, 172, 255, 0.25); */
 }
 </style>
