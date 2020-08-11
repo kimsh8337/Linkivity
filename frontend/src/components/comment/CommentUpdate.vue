@@ -56,7 +56,7 @@ export default {
             .then(() => {
               Toast.fire({
                 icon: 'success',
-                title: 'Update completed!'
+                title: '댓글 수정 완료!'
               })
               setTimeout(() => {
                 this.$router.go()

@@ -33,10 +33,11 @@
       <div>
         <ul class="list-group list-group-flush">
           <li class="list-group-item d-flex p-1">
-            <CommentUpdate v-if="isUpdated" :comment="comment" @update-comment="commentModify" />
+            <CommentUpdate v-if="isUpdated" :comment="comment"/>
           </li>
         </ul>
       </div>
+      <!--  -->
     </div>
     <CommentReplyAnswer v-if="replyCheck" :comment="comment"/>
   </div>
