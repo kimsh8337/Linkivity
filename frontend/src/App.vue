@@ -51,7 +51,7 @@ export default {
             this.scrollposition = window.scrollY
             // 퍼센트계산
             // this.scrollposition = Math.floor(window.scrollY) / ($(document).height())
-            console.log(this.scrollposition)
+            // console.log(this.scrollposition)
             },
     changeshowbar(showbar){
             if(this.showbar == true){
@@ -59,7 +59,7 @@ export default {
             }else{
                 this.showbar = true
             }
-            console.log(this.showbar)
+            // console.log(this.showbar)
             },
   },
   data() {
