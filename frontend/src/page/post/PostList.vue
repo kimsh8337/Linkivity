@@ -87,11 +87,12 @@
         >
           <div class="card mb-3 profile-post mr-0 ml-0">
             <div class="card-body" style="padding: 0;">
-              <img :src="post.imgurl" class="card-img" style="height:10rem; box-shadow:5px 5px 5px rgba(0,0,0,.15)" />
+              <div class="postlist-img"  @click="getdetail(post.pid)">
+
+              <img :src="post.imgurl" class="card-img postlist-img" style="height:10rem; box-shadow:5px 5px 5px rgba(0,0,0,.15)" />
               <div
                 class="card-img-overlay pt-0 pr-2"
-                @click="getdetail(post.pid)"
-                style="text-align:right; font-size:0.7rem; font-weight:400; color: white; "
+                style="text-align:right; font-size:0.7rem; font-weight:400; color: white; widht:1rem; height:1rem; "
               >
                 <!-- <button class="location-button">{{post.location}}</button> -->
                 <!-- <p>{{ post.location.substring(0,2) }}</p> -->
@@ -99,6 +100,7 @@
                   <i class="fa fa-map-marker" style="font-size:0.7rem;"></i>
                   {{localarea(post.location)}}
                 </span>
+              </div>
               </div>
               <div class="col-md-12 p-0">
                 <div class="card-body" style="padding: 5px; height:10rem;">
@@ -156,7 +158,6 @@
                         style="text-align: right; font-size: 20px;"
                       ></i>
                     </div>
-                    <!--  -->
                   </div>
                 </div>
               </div>
@@ -165,8 +166,21 @@
         </div>
       </div>
 
+      <!-- side bar -->
+      <!-- <div class="side-menu">
+        <button class="side-btn1" v-if="showbar == 1"><i class="fas fa-stream mx-2 "></i><br>Post</button>
+        <button class="side-btn2" v-if="showbar == 1"><i class="fas fa-flag mx-2"></i><br>Notice</button>
+        <button class="side-btn3" v-if="showbar == 1"><i class="fas fa-pen mx-2"></i><br>Write</button>
+        <button class="side-btn4" v-if="showbar == 1"><i class="fas fa-shopping-basket mx-2"></i><br>Basket</button>
+        <button class="side-btn5" v-if="showbar == 1"><i class="far fa-user mx-2"></i><br>Mypage</button>
+        <button class="side-btn6" v-if="showbar == 1" style="text-align:center;"><i class="fas fa-angle-double-up mx-2 upBtn" @click="toTop" style="cursor:pointer;"></i></button>
+        <button class="side-main-button" @click="changeshowbar"><i class="fas fa-bars"></i></button>
+      </div> -->
+      
+      
+
       <!-- top button -->
-      <i class="fas fa-2x fa-angle-double-up upBtn" @click="toTop" style="cursor:pointer;"></i>
+      <!-- <i v-if="this.scrollposition > 100" class="fas fa-2x fa-angle-double-up upBtn" @click="toTop" style="cursor:pointer;"></i> -->
       <!-- infinite loading -->
       <infinite-loading :identifier="infiniteId" @infinite="infiniteHandler" spinner="waveDots">
         <div slot="no-more">
@@ -233,9 +247,7 @@ export default {
       this.page = 1;
       this.reloading(this.page);
     },
-    toTop() {
-      scroll(0, 0);
-    },
+
     infiniteHandler($state) {
       if (this.key == "") {
         axios
@@ -452,13 +464,13 @@ export default {
 </script>
 
 <style>
-.card-img-overlay {
-  cursor: pointer;
-}
 .upBtn {
-  position: fixed;
+  /* position: fixed;
   right: 5%;
-  top: 90%;
+  top: 90%; */
   color: red;
+  margin-left: 0.7rem;
+  margin-right: 0.7rem;
+  /* margin-bottom: 1rem; */
 }
 </style>

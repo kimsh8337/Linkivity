@@ -4,12 +4,11 @@
       <div class="col-12 col-sm-12 col-md-3 card-deck" style="margin:auto 0;" v-for="(likePost, lindex) in likePosts" :key="lindex">
         <div class="card mb-3 profile-post mr-0 ml-0">
           <div class="card-body" style="padding: 0;">
-            <img :src="likePost.imgurl" class="card-img" style="height:10rem; box-shadow:5px 5px 5px rgba(0,0,0,.15)" />
-            <div
+            <img :src="likePost.imgurl" @click="getdetail(likePost.pid)" class="card-img" style="height:10rem; box-shadow:5px 5px 5px rgba(0,0,0,.15)" />
+            <!-- <div
               class="card-img-overlay"
-              @click="getdetail(likePost.pid)"
               style="padding:4rem 0; text-align:center; font-size:1.3rem; font-weight:bold; color: white;"
-            ></div>
+            ></div> -->
             <div class="col-md-12 p-0">
               <div class="card-body" style="padding: 5px;">
                 <p
@@ -175,4 +174,10 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped>
+.card-img:hover{
+  transform: scale(1.05);
+  transition: all .3s ease-in-out;
+  cursor: pointer;
+}
+</style>
