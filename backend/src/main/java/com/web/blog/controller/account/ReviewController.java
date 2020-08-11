@@ -30,7 +30,7 @@ import io.swagger.annotations.ApiOperation;
 @RestController
 @RequestMapping("/review")
 public class ReviewController {
-    
+
     @Autowired
     ReviewDao reviewDao;
 
@@ -42,13 +42,14 @@ public class ReviewController {
     public Object regist(@RequestBody Review request) throws SQLException, IOException {
         try {
             // 평균 평점 구하기
-            int reviewCnt = reviewDao.findByPid(request.getPid()).size();
+            float reviewCnt = reviewDao.findByPid(request.getPid()).size();
             PostList post = postDao.findByPid(request.getPid());
-            if(reviewCnt == 0){
+            if (reviewCnt == 0) {
                 post.setStar(request.getStar());
-            }else{
-                int cur = post.getStar();
-                int newStar = (cur * reviewCnt + request.getStar())/(reviewCnt+1);
+            } else {
+                float cur = post.getStar();
+                float newStar = (cur * reviewCnt + (float) request.getStar()) / (reviewCnt + 1);
+                System.out.println(newStar);
                 post.setStar(newStar);
             }
             // 후기 등록
@@ -84,8 +85,14 @@ public class ReviewController {
     public Object modify(@RequestBody Review request) throws SQLException, IOException {
         try {
             Review temp = reviewDao.findByRvid(request.getRvid());
-            
-            if(temp != null) {
+
+            if (temp != null) {
+                float reviewCnt = reviewDao.findByPid(request.getPid()).size();
+                PostList post = postDao.findByPid(request.getPid());
+                float cur = post.getStar();
+                float newStar = (cur * reviewCnt - (float) temp.getStar() + (float) request.getStar()) / reviewCnt;
+                post.setStar(newStar);
+
                 Review nTemp = temp;
                 nTemp.setTitle(request.getTitle());
                 nTemp.setContent(request.getContent());
@@ -93,7 +100,7 @@ public class ReviewController {
                 nTemp.setStar(request.getStar());
                 LocalDateTime time = LocalDateTime.now();
                 nTemp.setCreateDate(time);
-    
+
                 reviewDao.save(nTemp);
 
                 return new ResponseEntity<>(nTemp, HttpStatus.ACCEPTED);
@@ -110,13 +117,19 @@ public class ReviewController {
     @ApiOperation("후기 삭제")
     public Object delete(@PathVariable int rvid) throws SQLException, IOException {
         Review review = reviewDao.findByRvid(rvid);
-        if(review != null) {
+        if (review != null) {
+            float reviewCnt = reviewDao.findByPid(review.getPid()).size();
+            PostList post = postDao.findByPid(review.getPid());
+            float cur = post.getStar();
+            float newStar = (cur * reviewCnt - (float)review.getStar()) / (reviewCnt - 1);
+            post.setStar(newStar);
+
             reviewDao.delete(review);
             return new ResponseEntity<>(review, HttpStatus.ACCEPTED);
         } else {
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
-    } 
+    }
 
     @GetMapping("/getLastReview")
     @ApiOperation("최신 리뷰 불러오기")
@@ -125,14 +138,14 @@ public class ReviewController {
         list = reviewDao.findTop6ByOrderByCreateDateDesc();
         return list;
     }
-    
+
     @GetMapping("/reviewDetail/{pid}/{rvid}")
     @ApiOperation("pid와 rvid로 데이터 가져오기")
     public Object reviewDetail(@PathVariable int pid, @PathVariable int rvid) throws SQLException, IOException {
         Review review = new Review();
         try {
             review = reviewDao.findByPidAndRvid(pid, rvid);
-            if(review != null) {
+            if (review != null) {
                 return review;
             } else {
                 return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);

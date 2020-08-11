@@ -124,10 +124,13 @@
                     </div>
                   </div>
                   <h5
-                    class="card-title"
+                    class="card-title m-0"
                     @click="getdetail(post.pid)"
-                    style="font-size: 1rem; text-align: left; margin-bottom: 1rem; text-overflow:ellipsis;overflow: hidden;white-space: nowrap;"
+                    style="font-size: 1rem; text-align: left; text-overflow:ellipsis;overflow: hidden;white-space: nowrap;"
                   >{{ post.title }}</h5>
+                  <div class="card-text mb-2" style="text-align: left; font-size: 0.8rem;">
+                    <span><i class="fas fa-star mr-1" style="color:Salmon; font-size:0.7rem;"></i>{{round(post.star)}}</span>
+                    </div>
                   <!-- pre-line; -->
                   <p
                     class="card-text mb-2"
@@ -218,6 +221,9 @@ export default {
     };
   },
   methods: {
+    round(star){
+      return Math.round(star*10)/10.0;
+    },
     settype(typename) {
       this.key = '';
       this.word = '';
