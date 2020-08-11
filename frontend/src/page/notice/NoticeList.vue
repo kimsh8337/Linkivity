@@ -71,7 +71,8 @@ export default {
   },
   methods: {
     authUser() {
-      axios
+      if(this.$cookies.get("Auth-Token")) {
+        axios
         .get(`${baseURL}/account/authuser/${this.$cookies.get("Auth-Token")}`)
         .then((response) => {
           this.email = response.data.email;
@@ -79,6 +80,7 @@ export default {
         .catch((err) => {
           console.log(err.response);
         });
+      }
     },
     init() {
       axios
@@ -142,6 +144,10 @@ export default {
 };
 </script>
 
-<style scoped>
-
+<style>
+#__BVID__18___BV_tab_button__ {
+  height: 50px;
+  padding-top: 15px;
+  padding-bottom: 0;
+}
 </style>
