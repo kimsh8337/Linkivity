@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <table class="table" >
+    <table class="table">
       <thead class="thead-dark">
         <tr>
           <th>구매자</th>
@@ -14,43 +14,53 @@
       <tr id="tt" v-for="(itm, index) in items" :key="index">
         <td>{{itm.email}}</td>
         <td>
-          <img :src="itm.img" style="width: 100px; height: 100px;" />
+          <img :src="itm.img" style="width: 100px; height: 100px; cursor:pointer;" @click="getdetail(itm.pid)" />
         </td>
-        <td>{{ itm.title }}</td>
+        <td><div style="cursor:pointer;" @click="getdetail(itm.pid)">{{ itm.title }}</div></td>
         <td>{{ itm.sdate }} ~ {{ itm.edate }}</td>
         <td>{{ itm.price }}원</td>
         <td>
-            <button class="btn btn-outline-danger btn-sm pt-0 pb-0" style="height:20px; font-size:12px;" v-if="itm.puse==0" @click="makeuse(itm.purid)">구매확정</button>   
-        <!-- <b-badge
-                    v-if="itm.puse == 0"
-                    pill
-                    variant
-                    style="background-color: #003399"
-                  >미사용</b-badge>-->
-        <b-badge 
-                    v-if="itm.puse == 1"
-                    pill
-                    variant
-                    style="background-color: #C4302B"
-                  >사용완료</b-badge>
+          <button
+            class="btn btn-outline-danger btn-sm pt-0 pb-0"
+            style="height:20px; font-size:12px;"
+            v-if="itm.puse==0"
+            data-toggle="modal" data-target="#confirmmodal"
+            @click="open(itm.purid)"
+          >구매확정</button>
+          <b-badge v-if="itm.puse == 1" pill variant style="background-color: #C4302B">사용완료</b-badge>
         </td>
       </tr>
     </table>
+          <ConfirmModal :purid="this.id" @make-use="makeuse" />
     <br />
   </div>
+  
 </template>
 
 <script>
 import axios from "axios";
+import ConfirmModal from "../../components/modal/ConfirmModal.vue";
 const baseURL = "http://localhost:8080";
 
 export default {
+  components:{ConfirmModal},
   data() {
     return {
       items: [],
+      id:'',
     };
   },
+  
   methods: {
+    open(purid){
+      this.id = purid;
+    },
+    getdetail(pid) {
+      this.$router.push({
+        name: 'PostListDetail',
+        params: { ID: pid },
+      });
+    },
     authUser() {
       axios
         .get(`${baseURL}/account/authuser/${this.$cookies.get("Auth-Token")}`)
@@ -72,8 +82,8 @@ export default {
           console.log(err);
         });
     },
-    makeuse(purid){
-        Swal.fire({
+    makeuse(purid,serialno) {
+      Swal.fire({
         width: 350,
         text: "사용확정 처리하시겠습니까?",
         icon: "warning",
@@ -84,35 +94,51 @@ export default {
         cancelButtonText: '<a style="font-size:1rem; color:white;">취소</a>',
       }).then((result) => {
         if (result.value) {
-          const Toast = Swal.mixin({
-            toast: true,
-            position: "top-end",
-            showConfirmButton: false,
-            timer: 1000,
-            timerProgressBar: true,
-            onOpen: (toast) => {
-              toast.addEventListener("mouseenter", Swal.stopTimer);
-              toast.addEventListener("mouseleave", Swal.resumeTimer);
-            },
-          });
-
-          Toast.fire({
-            icon: "success",
-            title: "사용확정 처리되었습니다.",
-          });
           axios
-            .get(`${baseURL}/purchase/checkuse/${purid}`)
+            .get(`${baseURL}/purchase/checkuse/${purid}/${serialno}`)
             .then((response) => {
-              this.init();
+              if (response.data != "") {
+                const Toast = Swal.mixin({
+                  toast: true,
+                  position: "top-end",
+                  showConfirmButton: false,
+                  timer: 1000,
+                  timerProgressBar: true,
+                  onOpen: (toast) => {
+                    toast.addEventListener("mouseenter", Swal.stopTimer);
+                    toast.addEventListener("mouseleave", Swal.resumeTimer);
+                  },
+                });
+                Toast.fire({
+                  icon: "success",
+                  title: "사용확정 처리되었습니다.",
+                });
+              } else {
+                  serialno=""
+                  const Toast = Swal.mixin({
+                  toast: true,
+                  position: "top-end",
+                  showConfirmButton: false,
+                  timer: 1000,
+                  timerProgressBar: true,
+                  onOpen: (toast) => {
+                    toast.addEventListener("mouseenter", Swal.stopTimer);
+                    toast.addEventListener("mouseleave", Swal.resumeTimer);
+                  },
+                });
+                Toast.fire({
+                  icon: "error",
+                  title: "일련번호가 일치하지 않습니다.",
+                });
+              }
+              this.init()
             })
             .catch((error) => {
               console.log(error);
             });
         }
       });
-
-
-    }
+    },
   },
   created() {
     this.authUser();

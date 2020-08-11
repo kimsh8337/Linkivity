@@ -122,12 +122,19 @@ public class PurchaseController {
         }
     }
 
-    @GetMapping("/checkuse/{purid}")
+    @GetMapping("/checkuse/{purid}/{serialno}")
     @ApiOperation("사용 확정 처리")
-    public Object checkuse(@PathVariable int purid) throws SQLException, IOException {
+    public Object checkuse(@PathVariable int purid, @PathVariable String serialno) throws SQLException, IOException {
         Purchase purchase = purchaseDao.findByPurid(purid);
-        purchase.setPuse(1);
-        purchaseDao.save(purchase);
-        return purchase;
+        String pur_serialno = purchase.getSerialno();
+        if(pur_serialno.equals(serialno)){
+            purchase.setPuse(1);
+            purchaseDao.save(purchase);
+            return new ResponseEntity<>(purchase, HttpStatus.ACCEPTED);
+            
+        }else{
+            return new ResponseEntity<>(null, HttpStatus.ACCEPTED);
+        }
     }
+
 }
