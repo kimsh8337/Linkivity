@@ -4,46 +4,6 @@
     <div class="post-img" style="display:block;"></div>
 
     <div class="post mt-5">
-      <button class="btn btn-spring btn-circle btn-xl mb-5 mr-5" @click="settype('all')">
-        <br />
-        <br />
-        <br />All
-      </button>
-      <button class="btn btn-spring btn-circle btn-xl mb-5 mr-5" @click="settype('spring')">
-        <br />
-        <br />
-        <br />Spring
-      </button>
-      <button class="btn btn-summer btn-circle btn-xl mb-5 mr-5" @click="settype('summer')">
-        <br />
-        <br />
-        <br />Summer
-      </button>
-      <button class="btn btn-fall btn-circle btn-xl mb-5 mr-5" @click="settype('autumn')">
-        <br />
-        <br />
-        <br />Fall
-      </button>
-      <button class="btn btn-winter btn-circle btn-xl mb-5 mr-5" @click="settype('winter')">
-        <br />
-        <br />
-        <br />Winter
-      </button>
-      <button class="btn btn-ground btn-circle btn-xl mb-5 mr-5" @click="settype('ground')">
-        <br />
-        <br />
-        <br />Ground
-      </button>
-      <button class="btn btn-water btn-circle btn-xl mb-5 mr-5" @click="settype('water')">
-        <br />
-        <br />
-        <br />Water
-      </button>
-      <button class="btn btn-sky btn-circle btn-xl mb-5" @click="settype('sky')">
-        <br />
-        <br />
-        <br />Sky
-      </button>
       <div class="container col-md-8">
         <div class="input-group mb-5">
           <div class="input-group-prepend">
@@ -55,28 +15,34 @@
               v-model="key"
             >
               <div role="separator" class="dropdown-divider"></div>
-              <!-- <option value>All</option> -->
-              <!-- <option value="all">All</option> -->
               <option value disabled>검색조건</option>
               <option value="title">Title</option>
               <option value="activity">Activity</option>
               <option value="price">Price</option>
             </select>
           </div>
-          <input
-            type="text"
-            class="form-control"
-            placeholder="Search"
-            v-model="word"
-            @keypress.enter="search"
-          />
+          <input type="text" class="form-control" placeholder="Search" v-model="word" @keypress.enter="search" />
+        </div>
+
+        <div class="hello">
+          <div>
+            <b-tabs content-class="mt-5" justified active-nav-item-class="font-weight-bold text-uppercase text-danger">
+              <b-tab title="All" active @click="settype('all')"></b-tab>
+              <b-tab title="Spring" @click="settype('spring')"></b-tab>
+              <b-tab title="Fall" @click="settype('autumn')"></b-tab>
+              <b-tab title="Winter" @click="settype('winter')"></b-tab>
+              <b-tab title="Ground" @click="settype('ground')"></b-tab>
+              <b-tab title="Water" @click="settype('water')"></b-tab>
+              <b-tab title="Sky" @click="settype('sky')"></b-tab>
+            </b-tabs>
+          </div>
         </div>
 
         <!-- <div class="d-flex justify-content-end">
         <a type="button" class="btn btn-outline form-check mb-2" @click="gocreate">
           <i class="fas fa-pen"></i> 상품 등록
         </a>
-        </div>-->
+      </div>-->
         <div class="row justify-content-left" v-if="posts.length > 0">
           <div
             class="col-12 col-sm-12 col-md-3 card-deck"
@@ -100,7 +66,7 @@
                   <!-- <p>{{ post.location.substring(0,2) }}</p> -->
                   <span class="pr-2 pl-2 pb-1" style="background-color:rgba(0,0,0,0.3);z-index:34;">
                     <i class="fa fa-map-marker" style="font-size:0.7rem;"></i>
-                    {{localarea(post.location)}}
+                    {{ localarea(post.location) }}
                   </span>
                 </div>
                 <div class="col-md-12 p-0">
@@ -110,7 +76,7 @@
                   <div v-if="tagg.pid == post.pid" >
                     {{tagg.tag}}
                   </div>
-                    </div>-->
+                  </div>-->
                     <!-- </div> -->
                     <div
                       v-for="tagg in tag"
@@ -130,18 +96,13 @@
                       class="card-title m-0"
                       @click="getdetail(post.pid)"
                       style="font-size: 1rem; text-align: left; text-overflow:ellipsis;overflow: hidden;white-space: nowrap;"
-                    >{{ post.title }}</h5>
-                    <div class="card-text mb-3" style="text-align: left; font-size: 0.8rem;">
-                      <span>
-                        <i class="fas fa-star mr-1" style="color:Salmon; font-size:0.7rem;"></i>
-                        {{round(post.star)}}
-                      </span>
+                    >
+                      {{ post.title }}
+                    </h5>
+                    <div class="card-text mb-2" style="text-align: left; font-size: 0.8rem;">
+                      <span><i class="fas fa-star mr-1" style="color:Salmon; font-size:0.7rem;"></i>{{ round(post.star) }}</span>
                     </div>
                     <!-- pre-line; -->
-                    <!-- <p
-                    class="card-text mb-2"
-                    style="font-size: 1rem; text-align: left; text-overflow:ellipsis;overflow: hidden;white-space: nowrap; color:gray"
-                    >{{ post.sdate }}~{{ post.edate }}</p>-->
 
                     <div class="text d-flex justify-content-between">
                       <p
@@ -156,11 +117,7 @@
                           class="fas fa-heart select-button like-button"
                           style="text-align: right; font-size: 20px; color:crimson;"
                         ></i>
-                        <i
-                          v-if="!check(post.pid)"
-                          class="far fa-heart"
-                          style="text-align: right; font-size: 20px;"
-                        ></i>
+                        <i v-if="!check(post.pid)" class="far fa-heart" style="text-align: right; font-size: 20px;"></i>
                       </div>
                       <!--  -->
                     </div>
@@ -186,14 +143,14 @@
 </template>
 
 <script>
-import "../../assets/css/postlist.css";
-import axios from "axios";
-import InfiniteLoading from "vue-infinite-loading";
-import Swal from "sweetalert2";
+import '../../assets/css/postlist.css';
+import axios from 'axios';
+import InfiniteLoading from 'vue-infinite-loading';
+import Swal from 'sweetalert2';
 
 // const Swal = require('sweetalert2')
 
-const baseURL = "http://localhost:8080";
+const baseURL = 'http://localhost:8080';
 
 export default {
   components: {
@@ -216,10 +173,10 @@ export default {
       //   edate: "",
       //   likecnt: "",
       // },
-      key: "",
-      word: "",
-      type: "all",
-      email: "",
+      key: '',
+      word: '',
+      type: 'all',
+      email: '',
       postLike: [],
       tag: [],
       searchCK: false,
@@ -243,7 +200,7 @@ export default {
       scroll(0, 0);
     },
     infiniteHandler($state) {
-      if (this.key == "") {
+      if (this.key == '') {
         axios
           .get(`${baseURL}/post/getList/${this.type}/${this.page}`)
           .then((res) => {
@@ -266,9 +223,7 @@ export default {
           });
       } else {
         axios
-          .get(
-            `${baseURL}/post/search/${this.type}/${this.key}/${this.word}/${this.page}`
-          )
+          .get(`${baseURL}/post/search/${this.type}/${this.key}/${this.word}/${this.page}`)
           .then((res) => {
             setTimeout(() => {
               if (res.data.length) {
@@ -291,7 +246,7 @@ export default {
     getdetail(pid) {
       scroll(0, 0);
       this.$router.push({
-        name: "PostListDetail",
+        name: 'PostListDetail',
         params: { ID: pid },
       });
     },
@@ -299,21 +254,19 @@ export default {
       this.page = 1;
       this.infiniteId += 1;
 
-      if (this.key == "") {
-        this.word = "";
+      if (this.key == '') {
+        this.word = '';
       } else {
-        if (this.word == "") {
-          alert("검색어를 입력하세요.");
+        if (this.word == '') {
+          alert('검색어를 입력하세요.');
         } else {
           this.searchCK = true;
           this.page = 1;
-          // this.init();
           axios
-            .get(
-              `${baseURL}/post/search/${this.type}/${this.key}/${this.word}/0`
-            )
+            .get(`${baseURL}/post/search/${this.type}/${this.key}/${this.word}/0`)
             .then((res) => {
               this.posts = res.data;
+              this.nextTag();
             })
             .catch((err) => {
               console.log(err);
@@ -327,18 +280,17 @@ export default {
           .get(`${baseURL}/like/registDelete/${this.email}/${pid}`)
           .then((res) => {
             this.checklike();
-            // this.init();
             this.reloading(this.page);
             if (this.check(pid) == false) {
-              this.$toasted.show("좋아좋아요", {
-                theme: "bubble",
-                position: "top-right",
+              this.$toasted.show('좋아좋아요', {
+                theme: 'bubble',
+                position: 'top-right',
                 duration: 1000,
               });
             } else {
-              this.$toasted.show("좋아요 취소", {
-                theme: "bubble",
-                position: "top-right",
+              this.$toasted.show('좋아요 취소', {
+                theme: 'bubble',
+                position: 'top-right',
                 duration: 1000,
               });
             }
@@ -348,15 +300,14 @@ export default {
           });
       } else {
         Swal.fire({
-          icon: "error",
-          text: "로그인 후 이용해주세요...",
-          confirmButtonColor: "#fff",
+          icon: 'error',
+          text: '로그인 후 이용해주세요...',
+          confirmButtonColor: '#fff',
           width: 350,
-          confirmButtonText:
-            '<a data-toggle="modal" data-target="#LoginModal" style="font-size:1rem; color:black" >Login</a>',
+          confirmButtonText: '<a data-toggle="modal" data-target="#LoginModal" style="font-size:1rem; color:black" >Login</a>',
           showCancelButton: true,
           cancelButtonText: '<a style="font-size:1rem; color:black">Cancel</a>',
-          cancelButtonColor: "#fff",
+          cancelButtonColor: '#fff',
         }).then((result) => {
           Swal.close();
         });
@@ -371,7 +322,6 @@ export default {
       return false;
     },
     reloading(pg) {
-      // console.log('reloading this page = ' + pg);
       if (this.searchCK) {
         axios
           .get(
@@ -381,6 +331,7 @@ export default {
           )
           .then((res) => {
             this.posts = res.data;
+            this.nextTag();
           })
           .catch((err) => {
             console.log(err);
@@ -390,6 +341,7 @@ export default {
           .get(`${baseURL}/post/getThatList/${this.type}/${pg - 1}`)
           .then((res) => {
             this.posts = res.data;
+            this.nextTag();
           })
           .catch((err) => {
             console.log(err);
@@ -432,25 +384,23 @@ export default {
       }
     },
     localarea(location) {
-      var la = location + "";
+      var la = location + '';
       return la.substring(0, 2);
     },
     addComma(num) {
       var regexp = /\B(?=(\d{3})+(?!\d))/g;
-      return num.toString().replace(regexp, ",");
+      return num.toString().replace(regexp, ',');
     },
   },
   created() {
     this.filter = this.$route.params.TYPE;
-    if (this.$cookies.get("Auth-Token") == null) {
-      // this.init();
+    if (this.$cookies.get('Auth-Token') == null) {
       return;
     }
     axios
-      .get(`${baseURL}/account/authuser/${this.$cookies.get("Auth-Token")}`)
+      .get(`${baseURL}/account/authuser/${this.$cookies.get('Auth-Token')}`)
       .then((response) => {
         this.email = response.data.email;
-        // this.init();
         this.checklike();
       })
       .catch((err) => {
@@ -470,5 +420,16 @@ export default {
   right: 5%;
   top: 90%;
   color: red;
+}
+#__BVID__9___BV_tab_button__,
+#__BVID__11___BV_tab_button__,
+#__BVID__13___BV_tab_button__,
+#__BVID__15___BV_tab_button__,
+#__BVID__17___BV_tab_button__,
+#__BVID__19___BV_tab_button__,
+#__BVID__21___BV_tab_button__ {
+  height: 50px;
+  padding-top: 15px;
+  padding-bottom: 0;
 }
 </style>
