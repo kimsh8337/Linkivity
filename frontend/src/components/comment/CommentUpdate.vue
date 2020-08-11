@@ -1,6 +1,6 @@
 <template>
   <div class="input-group mb-3">
-    <input
+    <textarea
       type="text"
       class="form-control"
       placeholder="Please write modify content"

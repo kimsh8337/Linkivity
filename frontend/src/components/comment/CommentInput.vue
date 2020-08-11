@@ -1,18 +1,21 @@
 <template>
   <div class="input-group">
-    <div class="input-group-prepend">
-      <span class="input-group-text bg-white" style="height: 2.5rem; border: none;">Comment</span>
+    <!-- label -->
+    <div class="input-group-prepend my-auto">
+      <span class="input-group-text bg-white" style="height: 2.5rem; border: none;">Question</span>
     </div>
+    <!-- content -->
     <textarea
-      class="form-control my-1"
+      class="form-control my-auto"
       style="height: 2.5rem; border:none !important; "
       aria-label="With textarea"
       v-model="commentData.content"
-      placeholder="댓글을 자유롭게 남겨주세요^^"
+      placeholder="질문을 남겨주세요!"
     ></textarea>
-    <div class="input-group-prepend buttonComment" style="border:none;">
+    <!-- input button -->
+    <div class="input-group-prepend buttonComment my-auto" style="border:none;"> 
       <span
-        class="input-group-text bg-white"
+        class="input-group-text bg-white pr-3"
         style="height: 2.5rem; border:none; border-top-right-radius: 5px; border-bottom-right-radius: 5px;"
         @click="createComment"
       >
