@@ -20,7 +20,7 @@
                 <small class="d-flex align-items-center" style="font-weight:bold">{{slide.nickname}}</small><br>
             </div>
             <div class="d-flex">
-                <i class="fas fa-star" style="color:Salmon" v-for="i in slide.star" :key="i.id"></i>
+                <i class="fas fa-star" style="color:Salmon;" v-for="i in slide.star" :key="i.id"></i>
             </div>
         </div>
         <!-- 날짜 및 수정 삭제 -->
@@ -135,6 +135,7 @@ export default {
       },
   },
   created() {
+    if(this.$cookies.get("Auth-Token")!=null)
       this.authUser()
   },
 }

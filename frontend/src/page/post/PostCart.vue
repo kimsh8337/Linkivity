@@ -4,33 +4,38 @@
       <div class="col-12 col-sm-12 col-md-3 card-deck" style="margin:auto 0;" v-for="(cartPost, cindex) in cartPosts" :key="cindex">
         <div class="card mb-3 profile-post mr-0 ml-0" >
           <div class="card-body" style="padding: 0;">
-            <img :src="cartPost.imgurl" class="card-img" style="height:10rem; box-shadow:5px 5px 5px rgba(0,0,0,.15)" />
-            <div
+            <img :src="cartPost.imgurl" class="card-img" @click="getdetail(cartPost.pid)" style="height:10rem; box-shadow:5px 5px 5px rgba(0,0,0,.15)" />
+            <!-- <div
               class="card-img-overlay"
-              @click="getdetail(cartPost.pid)"
               style="padding:4rem 0; text-align:center; font-size:1.3rem; font-weight:bold; color: white;"
-            ></div>
+            ></div> -->
             <div class="col-md-12 p-0">
               <div class="card-body" style="padding: 5px;">
-                <p
+                <!-- <p
                   class="card-text mb-2"
                   style="font-size: 1rem; text-align: left; text-overflow:ellipsis;overflow: hidden;white-space: nowrap; color:gray"
                 >
                   {{ cartPost.sdate }}~{{ cartPost.edate }}
-                </p>
+                </p> -->
                 <h5
-                  class="card-title"
+                  class="card-title m-0"
                   @click="getdetail(cartPost.pid)"
-                  style="font-size: 1rem; text-align: left; margin-bottom: 1rem; text-overflow:ellipsis;overflow: hidden;white-space: nowrap;"
+                  style="font-size: 1rem; text-align: left;  text-overflow:ellipsis;overflow: hidden;white-space: nowrap;"
                 >
                   {{ cartPost.title }}
                 </h5>
+                <div class="card-text mb-3" style="text-align: left; font-size: 0.8rem;">
+                      <span>
+                        <i class="fas fa-star mr-1" style="color:Salmon; font-size:0.7rem;"></i>
+                        {{round(cartPost.star)}}
+                      </span>
+                    </div>
                 <div class="text d-flex justify-content-between">
                   <p
                     class="card-text"
                     style="font-size: 1rem; text-align: left; text-overflow:ellipsis;overflow: hidden;white-space: nowrap;"
                   >
-                    가격 : {{ cartPost.price }}
+                  {{ cartPost.price }}원
                   </p>
                   <button type="button" class="btn btn-outline-danger btn-sm" style="height:30px;" @click="deleteCart(cartPost.pid)">삭제</button>
                 </div>
@@ -167,6 +172,9 @@ export default {
         }
       });
     },
+    round(star) {
+      return Math.round(star * 10) / 10.0;
+    },
   },
   watch: {
     cpage: function(v) {
@@ -179,4 +187,10 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped>
+.card-img:hover{
+  transform: scale(1.05);
+  transition: all .3s ease-in-out;
+  cursor: pointer;
+}
+</style>

@@ -18,36 +18,34 @@
     line-height: 5rem;
     font-size: 1.2rem;
     cursor: pointer;
+    font-weight: bold;
 }
 
 .main-btn-intro:hover{
-    background:url('../img/sky1.png') no-repeat;
-    background-size: 22rem 5rem;
-    color: white !important;
-    transform: scale(1.05);
+    /* background:url('../img/sky1.png') no-repeat; */
+    /* background-size: 22rem 5rem; */
+    /* color: white !important; */
+    transform: scale(1.02);
     transition: all .3s ease-in-out;
-    opacity: 0.8;
-    font-weight: bold;
+    /* opacity: 0.8; */
 }
 
 .main-btn-item:hover{
-    background:url('../img/Paragliding.jpg') no-repeat;
-    background-size: 22rem 5rem;
-    color: white !important;
-    transform: scale(1.05);
+    /* background:url('../img/Paragliding.jpg') no-repeat; */
+    /* background-size: 22rem 5rem; */
+    /* color: white !important; */
+    transform: scale(1.02);
     transition: all .3s ease-in-out;
-    opacity: 0.8;
-    font-weight: bold;
+    /* opacity: 0.8; */
 }
 
 .main-btn-notice:hover{
-    background:url('../img/Kayaking.jpg') no-repeat;
+    /* background:url('../img/Kayaking.jpg') no-repeat; */
     background-size: 22rem 5rem;
-    color: white !important;
-    transform: scale(1.05);
+    /* color: white !important; */
+    transform: scale(1.02);
     transition: all .3s ease-in-out;
-    opacity: 0.8;
-    font-weight: bold;
+    /* opacity: 0.8; */
 }
 
 .img1 img{

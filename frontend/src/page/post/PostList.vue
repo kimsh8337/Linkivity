@@ -43,32 +43,34 @@
           <i class="fas fa-pen"></i> 상품 등록
         </a>
       </div>-->
-        <div class="row justify-content-left" v-if="posts.length > 0">
-          <div
-            class="col-12 col-sm-12 col-md-3 card-deck"
-            style="margin:auto 0; padding:0 20px ;"
-            v-for="(post, index) in posts"
-            :key="index"
-          >
-            <div class="card mb-3 profile-post mr-0 ml-0">
-              <div class="card-body" style="padding: 0;">
-                <img :src="post.imgurl" class="card-img" style="height:10rem; box-shadow:5px 5px 5px rgba(0,0,0,.15)" />
-                <div
-                  class="card-img-overlay pt-0 pr-2"
-                  @click="getdetail(post.pid)"
-                  style="text-align:right; font-size:0.7rem; font-weight:400; color: white; "
-                >
-                  <!-- <button class="location-button">{{post.location}}</button> -->
-                  <!-- <p>{{ post.location.substring(0,2) }}</p> -->
-                  <span class="pr-2 pl-2 pb-1" style="background-color:rgba(0,0,0,0.3);z-index:34;">
-                    <i class="fa fa-map-marker" style="font-size:0.7rem;"></i>
-                    {{ localarea(post.location) }}
-                  </span>
-                </div>
-                <div class="col-md-12 p-0">
-                  <div class="card-body" style="padding: 5px; height:10rem;">
-                    <!-- tag -->
-                    <!-- <div v-for="tagg in tag" :key="tagg.pid">
+      <div class="row justify-content-left" v-if="posts.length > 0">
+        <div
+          class="col-12 col-sm-12 col-md-3 card-deck"
+          style="margin:auto 0; padding:0 20px ;"
+          v-for="(post, index) in posts"
+          :key="index"
+        >
+          <div class="card mb-3 profile-post mr-0 ml-0">
+            <div class="card-body" style="padding: 0;">
+              <div class="postlist-img"  @click="getdetail(post.pid)">
+
+              <img :src="post.imgurl" class="card-img postlist-img" style="height:10rem; box-shadow:5px 5px 5px rgba(0,0,0,.15)" />
+              <div
+                class="card-img-overlay pt-0 pr-2"
+                style="text-align:right; font-size:0.7rem; font-weight:400; color: white; widht:1rem; height:1rem; "
+              >
+                <!-- <button class="location-button">{{post.location}}</button> -->
+                <!-- <p>{{ post.location.substring(0,2) }}</p> -->
+                <span class="pr-2 pl-2 pb-1" style="background-color:rgba(0,0,0,0.3);z-index:34;">
+                  <i class="fa fa-map-marker" style="font-size:0.7rem;"></i>
+                  {{localarea(post.location)}}
+                </span>
+              </div>
+              </div>
+              <div class="col-md-12 p-0">
+                <div class="card-body" style="padding: 5px; height:10rem;">
+                  <!-- tag -->
+                  <!-- <div v-for="tagg in tag" :key="tagg.pid">
                   <div v-if="tagg.pid == post.pid" >
                     {{tagg.tag}}
                   </div>
@@ -85,8 +87,7 @@
                           v-for="tagname in tagg.tag"
                           :key="tagname"
                           style="font-size: 0.8rem; font-weight:bold;"
-                          >#{{ tagname }}</span
-                        >
+                        >#{{ tagname }}</span>
                       </div>
                     </div>
                     <h5
@@ -105,9 +106,7 @@
                       <p
                         class="card-text"
                         style="font-size: 1rem; font-weight:bold; text-align: left; text-overflow:ellipsis;overflow: hidden;white-space: nowrap;"
-                      >
-                        {{ addComma(post.price) }}원
-                      </p>
+                      >{{ addComma(post.price) }}원</p>
                       <!-- heart like -->
                       <div id="heart" @click="registlike(post.pid)">
                         {{ post.likecnt }}
@@ -126,14 +125,8 @@
             </div>
           </div>
         </div>
-
-        <!-- top button -->
-        <i class="fas fa-2x fa-angle-double-up upBtn" @click="toTop" style="cursor:pointer;"></i>
         <!-- infinite loading -->
         <infinite-loading :identifier="infiniteId" @infinite="infiniteHandler" spinner="waveDots">
-          <div slot="no-more">
-            <a @click="toTop"></a>
-          </div>
           <div slot="no-results"></div>
         </infinite-loading>
       </div>
@@ -187,17 +180,15 @@ export default {
       return Math.round(star * 10) / 10.0;
     },
     settype(typename) {
-      this.key = '';
-      this.word = '';
+      this.key = "";
+      this.word = "";
       this.searchCK = false;
       this.type = typename;
       this.infiniteId += 1;
       this.page = 1;
       this.reloading(this.page);
     },
-    toTop() {
-      scroll(0, 0);
-    },
+
     infiniteHandler($state) {
       if (this.key == '') {
         axios
@@ -323,7 +314,11 @@ export default {
     reloading(pg) {
       if (this.searchCK) {
         axios
-          .get(`${baseURL}/post/searchReloading/${this.type}/${this.key}/${this.word}/${pg - 1}`)
+          .get(
+            `${baseURL}/post/searchReloading/${this.type}/${this.key}/${
+              this.word
+            }/${pg - 1}`
+          )
           .then((res) => {
             this.posts = res.data;
             this.nextTag();
@@ -407,14 +402,14 @@ export default {
 </script>
 
 <style>
-.card-img-overlay {
-  cursor: pointer;
-}
 .upBtn {
-  position: fixed;
+  /* position: fixed;
   right: 5%;
-  top: 90%;
+  top: 90%; */
   color: red;
+  margin-left: 0.7rem;
+  margin-right: 0.7rem;
+  /* margin-bottom: 1rem; */
 }
 #__BVID__9___BV_tab_button__,
 #__BVID__11___BV_tab_button__,
