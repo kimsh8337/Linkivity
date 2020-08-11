@@ -1,181 +1,187 @@
 <template>
-<div class="container col-sm-12 col-md-12 col-lg-12 p-0">
-  <!-- background image -->
-  <div class="post-img" style="display:block;">
-  </div>
+  <div class="container col-sm-12 col-md-12 col-lg-12 p-0">
+    <!-- background image -->
+    <div class="post-img" style="display:block;"></div>
 
-  <div class="post mt-5">
-    <button class="btn btn-spring btn-circle btn-xl mb-5 mr-5" @click="settype('all')">
-      <br />
-      <br />
-      <br />All
-    </button>
-    <button class="btn btn-spring btn-circle btn-xl mb-5 mr-5" @click="settype('spring')">
-      <br />
-      <br />
-      <br />Spring
-    </button>
-    <button class="btn btn-summer btn-circle btn-xl mb-5 mr-5" @click="settype('summer')">
-      <br />
-      <br />
-      <br />Summer
-    </button>
-    <button class="btn btn-fall btn-circle btn-xl mb-5 mr-5" @click="settype('autumn')">
-      <br />
-      <br />
-      <br />Fall
-    </button>
-    <button class="btn btn-winter btn-circle btn-xl mb-5 mr-5" @click="settype('winter')">
-      <br />
-      <br />
-      <br />Winter
-    </button>
-    <button class="btn btn-ground btn-circle btn-xl mb-5 mr-5" @click="settype('ground')">
-      <br />
-      <br />
-      <br />Ground
-    </button>
-    <button class="btn btn-water btn-circle btn-xl mb-5 mr-5" @click="settype('water')">
-      <br />
-      <br />
-      <br />Water
-    </button>
-    <button class="btn btn-sky btn-circle btn-xl mb-5" @click="settype('sky')">
-      <br />
-      <br />
-      <br />Sky
-    </button>
-    <div class="container col-md-8">
-      <div class="input-group mb-5">
-        <div class="input-group-prepend">
-          <select
-            class="btn dropdown-toggle text-black"
-            style="border: 1px solid gray; z-index: 1;"
-            aria-haspopup="true"
-            aria-expanded="false"
-            v-model="key"
-          >
-            <div role="separator" class="dropdown-divider"></div>
-            <!-- <option value>All</option> -->
-            <!-- <option value="all">All</option> -->
-            <option value disabled>검색조건</option>
-            <option value="title">Title</option>
-            <option value="activity">Activity</option>
-            <option value="price">Price</option>
-          </select>
+    <div class="post mt-5">
+      <button class="btn btn-spring btn-circle btn-xl mb-5 mr-5" @click="settype('all')">
+        <br />
+        <br />
+        <br />All
+      </button>
+      <button class="btn btn-spring btn-circle btn-xl mb-5 mr-5" @click="settype('spring')">
+        <br />
+        <br />
+        <br />Spring
+      </button>
+      <button class="btn btn-summer btn-circle btn-xl mb-5 mr-5" @click="settype('summer')">
+        <br />
+        <br />
+        <br />Summer
+      </button>
+      <button class="btn btn-fall btn-circle btn-xl mb-5 mr-5" @click="settype('autumn')">
+        <br />
+        <br />
+        <br />Fall
+      </button>
+      <button class="btn btn-winter btn-circle btn-xl mb-5 mr-5" @click="settype('winter')">
+        <br />
+        <br />
+        <br />Winter
+      </button>
+      <button class="btn btn-ground btn-circle btn-xl mb-5 mr-5" @click="settype('ground')">
+        <br />
+        <br />
+        <br />Ground
+      </button>
+      <button class="btn btn-water btn-circle btn-xl mb-5 mr-5" @click="settype('water')">
+        <br />
+        <br />
+        <br />Water
+      </button>
+      <button class="btn btn-sky btn-circle btn-xl mb-5" @click="settype('sky')">
+        <br />
+        <br />
+        <br />Sky
+      </button>
+      <div class="container col-md-8">
+        <div class="input-group mb-5">
+          <div class="input-group-prepend">
+            <select
+              class="btn dropdown-toggle text-black"
+              style="border: 1px solid gray; z-index: 1;"
+              aria-haspopup="true"
+              aria-expanded="false"
+              v-model="key"
+            >
+              <div role="separator" class="dropdown-divider"></div>
+              <!-- <option value>All</option> -->
+              <!-- <option value="all">All</option> -->
+              <option value disabled>검색조건</option>
+              <option value="title">Title</option>
+              <option value="activity">Activity</option>
+              <option value="price">Price</option>
+            </select>
+          </div>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Search"
+            v-model="word"
+            @keypress.enter="search"
+          />
         </div>
-        <input
-          type="text"
-          class="form-control"
-          placeholder="Search"
-          v-model="word"
-          @keypress.enter="search"
-        />
-      </div>
 
-      <!-- <div class="d-flex justify-content-end">
+        <!-- <div class="d-flex justify-content-end">
         <a type="button" class="btn btn-outline form-check mb-2" @click="gocreate">
           <i class="fas fa-pen"></i> 상품 등록
         </a>
-      </div>-->
-      <div class="row justify-content-left" v-if="posts.length > 0">
-        <div
-          class="col-12 col-sm-12 col-md-3 card-deck"
-          style="margin:auto 0; padding:0 20px ;"
-          v-for="(post, index) in posts"
-          :key="index"
-        >
-          <div class="card mb-3 profile-post mr-0 ml-0">
-            <div class="card-body" style="padding: 0;">
-              <img :src="post.imgurl" class="card-img" style="height:10rem; box-shadow:5px 5px 5px rgba(0,0,0,.15)" />
-              <div
-                class="card-img-overlay pt-0 pr-2"
-                @click="getdetail(post.pid)"
-                style="text-align:right; font-size:0.7rem; font-weight:400; color: white; "
-              >
-                <!-- <button class="location-button">{{post.location}}</button> -->
-                <!-- <p>{{ post.location.substring(0,2) }}</p> -->
-                <span class="pr-2 pl-2 pb-1" style="background-color:rgba(0,0,0,0.3);z-index:34;">
-                  <i class="fa fa-map-marker" style="font-size:0.7rem;"></i>
-                  {{localarea(post.location)}}
-                </span>
-              </div>
-              <div class="col-md-12 p-0">
-                <div class="card-body" style="padding: 5px; height:10rem;">
-                  <!-- tag -->
-                  <!-- <div v-for="tagg in tag" :key="tagg.pid">
+        </div>-->
+        <div class="row justify-content-left" v-if="posts.length > 0">
+          <div
+            class="col-12 col-sm-12 col-md-3 card-deck"
+            style="margin:auto 0; padding:0 20px ;"
+            v-for="(post, index) in posts"
+            :key="index"
+          >
+            <div class="card mb-3 profile-post mr-0 ml-0">
+              <div class="card-body" style="padding: 0;">
+                <img
+                  :src="post.imgurl"
+                  class="card-img"
+                  style="height:10rem; box-shadow:5px 5px 5px rgba(0,0,0,.15)"
+                />
+                <div
+                  class="card-img-overlay pt-0 pr-2"
+                  @click="getdetail(post.pid)"
+                  style="text-align:right; font-size:0.7rem; font-weight:400; color: white; "
+                >
+                  <!-- <button class="location-button">{{post.location}}</button> -->
+                  <!-- <p>{{ post.location.substring(0,2) }}</p> -->
+                  <span class="pr-2 pl-2 pb-1" style="background-color:rgba(0,0,0,0.3);z-index:34;">
+                    <i class="fa fa-map-marker" style="font-size:0.7rem;"></i>
+                    {{localarea(post.location)}}
+                  </span>
+                </div>
+                <div class="col-md-12 p-0">
+                  <div class="card-body" style="padding: 5px; height:10rem;">
+                    <!-- tag -->
+                    <!-- <div v-for="tagg in tag" :key="tagg.pid">
                   <div v-if="tagg.pid == post.pid" >
                     {{tagg.tag}}
                   </div>
-                  </div>-->
-                  <!-- </div> -->
-                  <div
-                    v-for="tagg in tag"
-                    :key="tagg.pid"
-                    style="text-align: left; text-overflow:ellipsis;overflow: hidden;white-space: nowrap;"
-                  >
-                    <div v-if="tagg.pid == post.pid">
-                      <span
-                        class="card-text mb-2 text-primary"
-                        v-for="tagname in tagg.tag"
-                        :key="tagname"
-                        style="font-size: 0.8rem; font-weight:bold;"
-                      >#{{ tagname }}</span>
+                    </div>-->
+                    <!-- </div> -->
+                    <div
+                      v-for="tagg in tag"
+                      :key="tagg.pid"
+                      style="text-align: left; text-overflow:ellipsis;overflow: hidden;white-space: nowrap;"
+                    >
+                      <div v-if="tagg.pid == post.pid">
+                        <span
+                          class="card-text mb-2 text-primary"
+                          v-for="tagname in tagg.tag"
+                          :key="tagname"
+                          style="font-size: 0.8rem; font-weight:bold;"
+                        >#{{ tagname }}</span>
+                      </div>
                     </div>
-                  </div>
-                  <h5
-                    class="card-title m-0"
-                    @click="getdetail(post.pid)"
-                    style="font-size: 1rem; text-align: left; text-overflow:ellipsis;overflow: hidden;white-space: nowrap;"
-                  >{{ post.title }}</h5>
-                  <div class="card-text mb-2" style="text-align: left; font-size: 0.8rem;">
-                    <span><i class="fas fa-star mr-1" style="color:Salmon; font-size:0.7rem;"></i>{{round(post.star)}}</span>
+                    <h5
+                      class="card-title m-0"
+                      @click="getdetail(post.pid)"
+                      style="font-size: 1rem; text-align: left; text-overflow:ellipsis;overflow: hidden;white-space: nowrap;"
+                    >{{ post.title }}</h5>
+                    <div class="card-text mb-3" style="text-align: left; font-size: 0.8rem;">
+                      <span>
+                        <i class="fas fa-star mr-1" style="color:Salmon; font-size:0.7rem;"></i>
+                        {{round(post.star)}}
+                      </span>
                     </div>
-                  <!-- pre-line; -->
-                  <p
+                    <!-- pre-line; -->
+                    <!-- <p
                     class="card-text mb-2"
                     style="font-size: 1rem; text-align: left; text-overflow:ellipsis;overflow: hidden;white-space: nowrap; color:gray"
-                  >{{ post.sdate }}~{{ post.edate }}</p>
+                    >{{ post.sdate }}~{{ post.edate }}</p>-->
 
-                  <div class="text d-flex justify-content-between">
-                    <p
-                      class="card-text"
-                      style="font-size: 1rem; font-weight:bold; text-align: left; text-overflow:ellipsis;overflow: hidden;white-space: nowrap;"
-                    >{{ addComma(post.price) }}원</p>
-                    <!-- heart like -->
-                    <div id="heart" @click="registlike(post.pid)">
-                      {{ post.likecnt }}
-                      <i
-                        v-if="check(post.pid)"
-                        class="fas fa-heart select-button like-button"
-                        style="text-align: right; font-size: 20px; color:crimson;"
-                      ></i>
-                      <i
-                        v-if="!check(post.pid)"
-                        class="far fa-heart"
-                        style="text-align: right; font-size: 20px;"
-                      ></i>
+                    <div class="text d-flex justify-content-between">
+                      <p
+                        class="card-text"
+                        style="font-size: 1rem; font-weight:bold; text-align: left; text-overflow:ellipsis;overflow: hidden;white-space: nowrap;"
+                      >{{ addComma(post.price) }}원</p>
+                      <!-- heart like -->
+                      <div id="heart" @click="registlike(post.pid)">
+                        {{ post.likecnt }}
+                        <i
+                          v-if="check(post.pid)"
+                          class="fas fa-heart select-button like-button"
+                          style="text-align: right; font-size: 20px; color:crimson;"
+                        ></i>
+                        <i
+                          v-if="!check(post.pid)"
+                          class="far fa-heart"
+                          style="text-align: right; font-size: 20px;"
+                        ></i>
+                      </div>
+                      <!--  -->
                     </div>
-                    <!--  -->
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
 
-      <!-- top button -->
-      <i class="fas fa-2x fa-angle-double-up upBtn" @click="toTop" style="cursor:pointer;"></i>
-      <!-- infinite loading -->
-      <infinite-loading :identifier="infiniteId" @infinite="infiniteHandler" spinner="waveDots">
-        <div slot="no-more">
-          <a @click="toTop"></a>
-        </div>
-        <div slot="no-results"></div>
-      </infinite-loading>
+        <!-- top button -->
+        <i class="fas fa-2x fa-angle-double-up upBtn" @click="toTop" style="cursor:pointer;"></i>
+        <!-- infinite loading -->
+        <infinite-loading :identifier="infiniteId" @infinite="infiniteHandler" spinner="waveDots">
+          <div slot="no-more">
+            <a @click="toTop"></a>
+          </div>
+          <div slot="no-results"></div>
+        </infinite-loading>
+      </div>
     </div>
-  </div>
   </div>
 </template>
 
@@ -221,12 +227,12 @@ export default {
     };
   },
   methods: {
-    round(star){
-      return Math.round(star*10)/10.0;
+    round(star) {
+      return Math.round(star * 10) / 10.0;
     },
     settype(typename) {
-      this.key = '';
-      this.word = '';
+      this.key = "";
+      this.word = "";
       this.searchCK = false;
       this.type = typename;
       this.infiniteId += 1;
@@ -368,7 +374,11 @@ export default {
       // console.log('reloading this page = ' + pg);
       if (this.searchCK) {
         axios
-          .get(`${baseURL}/post/searchReloading/${this.type}/${this.key}/${this.word}/${pg - 1}`)
+          .get(
+            `${baseURL}/post/searchReloading/${this.type}/${this.key}/${
+              this.word
+            }/${pg - 1}`
+          )
           .then((res) => {
             this.posts = res.data;
           })
