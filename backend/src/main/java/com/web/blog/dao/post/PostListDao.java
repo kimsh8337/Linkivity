@@ -12,10 +12,10 @@ public interface PostListDao extends JpaRepository<PostList, String> {
     PostList findByPid(int pid);
     List<PostList> findByFlag(int flag);
     List<PostList> findByFlagOrderByCreateDateDesc(int flag);
-    List<PostList> findByActivityLikeOrderByCreateDateDesc(String word);
-    List<PostList> findByTitleLikeOrderByCreateDateDesc(String word);
-    List<PostList> findByPriceLessThanEqualOrderByCreateDateDesc(int word);
-    List<PostList> findAllByOrderByLikecntDesc();
+    List<PostList> findByFlagAndActivityLikeOrderByCreateDateDesc(int flag, String word);
+    List<PostList> findByFlagAndTitleLikeOrderByCreateDateDesc(int flag, String word);
+    List<PostList> findByFlagAndPriceLessThanEqualOrderByCreateDateDesc(int flag, int word);
+    List<PostList> findByFlagOrderByLikecntDesc(int flag);
 
 
     List<PostList> findBySpringAndFlagOrderByCreateDateDesc(int spring, int flag);
@@ -28,5 +28,5 @@ public interface PostListDao extends JpaRepository<PostList, String> {
     List<PostList> findByFlagAndPlace(int flag, String place);
     List<PostList> findByFlagAndPriceLessThanEqual(int flag, int price);
     List<PostList> findByFlagAndLocationLike(int flag, String location);
-
+    List<PostList> findByEmailAndFlag(String email, int flag);
 }

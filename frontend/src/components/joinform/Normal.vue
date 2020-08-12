@@ -2,95 +2,99 @@
   <div class="container col-md-6">
     <!-- 이름 입력칸  -->
     <div class="form-group">
-      <label for="exampleInputEmail1" class="d-flex">Name</label>
-      <input
-        v-model="name"
-        type="text"
-        class="form-control"
-        id="name"
-        aria-describedby="emailHelp"
-        placeholder="이름을 입력해주세요."
-      />
-      <small id="emailHelp" class="form-text text-muted d-flex">본인의 성함을 기재해주세요.</small>
+      <label for="exampleInputEmail1" class="d-flex">
+        <i class="fas fa-user"> Name</i>
+      </label>
+      <input v-model="name" type="text" class="form-control" id="name" aria-describedby="emailHelp" />
+      <small id="emailHelp" class="form-text text-muted d-flex" v-if="!error.name">이름을 입력하세요.</small>
+      <span class="error-text d-flex mt-1" v-if="error.name" style="color:crimson;">{{error.name}}</span>
     </div>
 
     <!-- 닉네임 입력칸 -->
     <div class="form-group">
-      <label for="exampleInputPassword1" class="d-flex">Nickname</label>
-      <input
-        v-model="nickname"
-        type="text"
-        class="form-control"
-        id="nickname"
-        placeholder="닉네임을 입력해주세요."
-      />
-      <small id="emailHelp" class="form-text text-muted d-flex">원하는 닉네임을 설정해주세요.</small>
-      <i class="fas fa-user-check d-flex">
-        <span class="error-text d-flex" v-if="error.nickname">{{error.nickname}}</span>
-      </i>
+      <label for="exampleInputPassword1" class="d-flex">
+        <i class="fas fa-smile"> Nickname</i>
+      </label>
+      <input v-model="nickname" type="text" class="form-control" id="nickname" />
+      <small id="emailHelp" class="form-text text-muted d-flex" v-if="!error.nickname">닉네임을 입력하세요.</small>
+      <span
+        class="error-text d-flex mt-1"
+        v-if="error.nickname"
+        style="color:crimson;"
+      >{{error.nickname}}</span>
     </div>
 
     <!-- email 입력칸 -->
     <div class="form-group">
-      <label for="exampleInputPassword1" class="d-flex">E-mail</label>
+      <label for="exampleInputPassword1" class="d-flex">
+        <i class="fas fa-at"> E-mail</i>
+      </label>
       <input
         v-model="email"
         v-bind:class="{error : error.email, complete:!error.email&&email.length!==0}"
         type="email"
         class="form-control"
         id="email"
-        placeholder="이메일을 입력해주세요."
       />
-      <small id="emailHelp" class="form-text text-muted d-flex">회원가입을 위한 이메일을 입력해주세요.</small>
-      <i class="fas fa-at d-flex">
-        <span class="error-text" v-if="error.email">{{error.email}}</span>
-      </i>
+      <small id="emailHelp" class="form-text text-muted d-flex" v-if="!error.email">이메일을 입력하세요.</small>
+      <small
+        class="error-text d-flex mt-1"
+        v-if="error.email"
+        style="color:crimson;"
+      >{{error.email}}</small>
     </div>
 
     <!-- 비밀번호 입력칸 -->
     <div class="form-group">
-      <label for="exampleInputPassword1" class="d-flex">Password</label>
+      <label for="exampleInputPassword1" class="d-flex">
+        <i class="fas fa-eye"> Password</i>
+      </label>
       <input
         v-model="password"
         v-bind:class="{error : error.password, complete:!error.password&&password.length!==0}"
         :type="passwordType"
         class="form-control"
         id="password"
-        placeholder="비밀번호를 입력해주세요."
       />
-      <small id="emailHelp" class="form-text text-muted d-flex">회원가입을 위한 비밀번호를 설정해주세요.</small>
+      <small id="emailHelp" class="form-text text-muted d-flex" v-if="!error.password">비밀번호를 입력하세요.</small>
       <span :class="{active : passwordType==='text'}">
-        <i class="fas fa-eye d-flex">
-          <span class="error-text" v-if="error.password">{{error.password}}</span>
-        </i>
+        <span
+          class="error-text d-flex mt-1"
+          v-if="error.password"
+          style="color:crimson;"
+        >{{error.password}}</span>
       </span>
     </div>
 
     <!-- 비밀번호 확인 입력칸 -->
     <div class="form-group">
-      <label for="exampleInputPassword1" class="d-flex">Password</label>
+      <label for="exampleInputPassword1" class="d-flex">
+        <i class="fas fa-eye"> Password Confirm</i>
+      </label>
       <input
         v-model="passwordconfirm"
         v-bind:class="{error : error.passwordconfirm, complete:!error.passwordconfirm&&passwordconfirm.length!==0}"
         :type="passwordConfirmType"
         class="form-control"
         id="passwordconfirm"
-        placeholder="비밀번호를 확인해주세요."
       />
-      <small id="emailHelp" class="form-text text-muted d-flex">비밀번호 확인을 위해 다시 작성해주세요.</small>
+      <small
+        id="emailHelp"
+        class="form-text text-muted d-flex"
+        v-if="!error.passwordconfirm"
+      >비밀번호를 다시 입력하세요.</small>
       <span :class="{active : passwordConfirmType==='text'}">
-        <i class="fas fa-eye d-flex">
-          <span class="error-text" v-if="error.passwordconfirm">{{error.passwordconfirm}}</span>
-        </i>
+        <span
+          class="error-text d-flex mt-1"
+          v-if="error.passwordconfirm"
+          style="color:crimson;"
+        >{{error.passwordconfirm}}</span>
       </span>
     </div>
 
     <!-- img upload -->
+        <label class="d-flex" v-if="!this.imgurl"><i class="fas fa-images"> 프로필 사진을 등록하세요.</i></label>
     <button type="button" class="btn btn-primary d-flex" @click="onClickImageUpload">이미지 업로드</button>
-    <br />
-    <i v-if="!this.imgurl" class="fas fa-images d-flex">
-      <span>사진을 등록해주세요.</span>
-    </i>
     <div class="col-md-8 p-0" align="left">
       <input ref="imageInput" type="file" hidden @change="onChangeImages" />
       <img
@@ -106,7 +110,7 @@
       <span>약관에 동의합니다</span>
     </label>
 
-    <span class="go-term">약관 보기</span> -->
+    <span class="go-term">약관 보기</span>-->
 
     <!-- 제출 버튼 -->
     <button @click="join" class="btn d-flex ml-auto">
@@ -156,6 +160,7 @@ export default {
   },
   methods: {
     checkForm() {
+      //닉네임 에러
       if (this.nickname.length > 0) {
         axios
           .get(`${baseURL}/account/checkNickname/${this.nickname}`)
@@ -165,7 +170,8 @@ export default {
           .catch(() => {
             alert("에러");
           });
-      } else this.error.nickname = false;
+      } else if (this.nickname.length != 0) this.error.nickname = false;
+      //이메일 에러
       if (this.email.length > 0 && !EmailValidator.validate(this.email))
         this.error.email = "이메일 형식이 아닙니다.";
       else if (this.email.length > 0 && EmailValidator.validate(this.email)) {
@@ -178,13 +184,14 @@ export default {
             alert("에러");
           });
       } else this.error.email = false;
-
+      //비번 에러
       if (
         this.password.length > 0 &&
         !this.passwordSchema.validate(this.password)
       )
         this.error.password = "영문,숫자 포함 8 자리이상이어야 합니다.";
       else this.error.password = false;
+      //비번 확인 에러
       if (
         this.passwordconfirm.length > 0 &&
         this.passwordconfirm != this.password
@@ -193,6 +200,32 @@ export default {
       else this.error.passwordconfirm = false;
     },
     join() {
+      let check = 0;
+      if (this.name.length == 0) {
+        this.error.name = "이름은 빈칸일 수 없습니다.";
+        check = 1;
+      } else this.error.name = false;
+      if (this.nickname.length == 0) {
+        this.error.nickname = "닉네임은 빈칸일 수 없습니다.";
+        check = 1;
+      } else this.error.nickname = false;
+      if (this.email.length == 0) {
+        this.error.email = "이메일은 빈칸일 수 없습니다.";
+        check = 1;
+      } else this.error.email = false;
+      if (this.password.length == 0) {
+        this.error.password = "비밀번호는 빈칸일 수 없습니다.";
+        check = 1;
+      } else this.error.password = false;
+      if (this.passwordconfirm.length == 0) {
+        this.error.passwordconfirm = "비밀번호 확인은 빈칸일 수 없습니다.";
+        check = 1;
+      } else this.error.passwordconfirm = false;
+      if (check == 1) {
+        alert("정보를 모두 입력해주세요.");
+        return;
+      }
+
       this.$emit(
         "join-create-normal",
         this.email,
@@ -233,6 +266,7 @@ export default {
       passwordSchema: new PV(),
       error: {
         email: false,
+        name: false,
         password: false,
         nickname: false,
         passwordconfirm: false,

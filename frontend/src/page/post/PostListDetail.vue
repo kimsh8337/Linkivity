@@ -26,7 +26,7 @@
                       :key="hash.id"
                     >#{{ hash }}</small>
                     <!-- 카카오톡 공유하기 -->
-                    <a
+                    <!-- <a
                       href="javascript:;"
                       @click="test()"
                       id="kakao-link-btn"
@@ -36,7 +36,8 @@
                         src="//developers.kakao.com/assets/img/about/logos/kakaolink/kakaolink_btn_small.png"
                         width="28px"
                       />
-                    </a>
+                    </a> -->
+                    <button class="mr-1" @click="test" id="kakao-link-btn" icon="share-fill" size="sm">버튼</button>
                   </div>
                   <div class="d-flex justify-content-start">
                     <!-- 업체 위치 -->
