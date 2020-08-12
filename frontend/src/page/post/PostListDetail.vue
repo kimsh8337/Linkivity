@@ -186,8 +186,12 @@
           </div>
         </div>
         <ReviewWrite :pid="pid" :email="email" />
-        <ReviewSlide :pid="pid" @review-delete="reviewDelete" />
-
+        <div class="d-none d-sm-block">
+          <ReviewSlide :pid="pid" @review-delete="reviewDelete" />
+        </div>
+        <div class="d-block d-sm-none d-md-none">
+          <ReviewMobile />
+        </div>
       <hr>
       <!-- Q & A -->
       <h4 id="qna" class="d-flex mb-3" style="font-weight:bold">Q&A</h4>
@@ -226,6 +230,7 @@ import CommentList from "../../components/comment/CommentList.vue";
 
 import ReviewSlide from "../../components/review/ReviewSlide.vue";
 import ReviewWrite from "../../components/review/ReviewModal.vue";
+import ReviewMobile from "../../components/review/ReviewMobile.vue"
 
 import Swal from "sweetalert2";
 
@@ -237,6 +242,7 @@ export default {
     CommentList,
     ReviewSlide,
     ReviewWrite,
+    ReviewMobile,
   },
   data() {
     return {
