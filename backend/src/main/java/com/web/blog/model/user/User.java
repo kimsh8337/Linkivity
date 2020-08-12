@@ -28,11 +28,11 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int uid;
 
-    // @JsonIgnore
     private String email;
     private String password;
     private String nickname;
     private String name;
+    @Column(name="imgurl")
     private String imgurl;
     private String checkType;
     private String clocation;
