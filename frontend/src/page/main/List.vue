@@ -135,11 +135,11 @@
               @click="getdetail(slide.pid)"
             >
               <!-- img 보여주기 -->
-              <img v-if="slide.img" class="review-img" :src="slide.img" :alt="slide.title" style="height:8rem;" />
+              <img v-if="slide.img" class="review-img" :src="slide.img" style="height:8rem;" />
               <img v-if="!slide.img" class="review-img" src="../../assets/img/noimage.jpg" style="height:8rem;" />
               <!-- 프로필 보여주기 -->
               <div class="d-flex justify-content-between">
-                <img class="user-img d-flex m-3" :src="slide.proimg" style="border-radius:70px;" />
+                <img class="user-img d-flex m-3" :src="slide.proimg" style="border-radius:70px; width:50px; height:50px;" />
                 <div class="mt-2 mr-4">
                   <div class="d-flex">
                     <small
