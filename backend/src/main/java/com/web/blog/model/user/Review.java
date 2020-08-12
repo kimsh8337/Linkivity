@@ -2,6 +2,7 @@ package com.web.blog.model.user;
 
 import java.time.LocalDateTime;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -27,9 +28,11 @@ public class Review {
     private String email;
     private String title;
     private String content;
+    @Column(name="img")
     private String img;
     private int star;
     private LocalDateTime createDate;
+    @Column(name="proimg")
     private String proimg;
     private String nickname;
 }

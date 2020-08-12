@@ -3,6 +3,7 @@ package com.web.blog.model.post;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -27,6 +28,7 @@ public class PostList {
     private String email;
     private String title;
     private String location;
+    @Column(name="imgurl")
     private String imgurl;
     private int price;
     private LocalDate sdate;
