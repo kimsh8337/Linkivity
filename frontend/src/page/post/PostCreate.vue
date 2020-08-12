@@ -201,7 +201,7 @@
 </template>
 
 <script>
-const baseURL = "http://localhost:8080";
+const baseURL = process.env.VUE_APP_BACKURL;
 
 import axios from "axios";
 import '../../assets/css/postcreate.css'

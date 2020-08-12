@@ -36,7 +36,7 @@ import '../../assets/css/join.css'
 import Business from '../../components/joinform/Business.vue'
 import Normal from '../../components/joinform/Normal.vue'
 
-const baseURL = "http://localhost:8080/account";
+const baseURL = process.env.VUE_APP_BACKURL;
 
 export default {
   components: {
@@ -72,7 +72,7 @@ export default {
         cphone,
       };
       axios
-        .post(`${baseURL}/signup`, data)
+        .post(`${baseURL}/account/signup`, data)
         .then(response => {
           alert("회원가입 인증 메일이 발송되었습니다. 이메일을 확인해주세요.");
           this.$router.push("/");
@@ -95,7 +95,7 @@ export default {
         imgurl,
       };
       axios
-        .post(`${baseURL}/signup`, data)
+        .post(`${baseURL}/account/signup`, data)
         .then(response => {
           alert("회원가입 인증 메일이 발송되었습니다. 이메일을 확인해주세요.");
           this.$router.push("/");

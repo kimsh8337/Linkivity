@@ -142,7 +142,7 @@ import Swal from 'sweetalert2';
 
 // const Swal = require('sweetalert2')
 
-const baseURL = 'http://localhost:8080';
+const baseURL = process.env.VUE_APP_BACKURL;
 
 export default {
   components: {
@@ -153,18 +153,6 @@ export default {
       page: 0,
       infiniteId: 0,
       posts: [],
-      // posts: {
-      //   pid: "",
-      //   email: "",
-      //   activity: "",
-      //   title: "",
-      //   location: "",
-      //   imgurl: "",
-      //   price: "",
-      //   sdate: "",
-      //   edate: "",
-      //   likecnt: "",
-      // },
       key: '',
       word: '',
       type: 'all',
@@ -172,7 +160,6 @@ export default {
       postLike: [],
       tag: [],
       searchCK: false,
-      // filter: "",
     };
   },
   methods: {
@@ -206,7 +193,7 @@ export default {
               } else {
                 $state.complete();
               }
-            }, 1000);
+            }, 100);
           })
           .catch((err) => {
             console.log(err);
