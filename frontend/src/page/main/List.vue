@@ -130,16 +130,16 @@
           <div v-for="(slide, index) in reviews" :key="index" class="col-12 col-sm-12 col-md-2 p-3">
             <!-- <div class="card mb-3 profile-post mr-0 ml-0"> -->
             <div
-              class="card-body"
+              class="card-body list-profile"
               style="padding: 0; cursor: pointer;"
               @click="getdetail(slide.pid)"
             >
               <!-- img 보여주기 -->
-              <img v-if="slide.img" class="review-img" :src="slide.img" :alt="slide.title" style="height:8rem;" />
-              <img v-if="!slide.img" class="review-img" src="../../assets/img/noimage.jpg" style="height:8rem;" />
+              <img v-if="slide.img" class="review-img" :src="slide.img" style="height:8rem; box-shadow:5px 5px 5px rgba(0,0,0,.15);" />
+              <img v-if="!slide.img" class="review-img" src="../../assets/img/noimage.jpg" style="height:8rem; box-shadow:5px 5px 5px rgba(0,0,0,.15);" />
               <!-- 프로필 보여주기 -->
               <div class="d-flex justify-content-between">
-                <img class="user-img d-flex m-3" :src="slide.proimg" style="border-radius:70px;" />
+                <img class="user-img d-flex m-3" :src="slide.proimg" style="border-radius:70px; width:50px; height:50px;" />
                 <div class="mt-2 mr-4">
                   <div class="d-flex">
                     <small

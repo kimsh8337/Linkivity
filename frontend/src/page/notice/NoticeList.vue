@@ -65,7 +65,7 @@ export default {
         createDate: "",
       },
       email: "",
-      superadmin: "ssafy@ssafy.com",
+      superadmin: "admin@linkivity.com",
     };
   },
   created() {

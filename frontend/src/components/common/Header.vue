@@ -30,7 +30,7 @@
             >
           </li>
           <li class="nav-item">
-            <a v-if="this.$cookies.isKey('Auth-Token')" class="nav-link mt-3 mr-2" @click="goBasket"
+            <a v-if="this.$cookies.isKey('Auth-Token') && this.usertype == 'normal'" class="nav-link mt-3 mr-2" @click="goBasket"
               ><i class="fas fa-shopping-basket"></i><br />Basket</a
             >
           </li>

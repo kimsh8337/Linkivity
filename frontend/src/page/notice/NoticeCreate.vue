@@ -83,7 +83,7 @@ export default {
         importance: "0",
       },
       email: "",
-      superadmin: "ssafy@ssafy.com",
+      superadmin: "admin@linkivity.com",
       error: {
         title: false,
         content: false,
