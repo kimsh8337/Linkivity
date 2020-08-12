@@ -139,5 +139,12 @@ export default new Router({
             name: 'PostTempDetail',
             component: PostTempDetail,
         },
+
+        // news
+        {
+            path: '/news',
+            name: 'News',
+            component: News,
+        },
     ]
 })
