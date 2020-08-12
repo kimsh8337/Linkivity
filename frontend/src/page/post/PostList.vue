@@ -252,7 +252,7 @@ export default {
       }
     },
     registlike(pid) {
-      if (this.email != null) {
+      if (this.email != "") {
         axios
           .get(`${baseURL}/like/registDelete/${this.email}/${pid}`)
           .then((res) => {
