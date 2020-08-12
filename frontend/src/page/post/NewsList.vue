@@ -49,7 +49,6 @@ export default {
     axios
       .get(`${baseURL}/news/list`)
       .then((res) => {
-        console.log(res.data);
         this.newsData = res.data;
       })
       .catch((err) => {
