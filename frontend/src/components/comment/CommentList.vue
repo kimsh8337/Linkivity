@@ -20,11 +20,11 @@
           </div>
           <!-- 댓글 수정 삭제 버튼 -->
           <div class="d-flex justify-content-end pl-0 my-auto col-12 questionbtn" style="word-break:nowrap;">
-            <small v-if="NickNameCheck" @click="commentModify">
-              <span v-if="isUpdated" style="color:red">취소</span>
-              <span v-else style="color:ForestGreen">수정</span>
+            <small v-if="NickNameCheck | this.checkType == 'admin'" @click="commentModify">
+              <span v-if="isUpdated & NickNameCheck" style="color:red">취소</span>
+              <span v-if="!isUpdated & NickNameCheck" style="color:ForestGreen">수정</span>
             </small>
-            <small v-if="NickNameCheck" class="ml-2" style="color:Crimson" @click="commentDelete">삭제</small>
+            <small v-if="NickNameCheck | this.checkType == 'admin'" class="ml-2" style="color:Crimson" @click="commentDelete">삭제</small>
             <small class="ml-2" style="color:DarkKhaki">신고</small>
           </div>
         </div>
@@ -66,6 +66,7 @@ export default {
       email: '',
       rid:'',
       replyCheck: false,
+      checkType: "",
     }
   },
   methods: {
@@ -74,6 +75,7 @@ export default {
         .get(`${baseURL}/account/authuser/${this.$cookies.get("Auth-Token")}`)
         .then((response) => {
             this.email = response.data.email;
+            this.checkType = response.data.checkType;
             this.fetchNickName()
         })
         .catch((err) => {

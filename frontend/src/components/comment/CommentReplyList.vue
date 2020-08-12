@@ -20,11 +20,11 @@
                 </div>
             <!-- 댓글 수정 삭제 버튼 -->
                 <div class="d-flex justify-content-end pl-0 my-auto col-12 questionbtn" style="word-break:nowrap;">
-                    <small v-if="nickNameCheck" @click="commentReplyModify">
-                        <span v-if="isUpdate" style="color:red">취소</span>
-                        <span v-else style="color:ForestGreen;">수정</span>
+                    <small v-if="NickNameCheck | this.checkType == 'admin'" @click="commentReplyModify">
+                        <span v-if="isUpdate & NickNameCheck" style="color:red">취소</span>
+                        <span v-if="!isUpdate & NickNameCheck" style="color:ForestGreen;">수정</span>
                     </small>
-                    <small @click="replyDelete(reply.rrid)" v-if="nickNameCheck" class="ml-2" style="color:Crimson">삭제</small>
+                    <small @click="replyDelete(reply.rrid)" v-if="NickNameCheck | this.checkType == 'admin'" class="ml-2" style="color:Crimson">삭제</small>
                     <small class="ml-2" style="color:darkKhaki">신고</small>
                 </div>
             </div>
@@ -59,8 +59,9 @@ export default {
     data() {
         return {
             nickName: "",
-            nickNameCheck: false,
+            NickNameCheck: false,
             isUpdate: false,
+            checkType: "",
         }
     },
     methods: {
@@ -72,11 +73,12 @@ export default {
         axios
             .get(`${baseURL}/account/authuser/${this.$cookies.get("Auth-Token")}`)
             .then((response) => {
+                this.checkType = response.data.checkType
                 this.nickName = response.data.nickname
                 if (this.nickName == this.reply.nickname) {
-                    this.nickNameCheck = true
+                    this.NickNameCheck = true
                 } else {
-                    this.nickNameCheck = false
+                    this.NickNameCheck = false
                 }
             })
             .catch((err) => {
