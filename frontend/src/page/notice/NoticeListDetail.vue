@@ -57,7 +57,7 @@ export default {
   data() {
     return {
       notice: [],
-      superadmin: "ssafy@ssafy.com",
+      superadmin: "admin@linkivity.com",
       email: "",
     };
   },
