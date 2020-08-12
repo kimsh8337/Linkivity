@@ -1,6 +1,6 @@
 .side-menu{
     width: 7rem;
-    height: 19rem;
+    height: 16rem;
     z-index: 5;
     position: fixed;
     bottom: 5%;
@@ -41,4 +41,5 @@
     margin-bottom: 0.5rem;
     color: black;
     font-size: 1.2rem;
+    cursor: pointer;
 }

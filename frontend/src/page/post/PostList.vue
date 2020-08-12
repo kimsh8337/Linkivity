@@ -91,7 +91,7 @@
                       </div>
                     </div>
                     <h5
-                      class="card-title m-0"
+                      class="card-title-post m-0"
                       @click="getdetail(post.pid)"
                       style="font-size: 1rem; text-align: left; text-overflow:ellipsis;overflow: hidden;white-space: nowrap;"
                     >
