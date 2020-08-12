@@ -63,8 +63,6 @@
               @click="test()"
               src="../../assets/img/kakaologin.png"
               style="cursor: pointer; width :100px;"
-              onmouseover="this.src=../../assets/img/kakaologin.png"
-              onmouseout="this.src=../../assets/img/kakaologin.png"
             />카카오로그인
           </div>
         </div>

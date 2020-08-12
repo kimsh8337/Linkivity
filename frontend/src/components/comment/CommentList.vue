@@ -22,10 +22,10 @@
           <div class="d-flex justify-content-end pl-0 my-auto col-12 questionbtn" style="word-break:nowrap;">
             <small v-if="NickNameCheck" @click="commentModify">
               <span v-if="isUpdated" style="color:red">취소</span>
-              <span v-else style="color:gray">수정</span>
+              <span v-else style="color:ForestGreen">수정</span>
             </small>
-            <small v-if="NickNameCheck" class="ml-2" style="color:gray" @click="commentDelete">삭제</small>
-            <small class="ml-2" style="color:gray">신고</small>
+            <small v-if="NickNameCheck" class="ml-2" style="color:Crimson" @click="commentDelete">삭제</small>
+            <small class="ml-2" style="color:DarkKhaki">신고</small>
           </div>
         </div>
       </div>

@@ -79,10 +79,10 @@ export default {
         })
         .catch(() => {
           alert("회원 정보를 모두 입력해주세요.");
-          this.$router.push({
-            name: "Params",
-            params: { name: err.response.status }
-          });
+          // this.$router.push({
+          //   name: "Params",
+          //   params: { name: err.response.status }
+          // });
         });
     },
     joinNormal(email, name, nickname, password, checkType, imgurl) {
@@ -102,10 +102,10 @@ export default {
         })
         .catch(() => {
           alert("회원 정보를 모두 입력해주세요.");
-          this.$router.push({
-            name: "Params",
-            params: { name: err.response.status }
-          });
+          // this.$router.push({
+          //   name: "Params",
+          //   params: { name: err.response.status }
+          // });
         });
     },
   },

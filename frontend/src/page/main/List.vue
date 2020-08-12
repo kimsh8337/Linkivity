@@ -14,8 +14,8 @@
           <a class="main3button main-btn-item" @click="goPost">
             <i class="fas fa-gift mr-2"></i>상품 둘러보기
           </a>
-          <a class="main3button main-btn-notice" @click="goNotice">
-            <i class="fas fa-flag mr-2"></i>공지사항
+          <a class="main3button main-btn-notice" @click="goNews">
+            <i class="far fa-newspaper mr-2"></i>액티비티 소식
           </a>
         </div>
 
@@ -207,8 +207,8 @@ export default {
           console.log(err);
         });
     },
-    goNotice: function () {
-      this.$router.push("/notice/");
+    goNews: function () {
+      this.$router.push("/news/");
     },
     goPost: function () {
       this.$router.push("/posts/");

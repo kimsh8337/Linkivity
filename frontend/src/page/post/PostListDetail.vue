@@ -131,7 +131,7 @@
                     <button type="button" class="btn btn-primary mr-1" @click="alertbasket(post)">
                       <i class="fas fa-shopping-basket mr-2"></i>장바구니
                     </button>
-                    <button class="btn btn-danger">
+                    <button class="btn btn-danger" @click="alertbuy(post)">
                       <i class="far fa-hand-point-up mr-2"></i>바로구매
                     </button>
                   </div>
@@ -193,6 +193,9 @@
       <h4 id="qna" class="d-flex mb-3" style="font-weight:bold">Q&A</h4>
       <!-- 댓글 List -->
       <div class="d-flex bg-white">Question : {{ receiveComment.length }}</div>
+      <div v-if="receiveComment.length ==  0" class="mt-2">
+        <i class="far fa-surprise mr-1 mb-3"></i>등록된 질문이 없습니다. 처음으로 질문을 남겨보세요!<i class="far fa-surprise ml-1"></i>
+      </div>
       <CommentList v-for="comment in receiveComment" :key="comment.rid" :comment="comment" @comment-delete="commentDelete" />
       <!-- 댓글 작성 -->
       <CommentInput class="mt-3" v-if="this.email" @create-comment="createcomment" />
@@ -292,7 +295,7 @@ export default {
           imageUrl: document.images[0].src, // 썸네일 이미지
           link: {
             webUrl: "http://i3b206.p.ssafy.io:3000/#/posts/" + this.pid,
-            mobileWebUrl: "https://developers.kakao.com",
+            mobileWebUrl: "http://i3b206.p.ssafy.io:3000/#/posts/" + this.pid,
           },
         },
         social: {
@@ -304,7 +307,7 @@ export default {
           {
             title: "Open!", // 버튼 제목
             link: {
-              mobileWebUrl: "https://developers.kakao.com",
+              mobileWebUrl: "http://i3b206.p.ssafy.io:3000/#/posts/" + this.pid,
               webUrl: "http://i3b206.p.ssafy.io:3000/#/posts/" + this.pid,
             },
           },
@@ -482,6 +485,78 @@ export default {
 
       // alert(`'${title}'상품을 장바구니에 담았습니다!`)
     },
+    alertbuy(post){
+      Swal.fire({
+        width: 350,
+        text: '단일상품은 구매 할인적용 불가합니다. 계속하시겠습니까?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: '<a style="font-size:1rem; color:black">구매하기</a>',
+        cancelButtonText: '<a style="font-size:1rem; color:black">취소하기</a>',
+      }).then((result) => {
+        if (result.value) {
+          const Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            onOpen: (toast) => {
+              toast.addEventListener('mouseenter', Swal.stopTimer);
+              toast.addEventListener('mouseleave', Swal.resumeTimer);
+            },
+          });
+         let th = this;
+
+      var IMP = window.IMP; // 생략가능      
+            var msg;
+        IMP.init('imp40062977');
+
+              IMP.request_pay({
+              pg : 'html5_inicis',
+              pay_method : 'card',
+              merchant_uid : 'merchant_' + new Date().getTime(),
+              name : '링키비티',
+              amount : 1000,
+              buyer_email : 'iamport@siot.do',
+              buyer_name : '구매자이름',
+              buyer_tel : '010-1234-5678',
+              buyer_addr : '서울특별시 강남구 삼성동',
+              buyer_postcode : '123-456'
+          }, function(rsp) {
+              if ( rsp.success ) {
+                  var msg = '결제가 완료되었습니다.';
+                  msg += '고유ID : ' + rsp.imp_uid;
+                  msg += '상점 거래ID : ' + rsp.merchant_uid;
+                  msg += '결제 금액 : ' + rsp.paid_amount;
+                  msg += '카드 승인번호 : ' + rsp.apply_num;
+
+                console.log(th.packPost)
+                console.log(th.sum)
+                console.log(th.email)                      
+
+                  axios
+                   .get(`${baseURL}/purchase/regist/${th.packPost}/${th.email}/${th.sum}`)
+                   .then((response) => {
+                   alert("구매 완료");
+                   th.$router.push("/user/basket");
+                   th.$router.go();
+                })
+                .catch((err) => {
+                  console.log(err);
+                });
+
+              } else {
+                  var msg = '결제에 실패하였습니다.';
+                  msg += '에러내용 : ' + rsp.error_msg;
+              }
+              alert(msg);
+          });
+        }
+      });
+    },
     mapView(loc) {
       var mapContainer = document.getElementById("map"), // 지도를 표시할 div
         mapOption = {
@@ -546,7 +621,7 @@ export default {
             toast: true,
             position: "top-end",
             showConfirmButton: false,
-            timer: 1000,
+            timer: post.price,
             timerProgressBar: true,
             onOpen: (toast) => {
               toast.addEventListener("mouseenter", Swal.stopTimer);

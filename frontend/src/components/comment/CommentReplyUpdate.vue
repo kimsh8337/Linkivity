@@ -7,7 +7,7 @@
       aria-label="Recipient's username"
       aria-describedby="button-addon2"
       style="height:2.5rem"
-      v-model="replyUpdateData.content"
+      v-model="newContent"
     />
     <div class="input-group-append">
       <button class="btn btn-outline-success" type="button" id="button-addon2" @click="replyModify">수정</button>
@@ -21,7 +21,9 @@ const baseURL = process.env.VUE_APP_BACKURL;
 export default {
   data() {
     return {
+      newContent:"",
       replyUpdateData:[],
+      tempContent:"",
     }
   },
     props: {
@@ -29,6 +31,8 @@ export default {
     },
     methods: {
         replyModify() {
+            this.replyUpdateData = this.reply;
+            this.replyUpdateData.content = this.newContent;
             Swal.fire({
               width: 350,
               text: "답글을 수정하시겠습니까?",
@@ -68,7 +72,8 @@ export default {
         },
     },
     created() {
-      this.replyUpdateData = this.reply
+      this.tempContent = this.reply.content;
+      this.newContent = this.tempContent;
     },
 }
 </script>
