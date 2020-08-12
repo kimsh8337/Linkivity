@@ -64,7 +64,7 @@ export default {
     ReviewUpdate,
   },
   props: {
-    pid: Number,
+    pid: [Number,String],
   },
   data() {
     return {
