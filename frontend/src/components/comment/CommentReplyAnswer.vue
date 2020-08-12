@@ -116,8 +116,12 @@ export default {
       },
     },
     created() {
-      this.authUser()
       this.commentrid = this.comment.rid
+      if(this.$cookies.get('Auth-Token')!=null){
+      this.authUser()
+      }else{
+        this.fetchCommentReply()
+      }
     },
 }
 </script>
