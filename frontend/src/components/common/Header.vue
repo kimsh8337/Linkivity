@@ -36,8 +36,13 @@
           </li>
 
           <li class="nav-item">
-            <a v-if="this.$cookies.isKey('Auth-Token')" @click="info" class="nav-link mt-3 mr-2"
+            <a v-if="this.$cookies.isKey('Auth-Token') && this.usertype != 'admin'" @click="info" class="nav-link mt-3 mr-2"
               ><i class="far fa-user mr-1"></i><br />MyPage</a
+            >
+          </li>
+          <li class="nav-item">
+            <a v-if="this.$cookies.isKey('Auth-Token') && this.usertype == 'admin'" @click="goadmin" class="nav-link mt-3 mr-2"
+              ><i class="fas fa-users-cog mr-1"></i><br />Admin</a
             >
           </li>
           <li class="nav-item">
@@ -86,6 +91,9 @@ export default {
         .catch((err) => {
           console.log(err.response);
         });
+    },
+    goadmin(){
+      this.$router.push('/admin');
     },
     gocreate() {
       this.$router.push({
