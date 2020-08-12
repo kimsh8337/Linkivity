@@ -187,6 +187,17 @@ public class AccountController {
 
     }
 
+    @GetMapping("/viewAllUser")
+    @ApiOperation(value = "모든 회원정보")
+    public Object viewAllUser() throws SQLException, IOException {
+        try {
+            return new ResponseEntity<>(userDao.findAll(), HttpStatus.ACCEPTED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+    }
+
     @GetMapping("/checkEmail/{email}")
     @ApiOperation(value = "이메일확인")
     public String checkEmail(@PathVariable String email) {
