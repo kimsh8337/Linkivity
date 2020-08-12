@@ -14,10 +14,6 @@ import Agreement from '../page/user/Agreement.vue'
 // error
 import NotFound from '../page/error/NotFound.vue'
 import Params from '../page/error/Params.vue'
-import Msg from '../page/msg/msg.vue'
-import Kakao from '../page/msg/kakao.vue'
-import Calender from '../page/msg/calender.vue'
-import Map from '../page/msg/map.vue'
 // main
 import List from '../page/main/List.vue'
 
@@ -66,6 +62,10 @@ export default new Router({
             path: '/agreement',
             name: 'Agreement',
             component: Agreement
+        },
+        {
+            path: '/user/pwsearch',
+            component: Pwsearch
         },
         // 메인
         {
@@ -138,28 +138,5 @@ export default new Router({
             name: 'PostTempDetail',
             component: PostTempDetail,
         },
-
-        // kakao share
-        {
-            path: '/msg/msg',
-            component: Msg,
-        },
-        // kakao login
-        {
-            path: '/msg/kakao',
-            component: Kakao
-        },
-        {
-            path: '/msg/calender',
-            component: Calender
-        },
-        {
-            path: '/msg/map',
-            component: Map
-        },
-        {
-            path: '/user/pwsearch',
-            component: Pwsearch
-        }
     ]
 })

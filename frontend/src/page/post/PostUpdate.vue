@@ -52,7 +52,7 @@
 <script>
 import axios from "axios";
 
-const baseURL = "http://localhost:8080/post";
+const baseURL = process.env.VUE_APP_BACKURL;
 
 export default {
   data(){
@@ -64,7 +64,7 @@ export default {
   },
   methods: {
     fetchDetail:function() {
-      axios.get(`${baseURL}/detail/${this.pid}`)
+      axios.get(`${baseURL}/post/detail/${this.pid}`)
         .then((response) => {
           this.PostUpdate = response.data
         }).catch((error) => {
@@ -98,7 +98,7 @@ export default {
             icon: 'success',
             title: 'Update Completed!'
           })
-          axios.put(`${baseURL}/modify`,this.PostUpdate)
+          axios.put(`${baseURL}/post/modify`,this.PostUpdate)
             .then(() => {
               this.$router.push({
                 name: "PostListDetail",

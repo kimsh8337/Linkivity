@@ -153,7 +153,7 @@ import Buy from '../post/PostBuy.vue';
 import Sell from '../post/PostSell.vue';
 import Review from '../post/PostReview.vue';
 
-const baseURL = 'http://localhost:8080/account';
+const baseURL = process.env.VUE_APP_BACKURL;
 
 export default {
   components: {
@@ -188,7 +188,7 @@ export default {
   methods: {
     authUser() {
       axios
-        .get(`${baseURL}/authuser/${this.$cookies.get('Auth-Token')}`)
+        .get(`${baseURL}/account/authuser/${this.$cookies.get('Auth-Token')}`)
         .then((response) => {
           this.email = response.data.email;
           this.checkType = response.data.checkType;
@@ -200,7 +200,7 @@ export default {
     },
     getuser() {
       axios
-        .get(`${baseURL}/viewInfo/${this.email}`)
+        .get(`${baseURL}/account/viewInfo/${this.email}`)
         .then((response) => {
           this.name = response.data.name;
           this.nickname = response.data.nickname;
@@ -233,15 +233,15 @@ export default {
     },
     deluser() {
       axios
-        .delete(`${baseURL}/delete/${this.email}`)
+        .delete(`${baseURL}/account/delete/${this.email}`)
         .then((response) => {
           alert('탈퇴 완료');
           this.$cookies.remove('Auth-Token');
           this.$router.push('/');
           this.$router.go();
         })
-        .catch(() => {
-          alert(baseURL);
+        .catch((err) => {
+          console.log(err)
         });
     },
     modify() {
@@ -254,7 +254,7 @@ export default {
         imgurl,
       };
       axios
-        .put(`${baseURL}/modify/${this.pwvalidated}`, data)
+        .put(`${baseURL}/account/modify/${this.pwvalidated}`, data)
         .then((response) => {
           alert('수정 완료');
           this.$router.push('/user/info');

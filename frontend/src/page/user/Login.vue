@@ -26,7 +26,7 @@
 import constants from "../../lib/constants";
 import axios from "axios";
 
-const baseURL = "http://localhost:8080/account";
+const baseURL = process.env.VUE_APP_BACKURL;
 
 export default {
   components: {},
@@ -40,7 +40,7 @@ export default {
         password
       };
       axios
-        .get(`${baseURL}/login/${data.email}/${data.password}`)
+        .get(`${baseURL}/account/login/${data.email}/${data.password}`)
         .then(response => {
           alert("로그인 성공");
           console.log(response.data);

@@ -31,14 +31,14 @@
 <script>
 import axios from 'axios';
 import '../../assets/css/pwsearch.css'
-const baseURL = "http://localhost:8080/account";
+const baseURL = process.env.VUE_APP_BACKURL;
 
 export default {
     
      methods: {
           test() {
               axios
-              .get(`${baseURL}/pwd/${this.email}/${this.name}`)
+              .get(`${baseURL}/account/pwd/${this.email}/${this.name}`)
               .then((res) => {
                   console.log(res.data);
                   alert("임시 비밀번호 전송을 하였습니다!")

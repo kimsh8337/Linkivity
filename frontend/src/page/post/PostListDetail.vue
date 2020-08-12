@@ -227,7 +227,7 @@ import ReviewWrite from "../../components/review/ReviewModal.vue";
 
 import Swal from "sweetalert2";
 
-const baseURL = "http://localhost:8080";
+const baseURL = process.env.VUE_APP_BACKURL;
 
 export default {
   components: {
@@ -291,7 +291,7 @@ export default {
           description: this.post.activity, // 콘텐츠 상세설명
           imageUrl: document.images[0].src, // 썸네일 이미지
           link: {
-            webUrl: "http://localhost:3000/#/posts/" + this.pid,
+            webUrl: "http://i3b206.p.ssafy.io:3000/#/posts/" + this.pid,
             mobileWebUrl: "https://developers.kakao.com",
           },
         },
@@ -305,7 +305,7 @@ export default {
             title: "Open!", // 버튼 제목
             link: {
               mobileWebUrl: "https://developers.kakao.com",
-              webUrl: "http://localhost:3000/#/posts/" + this.pid,
+              webUrl: "http://i3b206.p.ssafy.io:3000/#/posts/" + this.pid,
             },
           },
         ],
