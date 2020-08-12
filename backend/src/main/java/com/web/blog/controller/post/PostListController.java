@@ -41,7 +41,6 @@ public class PostListController {
 
     // infinite-loading paging
     @GetMapping("/getList/{type}/{page}")
-    // @ResponseBody
     @ApiOperation(value = "리스트 가져오기")
     public List<PostList> getList(@PathVariable String type, @PathVariable int page) {
         int start = page * 5;
