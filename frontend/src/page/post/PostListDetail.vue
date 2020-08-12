@@ -186,8 +186,12 @@
           </div>
         </div>
         <ReviewWrite :pid="pid" :email="email" />
-        <ReviewSlide :pid="pid" @review-delete="reviewDelete" />
-
+        <div class="d-none d-sm-block">
+          <ReviewSlide :pid="pid" @review-delete="reviewDelete" />
+        </div>
+        <div class="d-block d-sm-none d-md-none">
+          <ReviewMobile />
+        </div>
       <hr>
       <!-- Q & A -->
       <h4 id="qna" class="d-flex mb-3" style="font-weight:bold">Q&A</h4>
@@ -203,10 +207,9 @@
     </div>
 
       <hr class="mt-0" />
-
       <!-- 글 수정 삭제 -->
-      <div class="d-flex justify-content-end mt-3 mb-3" v-if="this.email == this.post.email">
-        <button class="btn btn-success" @click="goModify">
+      <div class="d-flex justify-content-end mt-3 mb-3" v-if="this.email == this.post.email | this.checkType == 'admin'">
+        <button class="btn btn-success" v-if="this.email == this.post.email" @click="goModify">
           <i class="far fa-edit mr-2"></i>수정하기
         </button>
         <button class="btn btn-danger" @click="goDelete">
@@ -227,6 +230,7 @@ import CommentList from "../../components/comment/CommentList.vue";
 
 import ReviewSlide from "../../components/review/ReviewSlide.vue";
 import ReviewWrite from "../../components/review/ReviewModal.vue";
+import ReviewMobile from "../../components/review/ReviewMobile.vue"
 
 import Swal from "sweetalert2";
 
@@ -238,6 +242,7 @@ export default {
     CommentList,
     ReviewSlide,
     ReviewWrite,
+    ReviewMobile,
   },
   data() {
     return {
