@@ -16,16 +16,16 @@
         <div class="ml-auto my-auto datereply d-flex justify-content-end row" style="width:30%;">
           <div class="d-flex justify-content-end pl-0 col-12">
             <small class="text-dark d-flex align-items-start">{{commentdate(comment.createDate)}}</small>
-            <small @click="replyInputCheck"><i class="fas fa-reply-all rereply ml-2 my-auto" title="답글 펼치기"></i></small>
+            <small v-if="this.email" @click="replyInputCheck"><i class="fas fa-reply-all rereply ml-2 my-auto" title="답글 펼치기"></i></small>
           </div>
           <!-- 댓글 수정 삭제 버튼 -->
           <div class="d-flex justify-content-end pl-0 my-auto col-12 questionbtn" style="word-break:nowrap;">
             <small v-if="NickNameCheck" @click="commentModify">
               <span v-if="isUpdated" style="color:red">취소</span>
-              <span v-else style="color:gray">수정</span>
+              <span v-else style="color:ForestGreen">수정</span>
             </small>
-            <small v-if="NickNameCheck" class="ml-2" style="color:gray" @click="commentDelete">삭제</small>
-            <small class="ml-2" style="color:gray">신고</small>
+            <small v-if="NickNameCheck" class="ml-2" style="color:Crimson" @click="commentDelete">삭제</small>
+            <small class="ml-2" style="color:DarkKhaki">신고</small>
           </div>
         </div>
       </div>

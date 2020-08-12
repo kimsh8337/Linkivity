@@ -1,7 +1,7 @@
 <template>
   <div style="padding-left:20%">
     <!-- 대댓글 Input -->
-    <CommentReplyInput :comment="comment" @creply-create="CommentReplyCreate"/>
+    <CommentReplyInput v-if="this.checkType == 'business' | this.nickname == comment.nickname" :comment="comment" @creply-create="CommentReplyCreate"/>
     <!-- 대댓글 List -->
     <CommentReplyList v-for="reply in receiveReply" :key="reply.rrid" :reply="reply" @reply-delete="replyDelete"/>
   </div>
@@ -19,6 +19,7 @@ export default {
       return {
         nickname: "",
         commentrid: "",
+        checkType: "",
         receiveReply: [],
       }
     },
@@ -36,6 +37,7 @@ export default {
           .then((response) => {
             this.fetchCommentReply()
             this.nickname = response.data.nickname
+            this.checkType = response.data.checkType
           })
           .catch((err) => {
             console.log(err.response);
