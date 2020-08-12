@@ -1,6 +1,5 @@
 <template>
   <div class="input-group mb-3">
-    {{this.replyUpdateData}}
     <textarea
       type="text"
       class="form-control"
@@ -17,6 +16,8 @@
 </template>
 
 <script>
+import axios from 'axios'
+const baseURL = "http://localhost:8080";
 export default {
   data() {
     return {
