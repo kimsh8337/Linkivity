@@ -292,7 +292,7 @@ export default {
           imageUrl: document.images[0].src, // 썸네일 이미지
           link: {
             webUrl: "http://i3b206.p.ssafy.io:3000/#/posts/" + this.pid,
-            mobileWebUrl: "https://developers.kakao.com",
+            mobileWebUrl: "http://i3b206.p.ssafy.io:3000/#/posts/" + this.pid,
           },
         },
         social: {
@@ -304,7 +304,7 @@ export default {
           {
             title: "Open!", // 버튼 제목
             link: {
-              mobileWebUrl: "https://developers.kakao.com",
+              mobileWebUrl: "http://i3b206.p.ssafy.io:3000/#/posts/" + this.pid,
               webUrl: "http://i3b206.p.ssafy.io:3000/#/posts/" + this.pid,
             },
           },

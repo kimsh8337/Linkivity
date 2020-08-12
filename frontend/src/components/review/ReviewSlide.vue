@@ -137,6 +137,9 @@ export default {
   created() {
     if(this.$cookies.get("Auth-Token")!=null)
       this.authUser()
+      else{
+        this.fetchReview()
+      }
   },
 }
 </script>
