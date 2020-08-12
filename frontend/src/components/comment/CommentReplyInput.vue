@@ -4,13 +4,13 @@
         <label class="sr-only" for="inlineFormInputGroup"></label>
         <div class="input-group mb-2">
             <div class="input-group-prepend">
-            <div class="input-group-text">Anwser</div>
+            <div class="input-group-text my-auto">Anwser</div>
             </div>
-            <textarea v-model="commentReplyData.content" style="height:2.5rem;" type="text" class="form-control" id="inlineFormInputGroup" placeholder="답글을 남겨주세요!"></textarea>
+            <textarea v-model="commentReplyData.content" style="height:2.5rem; border:none !important" type="text" class="form-control my-auto" id="inlineFormInputGroup" placeholder="답글을 남겨주세요!"></textarea>
             <!-- button -->
             <div class="input-group-prepend buttonComment my-auto" style="border:none;"> 
             <span
-                class="input-group-text bg-white pr-3"
+                class="input-group-text bg-white pr-3 my-auto"
                 style="height: 2.5rem; border:none; border-top-right-radius: 5px; border-bottom-right-radius: 5px;"
                 @click="CommentReplyCreate"
             >
@@ -24,7 +24,7 @@
 
 <script>
 import axios from 'axios'
-const baseURL = "http://localhost:8080";
+const baseURL = process.env.VUE_APP_BACKURL;
 export default {
     data() {
         return {
@@ -50,7 +50,16 @@ export default {
         });
       },
       CommentReplyCreate() {
-          this.$emit('creply-create',this.commentReplyData)
+          if (this.commentReplyData.content == "") {
+            Swal.fire({
+                width: 250,
+                icon: 'error',
+                text: '답글을 남겨주세요!',
+                confirmButtonText: '<a style="font-size:1rem; color:black; width:0.5rem">확인</a>',
+            })
+          } else {
+            this.$emit('creply-create',this.commentReplyData)
+          }
       },
     },
     created() {

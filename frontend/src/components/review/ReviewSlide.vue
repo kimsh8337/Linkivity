@@ -55,7 +55,7 @@
 <script>
 import axios from 'axios'
 
-const baseURL = "http://localhost:8080";
+const baseURL = process.env.VUE_APP_BACKURL;
 
 import ReviewUpdate from './ReviewUpdateModal.vue'
 
@@ -64,7 +64,7 @@ export default {
     ReviewUpdate,
   },
   props: {
-    pid: Number,
+    pid: [Number,String],
   },
   data() {
     return {
@@ -137,6 +137,9 @@ export default {
   created() {
     if(this.$cookies.get("Auth-Token")!=null)
       this.authUser()
+      else{
+        this.fetchReview()
+      }
   },
 }
 </script>

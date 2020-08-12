@@ -26,11 +26,8 @@ export default {
   },
   created() {
     let url = this.$route.name;
-
     this.checkUrl(url);
-
     window.addEventListener('scroll',this.updatescroll);
-
   },
   watch: {
     $route(to) {

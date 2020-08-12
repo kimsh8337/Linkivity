@@ -71,7 +71,7 @@ import "../../assets/css/noticecreate.css";
 import Swal from "sweetalert2";
 // import { component } from 'vue/types/umd';
 
-const baseURL = "http://localhost:8080";
+const baseURL = process.env.VUE_APP_BACKURL;
 
 export default {
   data() {
@@ -83,7 +83,7 @@ export default {
         importance: "0",
       },
       email: "",
-      superadmin: "ssafy@ssafy.com",
+      superadmin: "admin@linkivity.com",
       error: {
         title: false,
         content: false,

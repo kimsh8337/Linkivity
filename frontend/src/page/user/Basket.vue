@@ -62,7 +62,7 @@ import BPagenation from 'bootstrap-vue';
 
 import Swal from 'sweetalert2';
 
-const baseURL = 'http://localhost:8080';
+const baseURL = process.env.VUE_APP_BACKURL;
 
 export default {
   components: {

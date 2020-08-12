@@ -199,7 +199,7 @@
 import '../../assets/css/surveymodal.css';
 import axios from 'axios';
 
-const baseURL = 'http://localhost:8080';
+const baseURL = process.env.VUE_APP_BACKURL;
 
 export default {
   data() {

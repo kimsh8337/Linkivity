@@ -101,3 +101,9 @@
   transform: scale(1.05);
   transition: all .3s ease-in-out;
 }
+
+.list-profile:hover{
+  transform: scale(1.05);
+  transition: all .3s ease-in-out;
+  cursor: pointer;
+}

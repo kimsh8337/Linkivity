@@ -40,7 +40,7 @@
 <script>
 import axios from "axios";
 import ConfirmModal from "../../components/modal/ConfirmModal.vue";
-const baseURL = "http://localhost:8080";
+const baseURL = process.env.VUE_APP_BACKURL;
 
 export default {
   components:{ConfirmModal},

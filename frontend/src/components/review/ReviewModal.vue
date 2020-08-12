@@ -62,7 +62,7 @@
 <script>
 import axios from 'axios'
 
-const baseURL = "http://localhost:8080";
+const baseURL = process.env.VUE_APP_BACKURL;
 
 export default {
   data() {
@@ -80,7 +80,7 @@ export default {
     }
   },
   props: {
-    pid: Number,
+    pid: [Number,String],
     email: String,
   },
   created() {

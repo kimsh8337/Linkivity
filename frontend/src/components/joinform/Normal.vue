@@ -122,7 +122,7 @@ import * as EmailValidator from "email-validator";
 
 import axios from "axios";
 
-const baseURL = "http://localhost:8080/account";
+const baseURL = process.env.VUE_APP_BACKURL;
 
 export default {
   created() {
@@ -158,7 +158,7 @@ export default {
     checkForm() {
       if (this.nickname.length > 0) {
         axios
-          .get(`${baseURL}/checkNickname/${this.nickname}`)
+          .get(`${baseURL}/account/checkNickname/${this.nickname}`)
           .then((response) => {
             this.error.nickname = response.data;
           })
@@ -170,7 +170,7 @@ export default {
         this.error.email = "이메일 형식이 아닙니다.";
       else if (this.email.length > 0 && EmailValidator.validate(this.email)) {
         axios
-          .get(`${baseURL}/checkEmail/${this.email}`)
+          .get(`${baseURL}/account/checkEmail/${this.email}`)
           .then((response) => {
             this.error.email = response.data;
           })
