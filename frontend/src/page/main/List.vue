@@ -188,6 +188,7 @@ export default {
 
   methods: {
     init() {
+      console.log(baseURL)
       axios
         .get(`${baseURL}/post/listbylike/`)
         .then((res) => {
