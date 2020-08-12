@@ -193,6 +193,9 @@
       <h4 id="qna" class="d-flex mb-3" style="font-weight:bold">Q&A</h4>
       <!-- 댓글 List -->
       <div class="d-flex bg-white">Question : {{ receiveComment.length }}</div>
+      <div v-if="receiveComment.length ==  0" class="mt-2">
+        <i class="far fa-surprise mr-1 mb-3"></i>등록된 질문이 없습니다. 처음으로 질문을 남겨보세요!<i class="far fa-surprise ml-1"></i>
+      </div>
       <CommentList v-for="comment in receiveComment" :key="comment.rid" :comment="comment" @comment-delete="commentDelete" />
       <!-- 댓글 작성 -->
       <CommentInput class="mt-3" v-if="this.email" @create-comment="createcomment" />
