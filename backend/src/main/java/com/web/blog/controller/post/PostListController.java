@@ -39,7 +39,7 @@ public class PostListController {
     @Autowired
     TagDao tagDao;
 
-    // infinite-loading paging
+    
     @GetMapping("/getList/{type}/{page}")
     @ApiOperation(value = "리스트 가져오기")
     public List<PostList> getList(@PathVariable String type, @PathVariable int page) {
