@@ -30,6 +30,7 @@ import PostCreate from '../page/post/PostCreate.vue'
 import PostUpdate from '../page/post/PostUpdate.vue'
 import PostTemp from '../page/post/PostTemp.vue'
 import PostTempDetail from '../page/post/PostTempDetail.vue'
+import News from '../page/post/NewsList.vue'
 
 
 Vue.use(Router)

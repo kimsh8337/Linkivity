@@ -5,7 +5,6 @@ import java.sql.SQLException;
 import java.util.Optional;
 
 import javax.mail.MessagingException;
-import javax.mail.internet.MimeMessage;
 import javax.validation.Valid;
 
 import com.web.blog.jwt.JwtService;
@@ -16,12 +15,8 @@ import com.web.blog.model.user.User;
 import com.web.blog.service.FindUtil;
 
 import org.springframework.web.bind.annotation.RestController;
-import org.thymeleaf.context.Context;
-import org.thymeleaf.spring5.SpringTemplateEngine;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -90,11 +85,6 @@ public class AccountController {
         }
     }
 
-    @Autowired
-    private JavaMailSender javaMailSender;
-    @Autowired
-    private SpringTemplateEngine templateEngine;
-
     @PostMapping("/signup")
     @ApiOperation(value = "가입하기")
     public Object signup(@Valid @RequestBody SignupRequest request)
@@ -113,29 +103,41 @@ public class AccountController {
         }
         userDao.save(user);
 
+        String charSet = "utf-8";
+        String hostSMTP = "smtp.naver.com";
+        // SMTP 서버명
+
+        String hostSMTPid = "eagleeye0117@naver.com";
+        String hostSMTPpwd = "mine0117tjdrhd12";
+       
+        // 보내는 사람
+        String fromEmail = hostSMTPid;
+        String fromName = "링키비티";
+       
+        String subject = "링키비티 회원가입을 축하합니다!!!";
+        
         try {
-            MimeMessage message = javaMailSender.createMimeMessage();
-            MimeMessageHelper helper = new MimeMessageHelper(message, true);
+            HtmlEmail mail = new HtmlEmail();
+            mail.setDebug(true);
+            mail.setCharset(charSet);
+            mail.setSSLOnConnect(true);
 
-            // 제목
-            helper.setSubject("회원가입 완료");
-
-            // 수신자
-            helper.setTo(request.getEmail());
-
-            // 전달 데이터
-            Context context = new Context();
-            context.setVariable("test_key", "test_value");
-
-            // 메일 내용
-            String html = templateEngine.process("mail-template", context);
-            helper.setText(html, true);
-
-            // 보내기
-            javaMailSender.send(message);
+            //SSL 사용(TLS가 없는 경우 SSL 사용)
+            mail.setHostName(hostSMTP);
+            mail.setSmtpPort(587);
+            mail.setAuthentication(hostSMTPid, hostSMTPpwd);
+            mail.setStartTLSEnabled(true);
+            mail.addTo(request.getEmail());
+            mail.setFrom(fromEmail, fromName);
+            mail.setSubject(subject);
+            // 내용
+            mail.setHtmlMsg("링키비티에 가입해주셔서 진심으로 감사합니다.");
+            mail.send();
+            System.out.println("성공");
         } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+            e.printStackTrace();
         }
+
         return user;
     }
 
@@ -264,9 +266,6 @@ public class AccountController {
     @ApiOperation(value = "임시비밀번호 발급")
     public void sendMail(@PathVariable String email, @PathVariable String name) throws Exception {
         
-        // String keyCode = FindUtil.createKey();
-    
-
         //Mail Server 설정
 
         String charSet = "utf-8";
@@ -275,9 +274,6 @@ public class AccountController {
 
         String hostSMTPid = "eagleeye0117@naver.com";
         String hostSMTPpwd = "mine0117tjdrhd12";
-
-
-        // email = "mine011776@gmail.com";
        
         // 보내는 사람
         String fromEmail = hostSMTPid;
@@ -286,13 +282,13 @@ public class AccountController {
         String subject = "링키비티 임시 비밀번호 찾기";
        
         String newPwd = FindUtil.getNewPwd();
+        
         Optional<User> userOpt = userDao.findUserByEmail(email);
         if(userOpt.isPresent()){
             User user = userOpt.get();
             user.setPassword(newPwd);
             userDao.save(user);
         }
-
 
         // email 전송
         try {
