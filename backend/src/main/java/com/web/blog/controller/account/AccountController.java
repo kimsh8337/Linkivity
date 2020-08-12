@@ -10,7 +10,6 @@ import javax.validation.Valid;
 import com.web.blog.jwt.JwtService;
 import com.web.blog.dao.user.UserDao;
 import com.web.blog.model.BasicResponse;
-import com.web.blog.model.user.SignupRequest;
 import com.web.blog.model.user.User;
 import com.web.blog.service.FindUtil;
 
@@ -201,12 +200,10 @@ public class AccountController {
     @GetMapping("/checkEmail/{email}")
     @ApiOperation(value = "이메일확인")
     public String checkEmail(@PathVariable String email) {
-        String result;
+        String result="";
         Optional<User> userOpt = userDao.findUserByEmail(email);
         if (userOpt.isPresent()) {
             result = "이미 존재하는 이메일입니다.";
-        } else {
-            result = "사용 가능한 이메일입니다.";
         }
         return result;
     }
@@ -214,13 +211,12 @@ public class AccountController {
     @GetMapping("/checkNickname/{nickname}")
     @ApiOperation(value = "닉네임확인")
     public String checkNickname(@PathVariable String nickname) {
-        String result;
+        String result="";
         Optional<User> userOpt = userDao.findUserByNickname(nickname);
         if (userOpt.isPresent()) {
             result = "이미 존재하는 닉네임입니다.";
-        } else {
-            result = "사용 가능한 닉네임입니다.";
         }
+        System.out.println(result);
         return result;
     }
 
