@@ -87,9 +87,9 @@ public class AccountController {
 
     @PostMapping("/signup")
     @ApiOperation(value = "가입하기")
-    public Object signup(@Valid @RequestBody SignupRequest request)
+    public Object signup(@RequestBody User request)
             throws MessagingException, SQLException, IOException {
-
+                System.out.println(request.toString());
         User user = new User();
         user.setEmail(request.getEmail());
         user.setName(request.getName());
@@ -128,7 +128,7 @@ public class AccountController {
             mail.setAuthentication(hostSMTPid, hostSMTPpwd);
             mail.setStartTLSEnabled(true);
             mail.addTo(request.getEmail());
-            mail.setFrom(fromEmail, fromName);
+            mail.setFrom(fromEmail, fromName, charSet);
             mail.setSubject(subject);
             // 내용
             mail.setHtmlMsg("링키비티에 가입해주셔서 진심으로 감사합니다.");
