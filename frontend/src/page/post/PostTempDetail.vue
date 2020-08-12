@@ -65,7 +65,7 @@
 <script>
 import axios from "axios";
 
-const baseURL = "http://localhost:8080/temp";
+const baseURL = process.env.VUE_APP_BACKURL;
 
 export default {
   data() {
@@ -78,7 +78,7 @@ export default {
   methods: {
     fetchDetail: function () {
       axios
-        .get(`${baseURL}/detail/${this.pid}`)
+        .get(`${baseURL}/temp/detail/${this.pid}`)
         .then((response) => {
           this.PostTemp = response.data;
         })
@@ -88,7 +88,7 @@ export default {
     },
     tempSave: function () {
       axios
-        .put(`${baseURL}/modify`, this.PostTemp)
+        .put(`${baseURL}/temp/modify`, this.PostTemp)
         .then(() => {
           alert("수정 완료!!");
           this.$router.push({

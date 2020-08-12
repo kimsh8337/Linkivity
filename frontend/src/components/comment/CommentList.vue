@@ -48,7 +48,7 @@ import axios from 'axios'
 import CommentUpdate from './CommentUpdate'
 import CommentReplyAnswer from './CommentReplyAnswer.vue'
 
-const baseURL = "http://localhost:8080";
+const baseURL = process.env.VUE_APP_BACKURL;
 
 export default {
   components: {

@@ -175,7 +175,7 @@ import "../../assets/css/list.css";
 import Footer from "../../components/common/Footer.vue";
 import SurveyModal from "../../components/modal/SurveyModal.vue";
 
-const baseURL = "http://localhost:8080";
+const baseURL = process.env.VUE_APP_BACKURL;
 
 export default {
   name: "Post",
