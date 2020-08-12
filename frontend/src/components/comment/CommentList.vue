@@ -16,7 +16,7 @@
         <div class="ml-auto my-auto datereply d-flex justify-content-end row" style="width:30%;">
           <div class="d-flex justify-content-end pl-0 col-12">
             <small class="text-dark d-flex align-items-start">{{commentdate(comment.createDate)}}</small>
-            <small v-if="this.email" @click="replyInputCheck"><i class="fas fa-reply-all rereply ml-2 my-auto" title="답글 펼치기"></i></small>
+            <small @click="replyInputCheck"><i class="fas fa-reply-all rereply ml-2 my-auto" title="답글 펼치기"></i></small>
           </div>
           <!-- 댓글 수정 삭제 버튼 -->
           <div class="d-flex justify-content-end pl-0 my-auto col-12 questionbtn" style="word-break:nowrap;">
