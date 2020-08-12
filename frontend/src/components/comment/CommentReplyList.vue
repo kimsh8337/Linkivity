@@ -15,17 +15,17 @@
             </div>
             <!-- 날짜와 대댓버튼 -->
             <div class="ml-auto my-auto datereply d-flex justify-content-end row" style="width:30%;">
-            <div class="d-flex justify-content-end pl-0 col-12">
+            <div class="d-flex justify-content-end pl-0 col-12 col-xs-12">
                 <small class="text-dark d-flex align-items-start">{{commentdate(reply.createDate)}}</small>
             </div>
             <!-- 댓글 수정 삭제 버튼 -->
             <div class="d-flex justify-content-end pl-0 my-auto col-12 questionbtn" style="word-break:nowrap;">
-                <small v-if="nickNameCheck" @click="commentReplyModify">
+                <small v-if="nickNameCheck" @click="commentReplyModify" class="">
                     <span v-if="isUpdate" style="color:red">취소</span>
-                    <span v-else style="color:LimeGreen">수정</span>
+                    <span v-else style="color:gray;">수정</span>
                 </small>
-                <small @click="replyDelete(reply.rrid)" v-if="nickNameCheck" class="ml-2" style="color:Crimson">삭제</small>
-                <small class="ml-2" style="color:Maroon">신고</small>
+                <small @click="replyDelete(reply.rrid)" v-if="nickNameCheck" class="ml-2" style="color:gray">삭제</small>
+                <small class="ml-2" style="color:gray">신고</small>
             </div>
             </div>
         </div>
