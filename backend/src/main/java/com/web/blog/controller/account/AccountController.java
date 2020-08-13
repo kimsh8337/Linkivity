@@ -58,7 +58,6 @@ public class AccountController {
                 tokenuser.setEmail(userOpt.get().getEmail());
                 tokenuser.setPassword(userOpt.get().getPassword());
                 String token = jwtService.createLoginToken(tokenuser);
-                // return jwtService.getUser(token).getEmail();
                 return new ResponseEntity<>(token, HttpStatus.ACCEPTED);
             } else {
                 return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
