@@ -25,7 +25,7 @@
                         <span v-if="!isUpdate & NickNameCheck" style="color:ForestGreen;">수정</span>
                     </small>
                     <small @click="replyDelete(reply.rrid)" v-if="NickNameCheck | this.checkType == 'admin'" class="ml-2" style="color:Crimson">삭제</small>
-                    <small class="ml-2" style="color:darkKhaki">신고</small>
+                    <!-- <small class="ml-2" style="color:darkKhaki">신고</small> -->
                 </div>
             </div>
         </div>

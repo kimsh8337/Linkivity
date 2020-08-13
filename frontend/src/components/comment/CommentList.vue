@@ -25,7 +25,7 @@
               <span v-if="!isUpdated & NickNameCheck" style="color:ForestGreen">수정</span>
             </small>
             <small v-if="NickNameCheck | this.checkType == 'admin'" class="ml-2" style="color:Crimson" @click="commentDelete">삭제</small>
-            <small class="ml-2" style="color:DarkKhaki">신고</small>
+            <!-- <small class="ml-2" data-toggle="modal" data-target="#commentIndict" style="color:DarkKhaki">신고</small> -->
           </div>
         </div>
       </div>
