@@ -19,13 +19,13 @@
                     <small class="text-dark d-flex align-items-start">{{commentdate(reply.createDate)}}</small>
                 </div>
             <!-- 댓글 수정 삭제 버튼 -->
-                <div class="d-flex justify-content-end pl-0 my-auto col-12 questionbtn" style="word-break:nowrap;">
+                <div class="d-flex justify-content-end pl-0 my-auto col-12" style="word-break:nowrap;">
                     <small v-if="NickNameCheck | this.checkType == 'admin'" @click="commentReplyModify">
-                        <span v-if="isUpdate & NickNameCheck" style="color:red">취소</span>
-                        <span v-if="!isUpdate & NickNameCheck" style="color:ForestGreen;">수정</span>
+                        <span class="cancelbtn" v-if="isUpdate & NickNameCheck" style="color:red">취소</span>
+                        <span class="updatebtn" v-if="!isUpdate & NickNameCheck" style="color:ForestGreen;">수정</span>
                     </small>
-                    <small @click="replyDelete(reply.rrid)" v-if="NickNameCheck | this.checkType == 'admin'" class="ml-2" style="color:Crimson">삭제</small>
-                    <small class="ml-2" style="color:darkKhaki">신고</small>
+                    <small @click="replyDelete(reply.rrid)" v-if="NickNameCheck | this.checkType == 'admin'" class="ml-2 deletebtn" style="color:Crimson">삭제</small>
+                    <!-- <small class="ml-2" style="color:darkKhaki">신고</small> -->
                 </div>
             </div>
         </div>

@@ -14,6 +14,7 @@ import com.web.blog.model.post.PostList;
 import com.web.blog.model.post.Tag;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -43,34 +44,23 @@ public class PostListController {
     @GetMapping("/getList/{type}/{page}")
     @ApiOperation(value = "승인된 리스트 가져오기")
     public List<PostList> getList(@PathVariable String type, @PathVariable int page) {
-        int start = page * 5;
-        int end = start + 5;
 
         List<PostList> temp = new LinkedList<>();
         if (type.equals("all")) {
-            temp = postDao.findByFlagOrderByCreateDateDesc(1);
+            temp = postDao.findByFlagOrderByCreateDateDesc(1, PageRequest.of(page, 5));
         } else if (type.equals("spring")) {
-            temp = postDao.findBySpringAndFlagOrderByCreateDateDesc(1, 1);
+            temp = postDao.findBySpringAndFlagOrderByCreateDateDesc(1, 1, PageRequest.of(page, 5));
         } else if (type.equals("summer")) {
-            temp = postDao.findBySummerAndFlagOrderByCreateDateDesc(1, 1);
+            temp = postDao.findBySummerAndFlagOrderByCreateDateDesc(1, 1, PageRequest.of(page, 5));
         } else if (type.equals("autumn")) {
-            temp = postDao.findByAutumnAndFlagOrderByCreateDateDesc(1, 1);
+            temp = postDao.findByAutumnAndFlagOrderByCreateDateDesc(1, 1, PageRequest.of(page, 5));
         } else if (type.equals("winter")) {
-            temp = postDao.findByWinterAndFlagOrderByCreateDateDesc(1, 1);
+            temp = postDao.findByWinterAndFlagOrderByCreateDateDesc(1, 1, PageRequest.of(page, 5));
         } else {
-            temp = postDao.findByPlaceAndFlagOrderByCreateDateDesc(type, 1);
+            temp = postDao.findByPlaceAndFlagOrderByCreateDateDesc(type, 1, PageRequest.of(page, 5));
         }
 
-        if (end > temp.size()) {
-            end = temp.size();
-        }
-
-        List<PostList> list = new LinkedList<>();
-        for (int i = start; i < end; i++) {
-            list.add(temp.get(i));
-        }
-
-        return list;
+        return temp;
     }
 
     @GetMapping("/getThatList/{type}/{page}")
@@ -112,12 +102,12 @@ public class PostListController {
             @PathVariable int page) throws SQLException, IOException {
         List<PostList> searchpost = new LinkedList<>();
         if (key.equals("title")) {
-            searchpost = postDao.findByFlagAndTitleLikeOrderByCreateDateDesc(1, "%" + word + "%");
+            searchpost = postDao.findByFlagAndTitleLikeOrderByCreateDateDesc(1, "%" + word + "%", PageRequest.of(page, 5));
         } else if (key.equals("activity")) {
-            searchpost = postDao.findByFlagAndActivityLikeOrderByCreateDateDesc(1, "%" + word + "%");
+            searchpost = postDao.findByFlagAndActivityLikeOrderByCreateDateDesc(1, "%" + word + "%", PageRequest.of(page, 5));
         } else if (key.equals("price")) {
             int price = Integer.parseInt(word);
-            searchpost = postDao.findByFlagAndPriceLessThanEqualOrderByCreateDateDesc(1, price);
+            searchpost = postDao.findByFlagAndPriceLessThanEqualOrderByCreateDateDesc(1, price, PageRequest.of(page, 5));
         }
         List<PostList> post = new LinkedList<>();
         if (type.equals("all")) {
@@ -149,19 +139,7 @@ public class PostListController {
             }
         }
 
-        int start = page * 9;
-        int end = start + 9;
-
-        if (end > post.size()) {
-            end = post.size();
-        }
-
-        List<PostList> list = new LinkedList<>();
-        for (int i = start; i < end; i++) {
-            list.add(post.get(i));
-        }
-
-        return list;
+        return post;
     }
 
     @GetMapping("/searchReloading/{type}/{key}/{word}/{page}")
@@ -348,7 +326,7 @@ public class PostListController {
     @PostMapping("/regist/{tagValue}")
     @ApiOperation("포스트 등록(아직 승인 x)") //승인 안된건 2
     public Object regist(@RequestBody PostList request, @PathVariable List<String> tagValue)
-            throws SQLException, IOException {
+    throws SQLException, IOException {
         try {
             PostList temp = new PostList();
             temp.setEmail(request.getEmail());
@@ -368,7 +346,7 @@ public class PostListController {
             temp.setWinter(request.getWinter());
             temp.setPlace(request.getPlace());
             postDao.save(temp);
-
+            
             int pid = temp.getPid();
             List<String> tags = new LinkedList<>();
             tags = tagValue;
@@ -383,5 +361,57 @@ public class PostListController {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+    
+    
+    // 태그 검색
+    @GetMapping("/getTagList/{pids}/{page}")
+    @ApiOperation("태그 검색 위한 리스트 불러오기")
+    public Object getTagList(@PathVariable List<Integer> pids, @PathVariable int page) throws SQLException, IOException {
+        try {
+            List<PostList> list = new LinkedList<>();
+            list = postDao.findByFlagAndPidInOrderByCreateDateDesc(1, pids, PageRequest.of(page, 8));
+            if(list != null) {
+               return list; 
+            } else {
+                return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+            }
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    
+    @GetMapping("/getTagReloading/{pids}/{page}")
+    @ApiOperation("태그 검색 페이지 리로딩")
+    public Object tagReloading(@PathVariable List<Integer> pids, @PathVariable int page) throws SQLException, IOException {
+        try {
+            List<PostList> list = new LinkedList<>();
+            list = postDao.findByFlagAndPidInOrderByCreateDateDesc(1, pids);
+            if(list != null) {
+                int start = page * 8;
+                int end = start + 8;
 
+                if(end > list.size()) {
+                    end = list.size();
+                }
+
+                List<PostList> tempList = new LinkedList<>();
+                for (int i = 0; i < end; i++) {
+                    tempList.add(list.get(i));
+                }
+
+               return tempList; 
+            } else {
+                return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+            }
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/test/{page}")
+    @ApiOperation("페이징 테스트")
+    public Object pageTest(@PathVariable int page) throws SQLException, IOException {
+        // return postDao.findAll(PageRequest.of(page, 5, Direction.DESC, "createDate"));
+        return postDao.findByFlagOrderByCreateDateDesc(1, PageRequest.of(page, 5));
+    }
 }

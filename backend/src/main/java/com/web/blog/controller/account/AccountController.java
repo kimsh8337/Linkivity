@@ -63,7 +63,6 @@ public class AccountController {
                 tokenuser.setEmail(userOpt.get().getEmail());
                 tokenuser.setPassword(userOpt.get().getPassword());
                 String token = jwtService.createLoginToken(tokenuser);
-                // return jwtService.getUser(token).getEmail();
                 return new ResponseEntity<>(token, HttpStatus.ACCEPTED);
             } else {
                 return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
@@ -240,6 +239,24 @@ public class AccountController {
 
     }
 
+    @DeleteMapping("/dropUser/{uid}")
+    @ApiOperation(value = "회원 탈퇴")
+    public Object dropUser(@PathVariable int uid) throws SQLException, IOException {
+        try {
+            User user = userDao.findByUid(uid);
+            if (user != null) {
+                userDao.delete(user);
+                return new ResponseEntity<>(user, HttpStatus.ACCEPTED);
+            } else {
+                return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+
+            }
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+    }
+
     @GetMapping("/checkEmail/{email}")
     @ApiOperation(value = "이메일확인")
     public String checkEmail(@PathVariable String email) {
@@ -313,9 +330,9 @@ public class AccountController {
 
     @GetMapping("/pwd/{email}/{name}")
     @ApiOperation(value = "임시비밀번호 발급")
-    public void sendMail(@PathVariable String email, @PathVariable String name) throws Exception {
-
-        // Mail Server 설정
+    public Object sendMail(@PathVariable String email, @PathVariable String name) throws Exception {
+        
+        //Mail Server 설정
 
         String charSet = "utf-8";
         String hostSMTP = "smtp.naver.com";
@@ -331,13 +348,12 @@ public class AccountController {
         String subject = "링키비티 임시 비밀번호 찾기";
 
         String newPwd = FindUtil.getNewPwd();
-
-        Optional<User> userOpt = userDao.findUserByEmail(email);
-        if (userOpt.isPresent()) {
-            User user = userOpt.get();
+        
+        User user = userDao.findUserByEmailAndName(email, name);
+        if(user != null){ 
             user.setPassword(newPwd);
             userDao.save(user);
-        }
+        
 
         // email 전송
         try {
@@ -358,8 +374,13 @@ public class AccountController {
             mail.setHtmlMsg("" + newPwd);
             mail.send();
             System.out.println("성공");
+            return "메일 전송 성공";
         } catch (Exception e) {
-            e.printStackTrace();
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+             }
+        }else {
+            System.out.println("다시 입력해주세요");
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
     }
 }
