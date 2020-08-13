@@ -18,14 +18,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class Report {
+public class Verification {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int rpid;
+    private int vfid;
     
     private String email;
-    private String remail;
-    private String reason;
-    private LocalDateTime createDate;
-    private int pid;
+    private String code;
 }

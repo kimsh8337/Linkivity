@@ -70,14 +70,14 @@ public class ReportController {
         return new ResponseEntity<>(list, HttpStatus.ACCEPTED);
     }
 
-    @GetMapping("/detail")
+    @GetMapping("/detail/{rpid}")
     @ApiOperation("신고 상세정보")
     public Object detail(@PathVariable int rpid) throws SQLException, IOException {
         Report report = reportDao.findByRpid(rpid);
         return new ResponseEntity<>(report, HttpStatus.ACCEPTED);
     }
 
-    @GetMapping("/cancel")
+    @GetMapping("/cancel/{rpid}")
     @ApiOperation("사용자 신고 취소")
     public Object cancel(@PathVariable int rpid) throws SQLException, IOException {
         Report report = reportDao.findByRpid(rpid);
@@ -93,6 +93,7 @@ public class ReportController {
             Optional<User> user = userDao.findUserByEmail(report.getRemail());
             if (user.isPresent()) {
                 ReportUser cur = reportUserDao.findByEmail(report.getRemail());
+                System.out.println(cur);
                 if (cur == null) { //신고당한 사람이 신고유저리스트에 없을 경우
                     ReportUser ruser = new ReportUser();
                     ruser.setEmail(report.getRemail());
@@ -115,7 +116,7 @@ public class ReportController {
         }
     }
 
-    @GetMapping("/warnUser")
+    @GetMapping("/warnUser/{rpid}")
     @ApiOperation("사용자 경고 처리")
     public Object warnUser(@PathVariable int rpid) throws SQLException, IOException {
         try {
