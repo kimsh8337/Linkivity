@@ -182,7 +182,7 @@ export default {
           .get(`${baseURL}/post/getList/${this.type}/${this.page}`)
           .then((res) => {
             setTimeout(() => {
-              if (res.data.length) {
+              if (res.data.length != 0) {
                 this.posts = this.posts.concat(res.data);
                 $state.loaded();
                 this.page += 1;
@@ -203,7 +203,7 @@ export default {
           .get(`${baseURL}/post/search/${this.type}/${this.key}/${this.word}/${this.page}`)
           .then((res) => {
             setTimeout(() => {
-              if (res.data.length) {
+              if (res.data.length != 0) {
                 this.posts = this.posts.concat(res.data);
                 $state.loaded();
                 this.page += 1;
