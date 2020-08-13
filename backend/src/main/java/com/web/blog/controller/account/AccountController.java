@@ -252,69 +252,69 @@ public class AccountController {
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
     }
-
+    
     @GetMapping("/getImg/{email}")
     @ApiOperation(value = "그림가져오기")
     public String getImg(@PathVariable String email) {
         Optional<User> user = userDao.findUserByEmail(email);
         return user.get().getImgurl();
     }
-
+    
     @GetMapping("/pwd/{email}/{name}")
     @ApiOperation(value = "임시비밀번호 발급")
-    public void sendMail(@PathVariable String email, @PathVariable String name) throws Exception {
+    public Object sendMail(@PathVariable String email, @PathVariable String name) throws Exception {
         
-        // String keyCode = FindUtil.createKey();
-    
-
         //Mail Server 설정
-
+        
         String charSet = "utf-8";
         String hostSMTP = "smtp.naver.com";
         // SMTP 서버명
-
+        
         String hostSMTPid = "eagleeye0117@naver.com";
         String hostSMTPpwd = "mine0117tjdrhd12";
-
-
+        
+        
         // email = "mine011776@gmail.com";
-       
+        
         // 보내는 사람
         String fromEmail = hostSMTPid;
         String fromName = "링키비티";
-       
+        
         String subject = "링키비티 임시 비밀번호 찾기";
-       
+        
         String newPwd = FindUtil.getNewPwd();
-        Optional<User> userOpt = userDao.findUserByEmail(email);
-        if(userOpt.isPresent()){
-            User user = userOpt.get();
+        //  Optional<User> userOpt = userDao.findUserByEmail(email);
+        User user = userDao.findUserByEmailAndName(email, name);
+        
+        if(user != null){
             user.setPassword(newPwd);
             userDao.save(user);
-        }
-
-
-        // email 전송
-        try {
-            HtmlEmail mail = new HtmlEmail();
-            mail.setDebug(true);
-            mail.setCharset(charSet);
-            mail.setSSLOnConnect(true);
-
-        //SSL 사용(TLS가 없는 경우 SSL 사용)
-            mail.setHostName(hostSMTP);
-            mail.setSmtpPort(587);
-            mail.setAuthentication(hostSMTPid, hostSMTPpwd);
-            mail.setStartTLSEnabled(true);
-            mail.addTo(email);
-            mail.setFrom(fromEmail, fromName, charSet);
-            mail.setSubject(subject);
-            // 내용
-            mail.setHtmlMsg(""+newPwd);
-            mail.send();
-            System.out.println("성공");
-        } catch (Exception e) {
-            e.printStackTrace();
+            // email 전송
+            try {
+                HtmlEmail mail = new HtmlEmail();
+                mail.setDebug(true);
+                mail.setCharset(charSet);
+                mail.setSSLOnConnect(true);
+                
+                //SSL 사용(TLS가 없는 경우 SSL 사용)
+                mail.setHostName(hostSMTP);
+                mail.setSmtpPort(587);
+                mail.setAuthentication(hostSMTPid, hostSMTPpwd);
+                mail.setStartTLSEnabled(true);
+                mail.addTo(email);
+                mail.setFrom(fromEmail, fromName, charSet);
+                mail.setSubject(subject);
+                // 내용
+                mail.setHtmlMsg(""+newPwd);
+                mail.send();
+                System.out.println("성공");
+                return "메일 전송 성공";
+            } catch (Exception e) {
+                return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+        }else {
+            System.out.println("다시 입력해주세요");
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
     }
 }

@@ -1,23 +1,26 @@
 <template>
-  <div>
-    <label for="example-datepicker">Choose a date</label>
-    <b-form-datepicker id="example-datepicker1" v-model="value1" class="mb-2"></b-form-datepicker>
-    <p>Value: '{{ value1}}'</p>
-    <b-form-datepicker id="example-datepicker1" v-model="value2" class="mb-2"></b-form-datepicker>
-    <p>Value: '{{ value2 }}'</p>
-    <!-- <h1 v-if="value1 > va "> </h1> -->
-  </div>
-
-
+    <div>
+        <Editor ref="toastuiEditor" />
+        <b-button @click="createAction">저장하기</b-button>
+        {{this.text}} 
+    </div>
 </template>
 
-<script>
-  export default {
-    data() {
-      return {
-        value1: '',
-        value2: ''
-      }
-    }
-  }
+<script> 
+import "codemirror/lib/codemirror.css"; 
+import "@toast-ui/editor/dist/toastui-editor.css";
+import { Editor } from "@toast-ui/vue-editor";
+export default { components: { Editor }, 
+    methods: { 
+        createAction() { 
+            var content = this.$refs.toastuiEditor.invoke("getMarkdown"); // content를 저장하는 액션 처리
+            this.text = content
+        } 
+    },
+    data: function() {
+        return {
+            text: ""
+        }
+    } ,
+}; 
 </script>

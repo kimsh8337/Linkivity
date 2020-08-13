@@ -97,7 +97,7 @@ export default {
       var IMP = window.IMP; // 생략가능      
             var msg;
         IMP.init('imp40062977');
-
+         //IMP.init( 'iamport' ); 
               IMP.request_pay({
               pg : 'html5_inicis',
               pay_method : 'card',

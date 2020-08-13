@@ -22,17 +22,15 @@
                     :key="hash.id"
                   >#{{ hash }}</small>
                   <!-- 카카오톡 공유하기 -->
-                  <a
-                    href="javascript:;"
-                    @click="test()"
+                 
+                    <img
+                       @click="test"
                     id="kakao-link-btn"
                     style="margin-left:auto"
-                  >
-                    <img
                       src="//developers.kakao.com/assets/img/about/logos/kakaolink/kakaolink_btn_small.png"
                       width="28px"
                     />
-                  </a>
+                  
                 </div>
                 <div class="d-flex justify-content-start">
                   <!-- 업체 위치 -->
@@ -281,7 +279,7 @@ export default {
           imageUrl: document.images[0].src, // 썸네일 이미지
           link: {
             webUrl: "http://localhost:3000/#/posts/" + this.pid,
-            mobileWebUrl: "https://developers.kakao.com",
+            mobileWebUrl: "http://i3b206.p.ssafy.io:3000/#/posts/" + this.pid,
           },
         },
         social: {
@@ -293,7 +291,7 @@ export default {
           {
             title: "Open!", // 버튼 제목
             link: {
-              mobileWebUrl: "https://developers.kakao.com",
+              mobileWebUrl: "http://localhost:3000/#/posts/" + this.pid,
               webUrl: "http://localhost:3000/#/posts/" + this.pid,
             },
           },

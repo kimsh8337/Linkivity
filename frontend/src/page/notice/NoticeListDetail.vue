@@ -17,10 +17,13 @@
     <hr>
     </div>
 
-    <!-- Detail-Info -->
+    <!-- Viewer -->
+   <!-- <Viewer v-if="notice.content != null" :initialValue="notice.content"/> -->
+
+    <!-- contents -->
     <div class="form-group">
         <label class="d-flex notice-content-main mr-3">Contents</label>
-        <small class="form-text notice-content-sub text-muted d-flex">{{notice.content}}</small>
+        <Viewer v-if="notice.content != null" :initialValue="notice.content"/>
     </div>
 
     <!-- Button -->
@@ -43,11 +46,18 @@
 import axios from 'axios';
 import '../../assets/css/noticelistdetail.css';
 
+import "codemirror/lib/codemirror.css";
+import "@toast-ui/editor/dist/toastui-editor.css";
+import { Viewer } from "@toast-ui/vue-editor";
+
 import Swal from 'sweetalert2';
 
 const baseURL = 'http://localhost:8080';
 
 export default {
+    components: {
+      Viewer
+    },
     created(){
       this.authUser();
       this.init();
@@ -57,6 +67,7 @@ export default {
             notice:[],
             superadmin:'ssafy@ssafy.com',
             email:'',
+            // content: null,
         }
     },
     methods:{
@@ -131,6 +142,21 @@ export default {
                 params: { ID: this.$route.params.ID }
             })
         },
+    },
+    mounted() {
+      this.init()
+      this.content = this.notice.content.json()
+      // fetch()
+      //  axios.get(`${baseURL}/notice/detail/${this.$route.params.ID}`)
+      //   .then((res) => {
+      //     if (res.ok) {
+      //       return res.json();
+      //     } else {
+      //       throw res
+      //     }
+      //   }).then((data) => {
+      //     this.content = data
+      //   })
     },
 }
 </script>
