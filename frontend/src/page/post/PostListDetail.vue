@@ -20,11 +20,11 @@
                   <div class="d-flex justify-content-start">
                     <!-- hashTag -->
                     <small
-                      class="text-primary mr-1"
+                      class="text-primary mr-1 detailTags"
                       style="text-align:left; font-size:1rem; text-overflow:ellipsis; overflow: hidden; white-space: nowrap;"
                       v-for="hash in hashTag"
                       :key="hash.id"
-                    >#{{ hash }}</small>
+                    ><p @click="goTag(hash)">#{{ hash }}</p></small>
                     <div class="ml-auto">
                       <!-- 카카오톡 공유하기 -->
                       <button
@@ -307,6 +307,13 @@ export default {
     this.fetchHashTag();
   },
   methods: {
+    goTag(tag) {
+      console.log(tag);
+      this.$router.push({
+        name: 'TagList',
+        params: { TAG: tag },
+      });
+    },
     scroll(evt) {
       evt.preventDefault();
       const href = evt.target.getAttribute("href");
@@ -698,6 +705,10 @@ export default {
 
 <style>
 .indict {
+  cursor: pointer;
+}
+.detailTags :hover {
+  text-decoration: underline;
   cursor: pointer;
 }
 </style>

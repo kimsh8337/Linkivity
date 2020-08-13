@@ -33,6 +33,7 @@ import PostTemp from '../page/post/PostTemp.vue'
 import PostTempDetail from '../page/post/PostTempDetail.vue'
 import News from '../page/post/NewsList.vue'
 
+import TagList from '../page/main/List.vue'
 
 Vue.use(Router)
 
@@ -144,6 +145,11 @@ export default new Router({
             path: '/posts/:ID/posttempdetail',
             name: 'PostTempDetail',
             component: PostTempDetail,
+        },
+        {
+            path: '/:TAG',
+            name: 'TagList',
+            component: TagList,
         },
 
         // news
