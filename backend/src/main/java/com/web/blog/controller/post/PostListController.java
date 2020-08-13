@@ -102,12 +102,12 @@ public class PostListController {
             @PathVariable int page) throws SQLException, IOException {
         List<PostList> searchpost = new LinkedList<>();
         if (key.equals("title")) {
-            searchpost = postDao.findByFlagAndTitleLikeOrderByCreateDateDesc(1, "%" + word + "%");
+            searchpost = postDao.findByFlagAndTitleLikeOrderByCreateDateDesc(1, "%" + word + "%", PageRequest.of(page, 5));
         } else if (key.equals("activity")) {
-            searchpost = postDao.findByFlagAndActivityLikeOrderByCreateDateDesc(1, "%" + word + "%");
+            searchpost = postDao.findByFlagAndActivityLikeOrderByCreateDateDesc(1, "%" + word + "%", PageRequest.of(page, 5));
         } else if (key.equals("price")) {
             int price = Integer.parseInt(word);
-            searchpost = postDao.findByFlagAndPriceLessThanEqualOrderByCreateDateDesc(1, price);
+            searchpost = postDao.findByFlagAndPriceLessThanEqualOrderByCreateDateDesc(1, price, PageRequest.of(page, 5));
         }
         List<PostList> post = new LinkedList<>();
         if (type.equals("all")) {
@@ -369,7 +369,7 @@ public class PostListController {
     public Object getTagList(@PathVariable List<Integer> pids, @PathVariable int page) throws SQLException, IOException {
         try {
             List<PostList> list = new LinkedList<>();
-            list = postDao.findByPidInOrderByCreateDateDesc(pids, PageRequest.of(page, 8));
+            list = postDao.findByFlagAndPidInOrderByCreateDateDesc(1, pids, PageRequest.of(page, 8));
             if(list != null) {
                return list; 
             } else {
@@ -385,7 +385,7 @@ public class PostListController {
     public Object tagReloading(@PathVariable List<Integer> pids, @PathVariable int page) throws SQLException, IOException {
         try {
             List<PostList> list = new LinkedList<>();
-            list = postDao.findByPidInOrderByCreateDateDesc(pids);
+            list = postDao.findByFlagAndPidInOrderByCreateDateDesc(1, pids);
             if(list != null) {
                 int start = page * 8;
                 int end = start + 8;
