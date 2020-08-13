@@ -74,12 +74,12 @@ export default {
       axios
         .post(`${baseURL}/account/signup`, data)
         .then(response => {
-          alert("회원가입 인증 메일이 발송되었습니다. 이메일을 확인해주세요.");
+          alert("환영합니다.");
           this.$router.push("/");
         })
-        .catch(() => {
-          alert("회원 정보를 모두 입력해주세요.");
-          // this.$router.push({
+        .catch((err) => {
+          console.log(err);
+// this.$router.push({
           //   name: "Params",
           //   params: { name: err.response.status }
           // });

@@ -9,8 +9,10 @@ import javax.validation.Valid;
 
 import com.web.blog.jwt.JwtService;
 import com.web.blog.dao.user.UserDao;
+import com.web.blog.dao.user.VerificationDao;
 import com.web.blog.model.BasicResponse;
 import com.web.blog.model.user.User;
+import com.web.blog.model.user.Verification;
 import com.web.blog.service.FindUtil;
 
 import org.springframework.web.bind.annotation.RestController;
@@ -48,6 +50,9 @@ public class AccountController {
     @Autowired
     JwtService jwtService;
 
+    @Autowired
+    VerificationDao verificationDao;
+
     @GetMapping("/login/{email}/{password}")
     @ApiOperation(value = "로그인")
     public Object login(@PathVariable String email, @PathVariable String password) throws SQLException, IOException {
@@ -83,23 +88,9 @@ public class AccountController {
         }
     }
 
-    @PostMapping("/signup")
-    @ApiOperation(value = "가입하기")
-    public Object signup(@RequestBody User request) throws MessagingException, SQLException, IOException {
-        System.out.println(request.toString());
-        User user = new User();
-        user.setEmail(request.getEmail());
-        user.setName(request.getName());
-        user.setPassword(request.getPassword());
-        user.setNickname(request.getNickname());
-        user.setCheckType(request.getCheckType());
-        user.setImgurl(request.getImgurl());
-        if (request.getCheckType().equals("business")) {
-            user.setClocation(request.getClocation());
-            user.setCphone(request.getCphone());
-        }
-        userDao.save(user);
-
+    @GetMapping("/certify/{email}")
+    @ApiOperation(value = "인증번호 발송")
+    public Object certify(@PathVariable String email) throws MessagingException, SQLException, IOException {
         String charSet = "utf-8";
         String hostSMTP = "smtp.naver.com";
         // SMTP 서버명
@@ -124,16 +115,70 @@ public class AccountController {
             mail.setSmtpPort(587);
             mail.setAuthentication(hostSMTPid, hostSMTPpwd);
             mail.setStartTLSEnabled(true);
-            mail.addTo(request.getEmail());
+            mail.addTo(email);
             mail.setFrom(fromEmail, fromName, charSet);
             mail.setSubject(subject);
             // 내용
-            mail.setHtmlMsg("링키비티에 가입해주셔서 진심으로 감사합니다.");
+
+            char[] number = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' };
+            StringBuffer newKey = new StringBuffer();
+            for (int i = 0; i < 6; i++) {
+                int idx = (int) (number.length * Math.random());
+                newKey.append(number[idx]);
+            }
+            String certifyNum = newKey.toString();
+            mail.setHtmlMsg("링키비티에 가입해주셔서 진심으로 감사합니다.\n" + "인증번호 [ " + certifyNum + " ] 를 입력해주세요.");
             mail.send();
-            System.out.println("성공");
+
+            Verification verification = verificationDao.findByEmail(email);
+            if (verification == null) {
+                Verification ver = new Verification();
+                ver.setEmail(email);
+                ver.setCode(certifyNum);
+                verificationDao.save(ver);
+            } else {
+                verification.setCode(certifyNum);
+                verificationDao.save(verification);
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return email;
+    }
+
+    @GetMapping("/checkCode/{email}/{code}")
+    @ApiOperation(value = "인증번호 확인")
+    public Object checkCode(@PathVariable String email, @PathVariable String code) throws SQLException, IOException {
+        String result = "";
+        try {
+            Verification ver = verificationDao.findByEmail(email);
+            if (code.equals(ver.getCode())) {
+                result = "성공";
+            } else {
+                result = "실패";
+            }
+            return new ResponseEntity<>(result, HttpStatus.ACCEPTED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PostMapping("/signup")
+    @ApiOperation(value = "가입하기")
+    public Object signup(@RequestBody User request) throws SQLException, IOException {
+        User user = new User();
+        user.setEmail(request.getEmail());
+        user.setName(request.getName());
+        user.setPassword(request.getPassword());
+        user.setNickname(request.getNickname());
+        user.setCheckType(request.getCheckType());
+        user.setImgurl(request.getImgurl());
+        if (request.getCheckType().equals("business")) {
+            user.setClocation(request.getClocation());
+            user.setCphone(request.getCphone());
+        }
+        userDao.save(user);
 
         return user;
     }

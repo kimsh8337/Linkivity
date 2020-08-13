@@ -1,9 +1,30 @@
 <template>
   <div class="container col-md-6">
+    <!-- img upload -->
+    <div class="form-group">
+      <label class="d-flex">
+        <i class="fas fa-images">Profile Img</i>
+      </label>
+      <button
+        type="button"
+        class="btn btn-default btn-sm d-flex m-1"
+        @click="onClickImageUpload"
+        style="border-radius:35px; font-size:13px; border:1.5px solid"
+      >사진 업로드(선택)</button>
+      <div class="col-md-8 p-0" align="left">
+        <input ref="imageInput" type="file" hidden @change="onChangeImages" />
+        <img
+          class="card-img mb-2 mt-2"
+          style="height: 15rem; width: 15rem; border-radius:10px; border:1.5px solid lightgray;"
+          v-if="this.imgurl"
+          :src="this.imgurl"
+        />
+      </div>
+    </div>
     <!-- 이름 입력칸  -->
     <div class="form-group">
       <label for="exampleInputEmail1" class="d-flex">
-        <i class="fas fa-user"> Name</i>
+        <i class="fas fa-user">Name</i>
       </label>
       <input v-model="name" type="text" class="form-control" id="name" aria-describedby="emailHelp" />
       <small id="emailHelp" class="form-text text-muted d-flex" v-if="!error.name">이름을 입력하세요.</small>
@@ -13,7 +34,7 @@
     <!-- 닉네임 입력칸 -->
     <div class="form-group">
       <label for="exampleInputPassword1" class="d-flex">
-        <i class="fas fa-smile"> Nickname</i>
+        <i class="fas fa-smile">Nickname</i>
       </label>
       <input v-model="nickname" type="text" class="form-control" id="nickname" />
       <small id="emailHelp" class="form-text text-muted d-flex" v-if="!error.nickname">닉네임을 입력하세요.</small>
@@ -27,15 +48,39 @@
     <!-- email 입력칸 -->
     <div class="form-group">
       <label for="exampleInputPassword1" class="d-flex">
-        <i class="fas fa-at"> E-mail</i>
+        <i class="fas fa-at">E-mail</i>
       </label>
-      <input
-        v-model="email"
-        v-bind:class="{error : error.email, complete:!error.email&&email.length!==0}"
-        type="email"
-        class="form-control"
-        id="email"
-      />
+      <div class="d-flex justify-content-between">
+        <input
+          v-model="email"
+          v-bind:class="{error : error.email, complete:!error.email&&email.length!==0}"
+          type="email"
+          class="form-control"
+          id="email"
+          style="width:50%"
+        />
+        <input
+          v-model="codeNum"
+          type="email"
+          class="form-control"
+          id="email"
+          v-if="code==1"
+          style="width:30%"
+          placeholder="인증번호 입력"
+        />
+        <button
+          class="btn btn-default"
+          @click="sendCode"
+          v-if="code==0"
+          style="width:18%; border-radius:10px; font-size:13px; border:1.5px solid"
+        >인증번호 발송</button>
+        <button
+          class="btn btn-default"
+          @click="checkCode"
+          v-if="code==1"
+          style="width:18%; border-radius:10px; font-size:13px; border:1.5px solid"
+        >확인</button>
+      </div>
       <small id="emailHelp" class="form-text text-muted d-flex" v-if="!error.email">이메일을 입력하세요.</small>
       <small
         class="error-text d-flex mt-1"
@@ -47,7 +92,7 @@
     <!-- 비밀번호 입력칸 -->
     <div class="form-group">
       <label for="exampleInputPassword1" class="d-flex">
-        <i class="fas fa-eye"> Password</i>
+        <i class="fas fa-eye">Password</i>
       </label>
       <input
         v-model="password"
@@ -69,7 +114,7 @@
     <!-- 비밀번호 확인 입력칸 -->
     <div class="form-group">
       <label for="exampleInputPassword1" class="d-flex">
-        <i class="fas fa-eye"> Password Confirm</i>
+        <i class="fas fa-eye">Password Confirm</i>
       </label>
       <input
         v-model="passwordconfirm"
@@ -91,20 +136,6 @@
         >{{error.passwordconfirm}}</span>
       </span>
     </div>
-
-    <!-- img upload -->
-        <label class="d-flex" v-if="!this.imgurl"><i class="fas fa-images"> 프로필 사진을 등록하세요.</i></label>
-    <button type="button" class="btn d-flex" @click="onClickImageUpload" outline>사진 업로드</button>
-    <div class="col-md-8 p-0" align="left">
-      <input ref="imageInput" type="file" hidden @change="onChangeImages" />
-      <img
-        class="card-img mb-2"
-        style="height: 15rem; width: 15rem;"
-        v-if="this.imgurl"
-        :src="this.imgurl"
-      />
-    </div>
-
     <!-- <label>
       <input v-model="isTerm" type="checkbox" id="term" />
       <span>약관에 동의합니다</span>
@@ -113,16 +144,23 @@
     <span class="go-term">약관 보기</span>-->
 
     <!-- 제출 버튼 -->
-    <button @click="join" class="btn btn-primary btn-lg btn-block mt-2" style="font-size:15px; background-color:RGB(134, 165, 212); border-color:RGB(134, 165, 212);">
+    <button
+      @click="join"
+      class="btn btn-primary btn-lg btn-block mt-4"
+      style="font-size:15px; font-weight:bold;background-color:RGB(134, 165, 212); border-color:RGB(134, 165, 212);"
+    >
       <!-- <i class="fas fa-pen mr-1"></i> -->
       <span>회원가입</span>
     </button>
-    <button @click="join" class="btn btn-primary btn-lg btn-block mt-2" style="font-size:15px; background-color:#5B92E5; border-color:#5B92E5;">
+    <!-- <button @click="join" class="btn btn-primary btn-lg btn-block mt-2" style="font-size:15px; font-weight:bold;background-color:#5B92E5; border-color:#5B92E5;">
+      <span>회원가입</span>
+    </button>-->
+    <!-- <button @click="join" class="btn btn-primary btn-lg btn-block mt-2" style="font-size:15px; font-weight:bold;background-color:#29AB87; border-color:#29AB87;">
       <span>회원가입</span>
     </button>
-    <button @click="join" class="btn btn-primary btn-lg btn-block mt-2" style="font-size:15px; background-color:#87CEFF; border-color:#87CEFF;">
+    <button @click="join" class="btn btn-primary btn-lg btn-block mt-2" style="font-size:15px; font-weight:bold; background-color:#98FB98; border-color:#98FB98;">
       <span>회원가입</span>
-    </button>
+    </button>-->
   </div>
 </template>
 
@@ -165,6 +203,38 @@ export default {
     checkType: String,
   },
   methods: {
+    sendCode() {
+      if(this.error.email || this.email.length == 0){
+        alert("올바른 이메일을 입력하세요.");
+        return;
+      }
+      this.code = 1;
+      axios
+        .get(`${baseURL}/account/certify/${this.email}`)
+        .then((response) => {
+          alert("인증번호가 발송되었습니다.");
+        })
+        .catch((err) => {
+          cosole.log(err);
+        });
+    },
+    checkCode() {
+      axios
+        .get(`${baseURL}/account/checkCode/${this.email}/${this.codeNum}`)
+        .then((response) => {
+          if(response.data == "성공"){
+            alert("인증완료");
+            this.code = 2;
+            this.iscertify = true;
+          }else{
+            alert("인증실패");
+            this.iscertify = false;
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
     checkForm() {
       //닉네임 에러
       if (this.nickname.length > 0) {
@@ -206,6 +276,10 @@ export default {
       else this.error.passwordconfirm = false;
     },
     join() {
+      if(!this.iscertify){
+        alert("이메일 인증이 완료되지 않았습니다.");
+        return;
+      }
       let check = 0;
       if (this.name.length == 0) {
         this.error.name = "이름은 빈칸일 수 없습니다.";
@@ -280,11 +354,13 @@ export default {
       isTerm: false,
       passwordType: "password",
       passwordConfirmType: "password",
+      code: 0,
+      codeNum:"",
+      iscertify:false,
     };
   },
 };
 </script>
 
 <style>
-
 </style>
