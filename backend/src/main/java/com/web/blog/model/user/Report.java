@@ -27,4 +27,6 @@ public class Report {
     private String remail;
     private String reason;
     private LocalDateTime createDate;
+    private int pid;
+    private int cnt;
 }

@@ -43,6 +43,7 @@ export default {
         return {
             nickname: "",
             indictData: {
+                pid: 0,
                 email: "",
                 remail: "",
                 reason: "",
@@ -59,7 +60,7 @@ export default {
                 .then((response) => {
                     this.nickname = response.data.nickname
                     this.indictData.email = response.data.email
-                    this.indictData.remail = this.post.email
+                    
                 })
                 .catch((err) => {
                 console.log(err.response);
@@ -86,22 +87,25 @@ export default {
                     if (result.value) {
                         axios.post(`${baseURL}/report/regist`,this.indictData)
                             .then((respone) => {
+                                this.indictData.reason = "";
                                 const Toast = Swal.mixin({
                                 toast: true,
                                 position: 'top-end',
                                 showConfirmButton: false,
-                                timer: 2000,
+                                timer: 1000,
                                 timerProgressBar: true,
                                 onOpen: (toast) => {
                                     toast.addEventListener('mouseenter', Swal.stopTimer)
                                     toast.addEventListener('mouseleave', Swal.resumeTimer)
                                 }
                                 })
-
                                 Toast.fire({
                                 icon: 'success',
                                 title: '신고 접수가 완료되었습니다!'
                                 })
+                                // setTimeout(() => {
+                                //     this.$router.go()
+                                // },1000)
                             }).catch((error) => {
                                 console.log(error)
                             })
@@ -110,7 +114,9 @@ export default {
             }
         },
     },
-    created() {
+    updated() {
+        this.indictData.pid = this.post.pid
+        this.indictData.remail = this.post.email
         this.authUser()
     },
 }
