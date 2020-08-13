@@ -55,6 +55,7 @@ public class ReportController {
             report.setReason(request.getReason());
             report.setEmail(request.getEmail());
             report.setRemail(request.getRemail());
+            report.setPid(request.getPid());
             reportDao.save(report);
 
             return new ResponseEntity<>(report, HttpStatus.ACCEPTED);
