@@ -19,12 +19,12 @@
             <small @click="replyInputCheck"><i class="fas fa-reply-all rereply ml-2 my-auto" title="답글 펼치기"></i></small>
           </div>
           <!-- 댓글 수정 삭제 버튼 -->
-          <div class="d-flex justify-content-end pl-0 my-auto col-12 questionbtn" style="word-break:nowrap;">
+          <div class="d-flex justify-content-end pl-0 my-auto col-12" style="word-break:nowrap;">
             <small v-if="NickNameCheck | this.checkType == 'admin'" @click="commentModify">
-              <span v-if="isUpdated & NickNameCheck" style="color:red">취소</span>
-              <span v-if="!isUpdated & NickNameCheck" style="color:ForestGreen">수정</span>
+              <span class="cancelbtn" v-if="isUpdated & NickNameCheck" style="color:red">취소</span>
+              <span class="updatebtn" v-if="!isUpdated & NickNameCheck" style="color:ForestGreen">수정</span>
             </small>
-            <small v-if="NickNameCheck | this.checkType == 'admin'" class="ml-2" style="color:Crimson" @click="commentDelete">삭제</small>
+            <small v-if="NickNameCheck | this.checkType == 'admin'" class="ml-2 deletebtn" style="color:Crimson" @click="commentDelete">삭제</small>
             <!-- <small class="ml-2" data-toggle="modal" data-target="#commentIndict" style="color:DarkKhaki">신고</small> -->
           </div>
         </div>
@@ -130,7 +130,13 @@ export default {
 .comment {
   word-break: break-all;
 }
-.questionbtn {
+.cancelbtn {
+  cursor: pointer;
+}
+.updatebtn{
+  cursor: pointer;
+}
+.deletebtn{
   cursor: pointer;
 }
 </style>

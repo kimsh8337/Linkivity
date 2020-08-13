@@ -25,19 +25,20 @@
                       v-for="hash in hashTag"
                       :key="hash.id"
                     >#{{ hash }}</small>
-                    <!-- 카카오톡 공유하기 -->
-                    <button
-                      class="btn btn p-0"
-                      @click="test"
-                      id="kakao-link-btn"
-                      icon="share-fill"
-                      style="margin-left:auto"
-                    >
-                      <img
-                        src="//developers.kakao.com/assets/img/about/logos/kakaolink/kakaolink_btn_small.png"
-                        width="28px"
-                      />
-                    </button>
+                    <div class="ml-auto">
+                      <!-- 카카오톡 공유하기 -->
+                      <button
+                        class="btn btn p-0"
+                        @click="test"
+                        id="kakao-link-btn"
+                        icon="share-fill"
+                      >
+                        <img
+                          src="//developers.kakao.com/assets/img/about/logos/kakaolink/kakaolink_btn_small.png"
+                          width="28px"
+                        />
+                      </button>
+                    </div>
                   </div>
                   <div class="d-flex justify-content-start">
                     <!-- 업체 위치 -->
@@ -99,10 +100,15 @@
                     >Sky</b-badge>
                   </div>
                   <!-- 사용 기간 -->
-                  <p
-                    class="card-text d-flex mt-3"
-                    style="font-size: 1rem; text-overflow:ellipsis; overflow: hidden; white-space:nowrap;"
-                  >유효기간 {{ post.sdate }}~{{ post.edate }}</p>
+                  <div class="d-flex justify-content-between">
+                    <p
+                      class="card-text mt-3"
+                      style="font-size: 1rem; text-overflow:ellipsis; overflow: hidden; white-space:nowrap;"
+                    >유효기간 {{ post.sdate }}~{{ post.edate }}</p>
+                    <!-- 신고하기 버튼 -->
+                    <span data-toggle="modal" data-target="#indict" class="mr-2 my-auto indict" style="border:none; font-size:1.2rem" title="신고하기"><i class="fas fa-angry" style="color:red"></i></span>
+                    <IndictPost :post="post"/>
+                  </div>
                   <!-- 이용 가격 -->
                   <div class="d-flex justify-content-end mt-3">
                     <p
@@ -262,6 +268,8 @@ import ReviewMobile from "../../components/review/ReviewMobile.vue";
 
 import Swal from "sweetalert2";
 
+import IndictPost from '../../components/modal/IndictPost.vue'
+
 const baseURL = process.env.VUE_APP_BACKURL;
 
 export default {
@@ -271,6 +279,7 @@ export default {
     ReviewSlide,
     ReviewWrite,
     ReviewMobile,
+    IndictPost,
   },
   data() {
     return {
@@ -688,4 +697,7 @@ export default {
 </script>
 
 <style>
+.indict {
+  cursor: pointer;
+}
 </style>
