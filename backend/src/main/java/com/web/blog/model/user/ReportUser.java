@@ -1,7 +1,5 @@
 package com.web.blog.model.user;
 
-import java.time.LocalDateTime;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -18,13 +16,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class Report {
+public class ReportUser {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int rpid;
-    
     private String email;
-    private String remail;
-    private String reason;
-    private LocalDateTime createDate;
+    
+    private int cnt;
+    private int isdrop;
 }
