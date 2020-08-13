@@ -75,7 +75,7 @@ public class AccountController {
         try {
             if (userinfo.isPresent()) {
                 return new ResponseEntity<>(userinfo.get(), HttpStatus.ACCEPTED);
-            }else{
+            } else {
                 return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
             }
         } catch (Exception e) {
@@ -85,9 +85,8 @@ public class AccountController {
 
     @PostMapping("/signup")
     @ApiOperation(value = "가입하기")
-    public Object signup(@RequestBody User request)
-            throws MessagingException, SQLException, IOException {
-                System.out.println(request.toString());
+    public Object signup(@RequestBody User request) throws MessagingException, SQLException, IOException {
+        System.out.println(request.toString());
         User user = new User();
         user.setEmail(request.getEmail());
         user.setName(request.getName());
@@ -107,20 +106,20 @@ public class AccountController {
 
         String hostSMTPid = "eagleeye0117@naver.com";
         String hostSMTPpwd = "mine0117tjdrhd12";
-       
+
         // 보내는 사람
         String fromEmail = hostSMTPid;
         String fromName = "링키비티";
-       
+
         String subject = "링키비티 회원가입을 축하합니다!!!";
-        
+
         try {
             HtmlEmail mail = new HtmlEmail();
             mail.setDebug(true);
             mail.setCharset(charSet);
             mail.setSSLOnConnect(true);
 
-            //SSL 사용(TLS가 없는 경우 SSL 사용)
+            // SSL 사용(TLS가 없는 경우 SSL 사용)
             mail.setHostName(hostSMTP);
             mail.setSmtpPort(587);
             mail.setAuthentication(hostSMTPid, hostSMTPpwd);
@@ -139,19 +138,18 @@ public class AccountController {
         return user;
     }
 
-
     @PostMapping("/kakaologin")
     @ApiOperation(value = "카카오 로그인")
     public Object viewInfo(@RequestBody User request) throws SQLException, IOException {
         String token = null;
         try {
             Optional<User> userOpt = userDao.findUserByEmail(request.getEmail());
-            if(userOpt.isPresent()){
+            if (userOpt.isPresent()) {
                 User tokenuser = new User();
                 tokenuser.setEmail(userOpt.get().getEmail());
                 tokenuser.setPassword(userOpt.get().getPassword());
                 token = jwtService.createLoginToken(tokenuser);
-            }else{
+            } else {
                 User user = new User();
                 user.setEmail(request.getEmail());
                 user.setNickname(request.getNickname());
@@ -196,10 +194,28 @@ public class AccountController {
 
     }
 
+    @DeleteMapping("/dropUser/{uid}")
+    @ApiOperation(value = "회원 탈퇴")
+    public Object dropUser(@PathVariable int uid) throws SQLException, IOException {
+        try {
+            User user = userDao.findByUid(uid);
+            if (user != null) {
+                userDao.delete(user);
+                return new ResponseEntity<>(user, HttpStatus.ACCEPTED);
+            } else {
+                return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+
+            }
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+    }
+
     @GetMapping("/checkEmail/{email}")
     @ApiOperation(value = "이메일확인")
     public String checkEmail(@PathVariable String email) {
-        String result="";
+        String result = "";
         Optional<User> userOpt = userDao.findUserByEmail(email);
         if (userOpt.isPresent()) {
             result = "이미 존재하는 이메일입니다.";
@@ -210,7 +226,7 @@ public class AccountController {
     @GetMapping("/checkNickname/{nickname}")
     @ApiOperation(value = "닉네임확인")
     public String checkNickname(@PathVariable String nickname) {
-        String result="";
+        String result = "";
         Optional<User> userOpt = userDao.findUserByNickname(nickname);
         if (userOpt.isPresent()) {
             result = "이미 존재하는 닉네임입니다.";
@@ -279,13 +295,13 @@ public class AccountController {
 
         String hostSMTPid = "eagleeye0117@naver.com";
         String hostSMTPpwd = "mine0117tjdrhd12";
-       
+
         // 보내는 사람
         String fromEmail = hostSMTPid;
         String fromName = "링키비티";
-       
+
         String subject = "링키비티 임시 비밀번호 찾기";
-       
+
         String newPwd = FindUtil.getNewPwd();
         
         User user = userDao.findUserByEmailAndName(email, name);
@@ -301,7 +317,7 @@ public class AccountController {
             mail.setCharset(charSet);
             mail.setSSLOnConnect(true);
 
-        //SSL 사용(TLS가 없는 경우 SSL 사용)
+            // SSL 사용(TLS가 없는 경우 SSL 사용)
             mail.setHostName(hostSMTP);
             mail.setSmtpPort(587);
             mail.setAuthentication(hostSMTPid, hostSMTPpwd);
@@ -310,7 +326,7 @@ public class AccountController {
             mail.setFrom(fromEmail, fromName, charSet);
             mail.setSubject(subject);
             // 내용
-            mail.setHtmlMsg(""+newPwd);
+            mail.setHtmlMsg("" + newPwd);
             mail.send();
             System.out.println("성공");
             return "메일 전송 성공";

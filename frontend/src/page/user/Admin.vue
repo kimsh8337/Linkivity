@@ -25,7 +25,7 @@
               <td>업체</td>
               <td>ssafy@ssafy.com</td>
               <td>대기중/거절/승인</td>
-              <td><button>승인</button><button>거절</button></td>
+              <td><button class="admin-post-agree">승인</button><button class="admin-post-reject">거절</button></td>
           </tr>
       </tbody>
     </table>
@@ -66,7 +66,7 @@
           <th>신고한사람</th>
           <th>신고당한사람</th>
           <th>내용</th>
-          <th>경고횟수</th>
+          <th>상세보기</th>
           <th>경고/탈퇴/취소</th>
         </tr>
       </thead>
@@ -76,11 +76,12 @@
               <td>{{blacklist.email}}</td>
               <td>{{blacklist.remail}}</td>
               <td>{{blacklist.reason}}</td>
-              <td>3</td>
-              <td><button>경고</button><button>탈퇴</button><button>취소</button></td>
+              <td><button class="admin-black-view" @click="blacklistData(blacklist)" data-toggle="modal" data-target="#blacklist">상세보기</button></td>
+              <td><button class="admin-black-warn" @click="warnblack(blacklist.rpid)">경고</button><button class="admin-black-drop" @click="dropblack(blacklist.rpid)">탈퇴</button><button class="admin-black-cancel" @click="cancelblack(blacklist.rpid)">취소</button></td>
           </tr>
       </tbody>
     </table>
+            <BlackListDetailModal :blacklist="blacklistDataReceive" @warn-black="warnblack" @drop-black="dropblack" @cancel-black="cancelblack"/>
     </b-tab>
     
   </b-tabs>
@@ -91,22 +92,28 @@
 <script>
 import axios from 'axios';
 import '../../assets/css/admin.css';
+import BlackListDetailModal from '../../components/modal/BlackListDetailModal.vue'
 
 const baseURL = process.env.VUE_APP_BACKURL;
 
 export default {
+    components:{
+      BlackListDetailModal,
+    },
     data(){
         return{
             users:{},
             blacklists:{},
+            blacklistDataReceive:{
+            },
         }
     },
     created(){
-        this.authUser();
+        this.userlist();
         this.blackuser();
     },
     methods:{
-        authUser(){
+        userlist(){
             axios
                 .get(`${baseURL}/account/viewAllUser`)
                 .then((res)=>{
@@ -122,20 +129,50 @@ export default {
             .get(`${baseURL}/report/list`)
             .then((res)=>{
               this.blacklists = res.data
-              console.log(this.blacklists)
             }).catch((err)=>{
               console.log(err)
             })
         },
+        cancelblack(rpid){
+          axios
+            .delete(`${baseURL}/report/cancel/${rpid}`)
+            .then(()=>{
+              this.blackuser()
+            }).catch((err)=>{
+              console.log(err)
+            })
+        },
+
         dropuser(uid){
           axios
-            .delete(`${baseURL}/report/dropUser`)
+            .delete(`${baseURL}/account/dropUser/${uid}`)
             .then(()=>{
-              this.$router.push('/admin')
+              this.userlist()
             }).catch((err)=>{
               console.log(err)
             })
         },
+        dropblack(rpid){
+          axios
+            .delete(`${baseURL}/report/dropUser/${rpid}`)
+            .then(()=>{
+              this.blackuser()
+            }).catch((err)=>{
+              console.log(err)
+            })
+        },
+        warnblack(rpid){
+          axios
+            .get(`${baseURL}/report/warnUser/${rpid}`)
+            .then(()=>{
+              this.blackuser()
+            }).catch((err)=>{
+              console.log(err)
+            })
+        },
+        blacklistData(blacklist) {
+          this.blacklistDataReceive = blacklist
+        },  
     },
 
 }

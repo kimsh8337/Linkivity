@@ -68,17 +68,31 @@ public class ReportController {
     @ApiOperation("신고 리스트")
     public Object list() throws SQLException, IOException {
         List<Report> list = reportDao.findAll();
+        for (Report r : list) {
+            ReportUser ru = reportUserDao.findByEmail(r.getRemail());
+            if (ru != null)
+                r.setCnt(ru.getCnt());
+            else
+                r.setCnt(0);
+        }
         return new ResponseEntity<>(list, HttpStatus.ACCEPTED);
     }
 
-    @GetMapping("/detail")
+    @GetMapping("/detail/{rpid}")
     @ApiOperation("신고 상세정보")
     public Object detail(@PathVariable int rpid) throws SQLException, IOException {
         Report report = reportDao.findByRpid(rpid);
         return new ResponseEntity<>(report, HttpStatus.ACCEPTED);
     }
 
-    @GetMapping("/cancel")
+    @GetMapping("/cnt/{remail}")
+    @ApiOperation("신고당한 사람 정보")
+    public Object cnt(@PathVariable String remail) throws SQLException, IOException {
+        ReportUser user = reportUserDao.findByEmail(remail);
+        return new ResponseEntity<>(user.getCnt(), HttpStatus.ACCEPTED);
+    }
+
+    @DeleteMapping("/cancel/{rpid}")
     @ApiOperation("사용자 신고 취소")
     public Object cancel(@PathVariable int rpid) throws SQLException, IOException {
         Report report = reportDao.findByRpid(rpid);
@@ -91,17 +105,19 @@ public class ReportController {
     public Object dropUser(@PathVariable int rpid) throws SQLException, IOException {
         try {
             Report report = reportDao.findByRpid(rpid);
+            System.out.println(rpid);
             Optional<User> user = userDao.findUserByEmail(report.getRemail());
+            System.out.println(report.getRemail());
             if (user.isPresent()) {
                 ReportUser cur = reportUserDao.findByEmail(report.getRemail());
-                if (cur == null) { //신고당한 사람이 신고유저리스트에 없을 경우
+                if (cur == null) { // 신고당한 사람이 신고유저리스트에 없을 경우
                     ReportUser ruser = new ReportUser();
                     ruser.setEmail(report.getRemail());
                     ruser.setCnt(1);
                     ruser.setIsdrop(1);
                     reportUserDao.save(ruser);
-                }else{ //있을 경우
-                    cur.setCnt(cur.getCnt()+1);
+                } else { // 있을 경우
+                    cur.setCnt(cur.getCnt() + 1);
                     cur.setIsdrop(1);
                     reportUserDao.save(cur);
                 }
@@ -116,22 +132,22 @@ public class ReportController {
         }
     }
 
-    @GetMapping("/warnUser")
+    @GetMapping("/warnUser/{rpid}")
     @ApiOperation("사용자 경고 처리")
     public Object warnUser(@PathVariable int rpid) throws SQLException, IOException {
         try {
             Report report = reportDao.findByRpid(rpid);
             Optional<User> user = userDao.findUserByEmail(report.getRemail());
             if (user.isPresent()) {
-                ReportUser cur = reportUserDao.findByEmail(report.getRemail()); 
-                if (cur == null) { //신고당한 사람이 신고유저리스트에 없을 경우
+                ReportUser cur = reportUserDao.findByEmail(report.getRemail());
+                if (cur == null) { // 신고당한 사람이 신고유저리스트에 없을 경우
                     ReportUser ruser = new ReportUser();
                     ruser.setEmail(report.getRemail());
                     ruser.setCnt(1);
                     ruser.setIsdrop(0);
                     reportUserDao.save(ruser);
-                }else{ //없을 경우
-                    cur.setCnt(cur.getCnt()+1);
+                } else { // 없을 경우
+                    cur.setCnt(cur.getCnt() + 1);
                     cur.setIsdrop(0);
                     reportUserDao.save(cur);
                 }

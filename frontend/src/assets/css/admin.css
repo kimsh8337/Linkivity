@@ -39,3 +39,31 @@
     color: crimson;
     font-weight: 550;
 }
+
+.admin-black-view{
+    border: none;
+    background: none;
+    color: blue;
+    font-weight: bold;
+}
+
+.admin-black-warn{
+    border: none;
+    background: none;
+    color: orange;
+    font-weight: bold;
+}
+
+.admin-black-drop{
+    border: none;
+    background: none;
+    color: crimson;
+    font-weight: bold;
+}
+
+.admin-black-cancel{
+    border: none;
+    background: none;
+    color: black;
+    font-weight: bold;
+}
