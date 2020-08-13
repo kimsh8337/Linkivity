@@ -19,8 +19,9 @@ import lombok.NoArgsConstructor;
 public class ReportUser {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int ruid;
+
     private String email;
-    
     private int cnt;
     private int isdrop;
 }

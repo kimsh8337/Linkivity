@@ -2,6 +2,7 @@ package com.web.blog.model.user;
 
 import java.time.LocalDateTime;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -26,5 +27,8 @@ public class Report {
     private String email;
     private String remail;
     private String reason;
+    @Column(insertable = false, updatable = false)
     private LocalDateTime createDate;
+    private int pid;
+    private int cnt;
 }
