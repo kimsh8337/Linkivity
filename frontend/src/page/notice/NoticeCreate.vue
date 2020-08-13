@@ -82,8 +82,7 @@ export default {
         content: "",
         importance: "0",
       },
-      email: "",
-      superadmin: "admin@linkivity.com",
+      checkType:'',
       error: {
         title: false,
         content: false,
@@ -91,15 +90,16 @@ export default {
     };
   },
   created() {
-    this.chcekadmin();
+    this.authUser();
   },
   methods: {
-    chcekadmin() {
+    authUser() {
       axios
         .get(`${baseURL}/account/authuser/${this.$cookies.get("Auth-Token")}`)
         .then((response) => {
-          this.email = response.data.email;
-          if (this.email != this.superadmin) {
+          this.checkType = response.data.checkType;
+          console.log(this.checkType)
+          if (this.checkType != 'admin') {
             let timerInterval;
             Swal.fire({
               title: "관리자만 글 작성가능합니다!",

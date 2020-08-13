@@ -14,7 +14,7 @@
             
             <input class="mr-1 ml-5" type="radio" id="business" name="type" value="business" v-model="checkType">
               <i class="fas fa-user-tie"></i><label for="business">사업자 </label><br>
-            <div class="error-text my-4" v-if="error.checkType">{{error.checkType}}</div>
+            <div class="error-text my-4" v-if="error.checkType" style="color:crimson;">{{error.checkType}}</div>
 
           <Business v-if="checkType == 'business'" :checkType="checkType" @join-create-business="joinBusiness"/>
           <Normal v-if="checkType == 'normal'" :checkType="checkType" @join-create-normal="joinNormal" />
@@ -86,6 +86,7 @@ export default {
         });
     },
     joinNormal(email, name, nickname, password, checkType, imgurl) {
+      
       let data = {
         name,
         nickname,

@@ -10,7 +10,6 @@ import javax.validation.Valid;
 import com.web.blog.jwt.JwtService;
 import com.web.blog.dao.user.UserDao;
 import com.web.blog.model.BasicResponse;
-import com.web.blog.model.user.SignupRequest;
 import com.web.blog.model.user.User;
 import com.web.blog.service.FindUtil;
 
@@ -87,9 +86,9 @@ public class AccountController {
 
     @PostMapping("/signup")
     @ApiOperation(value = "가입하기")
-    public Object signup(@Valid @RequestBody SignupRequest request)
+    public Object signup(@RequestBody User request)
             throws MessagingException, SQLException, IOException {
-
+                System.out.println(request.toString());
         User user = new User();
         user.setEmail(request.getEmail());
         user.setName(request.getName());
@@ -128,7 +127,7 @@ public class AccountController {
             mail.setAuthentication(hostSMTPid, hostSMTPpwd);
             mail.setStartTLSEnabled(true);
             mail.addTo(request.getEmail());
-            mail.setFrom(fromEmail, fromName);
+            mail.setFrom(fromEmail, fromName, charSet);
             mail.setSubject(subject);
             // 내용
             mail.setHtmlMsg("링키비티에 가입해주셔서 진심으로 감사합니다.");
@@ -187,15 +186,24 @@ public class AccountController {
 
     }
 
+    @GetMapping("/viewAllUser")
+    @ApiOperation(value = "모든 회원정보")
+    public Object viewAllUser() throws SQLException, IOException {
+        try {
+            return new ResponseEntity<>(userDao.findAll(), HttpStatus.ACCEPTED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+    }
+
     @GetMapping("/checkEmail/{email}")
     @ApiOperation(value = "이메일확인")
     public String checkEmail(@PathVariable String email) {
-        String result;
+        String result="";
         Optional<User> userOpt = userDao.findUserByEmail(email);
         if (userOpt.isPresent()) {
             result = "이미 존재하는 이메일입니다.";
-        } else {
-            result = "사용 가능한 이메일입니다.";
         }
         return result;
     }
@@ -203,13 +211,12 @@ public class AccountController {
     @GetMapping("/checkNickname/{nickname}")
     @ApiOperation(value = "닉네임확인")
     public String checkNickname(@PathVariable String nickname) {
-        String result;
+        String result="";
         Optional<User> userOpt = userDao.findUserByNickname(nickname);
         if (userOpt.isPresent()) {
             result = "이미 존재하는 닉네임입니다.";
-        } else {
-            result = "사용 가능한 닉네임입니다.";
         }
+        System.out.println(result);
         return result;
     }
 

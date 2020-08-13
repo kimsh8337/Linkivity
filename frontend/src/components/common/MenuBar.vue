@@ -1,12 +1,13 @@
 <template>
   <div v-if="this.scrollposition > 200" class="side-menu">
-        <ul v-if="this.showbar == true" class="side-menu-bar">
+        <ul v-if="this.showbar == true" class="side-menu-bar" style="float:bottom;">
             <li @click="goPost"><i class="fas fa-stream mx-2 "></i>Post</li>
             <li @click="goNotice"><i class="fas fa-flag mx-2"></i>Notice</li>
             <li v-if="this.$cookies.isKey('Auth-Token') && this.usertype == 'business'" @click="gocreate"><i class="fas fa-pen mx-2"></i>Write</li>
             <li v-if="this.$cookies.isKey('Auth-Token') && this.usertype == 'normal'" @click="goBasket"><i class="fas fa-shopping-basket mx-2"></i>Basket</li>
-            <li v-if="this.$cookies.isKey('Auth-Token')" @click="info"><i class="far fa-user mx-2"></i>Mypage</li>
-            <li @click="toTop"><i class="fas fa-angle-double-up upBtn" style="cursor:pointer;"></i>Top</li>
+            <li v-if="this.$cookies.isKey('Auth-Token') && this.usertype != 'admin'" @click="info"><i class="far fa-user mx-2"></i>Mypage</li>
+            <li v-if="this.$cookies.isKey('Auth-Token') && this.usertype == 'admin'" @click="info"><i class="fas fa-users-cog mr-2"></i>Admin</li>
+            <li @click="toTop" style="margin-bottom:3.5rem;"><i class="fas fa-angle-double-up upBtn" style="cursor:pointer;"></i>Top</li>
           </ul>
         <button class="side-main-button" @click="changeshowbar"><i class="fas fa-bars"></i></button>
       </div>
@@ -16,7 +17,7 @@
 import axios from 'axios';
 import '../../assets/css/menubar.css';
 
-const baseURL = 'http://localhost:8080';
+const baseURL = process.env.VUE_APP_BACKURL;
 
 export default {
     props:{

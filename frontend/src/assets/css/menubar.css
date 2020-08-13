@@ -1,6 +1,6 @@
 .side-menu{
     width: 7rem;
-    height: 16rem;
+    height: auto;
     z-index: 5;
     position: fixed;
     bottom: 5%;
@@ -37,7 +37,7 @@
 .side-menu-bar li{
     height: 2rem;
     width: auto;
-    margin: 0;
+    /* margin: 0; */
     margin-bottom: 0.5rem;
     color: black;
     font-size: 1.2rem;
