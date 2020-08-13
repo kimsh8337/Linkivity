@@ -94,7 +94,7 @@
 
     <!-- img upload -->
         <label class="d-flex" v-if="!this.imgurl"><i class="fas fa-images"> 프로필 사진을 등록하세요.</i></label>
-    <button type="button" class="btn btn-primary d-flex" @click="onClickImageUpload">이미지 업로드</button>
+    <button type="button" class="btn d-flex" @click="onClickImageUpload" outline>사진 업로드</button>
     <div class="col-md-8 p-0" align="left">
       <input ref="imageInput" type="file" hidden @change="onChangeImages" />
       <img
@@ -113,9 +113,15 @@
     <span class="go-term">약관 보기</span>-->
 
     <!-- 제출 버튼 -->
-    <button @click="join" class="btn d-flex ml-auto">
-      <i class="fas fa-pen mr-1"></i>
-      <span>작성완료</span>
+    <button @click="join" class="btn btn-primary btn-lg btn-block mt-2" style="font-size:15px; background-color:RGB(134, 165, 212); border-color:RGB(134, 165, 212);">
+      <!-- <i class="fas fa-pen mr-1"></i> -->
+      <span>회원가입</span>
+    </button>
+    <button @click="join" class="btn btn-primary btn-lg btn-block mt-2" style="font-size:15px; background-color:#5B92E5; border-color:#5B92E5;">
+      <span>회원가입</span>
+    </button>
+    <button @click="join" class="btn btn-primary btn-lg btn-block mt-2" style="font-size:15px; background-color:#87CEFF; border-color:#87CEFF;">
+      <span>회원가입</span>
     </button>
   </div>
 </template>
@@ -280,4 +286,5 @@ export default {
 </script>
 
 <style>
+
 </style>

@@ -9,10 +9,12 @@ import java.util.Optional;
 
 import com.web.blog.dao.post.PostListDao;
 import com.web.blog.dao.user.ReportDao;
+import com.web.blog.dao.user.ReportUserDao;
 import com.web.blog.dao.user.ReviewDao;
 import com.web.blog.dao.user.UserDao;
 import com.web.blog.model.post.PostList;
 import com.web.blog.model.user.Report;
+import com.web.blog.model.user.ReportUser;
 import com.web.blog.model.user.Review;
 import com.web.blog.model.user.User;
 
@@ -40,6 +42,9 @@ public class ReportController {
     ReportDao reportDao;
 
     @Autowired
+    ReportUserDao reportUserDao;
+
+    @Autowired
     UserDao userDao;
 
     @PostMapping("/regist")
@@ -65,13 +70,71 @@ public class ReportController {
         return new ResponseEntity<>(list, HttpStatus.ACCEPTED);
     }
 
-    @GetMapping("/dropUser")
+    @GetMapping("/detail")
+    @ApiOperation("신고 상세정보")
+    public Object detail(@PathVariable int rpid) throws SQLException, IOException {
+        Report report = reportDao.findByRpid(rpid);
+        return new ResponseEntity<>(report, HttpStatus.ACCEPTED);
+    }
+
+    @GetMapping("/cancel")
+    @ApiOperation("사용자 신고 취소")
+    public Object cancel(@PathVariable int rpid) throws SQLException, IOException {
+        Report report = reportDao.findByRpid(rpid);
+        reportDao.delete(report);
+        return new ResponseEntity<>(report, HttpStatus.ACCEPTED);
+    }
+
+    @DeleteMapping("/dropUser/{rpid}")
     @ApiOperation("사용자 탈퇴 처리")
-    public Object dropUser(@PathVariable String remail) throws SQLException, IOException {
+    public Object dropUser(@PathVariable int rpid) throws SQLException, IOException {
         try {
-            Optional<User> user = userDao.findUserByEmail(remail);
-            if (user != null) {
+            Report report = reportDao.findByRpid(rpid);
+            Optional<User> user = userDao.findUserByEmail(report.getRemail());
+            if (user.isPresent()) {
+                ReportUser cur = reportUserDao.findByEmail(report.getRemail());
+                if (cur == null) { //신고당한 사람이 신고유저리스트에 없을 경우
+                    ReportUser ruser = new ReportUser();
+                    ruser.setEmail(report.getRemail());
+                    ruser.setCnt(1);
+                    ruser.setIsdrop(1);
+                    reportUserDao.save(ruser);
+                }else{ //있을 경우
+                    cur.setCnt(cur.getCnt()+1);
+                    cur.setIsdrop(1);
+                    reportUserDao.save(cur);
+                }
                 userDao.delete(user.get());
+                reportDao.delete(report);
+                return new ResponseEntity<>(user, HttpStatus.ACCEPTED);
+            } else {
+                return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+            }
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/warnUser")
+    @ApiOperation("사용자 경고 처리")
+    public Object warnUser(@PathVariable int rpid) throws SQLException, IOException {
+        try {
+            Report report = reportDao.findByRpid(rpid);
+            Optional<User> user = userDao.findUserByEmail(report.getRemail());
+            if (user.isPresent()) {
+                ReportUser cur = reportUserDao.findByEmail(report.getRemail()); 
+                if (cur == null) { //신고당한 사람이 신고유저리스트에 없을 경우
+                    ReportUser ruser = new ReportUser();
+                    ruser.setEmail(report.getRemail());
+                    ruser.setCnt(1);
+                    ruser.setIsdrop(0);
+                    reportUserDao.save(ruser);
+                }else{ //없을 경우
+                    cur.setCnt(cur.getCnt()+1);
+                    cur.setIsdrop(0);
+                    reportUserDao.save(cur);
+                }
+                reportDao.delete(report);
                 return new ResponseEntity<>(user, HttpStatus.ACCEPTED);
             } else {
                 return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
