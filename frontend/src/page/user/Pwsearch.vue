@@ -31,24 +31,30 @@
 <script>
 import axios from 'axios';
 import '../../assets/css/pwsearch.css'
-const baseURL = process.env.VUE_APP_BACKURL;
+const baseURL = "http://localhost:8080/account";
 
 export default {
     
+  data() {
+    return{
+      email:"",
+      name:""
+    }
+  },
      methods: {
           test() {
               axios
-              .get(`${baseURL}/account/pwd/${this.email}/${this.name}`)
+              .get(`${baseURL}/pwd/${this.email}/${this.name}`)
               .then((res) => {
-                  console.log(res.data);
                   alert("임시 비밀번호 전송을 하였습니다!")
                   this.$router.push(`/`)
               })
               .catch((err) => {
-                 this.$router.push({
-                  name: 'Params',
-                // params: { name: err.response.status },
-               });
+                alert("해당 정보가 없습니다! 다시 입력해주세요")
+               
+                 this.$router.push('/user/pwsearch').catch(()=>{});
+                if(this.$route.path!=='/user/pwsearch') this.$router.push('/user/pwsearch')
+
             });
          }
      }

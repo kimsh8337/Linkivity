@@ -269,7 +269,7 @@ public class AccountController {
 
     @GetMapping("/pwd/{email}/{name}")
     @ApiOperation(value = "임시비밀번호 발급")
-    public void sendMail(@PathVariable String email, @PathVariable String name) throws Exception {
+    public Object sendMail(@PathVariable String email, @PathVariable String name) throws Exception {
         
         //Mail Server 설정
 
@@ -288,12 +288,11 @@ public class AccountController {
        
         String newPwd = FindUtil.getNewPwd();
         
-        Optional<User> userOpt = userDao.findUserByEmail(email);
-        if(userOpt.isPresent()){
-            User user = userOpt.get();
+        User user = userDao.findUserByEmailAndName(email, name);
+        if(user != null){ 
             user.setPassword(newPwd);
             userDao.save(user);
-        }
+        
 
         // email 전송
         try {
@@ -314,8 +313,13 @@ public class AccountController {
             mail.setHtmlMsg(""+newPwd);
             mail.send();
             System.out.println("성공");
+            return "메일 전송 성공";
         } catch (Exception e) {
-            e.printStackTrace();
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+             }
+        }else {
+            System.out.println("다시 입력해주세요");
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
     }
 }
