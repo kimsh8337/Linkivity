@@ -1,9 +1,9 @@
 <template>
 <div>
-  <div v-if="slides.length == 0">
+  <div v-if="!flag">
     <i class="far fa-surprise mr-1 mb-3"></i>등록된 후기가 없습니다. 처음으로 후기를 남겨보세요!<i class="far fa-surprise ml-1"></i>
   </div>
-  <div v-if="slides.length > 0" id="slider" class="slider" @mousemove="mouseMoving" @mouseout="stopDrag">
+  <div v-if="flag" id="slider" class="slider" @mousemove="mouseMoving" @mouseout="stopDrag">
     <div class="slider-cards" :style="`transform: translate3d(${cardsX}px,0,0)`">
       <div @mousedown="startDrag"
         @mouseup="stopDrag"
@@ -77,8 +77,7 @@ export default {
         email: "",
         reviewInfo: {},
         isUpdated: false,
-        flowing: false,
-        initailTouchX: 0,
+        flag: true,
       }
   },
   methods: {
@@ -98,6 +97,11 @@ export default {
           axios.get(`${baseURL}/review/list/${this.pid}`)
               .then((response) => {
                   this.slides = response.data
+                  if (this.slides.length > 0) {
+                    this.flag = true
+                  } else {
+                    this.flag = false
+                  }
               }).catch((error) => {
                   console.log(error)
               })
@@ -125,8 +129,50 @@ export default {
           var tempdatecut = date+""
           return tempdatecut.substring(0,10)
       },
+      // reviewDelete(rvid) {
+      //   this.$emit('review-delete',rvid)
+      // },
       reviewDelete(rvid) {
-        this.$emit('review-delete',rvid)
+        Swal.fire({
+          width: 300,
+          text: "후기를 삭제하시겠습니까?",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#3085d6",
+          cancelButtonColor: "#d33",
+          confirmButtonText: '<a style="font-size:1rem; color:black">Delete</a>',
+          cancelButtonText: '<a style="font-size:1rem; color:black">Cancel</a>',
+        }).then((result) => {
+          if (result.value) {
+            const Toast = Swal.mixin({
+              toast: true,
+              position: "top-end",
+              showConfirmButton: false,
+              timer: post.price,
+              timerProgressBar: true,
+              onOpen: (toast) => {
+                toast.addEventListener("mouseenter", Swal.stopTimer);
+                toast.addEventListener("mouseleave", Swal.resumeTimer);
+              },
+            });
+
+            Toast.fire({
+              icon: "success",
+              title: "후기 삭제 완료!",
+            });
+            axios
+              .delete(`${baseURL}/review/delete/${rvid}`)
+              .then(() => {
+                this.fetchReview()
+                // setTimeout(() => {
+                //   this.$router.go();
+                // }, 1000);
+              })
+              .catch((error) => {
+                console.log(error);
+              });
+          }
+        });
       },
       update(slide) {
         this.reviewInfo = slide
