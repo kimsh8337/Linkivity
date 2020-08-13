@@ -3,7 +3,12 @@
     <!-- 대댓글 Input -->
     <CommentReplyInput v-if="this.checkType == 'business' | this.nickname == comment.nickname" :comment="comment" @creply-create="CommentReplyCreate"/>
     <!-- 대댓글 List -->
-    <CommentReplyList v-for="reply in receiveReply" :key="reply.rrid" :reply="reply" @reply-delete="replyDelete"/>
+    <div v-if="flag">
+      <CommentReplyList v-for="reply in receiveReply" :key="reply.rrid" :reply="reply" @reply-delete="replyDelete"/>
+    </div>
+    <div v-if="!flag">
+      <small><i class="far fa-surprise mr-1 mb-3"></i>등록된 답변이 없습니다. 처음으로 답변을 등록하세요!<i class="far fa-surprise ml-1"></i></small>
+    </div>
   </div>
 </template>
 
@@ -21,6 +26,7 @@ export default {
         commentrid: "",
         checkType: "",
         receiveReply: [],
+        flag: true,
       }
     },
     props: {
@@ -71,6 +77,11 @@ export default {
         axios.get(`${baseURL}/reply/reList/${this.commentrid}`)
           .then((response) => {
             this.receiveReply = response.data
+            if (this.receiveReply.length > 0) {
+              this.flag = true
+            } else {
+              this.flag = false
+            }
           }).catch((error) => {
             console.log(error)
           })

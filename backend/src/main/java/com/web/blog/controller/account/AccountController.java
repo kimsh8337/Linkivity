@@ -10,7 +10,6 @@ import javax.validation.Valid;
 import com.web.blog.jwt.JwtService;
 import com.web.blog.dao.user.UserDao;
 import com.web.blog.model.BasicResponse;
-import com.web.blog.model.user.SignupRequest;
 import com.web.blog.model.user.User;
 import com.web.blog.service.FindUtil;
 
@@ -59,7 +58,6 @@ public class AccountController {
                 tokenuser.setEmail(userOpt.get().getEmail());
                 tokenuser.setPassword(userOpt.get().getPassword());
                 String token = jwtService.createLoginToken(tokenuser);
-                // return jwtService.getUser(token).getEmail();
                 return new ResponseEntity<>(token, HttpStatus.ACCEPTED);
             } else {
                 return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
@@ -187,15 +185,24 @@ public class AccountController {
 
     }
 
+    @GetMapping("/viewAllUser")
+    @ApiOperation(value = "모든 회원정보")
+    public Object viewAllUser() throws SQLException, IOException {
+        try {
+            return new ResponseEntity<>(userDao.findAll(), HttpStatus.ACCEPTED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+    }
+
     @GetMapping("/checkEmail/{email}")
     @ApiOperation(value = "이메일확인")
     public String checkEmail(@PathVariable String email) {
-        String result;
+        String result="";
         Optional<User> userOpt = userDao.findUserByEmail(email);
         if (userOpt.isPresent()) {
             result = "이미 존재하는 이메일입니다.";
-        } else {
-            result = "사용 가능한 이메일입니다.";
         }
         return result;
     }
@@ -203,12 +210,10 @@ public class AccountController {
     @GetMapping("/checkNickname/{nickname}")
     @ApiOperation(value = "닉네임확인")
     public String checkNickname(@PathVariable String nickname) {
-        String result;
+        String result="";
         Optional<User> userOpt = userDao.findUserByNickname(nickname);
         if (userOpt.isPresent()) {
             result = "이미 존재하는 닉네임입니다.";
-        } else {
-            result = "사용 가능한 닉네임입니다.";
         }
         return result;
     }
@@ -264,7 +269,7 @@ public class AccountController {
 
     @GetMapping("/pwd/{email}/{name}")
     @ApiOperation(value = "임시비밀번호 발급")
-    public void sendMail(@PathVariable String email, @PathVariable String name) throws Exception {
+    public Object sendMail(@PathVariable String email, @PathVariable String name) throws Exception {
         
         //Mail Server 설정
 
@@ -283,12 +288,11 @@ public class AccountController {
        
         String newPwd = FindUtil.getNewPwd();
         
-        Optional<User> userOpt = userDao.findUserByEmail(email);
-        if(userOpt.isPresent()){
-            User user = userOpt.get();
+        User user = userDao.findUserByEmailAndName(email, name);
+        if(user != null){ 
             user.setPassword(newPwd);
             userDao.save(user);
-        }
+        
 
         // email 전송
         try {
@@ -309,8 +313,13 @@ public class AccountController {
             mail.setHtmlMsg(""+newPwd);
             mail.send();
             System.out.println("성공");
+            return "메일 전송 성공";
         } catch (Exception e) {
-            e.printStackTrace();
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+             }
+        }else {
+            System.out.println("다시 입력해주세요");
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
     }
 }

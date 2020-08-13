@@ -1,4 +1,4 @@
-﻿package com.web.blog.controller.post;
+package com.web.blog.controller.post;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -40,9 +40,9 @@ public class PostListController {
     @Autowired
     TagDao tagDao;
 
-    // infinite-loading paging
+    
     @GetMapping("/getList/{type}/{page}")
-    @ApiOperation(value = "리스트 가져오기")
+    @ApiOperation(value = "승인된 리스트 가져오기")
     public List<PostList> getList(@PathVariable String type, @PathVariable int page) {
 
         List<PostList> temp = new LinkedList<>();
@@ -102,12 +102,12 @@ public class PostListController {
             @PathVariable int page) throws SQLException, IOException {
         List<PostList> searchpost = new LinkedList<>();
         if (key.equals("title")) {
-            searchpost = postDao.findByTitleLikeOrderByCreateDateDesc("%" + word + "%", PageRequest.of(page, 5));
+            searchpost = postDao.findByFlagAndTitleLikeOrderByCreateDateDesc(1, "%" + word + "%");
         } else if (key.equals("activity")) {
-            searchpost = postDao.findByActivityLikeOrderByCreateDateDesc("%" + word + "%", PageRequest.of(page, 5));
+            searchpost = postDao.findByFlagAndActivityLikeOrderByCreateDateDesc(1, "%" + word + "%");
         } else if (key.equals("price")) {
             int price = Integer.parseInt(word);
-            searchpost = postDao.findByPriceLessThanEqualOrderByCreateDateDesc(price, PageRequest.of(page, 5));
+            searchpost = postDao.findByFlagAndPriceLessThanEqualOrderByCreateDateDesc(1, price);
         }
         List<PostList> post = new LinkedList<>();
         if (type.equals("all")) {
@@ -148,12 +148,12 @@ public class PostListController {
             @PathVariable int page) throws SQLException, IOException {
         List<PostList> searchpost = new LinkedList<>();
         if (key.equals("title")) {
-            searchpost = postDao.findByTitleLikeOrderByCreateDateDesc("%" + word + "%");
+            searchpost = postDao.findByFlagAndTitleLikeOrderByCreateDateDesc(1, "%" + word + "%");
         } else if (key.equals("activity")) {
-            searchpost = postDao.findByActivityLikeOrderByCreateDateDesc("%" + word + "%");
+            searchpost = postDao.findByFlagAndActivityLikeOrderByCreateDateDesc(1, "%" + word + "%");
         } else if (key.equals("price")) {
             int price = Integer.parseInt(word);
-            searchpost = postDao.findByPriceLessThanEqualOrderByCreateDateDesc(price);
+            searchpost = postDao.findByFlagAndPriceLessThanEqualOrderByCreateDateDesc(1, price);
         }
         List<PostList> post = new LinkedList<>();
         if (type.equals("all")) {
@@ -200,19 +200,19 @@ public class PostListController {
         return list;
     }
 
-    @GetMapping("/list")
-    @ApiOperation(value = "포스트 리스트")
-    public List<PostList> selectAll() throws SQLException, IOException {
-        List<PostList> temp = new LinkedList<>();
-        temp = postDao.findByFlagOrderByCreateDateDesc(1);
-        return temp;
-    }
+    // @GetMapping("/list")
+    // @ApiOperation(value = "포스트 리스트")
+    // public List<PostList> selectAll() throws SQLException, IOException {
+    //     List<PostList> temp = new LinkedList<>();
+    //     temp = postDao.findByFlagOrderByCreateDateDesc(1);
+    //     return temp;
+    // }
 
     @GetMapping("/listbylike")
     @ApiOperation(value = "포스트 리스트 좋아요 정렬")
     public List<PostList> selectAllByLike() throws SQLException, IOException {
         List<PostList> temp = new LinkedList<>();
-        temp = postDao.findAllByOrderByLikecntDesc();
+        temp = postDao.findByFlagOrderByLikecntDesc(1);
         return temp;
     }
 
@@ -266,7 +266,7 @@ public class PostListController {
     }
 
     @DeleteMapping("/delete/{pid}")
-    @ApiOperation(value = "포스트 삭제")
+    @ApiOperation(value = "포스트 삭제/거절")
     public Object delete(@PathVariable int pid) throws SQLException, IOException {
         PostList post = postDao.findByPid(pid);
         if (post != null) {
@@ -276,9 +276,55 @@ public class PostListController {
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
     }
-    
+
+    @GetMapping("/mypost/{email}")
+    @ApiOperation(value = "내가 쓴 글(승인)")
+    public Object mypost(@PathVariable String email) throws SQLException, IOException {
+        List<PostList> list = postDao.findByEmailAndFlag(email,1); //내가 쓰고 승인된 글
+        if (list != null) {
+            return new ResponseEntity<>(list, HttpStatus.ACCEPTED);
+        } else {
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping("/myreject/{email}")
+    @ApiOperation(value = "내가 쓴 글(승인x)")
+    public Object myreject(@PathVariable String email) throws SQLException, IOException {
+        List<PostList> list = postDao.findByEmailAndFlag(email,2); //내가 쓰고 승인x 글
+        if (list != null) {
+            return new ResponseEntity<>(list, HttpStatus.ACCEPTED);
+        } else {
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }
+    }
+
+
+    @GetMapping("/permit/{pid}")
+    @ApiOperation(value = "관리자 포스트 승인")
+    public Object permit(@PathVariable int pid) throws SQLException, IOException {
+        PostList post = postDao.findByPid(pid);
+        if (post != null) {
+            post.setFlag(1);
+            return new ResponseEntity<>(post, HttpStatus.ACCEPTED);
+        } else {
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping("/standpost/{pid}")
+    @ApiOperation(value = "관리자 대기 포스트 리스트")
+    public Object standpost() throws SQLException, IOException {
+        List<PostList> list = postDao.findByFlag(2);
+        if (list != null) {
+            return new ResponseEntity<>(list, HttpStatus.ACCEPTED);
+        } else {
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }
+    }
+
     @PostMapping("/regist/{tagValue}")
-    @ApiOperation("포스트 등록")
+    @ApiOperation("포스트 등록(아직 승인 x)") //승인 안된건 2
     public Object regist(@RequestBody PostList request, @PathVariable List<String> tagValue)
     throws SQLException, IOException {
         try {
@@ -292,7 +338,7 @@ public class PostListController {
             temp.setEdate(request.getEdate());
             temp.setCompanyInfo(request.getCompanyInfo());
             temp.setDetail(request.getDetail());
-            temp.setFlag(1);
+            temp.setFlag(2);
             temp.setActivity(request.getActivity());
             temp.setSpring(request.getSpring());
             temp.setSummer(request.getSummer());

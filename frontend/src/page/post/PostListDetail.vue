@@ -25,18 +25,20 @@
                       v-for="hash in hashTag"
                       :key="hash.id"
                     >#{{ hash }}</small>
-                    <!-- 카카오톡 공유하기 -->
-                    <a
-                      href="javascript:;"
-                      @click="test()"
-                      id="kakao-link-btn"
-                      style="margin-left:auto"
-                    >
-                      <img
-                        src="//developers.kakao.com/assets/img/about/logos/kakaolink/kakaolink_btn_small.png"
-                        width="28px"
-                      />
-                    </a>
+                    <div class="ml-auto">
+                      <!-- 카카오톡 공유하기 -->
+                      <button
+                        class="btn btn p-0"
+                        @click="test"
+                        id="kakao-link-btn"
+                        icon="share-fill"
+                      >
+                        <img
+                          src="//developers.kakao.com/assets/img/about/logos/kakaolink/kakaolink_btn_small.png"
+                          width="28px"
+                        />
+                      </button>
+                    </div>
                   </div>
                   <div class="d-flex justify-content-start">
                     <!-- 업체 위치 -->
@@ -98,10 +100,15 @@
                     >Sky</b-badge>
                   </div>
                   <!-- 사용 기간 -->
-                  <p
-                    class="card-text d-flex mt-3"
-                    style="font-size: 1rem; text-overflow:ellipsis; overflow: hidden; white-space:nowrap;"
-                  >유효기간 {{ post.sdate }}~{{ post.edate }}</p>
+                  <div class="d-flex justify-content-between">
+                    <p
+                      class="card-text mt-3"
+                      style="font-size: 1rem; text-overflow:ellipsis; overflow: hidden; white-space:nowrap;"
+                    >유효기간 {{ post.sdate }}~{{ post.edate }}</p>
+                    <!-- 신고하기 버튼 -->
+                    <span data-toggle="modal" data-target="#indict" class="mr-2 my-auto indict" style="border:none; font-size:1.2rem" title="신고하기"><i class="fas fa-angry" style="color:red"></i></span>
+                    <IndictPost :post="post"/>
+                  </div>
                   <!-- 이용 가격 -->
                   <div class="d-flex justify-content-end mt-3">
                     <p
@@ -143,16 +150,35 @@
       </div>
 
       <!-- Scrollspy  -->
-      <nav id="navbar-example2" class="navbar nav-info" style="position: sticky; top: 0; z-index:100;">
+      <nav
+        id="navbar-example2"
+        class="navbar nav-info"
+        style="position: sticky; top: 0; z-index:100;"
+      >
         <ul class="nav justify-content-between" style="width:100%;">
           <li class="nav-item">
-            <a class="nav-link info-link" href="#item" @click="scroll" style="font-size:0.9rem;">상세정보</a>
+            <a
+              class="nav-link info-link"
+              href="#item"
+              @click="scroll"
+              style="font-size:0.9rem;"
+            >상세정보</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link info-link" href="#corp" @click="scroll" style="font-size:0.9rem;">업체정보</a>
+            <a
+              class="nav-link info-link"
+              href="#corp"
+              @click="scroll"
+              style="font-size:0.9rem;"
+            >업체정보</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link info-link" href="#review" @click="scroll" style="font-size:0.9rem;">후기</a>
+            <a
+              class="nav-link info-link"
+              href="#review"
+              @click="scroll"
+              style="font-size:0.9rem;"
+            >후기</a>
           </li>
           <li class="nav-item">
             <a class="nav-link info-link" href="#qna" @click="scroll" style="font-size:0.9rem;">Q&A</a>
@@ -186,27 +212,38 @@
           </div>
         </div>
         <ReviewWrite :pid="pid" :email="email" />
-        <ReviewSlide :pid="pid" @review-delete="reviewDelete" />
-
-      <hr>
-      <!-- Q & A -->
-      <h4 id="qna" class="d-flex mb-3" style="font-weight:bold">Q&A</h4>
-      <!-- 댓글 List -->
-      <div class="d-flex bg-white">Question : {{ receiveComment.length }}</div>
-      <div v-if="receiveComment.length ==  0" class="mt-2">
-        <i class="far fa-surprise mr-1 mb-3"></i>등록된 질문이 없습니다. 처음으로 질문을 남겨보세요!<i class="far fa-surprise ml-1"></i>
+        <div class="d-none d-sm-block">
+          <ReviewSlide :pid="pid" />
+        </div>
+        <div class="d-block d-sm-none d-md-none">
+          <ReviewMobile :pid="pid" />
+        </div>
+        <hr />
+        <!-- Q & A -->
+        <h4 id="qna" class="d-flex mb-3" style="font-weight:bold">Q&A</h4>
+        <!-- 댓글 List -->
+        <div class="d-flex bg-white">Question : {{ receiveComment.length }}</div>
+        <div v-if="receiveComment.length ==  0" class="mt-2">
+          <i class="far fa-surprise mr-1 mb-3"></i>등록된 질문이 없습니다. 처음으로 질문을 남겨보세요!
+          <i class="far fa-surprise ml-1"></i>
+        </div>
+        <CommentList
+          v-for="comment in receiveComment"
+          :key="comment.rid"
+          :comment="comment"
+          @comment-delete="commentDelete"
+        />
+        <!-- 댓글 작성 -->
+        <CommentInput class="mt-3" v-if="this.email" @create-comment="createcomment" />
       </div>
-      <CommentList v-for="comment in receiveComment" :key="comment.rid" :comment="comment" @comment-delete="commentDelete" />
-      <!-- 댓글 작성 -->
-      <CommentInput class="mt-3" v-if="this.email" @create-comment="createcomment" />
-      
-    </div>
 
       <hr class="mt-0" />
-
       <!-- 글 수정 삭제 -->
-      <div class="d-flex justify-content-end mt-3 mb-3" v-if="this.email == this.post.email">
-        <button class="btn btn-success" @click="goModify">
+      <div
+        class="d-flex justify-content-end mt-3 mb-3"
+        v-if="this.email == this.post.email | this.checkType == 'admin'"
+      >
+        <button class="btn btn-success" v-if="this.email == this.post.email" @click="goModify">
           <i class="far fa-edit mr-2"></i>수정하기
         </button>
         <button class="btn btn-danger" @click="goDelete">
@@ -227,8 +264,11 @@ import CommentList from "../../components/comment/CommentList.vue";
 
 import ReviewSlide from "../../components/review/ReviewSlide.vue";
 import ReviewWrite from "../../components/review/ReviewModal.vue";
+import ReviewMobile from "../../components/review/ReviewMobile.vue";
 
 import Swal from "sweetalert2";
+
+import IndictPost from '../../components/modal/IndictPost.vue'
 
 const baseURL = process.env.VUE_APP_BACKURL;
 
@@ -238,11 +278,13 @@ export default {
     CommentList,
     ReviewSlide,
     ReviewWrite,
+    ReviewMobile,
+    IndictPost,
   },
   data() {
     return {
       post: [],
-      pid: 0,
+      pid: "",
       email: "",
       receiveComment: [],
       hashTag: [],
@@ -255,10 +297,10 @@ export default {
     };
   },
   created() {
+    this.pid = this.$route.params.ID;
     if (this.$cookies.get("Auth-Token") != null) {
       this.authUser();
     } else {
-      this.pid = this.$route.params.ID;
       this.getPost();
       this.fetchComment();
     }
@@ -275,7 +317,6 @@ export default {
       axios
         .get(`${baseURL}/account/authuser/${this.$cookies.get("Auth-Token")}`)
         .then((response) => {
-          this.pid = this.$route.params.ID;
           this.checkType = response.data.checkType;
           this.email = response.data.email;
           this.getPost();
@@ -485,75 +526,80 @@ export default {
 
       // alert(`'${title}'상품을 장바구니에 담았습니다!`)
     },
-    alertbuy(post){
+    alertbuy(post) {
       Swal.fire({
         width: 350,
-        text: '단일상품은 구매 할인적용 불가합니다. 계속하시겠습니까?',
-        icon: 'warning',
+        text: "단일상품은 구매 할인적용 불가합니다. 계속하시겠습니까?",
+        icon: "warning",
         showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: '<a style="font-size:1rem; color:black">구매하기</a>',
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText:
+          '<a style="font-size:1rem; color:black">구매하기</a>',
         cancelButtonText: '<a style="font-size:1rem; color:black">취소하기</a>',
       }).then((result) => {
         if (result.value) {
           const Toast = Swal.mixin({
             toast: true,
-            position: 'top-end',
+            position: "top-end",
             showConfirmButton: false,
             timer: 3000,
             timerProgressBar: true,
             onOpen: (toast) => {
-              toast.addEventListener('mouseenter', Swal.stopTimer);
-              toast.addEventListener('mouseleave', Swal.resumeTimer);
+              toast.addEventListener("mouseenter", Swal.stopTimer);
+              toast.addEventListener("mouseleave", Swal.resumeTimer);
             },
           });
-         let th = this;
+          let th = this;
 
-      var IMP = window.IMP; // 생략가능      
-            var msg;
-        IMP.init('imp40062977');
+          var IMP = window.IMP; // 생략가능
+          var msg;
+          IMP.init("imp40062977");
 
-              IMP.request_pay({
-              pg : 'html5_inicis',
-              pay_method : 'card',
-              merchant_uid : 'merchant_' + new Date().getTime(),
-              name : '링키비티',
-              amount : 1000,
-              buyer_email : 'iamport@siot.do',
-              buyer_name : '구매자이름',
-              buyer_tel : '010-1234-5678',
-              buyer_addr : '서울특별시 강남구 삼성동',
-              buyer_postcode : '123-456'
-          }, function(rsp) {
-              if ( rsp.success ) {
-                  var msg = '결제가 완료되었습니다.';
-                  msg += '고유ID : ' + rsp.imp_uid;
-                  msg += '상점 거래ID : ' + rsp.merchant_uid;
-                  msg += '결제 금액 : ' + rsp.paid_amount;
-                  msg += '카드 승인번호 : ' + rsp.apply_num;
+          IMP.request_pay(
+            {
+              pg: "html5_inicis",
+              pay_method: "card",
+              merchant_uid: "merchant_" + new Date().getTime(),
+              name: "링키비티",
+              amount: 1000,
+              buyer_email: "iamport@siot.do",
+              buyer_name: "구매자이름",
+              buyer_tel: "010-1234-5678",
+              buyer_addr: "서울특별시 강남구 삼성동",
+              buyer_postcode: "123-456",
+            },
+            function (rsp) {
+              if (rsp.success) {
+                var msg = "결제가 완료되었습니다.";
+                msg += "고유ID : " + rsp.imp_uid;
+                msg += "상점 거래ID : " + rsp.merchant_uid;
+                msg += "결제 금액 : " + rsp.paid_amount;
+                msg += "카드 승인번호 : " + rsp.apply_num;
 
-                console.log(th.packPost)
-                console.log(th.sum)
-                console.log(th.email)                      
+                console.log(th.packPost);
+                console.log(th.sum);
+                console.log(th.email);
 
-                  axios
-                   .get(`${baseURL}/purchase/regist/${th.packPost}/${th.email}/${th.sum}`)
-                   .then((response) => {
-                   alert("구매 완료");
-                   th.$router.push("/user/basket");
-                   th.$router.go();
-                })
-                .catch((err) => {
-                  console.log(err);
-                });
-
+                axios
+                  .get(
+                    `${baseURL}/purchase/regist/${th.packPost}/${th.email}/${th.sum}`
+                  )
+                  .then((response) => {
+                    alert("구매 완료");
+                    th.$router.push("/user/basket");
+                    th.$router.go();
+                  })
+                  .catch((err) => {
+                    console.log(err);
+                  });
               } else {
-                  var msg = '결제에 실패하였습니다.';
-                  msg += '에러내용 : ' + rsp.error_msg;
+                var msg = "결제에 실패하였습니다.";
+                msg += "에러내용 : " + rsp.error_msg;
               }
               alert(msg);
-          });
+            }
+          );
         }
       });
     },
@@ -605,50 +651,53 @@ export default {
           console.log(error);
         });
     },
-    reviewDelete(rvid) {
-      Swal.fire({
-        width: 300,
-        text: "후기를 삭제하시겠습니까?",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: '<a style="font-size:1rem; color:black">Delete</a>',
-        cancelButtonText: '<a style="font-size:1rem; color:black">Cancel</a>',
-      }).then((result) => {
-        if (result.value) {
-          const Toast = Swal.mixin({
-            toast: true,
-            position: "top-end",
-            showConfirmButton: false,
-            timer: post.price,
-            timerProgressBar: true,
-            onOpen: (toast) => {
-              toast.addEventListener("mouseenter", Swal.stopTimer);
-              toast.addEventListener("mouseleave", Swal.resumeTimer);
-            },
-          });
+    // reviewDelete(rvid) {
+    //   Swal.fire({
+    //     width: 300,
+    //     text: "후기를 삭제하시겠습니까?",
+    //     icon: "warning",
+    //     showCancelButton: true,
+    //     confirmButtonColor: "#3085d6",
+    //     cancelButtonColor: "#d33",
+    //     confirmButtonText: '<a style="font-size:1rem; color:black">Delete</a>',
+    //     cancelButtonText: '<a style="font-size:1rem; color:black">Cancel</a>',
+    //   }).then((result) => {
+    //     if (result.value) {
+    //       const Toast = Swal.mixin({
+    //         toast: true,
+    //         position: "top-end",
+    //         showConfirmButton: false,
+    //         timer: post.price,
+    //         timerProgressBar: true,
+    //         onOpen: (toast) => {
+    //           toast.addEventListener("mouseenter", Swal.stopTimer);
+    //           toast.addEventListener("mouseleave", Swal.resumeTimer);
+    //         },
+    //       });
 
-          Toast.fire({
-            icon: "success",
-            title: "후기 삭제 완료!",
-          });
-          axios
-            .delete(`${baseURL}/review/delete/${rvid}`)
-            .then(() => {
-              setTimeout(() => {
-                this.$router.go();
-              }, 1000);
-            })
-            .catch((error) => {
-              console.log(error);
-            });
-        }
-      });
-    },
+    //       Toast.fire({
+    //         icon: "success",
+    //         title: "후기 삭제 완료!",
+    //       });
+    //       axios
+    //         .delete(`${baseURL}/review/delete/${rvid}`)
+    //         .then(() => {
+    //           setTimeout(() => {
+    //             this.$router.go();
+    //           }, 1000);
+    //         })
+    //         .catch((error) => {
+    //           console.log(error);
+    //         });
+    //     }
+    //   });
+    // },
   },
 };
 </script>
 
 <style>
+.indict {
+  cursor: pointer;
+}
 </style>

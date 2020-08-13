@@ -10,6 +10,7 @@ import Info from '../page/user/Info.vue'
 import Basket from '../page/user/Basket.vue'
 import Pwsearch from '../page/user/Pwsearch.vue'
 import Agreement from '../page/user/Agreement.vue'
+import Admin from '../page/user/Admin.vue'
 
 // error
 import NotFound from '../page/error/NotFound.vue'
@@ -67,6 +68,11 @@ export default new Router({
         {
             path: '/user/pwsearch',
             component: Pwsearch
+        },
+        {
+            path: '/admin',
+            component: Admin,
+            name: 'Admin'
         },
         // 메인
         {

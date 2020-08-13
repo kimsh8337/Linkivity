@@ -11,6 +11,7 @@
             v-if="!error.title"
           >제목을 입력하세요.</small>
         </div>
+      {{NoticeCreate.content}}
         <div>
           <select
             class="form-control col-md-12"
@@ -40,22 +41,21 @@
             v-if="!error.content"
           >내용을 입력하세요.</small>
         </div>
-        <textarea
-          class="form-control"
-          style="height:30rem;"
-          id="detail"
-          v-model="NoticeCreate.content"
-        ></textarea>
+
+      
+           <Editor ref="toastuiEditor" />
+         
+      
         <small class="form-text d-flex" style="color:red;" v-if="error.detail">{{ error.detail }}</small>
       </div>
-
+      {{this.NoticeCreate}}
       <!-- Button -->
       <div class="d-flex justify-content-end mb-5">
         <button
           type="submit"
           class="btn btn-outline pr-0"
           style="font-size: 1.1rem; color:red; font-weight:bold;"
-          @click="noticeregist"
+          @click="noticeregist()"
         >
           <i class="fas fa-pen mr-1"></i>등록
         </button>
@@ -68,20 +68,29 @@
 import axios from "axios";
 import "../../assets/css/noticecreate.css";
 
+import 'codemirror/lib/codemirror.css'; 
+import '@toast-ui/editor/dist/toastui-editor.css';
+import { Editor } from '@toast-ui/vue-editor';
+
+
 import Swal from "sweetalert2";
 // import { component } from 'vue/types/umd';
 
-const baseURL = process.env.VUE_APP_BACKURL;
+const baseURL = "http://localhost:8080";
 
 export default {
+  components:{
+    Editor
+  },
   data() {
     return {
       page: 1,
       NoticeCreate: {
         title: "",
         content: "",
-        importance: "0",
+        importance: "0"
       },
+      
       email: "",
       superadmin: "admin@linkivity.com",
       error: {
@@ -93,6 +102,11 @@ export default {
   created() {
     this.chcekadmin();
   },
+  // watch: {
+  //   newContent: function(v) {
+  //     this.newContent = this.NoticeCreate.content;
+  //   }
+  // },
   methods: {
     chcekadmin() {
       axios
@@ -146,7 +160,10 @@ export default {
           console.log(err.response);
         });
     },
-    noticeregist() {
+    noticeregist(notice) {
+      var content = this.$refs.toastuiEditor.invoke("getHtml");
+      this.NoticeCreate.content = content
+      console.log(this.NoticeCreate.content)
       var flag = 0;
       if (this.NoticeCreate.title == "") {
         this.error.title = "제목을 입력해주세요.";

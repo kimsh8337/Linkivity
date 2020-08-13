@@ -9,7 +9,7 @@
         <p class="notice">
           <i class="fas fa-flag mr-2"></i>Notice
         </p>
-        <button v-if="this.email == superadmin" class="btn btn-regist" @click="gonoticecreate">
+        <button v-if="this.checkType == 'admin'" class="btn btn-regist" @click="gonoticecreate">
           <i class="fas fa-pen mr-2"></i>공지사항 등록
         </button>
       </div>
@@ -64,8 +64,7 @@ export default {
         visit: "",
         createDate: "",
       },
-      email: "",
-      superadmin: "admin@linkivity.com",
+      checkType:'',
     };
   },
   created() {
@@ -78,7 +77,7 @@ export default {
         axios
         .get(`${baseURL}/account/authuser/${this.$cookies.get("Auth-Token")}`)
         .then((response) => {
-          this.email = response.data.email;
+          this.checkType = response.data.checkType;
         })
         .catch((err) => {
           console.log(err.response);

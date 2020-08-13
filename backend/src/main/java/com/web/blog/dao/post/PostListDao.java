@@ -13,14 +13,10 @@ public interface PostListDao extends JpaRepository<PostList, String> {
     PostList findByPid(int pid);
     List<PostList> findByFlag(int flag);
     List<PostList> findByFlagOrderByCreateDateDesc(int flag);
-    List<PostList> findByFlagOrderByCreateDateDesc(int flag, Pageable page);
-    
-    List<PostList> findByActivityLikeOrderByCreateDateDesc(String word);
-    List<PostList> findByTitleLikeOrderByCreateDateDesc(String word);
-    List<PostList> findByPriceLessThanEqualOrderByCreateDateDesc(int word);
-    List<PostList> findByActivityLikeOrderByCreateDateDesc(String word, Pageable page);
-    List<PostList> findByTitleLikeOrderByCreateDateDesc(String word, Pageable page);
-    List<PostList> findByPriceLessThanEqualOrderByCreateDateDesc(int word, Pageable page);
+    List<PostList> findByFlagAndActivityLikeOrderByCreateDateDesc(int flag, String word);
+    List<PostList> findByFlagAndTitleLikeOrderByCreateDateDesc(int flag, String word);
+    List<PostList> findByFlagAndPriceLessThanEqualOrderByCreateDateDesc(int flag, int word);
+    List<PostList> findByFlagOrderByLikecntDesc(int flag);
 
     List<PostList> findAllByOrderByLikecntDesc();
 
@@ -39,8 +35,5 @@ public interface PostListDao extends JpaRepository<PostList, String> {
     List<PostList> findByFlagAndPlace(int flag, String place);
     List<PostList> findByFlagAndPriceLessThanEqual(int flag, int price);
     List<PostList> findByFlagAndLocationLike(int flag, String location);
-
-    List<PostList> findByPidInOrderByCreateDateDesc(List<Integer> pids);
-    List<PostList> findByPidInOrderByCreateDateDesc(List<Integer> pids, Pageable page);
-    
+    List<PostList> findByEmailAndFlag(String email, int flag);
 }

@@ -1,52 +1,52 @@
 <template>
 <div>
-  <div v-if="slides.length == 0">
+  <div v-if="!flag">
     <i class="far fa-surprise mr-1 mb-3"></i>등록된 후기가 없습니다. 처음으로 후기를 남겨보세요!<i class="far fa-surprise ml-1"></i>
   </div>
-  <div v-if="slides.length > 0" id="slider" class="slider" @mousemove="mouseMoving" @mouseout="stopDrag" @mouseup="stopDrag" @mouseLeave="stopDrag">
-  <div class="slider-cards" :style="`transform: translate3d(${cardsX}px,0,0)`">
-    <div @mousedown="startDrag"
-      @mouseup="stopDrag"
-      v-for="(slide, rvid) in slides" 
-      :key="rvid"
-      class="slider-card">
-      <!-- img 보여주기 -->
-      <img class="review-img" style="width:100%" :src="slide.img" :alt="slide.title" draggable="false">
-      <!-- 프로필 보여주기 -->
-      <div class="d-flex justify-content-between">
-        <img class="profile-img d-flex m-1" :src="slide.proimg">
-        <div class="mt-2 mr-4">
-            <div class="d-flex">
-                <small class="d-flex align-items-center" style="font-weight:bold">{{slide.nickname}}</small><br>
-            </div>
-            <div class="d-flex">
-                <i class="fas fa-star" style="color:Salmon;" v-for="i in slide.star" :key="i.id"></i>
-            </div>
-        </div>
-        <!-- 날짜 및 수정 삭제 -->
-        <div v-if="email == slide.email" class="mt-2">
-          <div class="d-flex justify-content-end mr-3">
-            <small @click="update(slide)" data-toggle="modal" data-target="#reviewUpdate" style="color:blue;"><i class="fas fa-wrench" title="수정"></i></small>
-            <small @click="reviewDelete(slide.rvid)" style="color:red"><i class="fas fa-trash-alt ml-2" title="삭제"></i></small>
+  <div v-if="flag" id="slider" class="slider" @mousemove="mouseMoving" @mouseout="stopDrag">
+    <div class="slider-cards" :style="`transform: translate3d(${cardsX}px,0,0)`">
+      <div @mousedown="startDrag"
+        @mouseup="stopDrag"
+        v-for="(slide, rvid) in slides" 
+        :key="rvid"
+        class="slider-card">
+        <!-- img 보여주기 -->
+        <img class="review-img" style="width:100%" :src="slide.img" :alt="slide.title" draggable="false">
+        <!-- 프로필 보여주기 -->
+        <div class="d-flex justify-content-between">
+          <img class="profile-img d-flex m-1" :src="slide.proimg">
+          <div class="mt-2 mr-4">
+              <div class="d-flex">
+                  <small class="d-flex align-items-center" style="font-weight:bold">{{slide.nickname}}</small><br>
+              </div>
+              <div class="d-flex">
+                  <i class="fas fa-star" style="color:Salmon;" v-for="i in slide.star" :key="i.id"></i>
+              </div>
           </div>
-          <div class="d-flex align-items-end mt-1 mr-3">
-            <small style="font-weight:bold">{{datecut(slide.createDate)}}</small>
+          <!-- 날짜 및 수정 삭제 -->
+          <div v-if="email == slide.email" class="mt-2">
+            <div class="d-flex justify-content-end mr-3">
+              <small @click="update(slide)" data-toggle="modal" data-target="#reviewUpdate" style="color:blue;"><i class="fas fa-wrench" title="수정"></i></small>
+              <small @click="reviewDelete(slide.rvid)" style="color:red"><i class="fas fa-trash-alt ml-2" title="삭제"></i></small>
+            </div>
+            <div class="d-flex align-items-end mt-1 mr-3">
+              <small style="font-weight:bold">{{datecut(slide.createDate)}}</small>
+            </div>
+          </div>
+          <div v-if="email != slide.email" class="d-flex align-items-center mt-4 mr-3">
+              <small style="font-weight:bold">{{datecut(slide.createDate)}}</small>
           </div>
         </div>
-        <div v-if="email != slide.email" class="d-flex align-items-center mt-4 mr-3">
-            <small style="font-weight:bold">{{datecut(slide.createDate)}}</small>
+        <!-- 제목 -->
+        <div class="d-flex mt-2 ml-2 p-2">
+          <span style="font-weight:bold;">{{slide.title}}</span>
         </div>
-      </div>
-      <!-- 제목 -->
-      <div class="d-flex mt-2 ml-2 p-2">
-        <span style="font-weight:bold;">{{slide.title}}</span>
-      </div>
-      <!-- 내용 -->
-      <div class="d-flex ml-2 p-2">
-        <small>{{slide.content}}</small>
+        <!-- 내용 -->
+        <div class="d-flex ml-2 p-2">
+          <small>{{slide.content}}</small>
+        </div>
       </div>
     </div>
-  </div>
       <ReviewUpdate v-if="this.isUpdated" :reviewInfo="reviewInfo" @review-close="reviewClose"/>
 </div>
 </div>
@@ -77,6 +77,7 @@ export default {
         email: "",
         reviewInfo: {},
         isUpdated: false,
+        flag: true,
       }
   },
   methods: {
@@ -96,6 +97,11 @@ export default {
           axios.get(`${baseURL}/review/list/${this.pid}`)
               .then((response) => {
                   this.slides = response.data
+                  if (this.slides.length > 0) {
+                    this.flag = true
+                  } else {
+                    this.flag = false
+                  }
               }).catch((error) => {
                   console.log(error)
               })
@@ -123,8 +129,50 @@ export default {
           var tempdatecut = date+""
           return tempdatecut.substring(0,10)
       },
+      // reviewDelete(rvid) {
+      //   this.$emit('review-delete',rvid)
+      // },
       reviewDelete(rvid) {
-        this.$emit('review-delete',rvid)
+        Swal.fire({
+          width: 300,
+          text: "후기를 삭제하시겠습니까?",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#3085d6",
+          cancelButtonColor: "#d33",
+          confirmButtonText: '<a style="font-size:1rem; color:black">Delete</a>',
+          cancelButtonText: '<a style="font-size:1rem; color:black">Cancel</a>',
+        }).then((result) => {
+          if (result.value) {
+            const Toast = Swal.mixin({
+              toast: true,
+              position: "top-end",
+              showConfirmButton: false,
+              timer: 1000,
+              timerProgressBar: true,
+              onOpen: (toast) => {
+                toast.addEventListener("mouseenter", Swal.stopTimer);
+                toast.addEventListener("mouseleave", Swal.resumeTimer);
+              },
+            });
+
+            Toast.fire({
+              icon: "success",
+              title: "후기 삭제 완료!",
+            });
+            axios
+              .delete(`${baseURL}/review/delete/${rvid}`)
+              .then(() => {
+                this.fetchReview()
+                // setTimeout(() => {
+                //   this.$router.go();
+                // }, 1000);
+              })
+              .catch((error) => {
+                console.log(error);
+              });
+          }
+        });
       },
       update(slide) {
         this.reviewInfo = slide
