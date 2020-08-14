@@ -8,7 +8,6 @@ import Login from '../page/user/Login.vue'
 import Join from '../page/user/Join.vue'
 import Info from '../page/user/Info.vue'
 import Basket from '../page/user/Basket.vue'
-import Pwsearch from '../page/user/Pwsearch.vue'
 import Agreement from '../page/user/Agreement.vue'
 import Admin from '../page/user/Admin.vue'
 
@@ -65,10 +64,6 @@ export default new Router({
             path: '/agreement',
             name: 'Agreement',
             component: Agreement
-        },
-        {
-            path: '/user/pwsearch',
-            component: Pwsearch
         },
         {
             path: '/admin',
