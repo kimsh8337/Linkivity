@@ -27,6 +27,7 @@
                     >
                       <p @click="goTag(hash)">#{{ hash }}</p>
                     </small>
+                    
                     <div class="ml-auto">
                       <!-- 카카오톡 공유하기 -->
                       <button
@@ -115,7 +116,12 @@
                       style="border:none; font-size:1.2rem"
                       title="신고하기"
                     >
-                      <i class="fas fa-angry" style="color:red"></i>
+                    <div class="row">
+                      <i class="fas fa-bell-slash" style="color:red"></i>
+                      <p style="font-size:1rem; color:red">신고</p>
+                    </div>
+                    <!-- <i class="fas fa-bullhorn" style="color:red">신고</i> -->
+                      <!-- <i class="fas fa-angry" style="color:red"></i> -->
                     </span>
                     <IndictPost :post="post" />
                   </div>
@@ -142,6 +148,7 @@
                       ></i>
                       {{ post.likecnt }}명이 좋아요를 눌렀습니다.
                     </div>
+                    
                   </div>
                   <!-- 장바구니, 구매 -->
                   <div class="d-flex justify-content-end" v-if="this.checkType == 'normal'">
