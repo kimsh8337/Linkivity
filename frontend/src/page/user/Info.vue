@@ -309,6 +309,7 @@ export default {
 </script>
 
 <style>
+#__BVID__12___BV_tab_button__,
 #__BVID__14___BV_tab_button__,
 #__BVID__16___BV_tab_button__,
 #__BVID__20___BV_tab_button__,

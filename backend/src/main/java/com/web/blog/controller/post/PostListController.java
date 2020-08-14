@@ -313,12 +313,23 @@ public class PostListController {
         }
     }
 
-    @GetMapping("/standpost")
-    @ApiOperation(value = "관리자 대기 포스트 리스트")
-    public Object standpost() throws SQLException, IOException {
+    @GetMapping("/countStandpost")
+    @ApiOperation(value = "관리자 대기 포스트 리스트 카운트")
+    public Object countStandpost() throws SQLException, IOException {
         List<PostList> list = postDao.findByFlag(2);
         if (list != null) {
-            return new ResponseEntity<>(list, HttpStatus.ACCEPTED);
+            return new ResponseEntity<>(list.size(), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }
+    }
+    
+    @GetMapping("/standpost/{page}")
+    @ApiOperation(value = "관리자 대기 포스트 리스트")
+    public Object standpost(@PathVariable int page) throws SQLException, IOException {
+        List<PostList> list = postDao.findByFlag(2, PageRequest.of(page - 1, 10));
+        if (list != null) {
+            return new ResponseEntity<>(list, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
