@@ -67,7 +67,7 @@
         <!-- </div> -->
       </div>
     </div>
-    <PostReviewDetailModal :reviewDetail="reviewDetail" />
+      <PostReviewDetailModal :reviewDetail="reviewDetail" />
 
   </div>
 </template>
