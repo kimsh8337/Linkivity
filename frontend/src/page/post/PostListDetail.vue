@@ -24,7 +24,9 @@
                       style="text-align:left; font-size:1rem; text-overflow:ellipsis; overflow: hidden; white-space: nowrap;"
                       v-for="hash in hashTag"
                       :key="hash.id"
-                    ><p @click="goTag(hash)">#{{ hash }}</p></small>
+                    >
+                      <p @click="goTag(hash)">#{{ hash }}</p>
+                    </small>
                     <div class="ml-auto">
                       <!-- 카카오톡 공유하기 -->
                       <button
@@ -106,8 +108,16 @@
                       style="font-size: 1rem; text-overflow:ellipsis; overflow: hidden; white-space:nowrap;"
                     >유효기간 {{ post.sdate }}~{{ post.edate }}</p>
                     <!-- 신고하기 버튼 -->
-                    <span data-toggle="modal" data-target="#indict" class="mr-2 my-auto indict" style="border:none; font-size:1.2rem" title="신고하기"><i class="fas fa-angry" style="color:red"></i></span>
-                    <IndictPost :post="post"/>
+                    <span
+                      data-toggle="modal"
+                      data-target="#indict"
+                      class="mr-2 my-auto indict"
+                      style="border:none; font-size:1.2rem"
+                      title="신고하기"
+                    >
+                      <i class="fas fa-angry" style="color:red"></i>
+                    </span>
+                    <IndictPost :post="post" />
                   </div>
                   <!-- 이용 가격 -->
                   <div class="d-flex justify-content-end mt-3">
@@ -222,19 +232,25 @@
         <!-- Q & A -->
         <h4 id="qna" class="d-flex mb-3" style="font-weight:bold">Q&A</h4>
         <!-- 댓글 List -->
-        <div class="d-flex bg-white">Question : {{ receiveComment.length }}</div>
+        <div class="d-flex bg-white">
+          총
+          <span class="ml-1" style="color:#0047ab;">{{ receiveComment.length }}</span>개
+        </div>
+        <!-- 댓글 작성 -->
+
+        <CommentInput class="mt-3" v-if="this.email" @create-comment="createcomment" />
+
         <div v-if="receiveComment.length ==  0" class="mt-2">
           <i class="far fa-surprise mr-1 mb-3"></i>등록된 질문이 없습니다. 처음으로 질문을 남겨보세요!
           <i class="far fa-surprise ml-1"></i>
         </div>
+        <hr class="mb-0" />
         <CommentList
           v-for="comment in receiveComment"
           :key="comment.rid"
           :comment="comment"
           @comment-delete="commentDelete"
         />
-        <!-- 댓글 작성 -->
-        <CommentInput class="mt-3" v-if="this.email" @create-comment="createcomment" />
       </div>
 
       <hr class="mt-0" />
@@ -268,7 +284,7 @@ import ReviewMobile from "../../components/review/ReviewMobile.vue";
 
 import Swal from "sweetalert2";
 
-import IndictPost from '../../components/modal/IndictPost.vue'
+import IndictPost from "../../components/modal/IndictPost.vue";
 
 const baseURL = process.env.VUE_APP_BACKURL;
 
@@ -310,7 +326,7 @@ export default {
     goTag(tag) {
       console.log(tag);
       this.$router.push({
-        name: 'TagList',
+        name: "TagList",
         params: { TAG: tag },
       });
     },
@@ -590,12 +606,28 @@ export default {
 
                 axios
                   .get(
-                    `${baseURL}/purchase/regist/${th.packPost}/${th.email}/${th.sum}`
+                    `${baseURL}/purchase/registOne/${th.pid}/${th.email}/${th.post.price}`
                   )
                   .then((response) => {
-                    alert("구매 완료");
-                    th.$router.push("/user/basket");
-                    th.$router.go();
+                    const Toast = Swal.mixin({
+                      toast: true,
+                      position: "top-end",
+                      showConfirmButton: false,
+                      timer: 1000,
+                      timerProgressBar: true,
+                      onOpen: (toast) => {
+                        toast.addEventListener("mouseenter", Swal.stopTimer);
+                        toast.addEventListener("mouseleave", Swal.resumeTimer);
+                      },
+                    });
+
+                    Toast.fire({
+                      icon: "success",
+                      title: "구매 완료",
+                    });
+                    setTimeout(() => {
+                      th.$router.go();
+                    }, 1000);
                   })
                   .catch((err) => {
                     console.log(err);

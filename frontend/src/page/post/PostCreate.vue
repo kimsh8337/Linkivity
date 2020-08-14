@@ -359,12 +359,12 @@ export default {
           console.log(response.data);
           Toast.fire({
             icon: "success",
-            title: "작성이 완료되었습니다.",
+            title: "게시물 승인 요청이 완료되었습니다.",
           });
           this.$router.push("/posts");
         })
         .catch((error) => {
-          console.log("error입니다.");
+          console.log(error);
         });
     },
     tempSave() {

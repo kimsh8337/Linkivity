@@ -305,6 +305,13 @@ public class AccountController {
         return user.getNickname();
     }
 
+    @GetMapping("/getType/{nickname}")
+    @ApiOperation(value = "닉네임가져오기")
+    public String getType(@PathVariable String nickname) {
+        User user = userDao.findByNickname(nickname);
+        return user.getCheckType();
+    }
+
     @PutMapping("/modify/{pwvalidated}")
     @ApiOperation(value = "회원정보수정")
     public Object modify(@Valid @RequestBody User request, @PathVariable int pwvalidated)
@@ -389,7 +396,7 @@ public class AccountController {
                 mail.setFrom(fromEmail, fromName, charSet);
                 mail.setSubject(subject);
                 // 내용
-                mail.setHtmlMsg("" + newPwd);
+                mail.setHtmlMsg("회원님의 임시 비밀번호는 [ " + newPwd +" ] 입니다.");
                 mail.send();
                 System.out.println("성공");
                 return "메일 전송 성공";
