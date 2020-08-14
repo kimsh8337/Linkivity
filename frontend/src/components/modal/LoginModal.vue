@@ -112,14 +112,16 @@
           data-dismiss="modal"
           class="mt-2 row"
           style="cursor: pointer; margin-left:18%; margin-right:18%;"
+          data-toggle="modal"
+          data-target="#findpassword"
         >
           <div
             class="col-12 d-flex justify-content-center align-items-center"
             style="border:1px solid RGB(134, 165, 212); height:2rem; border-radius:5px"
           >
-            <i class="fas fa-unlock"
-              ><span class="my-auto ml-2">비밀번호 찾기</span></i
-            >
+            <i class="fas fa-unlock">
+              <span class="my-auto ml-2">비밀번호 찾기</span>
+            </i>
           </div>
         </div>
 
@@ -197,9 +199,151 @@ export default {
       } else this.error.email = false;
     },
     login() {
-      var tempToken = "";
+      if (!this.email && this.password) {
+        const Toast = Swal.mixin({
+          toast: true,
+          position: "top-end",
+          showConfirmButton: false,
+          timer: 1000,
+          timerProgressBar: true,
+          onOpen: (toast) => {
+            toast.addEventListener("mouseenter", Swal.stopTimer);
+            toast.addEventListener("mouseleave", Swal.resumeTimer);
+          },
+        });
+
+        Toast.fire({
+          icon: "error",
+          title: "이메일을 적어주세요!",
+        });
+      } else if (this.email && !this.password) {
+        const Toast = Swal.mixin({
+          toast: true,
+          position: "top-end",
+          showConfirmButton: false,
+          timer: 1000,
+          timerProgressBar: true,
+          onOpen: (toast) => {
+            toast.addEventListener("mouseenter", Swal.stopTimer);
+            toast.addEventListener("mouseleave", Swal.resumeTimer);
+          },
+        });
+
+        Toast.fire({
+          icon: "error",
+          title: "비밀번호를 적어주세요!",
+        });
+      } else if (!this.email && !this.password) {
+        const Toast = Swal.mixin({
+          toast: true,
+          position: "top-end",
+          showConfirmButton: false,
+          timer: 1000,
+          timerProgressBar: true,
+          onOpen: (toast) => {
+            toast.addEventListener("mouseenter", Swal.stopTimer);
+            toast.addEventListener("mouseleave", Swal.resumeTimer);
+          },
+        });
+
+        Toast.fire({
+          icon: "error",
+          title: "이메일 및 비밀번호를 적어주세요!",
+        });
+      } else {
+        var tempToken = "";
+        axios
+          .get(`${baseURL}/account/login/${this.email}/${this.password}`)
+          .then((response) => {
+            tempToken = response.data;
+            axios
+              .get(`${baseURL}/report/reports/${this.email}`)
+              .then((response) => {
+                if (response.data == 0) {
+                  this.$cookies.set("Auth-Token", tempToken);
+                  const Toast = Swal.mixin({
+                    toast: true,
+                    position: "top-end",
+                    showConfirmButton: true,
+                    onOpen: (toast) => {
+                      toast.addEventListener("mouseenter", Swal.stopTimer);
+                      toast.addEventListener("mouseleave", Swal.resumeTimer);
+                    },
+                  });
+                  Toast.fire({
+                    icon: "warning",
+                    title:
+                      "해당 아이디는 신고 누적으로 차후에 이용이 제한될 수 있습니다.",
+                  }).then((result) => {
+                    if (result.value) {
+                      this.$router.push("/").catch((err) => {
+                        console.log(err);
+                      });
+                      this.$router.go();
+                    }
+                  });
+                } else if (response.data == 1) {
+                  const Toast = Swal.mixin({
+                    toast: true,
+                    position: "top-end",
+                    showConfirmButton: true,
+                    onOpen: (toast) => {
+                      toast.addEventListener("mouseenter", Swal.stopTimer);
+                      toast.addEventListener("mouseleave", Swal.resumeTimer);
+                    },
+                  });
+                  Toast.fire({
+                    icon: "warning",
+                    title:
+                      "해당 아이디는 신고 누적으로 차후에 이용이 제한되었습니다.",
+                  }).then((result) => {
+                    if (result.value) {
+                      this.$router.push("/").catch((err) => {
+                        console.log(err);
+                      });
+                      this.$router.go();
+                    }
+                  });
+                } else {
+                  this.$cookies.set("Auth-Token", tempToken);
+                  this.$router.push("/").catch((err) => {
+                    console.log(err);
+                  });
+                  this.$router.go();
+                }
+              })
+              .catch((err) => {
+                console.log(err.response);
+              });
+          })
+          .catch((err) => {
+            console.log(err.response.status);
+            if (err.response.status == 400) {
+              const Toast = Swal.mixin({
+                toast: true,
+                position: "top-end",
+                showConfirmButton: false,
+                timer: 1000,
+                timerProgressBar: true,
+                onOpen: (toast) => {
+                  toast.addEventListener("mouseenter", Swal.stopTimer);
+                  toast.addEventListener("mouseleave", Swal.resumeTimer);
+                },
+              });
+
+              Toast.fire({
+                icon: "error",
+                title: "이메일 또는 비밀번호가 올바르지 않습니다.",
+              });
+            }
+            this.email = "";
+            this.password = "";
+          });
+      }
+    },
+    report() {
       axios
-        .get(`${baseURL}/account/login/${this.email}/${this.password}`)
+        .get(`${baseURL}/report/reports/${this.email}`)
         .then((response) => {
           tempToken = response.data;
           axios
@@ -268,11 +412,10 @@ export default {
                 .post(`${baseURL}/account/kakaologin`, x.kakao)
                 .then((response) => {
                   kakaotempToken = response.data;
-                 
+
                   axios
                     .get(`${baseURL}/report/reports/${x.kakao.email}`)
                     .then((response) => {
-                    
                       if (response.data == 0) {
                         alert(
                           "해당 아이디는 신고 누적으로 차후에 이용이 제한될 수 있습니다."
