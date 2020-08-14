@@ -19,7 +19,8 @@
             <label class="d-flex notice-title-font mr-3">Detail-Info</label>
             <small class="form-text notice-content-font text-muted d-flex">내용을 수정해주세요.</small>
         </div>
-      <textarea class="form-control" style="height:30rem;" id="detail" v-model="NoticeUpdate.content"></textarea>
+           <Editor ref="toastuiEditor" :initialValue="this.NoticeUpdate.content"/>
+      <!-- <textarea class="form-control" style="height:30rem;" id="detail" v-model="NoticeUpdate.content"></textarea> -->
     </div>
 
     <!-- Button -->
@@ -36,10 +37,18 @@
 import axios from 'axios';
 import '../../assets/css/noticeupdate.css';
 import Swal from "sweetalert2";
+import "codemirror/lib/codemirror.css"; 
+import "@toast-ui/editor/dist/toastui-editor.css"; 
+import { Editor } from "@toast-ui/vue-editor";
+
+
 
 const baseURL = process.env.VUE_APP_BACKURL;
 
 export default {
+     components:{
+    Editor
+  },
     data(){
         return{
             NoticeUpdate:[],
@@ -52,6 +61,7 @@ export default {
         init(){
             axios.get(`${baseURL}/notice/detail/${this.$route.params.ID}`)
             .then((res)=>{
+
                 this.NoticeUpdate = res.data;
             }).catch((err)=>{
                 console.log(err)

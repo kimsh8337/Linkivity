@@ -65,7 +65,7 @@ export default {
     data(){
         return{
             notice:[],
-            superadmin:'ssafy@ssafy.com',
+            superadmin:'admin@linkivity.com',
             email:'',
             // content: null,
         }
@@ -142,21 +142,6 @@ export default {
                 params: { ID: this.$route.params.ID }
             })
         },
-    },
-    mounted() {
-      this.init()
-      this.content = this.notice.content.json()
-      // fetch()
-      //  axios.get(`${baseURL}/notice/detail/${this.$route.params.ID}`)
-      //   .then((res) => {
-      //     if (res.ok) {
-      //       return res.json();
-      //     } else {
-      //       throw res
-      //     }
-      //   }).then((data) => {
-      //     this.content = data
-      //   })
     },
 }
 </script>

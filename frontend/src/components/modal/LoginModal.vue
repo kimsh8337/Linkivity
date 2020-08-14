@@ -93,7 +93,12 @@
               <i class="far fa-user mr-1"></i>
               <br />회원가입
             </button>
-            <button type="button" class="btn" @click="login" data-dismiss="modal">
+            <button
+              type="button"
+              class="btn"
+              @click="login"
+              data-dismiss="modal"
+            >
               <i class="fas fa-sign-in-alt mr-1"></i>
               <br />로그인
             </button>
@@ -125,7 +130,6 @@ export default {
   name: "Post",
   components: {},
   created() {
-    //  Kakao.init('765ed14c0d508f8aa48c6d173446acba')
     this.passwordSchema
       .is()
       .min(8)
@@ -137,10 +141,10 @@ export default {
       .letters();
   },
   watch: {
-    password: function (v) {
+    password: function(v) {
       this.checkForm();
     },
-    email: function (v) {
+    email: function(v) {
       this.checkForm();
     },
   },
@@ -162,7 +166,16 @@ export default {
       axios
         .get(`${baseURL}/account/login/${this.email}/${this.password}`)
         .then((response) => {
-          this.$cookies.set("Auth-Token", response.data);
+          if (response.data == 0) {
+            alert(
+              "해당 아이디는 신고 누적으로 차후에 이용이 제한될 수 있습니다."
+            );
+            this.$cookies.set("Auth-Token", response.data);
+          } else if (response.data == 1) {
+            alert("해당 아이디는 신고 누적으로 이용이 제한되었습니다.");
+          } else {
+            this.$cookies.set("Auth-Token", response.data);
+          }
           this.$router.push("/");
           this.$router.go();
         })
@@ -173,7 +186,7 @@ export default {
           this.password = "";
         });
     },
-    join: function () {
+    join: function() {
       this.$router.push("/user/join/");
       this.$router.go();
     },
@@ -181,7 +194,7 @@ export default {
       let x = this;
       Kakao.Auth.createLoginButton({
         container: "#kakao-login-btn",
-        success: function (authObj) {
+        success: function(authObj) {
           Kakao.API.request({
             url: "/v2/user/me",
             success: function (res) {
@@ -208,7 +221,7 @@ export default {
           });
         },
 
-        fail: function (error) {
+        fail: function(error) {
           alert(JSON.stringify(error));
         },
       });
@@ -233,6 +246,4 @@ export default {
 };
 </script>
 
-<style>
-
-</style>
+<style></style>

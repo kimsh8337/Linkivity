@@ -1,5 +1,6 @@
 package com.web.blog.controller.account;
 
+import java.io.Console;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
@@ -161,4 +162,18 @@ public class ReportController {
         }
     }
 
+    @GetMapping("/reports/{email}")
+    @ApiOperation("신고 후 로그인 시 알람")
+    public Object report(@PathVariable String email) throws SQLException, IOException {
+        try {
+            ReportUser user = reportUserDao.findByEmail(email);
+            if (user != null) {
+                return new ResponseEntity<>(user.getIsdrop(), HttpStatus.ACCEPTED);
+            } else {
+                return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+            }
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }
