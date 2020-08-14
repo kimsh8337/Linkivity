@@ -306,13 +306,14 @@ public class PostListController {
         PostList post = postDao.findByPid(pid);
         if (post != null) {
             post.setFlag(1);
+            postDao.save(post);
             return new ResponseEntity<>(post, HttpStatus.ACCEPTED);
         } else {
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
     }
 
-    @GetMapping("/standpost/{pid}")
+    @GetMapping("/standpost")
     @ApiOperation(value = "관리자 대기 포스트 리스트")
     public Object standpost() throws SQLException, IOException {
         List<PostList> list = postDao.findByFlag(2);

@@ -8,57 +8,88 @@
     aria-hidden="true"
   >
     <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content" style="margin:auto;height:20rem; width:25rem;">
-        <div class="modal-header border-0 pl-0">
+      <div class="modal-content" style="width:80%; border:0">
+        <div class="modal-header pl-0" style="background-color:RGB(134, 165, 212); width:100%">
           <h4
-            class="modal-title w-100 text-center font-weight-bold position-absolute"
+            class="modal-title font-weight-bold my-auto ml-2"
             id="exampleModalLabel"
-          >
-            Login
-          </h4>
-          <button
-            type="button"
-            class="close"
-            data-dismiss="modal"
-            aria-label="Close"
-          >
+            style="width:60%;"
+          ><i class="fas fa-file-signature ml-5">ＬＯＧＩＮ</i></h4>
+          <button type="button" class="close my-auto ml-0" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <div class="modal-body pb-0">
-          <i class="fas fa-envelope" style="font-size:20px"></i>
+        <!-- email 입력칸 -->
+        <div class="modal-body d-flex justify-content-center mt-2">
+          <i v-if="!error.email" class="fas fa-envelope my-auto mr-2" style="font-size:25px"></i>
+          <i v-if="error.email" class="fas fa-envelope my-auto mr-2" style="font-size:25px; color:red" title="이메일 형식을 아닙니다!"></i>
           <input
-            class="text-center ml-1 mt-4 bg-white"
-            style="width:60%; border: none;"
+            class="text-center"
+            style="width:60%; border-radius:5px;"
             type="text"
             v-model="email"
             id="email"
-            placeholder="이메일을 입력해주세요."
+            placeholder="email@example.com"
           />
-          <div class="error-text" v-if="error.email">{{ error.email }}</div>
-          <p class="mb-4"></p>
-          <i class="fas fa-lock" style="font-size:20px"></i>
+        </div>
+        <!-- <small class="d-flex justify-content-end mt-0 mb-0" style="width:82%" v-if="error.email"><i class="fas fa-exclamation mr-1 my-auto"></i>{{error.email}}</small> -->
+        
+        <!-- password 입력칸 -->
+        <div class="modal-body d-flex justify-content-center mt-2">
+          <i class="fas fa-lock my-auto mr-2" style="font-size:25px"></i>
           <input
-            class="text-center ml-1 mt-4"
-            style="width:60%; border: none;"
+            class="text-center"
+            style="width:60%; border-radius:5px;"
             type="password"
             v-model="password"
             id="password"
-            placeholder="비밀번호를 입력해주세요."
+            placeholder="Input your password"
             @keypress.enter="login"
           />
+          </div>
+
+        <div style="margin-left:10%; margin-right:10%">
+          <hr>
         </div>
-        <div class="modal-footer border-0 pt-0">
-          <!-- 카카오 로그인 이미지 -->
-          <!-- <img src="../../assets/img/kakaologin.png"> -->
-          <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> -->
-          <div style>
-            <button
-              type="button"
-              class="btn"
-              @click="join"
-              data-dismiss="modal"
-            >
+
+        <!-- 로그인 -->
+        <div @click="login" data-dismiss="modal" class="mt-2 row" style="cursor: pointer; margin-left:18%; margin-right:18%;">
+          <div class="col-12 d-flex justify-content-center align-items-center" style="border:1px solid RGB(134, 165, 212); height:2rem; border-radius:5px">
+            <i class="fas fa-sign-in-alt"><span class="my-auto ml-2">로그인</span></i>
+          </div>
+        </div>
+
+        <!-- 회원가입 -->
+        <div @click="join" data-dismiss="modal" class="mt-2 row" style="cursor: pointer; margin-left:18%; margin-right:18%;">
+          <div class="col-12 d-flex justify-content-center align-items-center" style="border:1px solid RGB(134, 165, 212); height:2rem; border-radius:5px">
+            <i class="far fa-user mr-1"><span class="my-auto ml-2" style="font-weight:bold">회원가입</span></i>
+          </div>
+        </div>
+
+        <!-- 비밀번호 찾기 -->
+        <div data-dismiss="modal" class="mt-2 row" style="cursor: pointer; margin-left:18%; margin-right:18%;">
+          <div class="col-12 d-flex justify-content-center align-items-center" style="border:1px solid RGB(134, 165, 212); height:2rem; border-radius:5px">
+            <i class="fas fa-unlock"><span class="my-auto ml-2">비밀번호 찾기</span></i>
+          </div>
+        </div>
+
+        <!-- 카카오톡 로그인 -->
+        <div id="kakao-login-btn" @click="kakaoLogin" class="mt-2 row d-flex justify-content-center" style="cursor: pointer; margin-left:18%; margin-right:18%;">
+          <div class="col-12 d-flex justify-content-center align-items-center" style="border:1px solid RGB(134, 165, 212); height:2rem; border-radius:5px">
+            <img  src="../../assets/img/kakaologin2.jpg" style="width:20px"><span class="my-auto ml-2" style="font-weight:bold">카카오 로그인</span>
+          </div>
+        </div>
+        
+        <div class="mt-2" style="margin-left:10%; margin-right:10%;">
+          <hr>
+        </div>
+
+        <div class="modal-footer border-0" style="">
+        </div>
+
+        <!-- <div class="modal-footer border-0 pt-0">
+          <div>
+            <button type="button" class="btn" @click="join" data-dismiss="modal">
               <i class="far fa-user mr-1"></i>
               <br />회원가입
             </button>
@@ -71,12 +102,7 @@
               <i class="fas fa-sign-in-alt mr-1"></i>
               <br />로그인
             </button>
-            <button
-              type="button"
-              class="btn"
-              @click="pwsearch"
-              data-dismiss="modal"
-            >
+            <button type="button" class="btn" data-dismiss="modal">
               <i class="fas fa-unlock"></i>
               <br />비밀번호 찾기
             </button>
@@ -87,7 +113,7 @@
               style="cursor: pointer; width :100px;"
             />카카오로그인
           </div>
-        </div>
+        </div> -->
       </div>
     </div>
   </div>
@@ -164,35 +190,16 @@ export default {
       this.$router.push("/user/join/");
       this.$router.go();
     },
-    pwsearch: function() {
-      this.$router.push("/user/Pwsearch/");
-      this.$router.go();
-    },
-    report() {
-      axios
-        .get(`${baseURL}/report/reports/${this.email}`)
-        .then((response) => {
-          alert(response.data);
-          if (response.data == 0) {
-            alert("경고!");
-          } else if (response.data == 1) {
-            alert("신고 누적으로 탈퇴되셨습니다!");
-            return;
-          }
-        })
-        .catch((err) => {
-          console.log(err.response);
-        });
-    },
-    test() {
+    kakaoLogin() {
       let x = this;
       Kakao.Auth.createLoginButton({
         container: "#kakao-login-btn",
         success: function(authObj) {
           Kakao.API.request({
             url: "/v2/user/me",
-            success: function(res) {
-              console.log(res); //<---- 콘솔 로그에 id 정보 출력(id는 res안에 있기 때문에  res.id 로 불러온다)
+            success: function (res) {
+              // console.log(res);
+              //^---- 콘솔 로그에 id 정보 출력(id는 res안에 있기 때문에  res.id 로 불러온다)
               //  console.log(res.kakao_account.email);//<---- 콘솔 로그에 email 정보 출력 (어딨는지 알겠죠?)
               //  console.log(res.properties.nickname);//<---- 콘솔 로그에 닉네임 출력(properties에 있는 nickname 접근
 

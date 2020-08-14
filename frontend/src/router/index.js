@@ -3,14 +3,16 @@ import Router from 'vue-router'
 
 import constants from '../lib/constants'
 
+// admin
+import Admin from '../page/admin/Admin.vue'
+import AdminPostDetail from '../page/admin/AdminPostDetail.vue'
+
 // user
 import Login from '../page/user/Login.vue'
 import Join from '../page/user/Join.vue'
 import Info from '../page/user/Info.vue'
 import Basket from '../page/user/Basket.vue'
-import Pwsearch from '../page/user/Pwsearch.vue'
 import Agreement from '../page/user/Agreement.vue'
-import Admin from '../page/user/Admin.vue'
 
 // error
 import NotFound from '../page/error/NotFound.vue'
@@ -33,6 +35,7 @@ import PostTemp from '../page/post/PostTemp.vue'
 import PostTempDetail from '../page/post/PostTempDetail.vue'
 import News from '../page/post/NewsList.vue'
 
+import TagList from '../page/main/List.vue'
 
 Vue.use(Router)
 
@@ -69,10 +72,16 @@ export default new Router({
             path: '/user/pwsearch',
             component: Pwsearch
         },
+        // 관리자
         {
             path: '/admin',
             component: Admin,
             name: 'Admin'
+        },
+        {
+            path: '/admin/postdetail/:ID',
+            component: AdminPostDetail,
+            name: 'AdminPostDetail'
         },
         // 메인
         {
@@ -144,6 +153,11 @@ export default new Router({
             path: '/posts/:ID/posttempdetail',
             name: 'PostTempDetail',
             component: PostTempDetail,
+        },
+        {
+            path: '/:TAG',
+            name: 'TagList',
+            component: TagList,
         },
 
         // news

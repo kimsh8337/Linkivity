@@ -20,11 +20,11 @@
                   <div class="d-flex justify-content-start">
                     <!-- hashTag -->
                     <small
-                      class="text-primary mr-1"
+                      class="text-primary mr-1 detailTags"
                       style="text-align:left; font-size:1rem; text-overflow:ellipsis; overflow: hidden; white-space: nowrap;"
                       v-for="hash in hashTag"
                       :key="hash.id"
-                    >#{{ hash }}</small>
+                    ><p @click="goTag(hash)">#{{ hash }}</p></small>
                     <div class="ml-auto">
                       <!-- 카카오톡 공유하기 -->
                       <button
@@ -307,6 +307,13 @@ export default {
     this.fetchHashTag();
   },
   methods: {
+    goTag(tag) {
+      console.log(tag);
+      this.$router.push({
+        name: 'TagList',
+        params: { TAG: tag },
+      });
+    },
     scroll(evt) {
       evt.preventDefault();
       const href = evt.target.getAttribute("href");
@@ -651,53 +658,16 @@ export default {
           console.log(error);
         });
     },
-    // reviewDelete(rvid) {
-    //   Swal.fire({
-    //     width: 300,
-    //     text: "후기를 삭제하시겠습니까?",
-    //     icon: "warning",
-    //     showCancelButton: true,
-    //     confirmButtonColor: "#3085d6",
-    //     cancelButtonColor: "#d33",
-    //     confirmButtonText: '<a style="font-size:1rem; color:black">Delete</a>',
-    //     cancelButtonText: '<a style="font-size:1rem; color:black">Cancel</a>',
-    //   }).then((result) => {
-    //     if (result.value) {
-    //       const Toast = Swal.mixin({
-    //         toast: true,
-    //         position: "top-end",
-    //         showConfirmButton: false,
-    //         timer: post.price,
-    //         timerProgressBar: true,
-    //         onOpen: (toast) => {
-    //           toast.addEventListener("mouseenter", Swal.stopTimer);
-    //           toast.addEventListener("mouseleave", Swal.resumeTimer);
-    //         },
-    //       });
-
-    //       Toast.fire({
-    //         icon: "success",
-    //         title: "후기 삭제 완료!",
-    //       });
-    //       axios
-    //         .delete(`${baseURL}/review/delete/${rvid}`)
-    //         .then(() => {
-    //           setTimeout(() => {
-    //             this.$router.go();
-    //           }, 1000);
-    //         })
-    //         .catch((error) => {
-    //           console.log(error);
-    //         });
-    //     }
-    //   });
-    // },
   },
 };
 </script>
 
 <style>
 .indict {
+  cursor: pointer;
+}
+.detailTags :hover {
+  text-decoration: underline;
   cursor: pointer;
 }
 </style>

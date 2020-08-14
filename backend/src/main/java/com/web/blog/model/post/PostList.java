@@ -43,6 +43,7 @@ public class PostList {
     private int winter;
     private String place;
     private int likecnt;
+    @Column(insertable = false, updatable = false)
     private LocalDateTime createDate;
     private float star;
 }
