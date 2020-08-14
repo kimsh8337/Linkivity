@@ -419,8 +419,7 @@ export default {
 </script>
 
 <style>
-.container {
-  margin-left: 10%;
-  margin-right: 10%;
+.modal-open {
+  overflow: hidden !important;
 }
 </style>

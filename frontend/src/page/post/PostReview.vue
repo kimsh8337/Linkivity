@@ -7,38 +7,68 @@
         class="col-12 col-sm-12 col-md-3 p-3"
       >
         <!-- <div class="card mb-3 profile-post mr-0 ml-0"> -->
-          <div class="card-body" style="padding: 0; cursor: pointer;" @click="getdetail(slide.pid)">
-            <!-- img 보여주기 -->
-            <img v-if="slide.img" class="review-img" :src="slide.img" :alt="slide.title" style="height:8rem;"/>
-            <img v-if="!slide.img" class="review-img" src="../../assets/img/noimage.jpg" style="height:8rem;" />
-              
-            <!-- 프로필 보여주기 -->
-            <div class="d-flex justify-content-between">
-              <img class="user-img d-flex m-3" :src="slide.proimg" style="border-radius:70px;" />
-              <div class="mt-2 mr-4">
-                <div class="d-flex">
-                  <small
-                    class="d-flex align-items-center"
-                    style="font-weight:bold"
-                  >{{slide.nickname}}</small>
-                  <br />
-                </div>
-                <div class="d-flex">
-                  <i class="fas fa-star" style="color:Salmon" v-for="i in slide.star" :key="i.id"></i>
-                </div>
-                <div class="d-flex align-items-end mt-1 mr-3">
-                  <small style="font-weight:bold">{{datecut(slide.createDate)}}</small>
-                </div>
+        <div
+          data-toggle="modal"
+          data-target="#postReviewModal"
+          @click="bringReviewData(slide)"
+          class="card-body"
+          style="padding: 0; cursor: pointer;"
+        >
+          <!-- img 보여주기 -->
+          <img
+            v-if="slide.img"
+            class="review-img"
+            :src="slide.img"
+            :alt="slide.title"
+            style="height:8rem;"
+          />
+          <img
+            v-if="!slide.img"
+            class="review-img"
+            src="../../assets/img/noimage.jpg"
+            style="height:8rem;"
+          />
+          <!-- 프로필 보여주기 -->
+          <div class="d-flex justify-content-between">
+            <img
+              class="user-img d-flex m-3"
+              :src="slide.proimg"
+              style="border-radius:70px;"
+            />
+            <div class="mt-2 mr-4">
+              <div class="d-flex">
+                <small
+                  class="d-flex align-items-center"
+                  style="font-weight:bold"
+                  >{{ slide.nickname }}</small
+                >
+                <br />
+              </div>
+              <div class="d-flex">
+                <i
+                  class="fas fa-star"
+                  style="color:Salmon"
+                  v-for="i in slide.star"
+                  :key="i.id"
+                ></i>
+              </div>
+              <div class="d-flex align-items-end mt-1 mr-3">
+                <small style="font-weight:bold">{{
+                  datecut(slide.createDate)
+                }}</small>
               </div>
             </div>
-            <!-- 제목 -->
-            <div class="d-flex mt-2 ml-2 p-2">
-              <span style="font-weight:bold;">{{slide.title}}</span>
-            </div>
           </div>
+          <!-- 제목 -->
+          <div class="d-flex mt-2 ml-2 p-2">
+            <span style="font-weight:bold;">{{ slide.title }}</span>
+          </div>
+        </div>
         <!-- </div> -->
       </div>
     </div>
+      <PostReviewDetailModal :reviewDetail="reviewDetail" />
+
   </div>
 </template>
 
@@ -47,11 +77,17 @@ import axios from "axios";
 
 const baseURL = process.env.VUE_APP_BACKURL;
 
+import PostReviewDetailModal from "./PostReviewDetailModal.vue";
+
 export default {
+  components: {
+    PostReviewDetailModal,
+  },
   data() {
     return {
       reviews: [],
       email: "",
+      reviewDetail: [],
     };
   },
   methods: {
@@ -80,12 +116,8 @@ export default {
       var tempdatecut = date + "";
       return tempdatecut.substring(0, 10);
     },
-    getdetail(pid) {
-      scroll(0, 0);
-      this.$router.push({
-        name: "PostListDetail",
-        params: { ID: pid },
-      });
+    bringReviewData(reviewData) {
+      this.reviewDetail = reviewData;
     },
   },
   created() {
@@ -105,9 +137,9 @@ export default {
   height: 50px;
 }
 
-.card-body:hover{
+.card-body:hover {
   transform: scale(1.05);
-  transition: all .3s ease-in-out;
+  transition: all 0.3s ease-in-out;
   cursor: pointer;
 }
 </style>
