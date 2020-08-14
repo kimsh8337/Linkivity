@@ -16,28 +16,23 @@
         </tr>
       </thead>
       <tbody v-for="(itm, idx) in item" :key="idx">
-        <tr id="tt" >
-          <td><img :src="itm.img" @click="goDetail(itm.pid)" style="width: 100px; height: 100px; cursor:pointer;" /></td>
-          <td><div @click="goDetail(itm.pid)" style="cursor:pointer;">{{ itm.title }}</div></td>
+        <tr id="tt">
+          <td>
+            <img
+              :src="itm.img"
+              @click="goDetail(itm.pid)"
+              style="width: 100px; height: 100px; cursor:pointer;"
+            />
+          </td>
+          <td>
+            <div @click="goDetail(itm.pid)" style="cursor:pointer;">{{ itm.title }}</div>
+          </td>
           <td>{{ itm.sdate }} ~ {{ itm.edate }}</td>
           <td>{{ itm.price }}</td>
           <td>{{ itm.serialno }}</td>
           <td>
-              <b-badge
-                    v-if="itm.puse == 0"
-                    pill
-                    variant
-                    style="background-color: #003399"
-                  >미사용</b-badge>
-              <b-badge
-                    v-if="itm.puse == 1"
-                    pill
-                    variant
-                    style="background-color: #C4302B"
-                  >사용완료</b-badge>
-
-
-
+            <b-badge v-if="itm.puse == 0" pill variant style="background-color: #003399">미사용</b-badge>
+            <b-badge v-if="itm.puse == 1" pill variant style="background-color: #C4302B">사용완료</b-badge>
           </td>
         </tr>
       </tbody>
@@ -47,7 +42,7 @@
 </template>
 
 <script>
-import axios from 'axios';
+import axios from "axios";
 
 const baseURL = process.env.VUE_APP_BACKURL;
 
@@ -60,7 +55,7 @@ export default {
   methods: {
     authUser() {
       axios
-        .get(`${baseURL}/account/authuser/${this.$cookies.get('Auth-Token')}`)
+        .get(`${baseURL}/account/authuser/${this.$cookies.get("Auth-Token")}`)
         .then((res) => {
           this.email = res.data.email;
           this.init();
@@ -81,11 +76,36 @@ export default {
         });
     },
     goDetail(pid) {
-      scroll(0, 0);
-      this.$router.push({
-        name: 'PostListDetail',
-        params: { ID: pid },
-      });
+      axios
+        .get(`${baseURL}/post/detail/${pid}`)
+        .then((res) => {
+          scroll(0, 0);
+          this.$router.push({
+            name: "PostListDetail",
+            params: { ID: pid },
+          });
+        })
+        .catch((err) => {
+          const Toast = Swal.mixin({
+            toast: true,
+            position: "top-end",
+            showConfirmButton: false,
+            timer: 1000,
+            timerProgressBar: true,
+            onOpen: (toast) => {
+              toast.addEventListener("mouseenter", Swal.stopTimer);
+              toast.addEventListener("mouseleave", Swal.resumeTimer);
+            },
+          });
+
+          Toast.fire({
+            icon: "error",
+            title: "해당 상품은 삭제된 상품입니다.",
+          });
+          setTimeout(() => {
+            th.$router.go();
+          }, 1000);
+        });
     },
   },
   created() {

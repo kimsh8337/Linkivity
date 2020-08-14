@@ -19,41 +19,74 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav nav-sub ml-auto">
           <li class="nav-item">
-            <a class="nav-link mt-3 mr-2" @click="goPost"><i class="fas fa-stream mr-1"></i><br />Post</a>
+            <a class="nav-link mt-3 mr-2" @click="goPost">
+              <i class="fas fa-stream mr-1"></i>
+              <br />Post
+            </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link mt-3 mr-2" @click="goNotice"><i class="fas fa-flag"></i><br />Notice</a>
+            <a class="nav-link mt-3 mr-2" @click="goNotice">
+              <i class="fas fa-flag"></i>
+              <br />Notice
+            </a>
           </li>
           <li class="nav-item">
-            <a v-if="this.$cookies.isKey('Auth-Token') && this.usertype == 'business'" class="nav-link mt-3 mr-2" @click="gocreate"
-              ><i class="fas fa-pen mr-1"></i><br />Write</a
+            <a
+              v-if="this.$cookies.isKey('Auth-Token') && this.usertype == 'business'"
+              class="nav-link mt-3 mr-2"
+              @click="gocreate"
             >
+              <i class="fas fa-pen mr-1"></i>
+              <br />Write
+            </a>
           </li>
           <li class="nav-item">
-            <a v-if="this.$cookies.isKey('Auth-Token') && this.usertype == 'normal'" class="nav-link mt-3 mr-2" @click="goBasket"
-              ><i class="fas fa-shopping-basket"></i><br />Basket</a
+            <a
+              v-if="this.$cookies.isKey('Auth-Token') && this.usertype == 'normal'"
+              class="nav-link mt-3 mr-2"
+              @click="goBasket"
             >
+              <i class="fas fa-shopping-basket"></i>
+              <br />Basket
+            </a>
           </li>
 
           <li class="nav-item">
-            <a v-if="this.$cookies.isKey('Auth-Token') && this.usertype != 'admin'" @click="info" class="nav-link mt-3 mr-2"
-              ><i class="far fa-user mr-1"></i><br />MyPage</a
+            <a
+              v-if="this.$cookies.isKey('Auth-Token') && this.usertype != 'admin'"
+              @click="info"
+              class="nav-link mt-3 mr-2"
             >
+              <i class="far fa-user mr-1"></i>
+              <br />MyPage
+            </a>
           </li>
           <li class="nav-item">
-            <a v-if="this.$cookies.isKey('Auth-Token') && this.usertype == 'admin'" @click="goadmin" class="nav-link mt-3 mr-2"
-              ><i class="fas fa-users-cog mr-1"></i><br />Admin</a
+            <a
+              v-if="this.$cookies.isKey('Auth-Token') && this.usertype == 'admin'"
+              @click="goadmin"
+              class="nav-link mt-3 mr-2"
             >
+              <i class="fas fa-users-cog mr-1"></i>
+              <br />Admin
+            </a>
           </li>
           <li class="nav-item">
-            <a v-if="this.$cookies.isKey('Auth-Token')" @click="logout" class="nav-link mt-3 pl-1"
-              ><i class="fas fa-sign-out-alt mr-1"></i><br />Logout</a
-            >
+            <a v-if="this.$cookies.isKey('Auth-Token')" @click="logout" class="nav-link mt-3 pl-1">
+              <i class="fas fa-sign-out-alt mr-1"></i>
+              <br />Logout
+            </a>
           </li>
           <li class="nav-item">
-            <a v-if="!this.$cookies.isKey('Auth-Token')" data-toggle="modal" data-target="#LoginModal" class="nav-link mt-3 pl-1"
-              ><i class="fas fa-sign-in-alt mr-1"></i><br />Login</a
+            <a
+              v-if="!this.$cookies.isKey('Auth-Token')"
+              data-toggle="modal"
+              data-target="#LoginModal"
+              class="nav-link mt-3 pl-1"
             >
+              <i class="fas fa-sign-in-alt mr-1"></i>
+              <br />Login
+            </a>
           </li>
         </ul>
       </div>
@@ -62,14 +95,14 @@
 </template>
 
 <script>
-import '../../assets/css/header.css';
-import constants from '../../lib/constants';
+import "../../assets/css/header.css";
+import constants from "../../lib/constants";
 
-import axios from 'axios';
+import axios from "axios";
 const baseURL = process.env.VUE_APP_BACKURL;
 
 export default {
-  name: 'Header',
+  name: "Header",
   components: {},
   props: {
     isHeader: Boolean,
@@ -77,7 +110,7 @@ export default {
   computed: {},
   watch: {},
   created() {
-    if (this.$cookies.get('Auth-Token') != null) {
+    if (this.$cookies.get("Auth-Token") != null) {
       this.authUser();
     }
   },
@@ -92,60 +125,61 @@ export default {
           console.log(err.response);
         });
     },
-    goadmin(){
-      this.$router.push('/admin');
+    goadmin() {
+      this.$router.push("/admin");
     },
     gocreate() {
       this.$router.push({
-        name: 'PostCreate',
+        name: "PostCreate",
       });
       this.$router.go();
     },
-    logout: function() {
-      this.$cookies.remove('Auth-Token');
+    logout: function () {
+      this.$cookies.remove("Auth-Token");
       const Toast = Swal.mixin({
         toast: true,
-      position: 'top-end',
-      showConfirmButton: false,
-      timer: 1000,
-      timerProgressBar: true,
-      onOpen: (toast) => {
-        toast.addEventListener('mouseenter', Swal.stopTimer)
-        toast.addEventListener('mouseleave', Swal.resumeTimer)
-      }
-    })
+        position: "top-end",
+        showConfirmButton: false,
+        timer: 1000,
+        timerProgressBar: true,
+        onOpen: (toast) => {
+          toast.addEventListener("mouseenter", Swal.stopTimer);
+          toast.addEventListener("mouseleave", Swal.resumeTimer);
+        },
+      });
 
-    Toast.fire({
-      icon: 'success',
-      title: '로그아웃 완료!'
-    })
+      Toast.fire({
+        icon: "success",
+        title: "로그아웃 완료",
+      });
       setTimeout(() => {
-        this.$router.push('/');
+        this.$router.push("/").catch((err) => {
+          console.log(err);
+        });
         this.$router.go();
       }, 1000);
     },
-    info: function() {
-      this.$router.push('/user/info/');
+    info: function () {
+      this.$router.push("/user/info/");
       this.$router.go();
     },
-    goPost: function() {
-      this.$router.push('/posts/');
+    goPost: function () {
+      this.$router.push("/posts/");
       this.$router.go();
     },
-    goBasket: function() {
-      this.$router.push('/user/basket/');
+    goBasket: function () {
+      this.$router.push("/user/basket/");
       this.$router.go();
     },
-    goNotice: function() {
-      this.$router.push('/notice/');
-    }
-    
+    goNotice: function () {
+      this.$router.push("/notice/");
+    },
   },
   data() {
     return {
       constants,
-      keyword: '',
-      usertype: '',
+      keyword: "",
+      usertype: "",
     };
   },
 };
