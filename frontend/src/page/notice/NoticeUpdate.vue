@@ -12,14 +12,17 @@
         </div>
       <input type="text" class="form-control" id="title" v-model="NoticeUpdate.title" />
     </div>
-
+     
     <!-- Detail-Info -->
     <div class="form-group">
         <div class="d-flex justify-content-start">
             <label class="d-flex notice-title-font mr-3">Detail-Info</label>
             <small class="form-text notice-content-font text-muted d-flex">내용을 수정해주세요.</small>
+      
         </div>
-           <Editor ref="toastuiEditor" :initialValue="this.NoticeUpdate.content"/>
+       
+           <Editor ref="toastuiEditor" v-if="NoticeUpdate.content != null" :initialValue="NoticeUpdate.content"/>
+            
       <!-- <textarea class="form-control" style="height:30rem;" id="detail" v-model="NoticeUpdate.content"></textarea> -->
     </div>
 
@@ -61,13 +64,13 @@ export default {
         init(){
             axios.get(`${baseURL}/notice/detail/${this.$route.params.ID}`)
             .then((res)=>{
-
                 this.NoticeUpdate = res.data;
             }).catch((err)=>{
                 console.log(err)
             })
         },
         noticemodify(){
+            this.NoticeUpdate.content = this.$refs.toastuiEditor.invoke("getMarkdown");
             Swal.fire({
                 width: 350,
                 text: '수정하시겠습니까?',
