@@ -222,20 +222,23 @@
         <!-- Q & A -->
         <h4 id="qna" class="d-flex mb-3" style="font-weight:bold">Q&A</h4>
         <!-- 댓글 List -->
-        <div class="d-flex bg-white">Question : {{ receiveComment.length }}</div>
+        <div class="d-flex bg-white">총 <span class="ml-1" style="color:#0047ab;">{{ receiveComment.length }}</span>개</div>
+        <!-- 댓글 작성 -->
+        
+        <CommentInput class="mt-3" v-if="this.email" @create-comment="createcomment" />
+      
         <div v-if="receiveComment.length ==  0" class="mt-2">
           <i class="far fa-surprise mr-1 mb-3"></i>등록된 질문이 없습니다. 처음으로 질문을 남겨보세요!
           <i class="far fa-surprise ml-1"></i>
         </div>
+        <hr class="mb-0">
         <CommentList
           v-for="comment in receiveComment"
           :key="comment.rid"
           :comment="comment"
           @comment-delete="commentDelete"
         />
-        <!-- 댓글 작성 -->
-        <CommentInput class="mt-3" v-if="this.email" @create-comment="createcomment" />
-      </div>
+        </div>
 
       <hr class="mt-0" />
       <!-- 글 수정 삭제 -->
@@ -243,9 +246,9 @@
         class="d-flex justify-content-end mt-3 mb-3"
         v-if="this.email == this.post.email | this.checkType == 'admin'"
       >
-        <button class="btn btn-success" v-if="this.email == this.post.email" @click="goModify">
+        <!-- <button class="btn btn-success" v-if="this.email == this.post.email" @click="goModify">
           <i class="far fa-edit mr-2"></i>수정하기
-        </button>
+        </button> -->
         <button class="btn btn-danger" @click="goDelete">
           <i class="far fa-trash-alt mr-2"></i>삭제하기
         </button>

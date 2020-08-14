@@ -48,7 +48,6 @@
       
         <small class="form-text d-flex" style="color:red;" v-if="error.detail">{{ error.detail }}</small>
       </div>
-      {{this.NoticeCreate}}
       <!-- Button -->
       <div class="d-flex justify-content-end mb-5">
         <button

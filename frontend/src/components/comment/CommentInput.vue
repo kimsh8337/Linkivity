@@ -1,21 +1,22 @@
 <template>
-  <div class="input-group">
+      <div class="d-flex justify-content-between m-0 mt-2 mb-2 p-0">
     <!-- label -->
-    <div class="input-group-prepend my-auto">
-      <span class="input-group-text bg-white" style="height: 2.5rem; border: none;">Question</span>
-    </div>
+    <!-- <div class="input-group-prepend my-auto">
+      
+      <strong class="text-dark my-auto" style="height: 2.5rem; border: none;">{{nickname}}</strong>
+    </div> -->
     <!-- content -->
     <textarea
-      class="form-control my-auto"
-      style="height: 2.5rem; border:none !important; "
+      class="form-control my-auto p-1"
+      style="height: 3.5rem; border-radius : 0px; width:90%;!important"
       aria-label="With textarea"
       v-model="commentData.content"
-      placeholder="질문을 남겨주세요!"
+      placeholder="질문을 남겨주세요."
     ></textarea>
     <!-- input button -->
-    <div class="input-group-prepend buttonComment my-auto" style="border:none;"> 
+    <div class="buttonComment d-flex align-items-center buttonComment" style="height:3.5rem; width:10%;"> 
       <span
-        class="input-group-text bg-white pr-3"
+        class="bg-white mx-auto"
         style="height: 2.5rem; border:none; border-top-right-radius: 5px; border-bottom-right-radius: 5px;"
         @click="createComment"
       >
@@ -37,6 +38,7 @@ export default {
         content: "",
       },
       email: "",
+      nickname:""
     };
   },
   methods: {
@@ -45,6 +47,7 @@ export default {
         .get(`${baseURL}/account/authuser/${this.$cookies.get("Auth-Token")}`)
         .then((response) => {
             this.email = response.data.email;
+            this.nickname = response.data.nickname;
             this.fetchNickName();
         })
         .catch((err) => {
