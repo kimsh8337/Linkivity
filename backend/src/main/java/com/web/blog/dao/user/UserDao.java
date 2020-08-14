@@ -24,4 +24,6 @@ public interface UserDao extends JpaRepository<User, String> {
 
     List<User> findByUidNot(int uid);
     List<User> findByUidNot(int uid, Pageable page);
+
+    User findByNickname(String nickname);
 }
