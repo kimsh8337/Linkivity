@@ -40,14 +40,13 @@
             v-if="error.email"
             class="fas fa-envelope my-auto mr-2"
             style="font-size:25px; color:red"
-            title="이메일 형식을 아닙니다!"
+            title="이메일 형식이 아닙니다!"
           ></i>
           <input
             class="text-center"
             style="width:60%; border-radius:5px;"
             type="text"
             v-model="email"
-            id="email"
             placeholder="email@example.com"
           />
         </div>
@@ -61,7 +60,6 @@
             style="width:60%; border-radius:5px;"
             type="password"
             v-model="password"
-            id="password"
             placeholder="Input your password"
             @keypress.enter="login"
           />
