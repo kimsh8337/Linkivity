@@ -68,10 +68,6 @@ export default new Router({
             name: 'Agreement',
             component: Agreement
         },
-        {
-            path: '/user/pwsearch',
-            component: Pwsearch
-        },
         // 관리자
         {
             path: '/admin',
