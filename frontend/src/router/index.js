@@ -155,7 +155,7 @@ export default new Router({
             component: PostTempDetail,
         },
         {
-            path: '/:TAG',
+            path: '/',
             name: 'TagList',
             component: TagList,
         },
