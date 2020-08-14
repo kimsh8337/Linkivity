@@ -313,15 +313,11 @@ export default {
   name: "Post",
   components: { Footer, SurveyModal, InfiniteLoading },
   created() {
-    axios
-    .get(`${baseURL}/account/authuser/${this.$cookies.get('Auth-Token')}`)
-    .then((response) => {
-      this.email = response.data.email;
-      this.checklike();
-    })
-    .catch((err) => {
-      console.log(err.response);
-    });
+    if(this.$route.params.TAG != null) {
+      this.oneTag = this.$route.params.TAG;
+      this.tName[0] = this.oneTag;
+      this.tagSearch(this.tName);
+    }
     this.init();
     this.reviewinit();
   },
@@ -493,7 +489,21 @@ export default {
       var regexp = /\B(?=(\d{3})+(?!\d))/g;
       return num.toString().replace(regexp, ',');
     },
+    userCheck() {
+      if(this.$cookies.get('Auth-Token') != null) {
+        axios
+        .get(`${baseURL}/account/authuser/${this.$cookies.get('Auth-Token')}`)
+        .then((response) => {
+          this.email = response.data.email;
+          this.checklike();
+        })
+        .catch((err) => {
+          console.log(err.response);
+        });
+      }
+    },
     tagSearch(tags) {
+      this.userCheck();
       this.infiniteId += 1;
       if(this.tName.length == 0) {
         alert("해쉬태그를 입력해주세요");
@@ -506,6 +516,7 @@ export default {
           this.pids = res.data;
           this.tPosts = [];
           this.tagFlag = true;
+          scroll(0, 200);
         })
         .catch(err => {
           console.log(err);
@@ -521,6 +532,7 @@ export default {
       tName: [],
       postLike: [],
       resultTitle:[],
+      oneTag: "",
       tag: [],
       tags: [],
       email: "",

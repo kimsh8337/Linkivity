@@ -103,15 +103,24 @@ export default {
     },
     logout: function() {
       this.$cookies.remove('Auth-Token');
-      this.$router.push('/');
-      Swal.fire({
-        width: 250,
-        position: 'top-right',
-        icon: 'success',
-        title: '로그아웃 완료!!!',
-        showConfirmButton: false,
-      });
+      const Toast = Swal.mixin({
+        toast: true,
+      position: 'top-end',
+      showConfirmButton: false,
+      timer: 1000,
+      timerProgressBar: true,
+      onOpen: (toast) => {
+        toast.addEventListener('mouseenter', Swal.stopTimer)
+        toast.addEventListener('mouseleave', Swal.resumeTimer)
+      }
+    })
+
+    Toast.fire({
+      icon: 'success',
+      title: '로그아웃 완료!'
+    })
       setTimeout(() => {
+        this.$router.push('/');
         this.$router.go();
       }, 1000);
     },
