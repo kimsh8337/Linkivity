@@ -1,30 +1,27 @@
 <template>
   <!-- <div class="form-row align-items-center d-flex justify-content-end">
-    <div class="col-auto" style="width:100%"> -->
-      <div class="d-flex justify-content-between m-0 mt-2 mb-2 p-0">
-        <!-- <div class="input-group-prepend my-auto">
+  <div class="col-auto" style="width:100%">-->
+  <div class="d-flex justify-content-between m-0 mt-2 mb-2 p-0">
+    <!-- <div class="input-group-prepend my-auto">
           <strong class="text-dark my-auto" style="height: 2.5rem; border: none;">{{nickname}}</strong>
-        </div> -->
-        <textarea
-          v-model="commentReplyData.content"
-          style="height:3.5rem; border-radius : 0px; width:90%;!important"
-          type="text"
-          class="form-control my-auto p-1"
-          id="inlineFormInputGroup"
-          placeholder="댓글을 남겨주세요."
-        ></textarea>
-        <!-- button -->
-        <div class="buttonComment d-flex align-items-center" style="height:3.5rem; width:10%;">
-          <span
-            class="bg-white mx-auto"
-            @click="CommentReplyCreate"
-          >
-            <i class="far fa-2x fa-keyboard" style="font-size:25px"></i>
-          </span>
-        </div>
-      </div>
-    <!-- </div>
-  </div> -->
+    </div>-->
+    <textarea
+      v-model="commentReplyData.content"
+      style="height:3.5rem; border-radius : 0px; width:90%;!important"
+      type="text"
+      class="form-control my-auto p-1"
+      id="inlineFormInputGroup"
+      placeholder="댓글을 남겨주세요."
+    ></textarea>
+    <!-- button -->
+    <div class="buttonComment d-flex align-items-center" style="height:3.5rem; width:10%;">
+      <span class="bg-white mx-auto" @click="CommentReplyCreate">
+        <i class="far fa-2x fa-keyboard" style="font-size:25px"></i>
+      </span>
+    </div>
+  </div>
+  <!-- </div>
+  </div>-->
 </template>
 
 <script>
