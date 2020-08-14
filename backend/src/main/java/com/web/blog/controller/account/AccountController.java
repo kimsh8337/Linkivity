@@ -382,7 +382,7 @@ public class AccountController {
                 mail.setFrom(fromEmail, fromName, charSet);
                 mail.setSubject(subject);
                 // 내용
-                mail.setHtmlMsg("" + newPwd);
+                mail.setHtmlMsg("회원님의 임시 비밀번호는 [ " + newPwd +" ] 입니다.");
                 mail.send();
                 System.out.println("성공");
                 return "메일 전송 성공";
