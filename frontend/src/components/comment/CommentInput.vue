@@ -4,7 +4,7 @@
     <!-- <div class="input-group-prepend my-auto">
       
       <strong class="text-dark my-auto" style="height: 2.5rem; border: none;">{{nickname}}</strong>
-    </div> -->
+    </div>-->
     <!-- content -->
     <textarea
       class="form-control my-auto p-1"

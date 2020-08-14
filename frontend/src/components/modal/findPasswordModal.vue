@@ -173,5 +173,7 @@ export default {
 </script>
 
 <style>
-
+.modal-open {
+  overflow: hidden !important;
+}
 </style>

@@ -222,11 +222,10 @@
           <div>
             <h4 id="review" class style="font-weight:bold">후기</h4>
           </div>
-          <div v-if="this.checkType == 'normal'" class="review-button">
-            <i data-toggle="modal" data-target="#reviewWrite" class="fas fa-pen mr-1">
-              <small>후기 작성</small>
-            </i>
-          </div>
+          <button data-toggle="modal" data-target="#reviewWrite" v-if="this.checkType == 'normal'" class="btn btn-default" style="background-color:#86a5d4; color:white;">
+            <i class="fas fa-pen"></i>
+            작성
+          </button>
         </div>
         <ReviewWrite :pid="pid" :email="email" />
         <div class="d-none d-sm-block">
@@ -247,10 +246,10 @@
 
         <CommentInput class="mt-3" v-if="this.email" @create-comment="createcomment" />
 
-        <div v-if="receiveComment.length ==  0" class="mt-2">
+        <!-- <div v-if="receiveComment.length ==  0" class="mt-2">
           <i class="far fa-surprise mr-1 mb-3"></i>등록된 질문이 없습니다. 처음으로 질문을 남겨보세요!
           <i class="far fa-surprise ml-1"></i>
-        </div>
+        </div> -->
         <hr class="mb-0" />
         <CommentList
           v-for="comment in receiveComment"
