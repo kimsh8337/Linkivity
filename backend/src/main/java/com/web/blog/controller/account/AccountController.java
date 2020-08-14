@@ -2,6 +2,8 @@ package com.web.blog.controller.account;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Optional;
 
 import javax.mail.MessagingException;
@@ -26,6 +28,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.apache.commons.mail.HtmlEmail;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -62,22 +65,16 @@ public class AccountController {
     @ApiOperation(value = "로그인")
     public Object login(@PathVariable String email, @PathVariable String password) throws SQLException, IOException {
         try {
-            ReportUser user = reportUserDao.findByEmail(email);
-            if (user != null) {
-                return new ResponseEntity<>(user.getIsdrop(), HttpStatus.ACCEPTED);
+            Optional<User> userOpt = userDao.findUserByEmailAndPassword(email, password);
+            if (userOpt.isPresent()) {
+                User tokenuser = new User();
+                tokenuser.setEmail(userOpt.get().getEmail());
+                tokenuser.setPassword(userOpt.get().getPassword());
+                String token = jwtService.createLoginToken(tokenuser);
+                return new ResponseEntity<>(token, HttpStatus.ACCEPTED);
             } else {
-                Optional<User> userOpt = userDao.findUserByEmailAndPassword(email, password);
-                if (userOpt.isPresent()) {
-                    User tokenuser = new User();
-                    tokenuser.setEmail(userOpt.get().getEmail());
-                    tokenuser.setPassword(userOpt.get().getPassword());
-                    String token = jwtService.createLoginToken(tokenuser);
-                    return new ResponseEntity<>(token, HttpStatus.ACCEPTED);
-                } else {
-                    return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
-                }
+                return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
             }
-
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -199,9 +196,6 @@ public class AccountController {
     public Object viewInfo(@RequestBody User request) throws SQLException, IOException {
         String token = null;
         try {
-
-
-            
             Optional<User> userOpt = userDao.findUserByEmail(request.getEmail());
             if (userOpt.isPresent()) {
                 User tokenuser = new User();
@@ -242,15 +236,26 @@ public class AccountController {
 
     }
 
-    @GetMapping("/viewAllUser")
-    @ApiOperation(value = "모든 회원정보")
-    public Object viewAllUser() throws SQLException, IOException {
+    @GetMapping("/countAllUser")
+    @ApiOperation(value = "모든 회원수")
+    public Object countAllUser() throws SQLException, IOException {
         try {
-            return new ResponseEntity<>(userDao.findAll(), HttpStatus.ACCEPTED);
+            return new ResponseEntity<>(userDao.findByUidNot(1).size(), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-
+    }
+    
+    @GetMapping("/viewAllUser/{page}")
+    @ApiOperation(value = "모든 회원정보")
+    public Object viewAllUser(@PathVariable int page) throws SQLException, IOException {
+        try {
+            List<User> list = new LinkedList<>();
+            list = userDao.findByUidNot(1, PageRequest.of(page - 1, 10));
+            return new ResponseEntity<>(list, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @DeleteMapping("/dropUser/{uid}")
@@ -298,6 +303,13 @@ public class AccountController {
     public String getNickname(@PathVariable String email) {
         User user = userDao.getUserByEmail(email);
         return user.getNickname();
+    }
+
+    @GetMapping("/getType/{nickname}")
+    @ApiOperation(value = "닉네임가져오기")
+    public String getType(@PathVariable String nickname) {
+        User user = userDao.findByNickname(nickname);
+        return user.getCheckType();
     }
 
     @PutMapping("/modify/{pwvalidated}")
@@ -384,7 +396,7 @@ public class AccountController {
                 mail.setFrom(fromEmail, fromName, charSet);
                 mail.setSubject(subject);
                 // 내용
-                mail.setHtmlMsg("" + newPwd);
+                mail.setHtmlMsg("회원님의 임시 비밀번호는 [ " + newPwd +" ] 입니다.");
                 mail.send();
                 System.out.println("성공");
                 return "메일 전송 성공";
