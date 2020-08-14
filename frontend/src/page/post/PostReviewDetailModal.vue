@@ -27,7 +27,7 @@
                     <!-- review 제목 -->
                     <small class="d-flex mb-2" style="font-weight:bold">[후기 제목]</small>
                     <p class="d-flex mb-4" style="height:25%">{{this.reviewDetail.title}}</p>
-                    <small class="d-flex mb-2" style="font-weight:bold">[내가 준 평점]</small>
+                    <small class="d-flex mb-2" style="font-weight:bold">[{{this.reviewDetail.nickname}}님이 준 평점]</small>
                     <div class="d-flex">
                         <i class="fas fa-star" style="color:Salmon;" v-for="i in this.reviewDetail.star" :key="i.id"></i>
                     </div>
@@ -43,21 +43,22 @@
 
             <!-- 후기 남긴 Post 정보 -->
             <span class="d-flex mb-3" style="font-weight:bold">[후기를 남긴 게시글 정보]</span>
-            <div class="row">
+            <div class="row mb-3">
                 <img v-if="this.postDetail.imgurl" class="col-6" :src="this.postDetail.imgurl" style="width:40%; height:40%">
                 <img v-if="!this.postDetail.imgurl" class="col-6" src="../../assets/img/noimage.jpg" style="width:40%; height:40%">
                 <div class="col-6">
                     <small class="d-flex mb-2" style="font-weight:bold">[게시글 제목]</small>
-                    <small class="d-flex" style="font-size:0.9rem text-overflow:ellipsis; overflow: hidden; white-space: nowrap;">{{this.postDetail.title}}</small>
+                    <small class="d-flex mb-2" style="height:25%; text-overflow:ellipsis; overflow: hidden; white-space: nowrap;">{{this.postDetail.title}}</small>
+                    <small class="d-flex mb-2" style="font-weight:bold">[Activity]</small>
+                    <small class="d-flex mb-2">{{this.postDetail.activity}}</small>
                 </div>
             </div>
-            <!-- {{this.postDetail}} -->
-
+            
 
         </div>
-        <div class="modal-footer">
+        <div class="modal-footer d-flex justify-content-between">
+            <p @click="godetail(pid)" data-dismiss="modal" style="cursor:pointer"><i class="fas fa-location-arrow mr-1 my-auto"></i>게시글 상세정보 보러가기</p>
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary">Save changes</button>
         </div>
         </div>
     </div>
@@ -87,6 +88,13 @@ export default {
                 }).catch((error) => {
                     console.log(error)
                 })
+        },
+        godetail(pid) {
+            scroll(0, 0);
+            this.$router.push({
+                name: "PostListDetail",
+                params: { ID: pid },
+            });
         },
     },
     created() {
