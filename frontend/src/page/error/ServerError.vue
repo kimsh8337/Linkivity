@@ -3,17 +3,17 @@
     <div style="height:200px"></div>
     <div class="row">
       <div class="error-message-404-kr col-sm-3">
-        <h6>에러 코드 404</h6>
+        <h6>에러 코드 500</h6>
         <h4>죄송합니다 :( </h4>
-        <h4>요청하신 페이지를 찾을 수 없습니다. </h4>
+        <h4>내부 서버에 오류가 발생했습니다.</h4>
       </div>
       <div class="col-sm-4">
         <i class="fa fa-9x fa-compass fa-spin" style="color:#7EC0EE"></i>
       </div>
       <div class="error-message-404-en col-sm-3">
-        <h6>ERROR CODE 404</h6>
+        <h6>ERROR CODE 500</h6>
         <h4>Sorry :( </h4>
-        <h4>The page you requested could not be found.</h4>
+        <h4>An error has occurred on the internal server.</h4>
       </div>
     </div>
     <div class="button-div">
