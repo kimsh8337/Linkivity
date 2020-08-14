@@ -49,7 +49,7 @@
         </div>
 
         <!-- 비밀번호 찾기 -->
-        <div @click="findpw" class="mt-2 row" style="cursor: pointer; margin-left:17%; margin-right:17%;">
+        <div @click="findpw" data-dismiss="modal" class="mt-2 row" style="cursor: pointer; margin-left:17%; margin-right:17%;">
           <div class="col-12 d-flex justify-content-center align-items-center" style="border:1px solid RGB(134, 165, 212); height:2rem; border-radius:5px">
             <i class="fas fa-unlock"><span class="my-auto ml-2">비밀번호 찾기</span></i>
           </div>
@@ -77,13 +77,96 @@ export default {
   },
   methods: {
     findpw() {
-      axios.get(`${baseURL}/account/pwd/${this.email}/${this.name}`)
-        .then((response) => {
-          alert('임시 비밀번호를 전송하였습니다.')
-        }).catch((error) => {
-          alert('asdfsd')
-          console.log(error)
-        })
+      if (!this.email && this.name) {
+        const Toast = Swal.mixin({
+          toast: true,
+          position: "top-end",
+          showConfirmButton: false,
+          timer: 1000,
+          timerProgressBar: true,
+          onOpen: (toast) => {
+            toast.addEventListener("mouseenter", Swal.stopTimer);
+            toast.addEventListener("mouseleave", Swal.resumeTimer);
+          },
+        });
+
+        Toast.fire({
+          icon: "error",
+          title: "이메일을 적어주세요!",
+        });
+      } else if (this.email && !this.name) {
+        const Toast = Swal.mixin({
+          toast: true,
+          position: "top-end",
+          showConfirmButton: false,
+          timer: 1000,
+          timerProgressBar: true,
+          onOpen: (toast) => {
+            toast.addEventListener("mouseenter", Swal.stopTimer);
+            toast.addEventListener("mouseleave", Swal.resumeTimer);
+          },
+        });
+
+        Toast.fire({
+          icon: "error",
+          title: "이름을 적어주세요!",
+        });
+      } else if (!this.email && !this.password) {
+        const Toast = Swal.mixin({
+          toast: true,
+          position: "top-end",
+          showConfirmButton: false,
+          timer: 1000,
+          timerProgressBar: true,
+          onOpen: (toast) => {
+            toast.addEventListener("mouseenter", Swal.stopTimer);
+            toast.addEventListener("mouseleave", Swal.resumeTimer);
+          },
+        });
+
+        Toast.fire({
+          icon: "error",
+          title: "이메일 및 이름을 적어주세요!",
+        });
+      } else {
+        axios.get(`${baseURL}/account/pwd/${this.email}/${this.name}`)
+          .then((response) => {
+            const Toast = Swal.mixin({
+              toast: true,
+              position: 'top-end',
+              showConfirmButton: false,
+              timer: 3000,
+              timerProgressBar: true,
+              onOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer)
+                toast.addEventListener('mouseleave', Swal.resumeTimer)
+              }
+            })
+            Toast.fire({
+              icon: 'success',
+              title: '임시 비밀번호를 전송중입니다.'
+            })
+            this.email = ""
+            this.name = ""
+          }).catch(() => {
+            const Toast = Swal.mixin({
+              toast: true,
+              position: 'top-end',
+              showConfirmButton: false,
+              timer: 3000,
+              timerProgressBar: true,
+              onOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer)
+                toast.addEventListener('mouseleave', Swal.resumeTimer)
+              }
+            })
+
+            Toast.fire({
+              icon: 'error',
+              title: '올바르지 않은 정보입니다.'
+            })
+          })
+      }
     },
   },
 }
