@@ -162,7 +162,6 @@ export default {
     noticeregist(notice) {
       var content = this.$refs.toastuiEditor.invoke("getMarkdown");
       this.NoticeCreate.content = content
-      console.log(this.NoticeCreate.content)
       var flag = 0;
       if (this.NoticeCreate.title == "") {
         this.error.title = "제목을 입력해주세요.";
@@ -203,7 +202,7 @@ export default {
           this.$router.push(`/notice`);
         })
         .catch((error) => {
-          console.log("error입니다.");
+          console.log(error);
         });
     },
   },

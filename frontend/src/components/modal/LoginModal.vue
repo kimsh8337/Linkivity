@@ -311,7 +311,7 @@ export default {
                 }
               })
               .catch((err) => {
-                console.log("asdfasdfasd");
+                console.log(err);
               });
           })
           .catch((err) => {

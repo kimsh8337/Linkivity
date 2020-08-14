@@ -439,7 +439,7 @@ export default {
           this.$router.push("/posts");
         })
         .catch((error) => {
-          console.log("error입니다.");
+          console.log(error);
         });
     },
     onClickImageUpload() {
