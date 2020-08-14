@@ -163,7 +163,7 @@ public class ReportController {
     }
 
     @GetMapping("/reports/{email}")
-    @ApiOperation("신고 후 로그인 시 알람")
+    @ApiOperation("신고 여부 확인")
     public Object report(@PathVariable String email) throws SQLException, IOException {
         try {
             ReportUser user = reportUserDao.findByEmail(email);
