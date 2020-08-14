@@ -26,49 +26,56 @@ import io.swagger.annotations.ApiOperation;
 @RestController
 @RequestMapping("/cart")
 public class CartListController {
-
+    
     @Autowired
     LikeListDao likeListDao;
     @Autowired
     PostListDao postListDao;
-
+    
     @GetMapping("/list/{email}/{page}")
     @ApiOperation("장바구니 리스트")
-    public List<PostList> selectAll(@PathVariable String email, @PathVariable int page) throws SQLException, IOException {
-        int start = (page - 1) * 8;
-        int end = start + 8;
-        
-        List<LikeList> plist = new LinkedList<>();
-        plist = likeListDao.findByEmailAndCart(email,1);
-
-        List<PostList> list = new LinkedList<>();
-        for (LikeList likeList : plist) {
-            list.add(postListDao.findByPid(likeList.getPid()));
+    public Object selectAll(@PathVariable String email, @PathVariable int page) throws SQLException, IOException {
+        try {
+            int start = (page - 1) * 8;
+            int end = start + 8;
+            
+            List<LikeList> plist = new LinkedList<>();
+            plist = likeListDao.findByEmailAndCart(email,1);
+            
+            List<PostList> list = new LinkedList<>();
+            for (LikeList likeList : plist) {
+                list.add(postListDao.findByPid(likeList.getPid()));
+            }
+            
+            if(end > list.size()){
+                end = list.size();
+            }
+            
+            List<PostList> tlist = new LinkedList<>();
+            for (int i = start; i < end; i++) {
+                tlist.add(list.get(i));
+            }
+            return new ResponseEntity<>(tlist, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-
-        if(end > list.size()){
-            end = list.size();
-        }
-
-        List<PostList> tlist = new LinkedList<>();
-        for (int i = start; i < end; i++) {
-            tlist.add(list.get(i));
-        }
-
-        return tlist;
     }
 
     @GetMapping("/count/{email}")
     @ApiOperation("장바구니 리스트 개수")
-    public int countAll(@PathVariable String email) throws SQLException, IOException {
-        List<LikeList> plist = new LinkedList<>();
-        plist = likeListDao.findByEmailAndCart(email, 1);
-
-        List<PostList> list = new LinkedList<>();
-        for (LikeList likeList : plist) {
-            list.add(postListDao.findByPid(likeList.getPid()));
+    public Object countAll(@PathVariable String email) throws SQLException, IOException {
+        try {
+            List<LikeList> plist = new LinkedList<>();
+            plist = likeListDao.findByEmailAndCart(email, 1);
+    
+            List<PostList> list = new LinkedList<>();
+            for (LikeList likeList : plist) {
+                list.add(postListDao.findByPid(likeList.getPid()));
+            }
+            return new ResponseEntity<>(list.size(), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        return list.size();
     }
 
     @GetMapping("/regist/{email}/{pid}")
@@ -81,7 +88,7 @@ public class CartListController {
             list.setCart(1);
             likeListDao.save(list);
 
-            return list;
+            return new ResponseEntity<>(list, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -92,50 +99,78 @@ public class CartListController {
     @ApiOperation("장바구니 동일상품 확인")
     public Object check(@PathVariable String email, @PathVariable int pid) throws SQLException, IOException {
         LikeList like = likeListDao.findByEmailAndPidAndCart(email, pid, 1);
-        if(like != null){ //이미 존재
-            return true;
-        }else{
-            return false;
+
+        try {
+            if(like != null){ //이미 존재
+                return new ResponseEntity<>(true, HttpStatus.OK);
+            }else{
+                return new ResponseEntity<>(false, HttpStatus.OK);
+            }
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
     
     
     @GetMapping("/likelist/{email}")
     @ApiOperation("like 리스트")
-    public List<LikeList> selectLike(@PathVariable String email) throws SQLException, IOException {
-        List<LikeList> list = new LinkedList<>();
-        list = likeListDao.findByEmailAndCart(email, 1);
-        return list;
+    public Object selectLike(@PathVariable String email) throws SQLException, IOException {
+        try {
+            List<LikeList> list = new LinkedList<>();
+            list = likeListDao.findByEmailAndCart(email, 1);
+            return new ResponseEntity<>(list, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
     
     @DeleteMapping("/delete/{no}")
     @ApiOperation("장바구니 삭제")
-    public String delete(@PathVariable List<Integer> no) throws SQLException, IOException {
-        likeListDao.deleteAll(likeListDao.findByNoIn(no));
-        return "장바구니 삭제 완료";
+    public Object delete(@PathVariable List<Integer> no) throws SQLException, IOException {
+        try {
+            if(!likeListDao.findByNoIn(no).isEmpty()){
+                likeListDao.deleteAll(likeListDao.findByNoIn(no));
+                return new ResponseEntity<>("장바구니 삭제", HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+            }
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
-
+    
     //0: 좋아요, 1: 장바구니
     @DeleteMapping("/deleteCart/{pid}/{email}/{cart}")
     @ApiOperation("마이페이지 장바구니 삭제")
-    public void delete(@PathVariable int pid, @PathVariable String email, @PathVariable int cart) {
-        LikeList likeList = new LikeList();
-        likeList = likeListDao.findByEmailAndPidAndCart(email, pid, cart);
-        likeListDao.delete(likeList);
+    public Object delete(@PathVariable int pid, @PathVariable String email, @PathVariable int cart) {
+        try {
+            LikeList likeList = new LikeList();
+            likeList = likeListDao.findByEmailAndPidAndCart(email, pid, cart);
+            if(likeList != null) {
+                likeListDao.delete(likeList);
+                return new ResponseEntity<>("마이페이지 장바구니 삭제", HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+            }
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
     
     @GetMapping("/preview/{no}")
     @ApiOperation("구매할 목록 미리보기")
-    public List<PostList> preview(@PathVariable List<Integer> no) throws SQLException, IOException {
-        
-        List<LikeList> tlist = new LinkedList<>();
-        tlist = likeListDao.findByNoIn(no);
+    public Object preview(@PathVariable List<Integer> no) throws SQLException, IOException {
+        try {
+            List<LikeList> tlist = new LinkedList<>();
+            tlist = likeListDao.findByNoIn(no);
 
-        List<PostList> plist = new LinkedList<>();
-        for (LikeList likeList : tlist) {
-            plist.add(postListDao.findByPid(likeList.getPid()));
+            List<PostList> plist = new LinkedList<>();
+            for (LikeList likeList : tlist) {
+                plist.add(postListDao.findByPid(likeList.getPid()));
+            }
+            return new ResponseEntity<>(plist, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-
-        return plist;
     }
 }
