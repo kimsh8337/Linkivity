@@ -189,7 +189,7 @@
       <div data-spy="scroll" data-target="#navbar-example2" data-offset="0">
         <!-- 상세 정봉 -->
         <h4 id="item" class="d-flex mb-3" style="font-weight:bold">상세정보</h4>
-        <p class="d-flex" style="font-align:left">{{ post.detail }}</p>
+        <Viewer v-if="post.detail != null" :initialValue="post.detail"/>
         <hr />
         <!-- 업체 정보 -->
         <h4 id="corp" class="d-flex mb-3" style="font-weight:bold">업체정보</h4>
@@ -266,6 +266,10 @@ import ReviewSlide from "../../components/review/ReviewSlide.vue";
 import ReviewWrite from "../../components/review/ReviewModal.vue";
 import ReviewMobile from "../../components/review/ReviewMobile.vue";
 
+import "codemirror/lib/codemirror.css";
+import "@toast-ui/editor/dist/toastui-editor.css";
+import { Viewer } from "@toast-ui/vue-editor";
+
 import Swal from "sweetalert2";
 
 import IndictPost from '../../components/modal/IndictPost.vue'
@@ -280,6 +284,7 @@ export default {
     ReviewWrite,
     ReviewMobile,
     IndictPost,
+    Viewer,
   },
   data() {
     return {
