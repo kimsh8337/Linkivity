@@ -85,7 +85,7 @@
           <!-- rating -->
           <div>
             <label for="content" class="d-flex" style="font-weight:bold;">평점</label>
-            <b-form-rating v-model="reviewCreate.star" variant="danger"></b-form-rating>
+            <b-form-rating v-model="reviewCreate.star" variant="primary"></b-form-rating>
             <small class="text-muted d-flex" v-if="!error.star">평점을 입력하세요.</small>
             <small class="d-flex" v-if="error.star" style="color:crimson;">{{error.star}}</small>
           </div>
@@ -126,7 +126,7 @@ export default {
       error: {
         title: false,
         content: false,
-        start: false,
+        star: false,
       },
     };
   },
@@ -162,7 +162,7 @@ export default {
         check = 1;
       } else this.error.content = false;
       if (this.reviewCreate.star == 0) {
-        this.error.star = "평점은 0점 이상이어야 합니다.";
+        this.error.star = "평점은 1점 이상이어야 합니다.";
         check = 1;
       } else this.error.star = false;
       if (check == 1) {

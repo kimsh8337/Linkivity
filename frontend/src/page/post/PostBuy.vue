@@ -68,7 +68,6 @@ export default {
       axios
         .get(`${baseURL}/purchase/list/${this.email}`)
         .then((res) => {
-          console.log(res.data);
           this.items = res.data;
         })
         .catch((err) => {
