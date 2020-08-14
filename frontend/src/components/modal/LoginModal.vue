@@ -9,20 +9,39 @@
   >
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content" style="width:80%; border:0">
-        <div class="modal-header pl-0" style="background-color:RGB(134, 165, 212); width:100%">
+        <div
+          class="modal-header pl-0"
+          style="background-color:RGB(134, 165, 212); width:100%"
+        >
           <h4
             class="modal-title font-weight-bold my-auto ml-2"
             id="exampleModalLabel"
             style="width:60%;"
-          ><i class="fas fa-file-signature ml-5">ＬＯＧＩＮ</i></h4>
-          <button type="button" class="close my-auto ml-0" data-dismiss="modal" aria-label="Close">
+          >
+            <i class="fas fa-file-signature ml-5">ＬＯＧＩＮ</i>
+          </h4>
+          <button
+            type="button"
+            class="close my-auto ml-0"
+            data-dismiss="modal"
+            aria-label="Close"
+          >
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <!-- email 입력칸 -->
         <div class="modal-body d-flex justify-content-center mt-2">
-          <i v-if="!error.email" class="fas fa-envelope my-auto mr-2" style="font-size:25px"></i>
-          <i v-if="error.email" class="fas fa-envelope my-auto mr-2" style="font-size:25px; color:red" title="이메일 형식을 아닙니다!"></i>
+          <i
+            v-if="!error.email"
+            class="fas fa-envelope my-auto mr-2"
+            style="font-size:25px"
+          ></i>
+          <i
+            v-if="error.email"
+            class="fas fa-envelope my-auto mr-2"
+            style="font-size:25px; color:red"
+            title="이메일 형식을 아닙니다!"
+          ></i>
           <input
             class="text-center"
             style="width:60%; border-radius:5px;"
@@ -33,7 +52,7 @@
           />
         </div>
         <!-- <small class="d-flex justify-content-end mt-0 mb-0" style="width:82%" v-if="error.email"><i class="fas fa-exclamation mr-1 my-auto"></i>{{error.email}}</small> -->
-        
+
         <!-- password 입력칸 -->
         <div class="modal-body d-flex justify-content-center mt-2">
           <i class="fas fa-lock my-auto mr-2" style="font-size:25px"></i>
@@ -46,47 +65,89 @@
             placeholder="Input your password"
             @keypress.enter="login"
           />
-          </div>
+        </div>
 
         <div style="margin-left:10%; margin-right:10%">
-          <hr>
+          <hr />
         </div>
 
         <!-- 로그인 -->
-        <div @click="login" data-dismiss="modal" class="mt-2 row" style="cursor: pointer; margin-left:18%; margin-right:18%;">
-          <div class="col-12 d-flex justify-content-center align-items-center" style="border:1px solid RGB(134, 165, 212); height:2rem; border-radius:5px">
-            <i class="fas fa-sign-in-alt"><span class="my-auto ml-2">로그인</span></i>
+        <div
+          @click="login"
+          data-dismiss="modal"
+          class="mt-2 row"
+          style="cursor: pointer; margin-left:18%; margin-right:18%;"
+        >
+          <div
+            class="col-12 d-flex justify-content-center align-items-center"
+            style="border:1px solid RGB(134, 165, 212); height:2rem; border-radius:5px"
+          >
+            <i class="fas fa-sign-in-alt">
+              <span class="my-auto ml-2">로그인</span>
+            </i>
           </div>
         </div>
 
         <!-- 회원가입 -->
-        <div @click="join" data-dismiss="modal" class="mt-2 row" style="cursor: pointer; margin-left:18%; margin-right:18%;">
-          <div class="col-12 d-flex justify-content-center align-items-center" style="border:1px solid RGB(134, 165, 212); height:2rem; border-radius:5px">
-            <i class="far fa-user mr-1"><span class="my-auto ml-2" style="font-weight:bold">회원가입</span></i>
+        <div
+          @click="join"
+          data-dismiss="modal"
+          class="mt-2 row"
+          style="cursor: pointer; margin-left:18%; margin-right:18%;"
+        >
+          <div
+            class="col-12 d-flex justify-content-center align-items-center"
+            style="border:1px solid RGB(134, 165, 212); height:2rem; border-radius:5px"
+          >
+            <i class="far fa-user mr-1">
+              <span class="my-auto ml-2" style="font-weight:bold"
+                >회원가입</span
+              >
+            </i>
           </div>
         </div>
 
         <!-- 비밀번호 찾기 -->
-        <div data-dismiss="modal" class="mt-2 row" style="cursor: pointer; margin-left:18%; margin-right:18%;">
-          <div class="col-12 d-flex justify-content-center align-items-center" style="border:1px solid RGB(134, 165, 212); height:2rem; border-radius:5px">
-            <i class="fas fa-unlock"><span class="my-auto ml-2">비밀번호 찾기</span></i>
+        <div
+          data-dismiss="modal"
+          class="mt-2 row"
+          style="cursor: pointer; margin-left:18%; margin-right:18%;"
+          data-toggle="modal"
+          data-target="#findpassword"
+        >
+          <div
+            class="col-12 d-flex justify-content-center align-items-center"
+            style="border:1px solid RGB(134, 165, 212); height:2rem; border-radius:5px"
+          >
+            <i class="fas fa-unlock">
+              <span class="my-auto ml-2">비밀번호 찾기</span>
+            </i>
           </div>
         </div>
 
         <!-- 카카오톡 로그인 -->
-        <div id="kakao-login-btn" @click="kakaoLogin" class="mt-2 row d-flex justify-content-center" style="cursor: pointer; margin-left:18%; margin-right:18%;">
-          <div class="col-12 d-flex justify-content-center align-items-center" style="border:1px solid RGB(134, 165, 212); height:2rem; border-radius:5px">
-            <img  src="../../assets/img/kakaologin2.jpg" style="width:20px"><span class="my-auto ml-2" style="font-weight:bold">카카오 로그인</span>
+        <div
+          id="kakao-login-btn"
+          @click="kakaoLogin"
+          class="mt-2 row d-flex justify-content-center"
+          style="cursor: pointer; margin-left:18%; margin-right:18%;"
+        >
+          <div
+            class="col-12 d-flex justify-content-center align-items-center"
+            style="border:1px solid RGB(134, 165, 212); height:2rem; border-radius:5px"
+          >
+            <img src="../../assets/img/kakaologin2.jpg" style="width:20px" />
+            <span class="my-auto ml-2" style="font-weight:bold"
+              >카카오 로그인</span
+            >
           </div>
         </div>
-        
+
         <div class="mt-2" style="margin-left:10%; margin-right:10%;">
-          <hr>
+          <hr />
         </div>
 
-        <div class="modal-footer border-0" style="">
-
-        </div>
+        <div class="modal-footer border-0" style></div>
       </div>
     </div>
   </div>
@@ -136,27 +197,163 @@ export default {
       } else this.error.email = false;
     },
     login() {
+      if (!this.email && this.password) {
+        const Toast = Swal.mixin({
+          toast: true,
+          position: "top-end",
+          showConfirmButton: false,
+          timer: 1000,
+          timerProgressBar: true,
+          onOpen: (toast) => {
+            toast.addEventListener("mouseenter", Swal.stopTimer);
+            toast.addEventListener("mouseleave", Swal.resumeTimer);
+          },
+        });
+
+        Toast.fire({
+          icon: "error",
+          title: "이메일을 적어주세요!",
+        });
+      } else if (this.email && !this.password) {
+        const Toast = Swal.mixin({
+          toast: true,
+          position: "top-end",
+          showConfirmButton: false,
+          timer: 1000,
+          timerProgressBar: true,
+          onOpen: (toast) => {
+            toast.addEventListener("mouseenter", Swal.stopTimer);
+            toast.addEventListener("mouseleave", Swal.resumeTimer);
+          },
+        });
+
+        Toast.fire({
+          icon: "error",
+          title: "비밀번호를 적어주세요!",
+        });
+      } else if (!this.email && !this.password) {
+        const Toast = Swal.mixin({
+          toast: true,
+          position: "top-end",
+          showConfirmButton: false,
+          timer: 1000,
+          timerProgressBar: true,
+          onOpen: (toast) => {
+            toast.addEventListener("mouseenter", Swal.stopTimer);
+            toast.addEventListener("mouseleave", Swal.resumeTimer);
+          },
+        });
+
+        Toast.fire({
+          icon: "error",
+          title: "이메일 및 비밀번호를 적어주세요!",
+        });
+      } else {
+        var tempToken = "";
+        axios
+          .get(`${baseURL}/account/login/${this.email}/${this.password}`)
+          .then((response) => {
+            tempToken = response.data;
+            axios
+              .get(`${baseURL}/report/reports/${this.email}`)
+              .then((response) => {
+                if (response.data == 0) {
+                  this.$cookies.set("Auth-Token", tempToken);
+                  const Toast = Swal.mixin({
+                    toast: true,
+                    position: "top-end",
+                    showConfirmButton: true,
+                    onOpen: (toast) => {
+                      toast.addEventListener("mouseenter", Swal.stopTimer);
+                      toast.addEventListener("mouseleave", Swal.resumeTimer);
+                    },
+                  });
+                  Toast.fire({
+                    icon: "warning",
+                    title:
+                      "해당 아이디는 신고 누적으로 차후에 이용이 제한될 수 있습니다.",
+                  }).then((result) => {
+                    if (result.value) {
+                      this.$router.push("/").catch((err) => {
+                        console.log(err);
+                      });
+                      this.$router.go();
+                    }
+                  });
+                } else if (response.data == 1) {
+                  const Toast = Swal.mixin({
+                    toast: true,
+                    position: "top-end",
+                    showConfirmButton: true,
+                    onOpen: (toast) => {
+                      toast.addEventListener("mouseenter", Swal.stopTimer);
+                      toast.addEventListener("mouseleave", Swal.resumeTimer);
+                    },
+                  });
+                  Toast.fire({
+                    icon: "warning",
+                    title:
+                      "해당 아이디는 신고 누적으로 차후에 이용이 제한되었습니다.",
+                  }).then((result) => {
+                    if (result.value) {
+                      this.$router.push("/").catch((err) => {
+                        console.log(err);
+                      });
+                      this.$router.go();
+                    }
+                  });
+                } else {
+                  this.$cookies.set("Auth-Token", tempToken);
+                  this.$router.push("/").catch((err) => {
+                    console.log(err);
+                  });
+                  this.$router.go();
+                }
+              })
+              .catch((err) => {
+                console.log(err.response);
+              });
+          })
+          .catch((err) => {
+            console.log(err.response.status);
+            if (err.response.status == 400) {
+              const Toast = Swal.mixin({
+                toast: true,
+                position: "top-end",
+                showConfirmButton: false,
+                timer: 1000,
+                timerProgressBar: true,
+                onOpen: (toast) => {
+                  toast.addEventListener("mouseenter", Swal.stopTimer);
+                  toast.addEventListener("mouseleave", Swal.resumeTimer);
+                },
+              });
+
+              Toast.fire({
+                icon: "error",
+                title: "이메일 또는 비밀번호가 올바르지 않습니다.",
+              });
+            }
+            this.email = "";
+            this.password = "";
+          });
+      }
+    },
+    report() {
       axios
-        .get(`${baseURL}/account/login/${this.email}/${this.password}`)
+        .get(`${baseURL}/report/reports/${this.email}`)
         .then((response) => {
           if (response.data == 0) {
             alert(
               "해당 아이디는 신고 누적으로 차후에 이용이 제한될 수 있습니다."
             );
-            this.$cookies.set("Auth-Token", response.data);
           } else if (response.data == 1) {
             alert("해당 아이디는 신고 누적으로 이용이 제한되었습니다.");
           } else {
-            this.$cookies.set("Auth-Token", response.data);
           }
-          this.$router.push("/");
-          this.$router.go();
         })
         .catch((err) => {
           console.log(err.response);
-          alert("아이디 및 비밀번호를 확인해주세요.");
-          this.email = "";
-          this.password = "";
         });
     },
     join: function() {
@@ -165,24 +362,46 @@ export default {
     },
     kakaoLogin() {
       let x = this;
+      var kakaotempToken = "";
       Kakao.Auth.login({
         // container: "#kakao-login-btn",
         success: function(authObj) {
           Kakao.API.request({
             url: "/v2/user/me",
-            success: function (res) {
-
-
+            success: function(res) {
               x.kakao.email = res.kakao_account.email;
               x.kakao.nickname = res.properties.nickname;
 
               axios
                 .post(`${baseURL}/account/kakaologin`, x.kakao)
                 .then((response) => {
-                  console.log(response.data);
-                  x.$cookies.set("Auth-Token", response.data);
-                  x.$router.push("/");
-                  x.$router.go();
+                  kakaotempToken = response.data;
+
+                  axios
+                    .get(`${baseURL}/report/reports/${x.kakao.email}`)
+                    .then((response) => {
+                      if (response.data == 0) {
+                        alert(
+                          "해당 아이디는 신고 누적으로 차후에 이용이 제한될 수 있습니다."
+                        );
+                        x.$cookies.set("Auth-Token", kakaotempToken);
+                        x.$router.go();
+                      } else if (response.data == 1) {
+                        alert(
+                          "해당 아이디는 신고 누적으로 이용이 제한되었습니다."
+                        );
+                        x.$router.go();
+                      } else {
+                        x.$cookies.set("Auth-Token", kakaotempToken);
+                        x.$router.go();
+                      }
+                    })
+                    .catch((err) => {
+                      console.log(err.response);
+                    });
+
+                  // x.$router.push("/");
+                  // x.$router.go();
                 })
                 .catch((err) => {
                   console.log(err);

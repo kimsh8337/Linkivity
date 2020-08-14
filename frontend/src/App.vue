@@ -2,6 +2,7 @@
   <div id="app">
     <Header :isHeader="isHeader" />
     <LoginModal />
+    <FindPasswordModal />
     <router-view />
     <Menubar :scrollposition="scrollposition" @change-showbar="changeshowbar" :showbar="showbar" />
     <Footer />
@@ -15,6 +16,7 @@ import constants from './lib/constants';
 import LoginModal from './components/modal/LoginModal.vue';
 import Footer from './components/common/Footer.vue';
 import Menubar from './components/common/MenuBar.vue';
+import FindPasswordModal from './components/modal/FindPasswordModal'
 
 export default {
   name: 'App',
@@ -23,6 +25,7 @@ export default {
     LoginModal,
     Footer,
     Menubar,
+    FindPasswordModal,
   },
   created() {
     let url = this.$route.name;
