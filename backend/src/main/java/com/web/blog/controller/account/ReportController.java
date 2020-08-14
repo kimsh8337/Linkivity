@@ -1,25 +1,21 @@
 package com.web.blog.controller.account;
 
-import java.io.Console;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.time.LocalDateTime;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
-import com.web.blog.dao.post.PostListDao;
 import com.web.blog.dao.user.ReportDao;
 import com.web.blog.dao.user.ReportUserDao;
-import com.web.blog.dao.user.ReviewDao;
 import com.web.blog.dao.user.UserDao;
-import com.web.blog.model.post.PostList;
 import com.web.blog.model.user.Report;
 import com.web.blog.model.user.ReportUser;
-import com.web.blog.model.user.Review;
 import com.web.blog.model.user.User;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -27,7 +23,6 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -65,9 +60,29 @@ public class ReportController {
         }
     }
 
-    @GetMapping("/list")
+    @GetMapping("/list/{page}")
     @ApiOperation("신고 리스트")
-    public Object list() throws SQLException, IOException {
+    public Object list(@PathVariable int page) throws SQLException, IOException {
+        try {
+            Page<Report> list = reportDao.findAll(PageRequest.of(page - 1, 10));
+            for (Report r : list) {
+                ReportUser ru = reportUserDao.findByEmail(r.getRemail());
+                if (ru != null)
+                    r.setCnt(ru.getCnt());
+                else
+                    r.setCnt(0);
+            }
+
+            return new ResponseEntity<>(list, HttpStatus.OK);
+            
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    
+    @GetMapping("/count")
+    @ApiOperation("신고 리스트 카운트")
+    public Object count() throws SQLException, IOException {
         List<Report> list = reportDao.findAll();
         for (Report r : list) {
             ReportUser ru = reportUserDao.findByEmail(r.getRemail());
@@ -76,9 +91,9 @@ public class ReportController {
             else
                 r.setCnt(0);
         }
-        return new ResponseEntity<>(list, HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(list.size(), HttpStatus.OK);
     }
-
+    
     @GetMapping("/detail/{rpid}")
     @ApiOperation("신고 상세정보")
     public Object detail(@PathVariable int rpid) throws SQLException, IOException {
@@ -168,9 +183,9 @@ public class ReportController {
         try {
             ReportUser user = reportUserDao.findByEmail(email);
             if (user != null) {
-                return new ResponseEntity<>(user.getIsdrop(), HttpStatus.ACCEPTED);
+                return new ResponseEntity<>(user.getIsdrop(), HttpStatus.OK);
             } else {
-                return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+                return new ResponseEntity<>(3, HttpStatus.OK);
             }
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);

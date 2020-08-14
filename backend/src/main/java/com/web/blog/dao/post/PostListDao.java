@@ -12,6 +12,7 @@ public interface PostListDao extends JpaRepository<PostList, String> {
     List<PostList> findByEmailAndFlagOrderByCreateDateDesc(String email, int flag);
     PostList findByPid(int pid);
     List<PostList> findByFlag(int flag);
+    List<PostList> findByFlag(int flag, Pageable page);
     List<PostList> findByFlagOrderByCreateDateDesc(int flag);
     List<PostList> findByFlagOrderByCreateDateDesc(int flag, Pageable page);
     List<PostList> findByFlagAndActivityLikeOrderByCreateDateDesc(int flag, String word);
