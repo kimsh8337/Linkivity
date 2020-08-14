@@ -52,6 +52,8 @@ public class ReviewController {
                 System.out.println(newStar);
                 post.setStar(newStar);
             }
+            postDao.save(post);
+
             // 후기 등록
             Review review = new Review();
             review.setPid(request.getPid());
@@ -92,6 +94,7 @@ public class ReviewController {
                 float cur = post.getStar();
                 float newStar = (cur * reviewCnt - (float) temp.getStar() + (float) request.getStar()) / reviewCnt;
                 post.setStar(newStar);
+                postDao.save(post);
 
                 Review nTemp = temp;
                 nTemp.setTitle(request.getTitle());
@@ -121,11 +124,17 @@ public class ReviewController {
             float reviewCnt = reviewDao.findByPid(review.getPid()).size();
             PostList post = postDao.findByPid(review.getPid());
             float cur = post.getStar();
-            float newStar = (cur * reviewCnt - (float)review.getStar()) / (reviewCnt - 1);
+            float newStar;
+            if(reviewCnt > 1) {
+                newStar = (cur * reviewCnt - (float)review.getStar()) / (reviewCnt - 1);
+            } else {
+                newStar = 0;
+            }
             post.setStar(newStar);
+            postDao.save(post);
 
             reviewDao.delete(review);
-            return new ResponseEntity<>(review, HttpStatus.ACCEPTED);
+            return new ResponseEntity<>("후기 삭제 완료", HttpStatus.OK);
         } else {
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
