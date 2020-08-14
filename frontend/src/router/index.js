@@ -3,13 +3,16 @@ import Router from 'vue-router'
 
 import constants from '../lib/constants'
 
+// admin
+import Admin from '../page/admin/Admin.vue'
+import AdminPostDetail from '../page/admin/AdminPostDetail.vue'
+
 // user
 import Login from '../page/user/Login.vue'
 import Join from '../page/user/Join.vue'
 import Info from '../page/user/Info.vue'
 import Basket from '../page/user/Basket.vue'
 import Agreement from '../page/user/Agreement.vue'
-import Admin from '../page/user/Admin.vue'
 
 // error
 import NotFound from '../page/error/NotFound.vue'
@@ -66,9 +69,19 @@ export default new Router({
             component: Agreement
         },
         {
+            path: '/user/pwsearch',
+            component: Pwsearch
+        },
+        // 관리자
+        {
             path: '/admin',
             component: Admin,
             name: 'Admin'
+        },
+        {
+            path: '/admin/postdetail/:ID',
+            component: AdminPostDetail,
+            name: 'AdminPostDetail'
         },
         // 메인
         {
