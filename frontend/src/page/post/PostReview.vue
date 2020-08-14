@@ -7,11 +7,10 @@
         class="col-12 col-sm-12 col-md-3 p-3"
       >
         <!-- <div class="card mb-3 profile-post mr-0 ml-0"> -->
-          <div class="card-body" style="padding: 0; cursor: pointer;" @click="getdetail(slide.pid)">
+          <div data-toggle="modal" data-target="#postReviewModal" @click="bringReviewData(slide)" class="card-body" style="padding: 0; cursor: pointer;">
             <!-- img 보여주기 -->
             <img v-if="slide.img" class="review-img" :src="slide.img" :alt="slide.title" style="height:8rem;"/>
             <img v-if="!slide.img" class="review-img" src="../../assets/img/noimage.jpg" style="height:8rem;" />
-              
             <!-- 프로필 보여주기 -->
             <div class="d-flex justify-content-between">
               <img class="user-img d-flex m-3" :src="slide.proimg" style="border-radius:70px;" />
@@ -39,6 +38,7 @@
         <!-- </div> -->
       </div>
     </div>
+    <PostReviewDetailModal :reviewDetail="reviewDetail"/>
   </div>
 </template>
 
@@ -47,11 +47,17 @@ import axios from "axios";
 
 const baseURL = process.env.VUE_APP_BACKURL;
 
+import PostReviewDetailModal from './PostReviewDetailModal.vue'
+
 export default {
+  components: {
+    PostReviewDetailModal,
+  },
   data() {
     return {
       reviews: [],
       email: "",
+      reviewDetail: [],
     };
   },
   methods: {
@@ -80,13 +86,16 @@ export default {
       var tempdatecut = date + "";
       return tempdatecut.substring(0, 10);
     },
-    getdetail(pid) {
-      scroll(0, 0);
-      this.$router.push({
-        name: "PostListDetail",
-        params: { ID: pid },
-      });
+    bringReviewData(reviewData) {
+      this.reviewDetail = reviewData
     },
+    // getdetail(pid) {
+    //   scroll(0, 0);
+    //   this.$router.push({
+    //     name: "PostListDetail",
+    //     params: { ID: pid },
+    //   });
+    // },
   },
   created() {
     this.authUser();
