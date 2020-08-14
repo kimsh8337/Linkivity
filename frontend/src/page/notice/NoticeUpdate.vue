@@ -104,7 +104,7 @@ export default {
                         params: { ID: this.$route.params.ID }
                     });
                     }).catch((error) => {
-                    console.log(error.response.data)
+                    console.log(error)
                     })
                 }
             })

@@ -335,7 +335,6 @@ export default {
   },
   methods: {
     goTag(tag) {
-      console.log(tag);
       this.$router.push({
         name: "TagList",
         params: { TAG: tag },
@@ -610,10 +609,6 @@ export default {
                 msg += "상점 거래ID : " + rsp.merchant_uid;
                 msg += "결제 금액 : " + rsp.paid_amount;
                 msg += "카드 승인번호 : " + rsp.apply_num;
-
-                console.log(th.packPost);
-                console.log(th.sum);
-                console.log(th.email);
 
                 axios
                   .get(
