@@ -398,13 +398,7 @@ export default {
   margin-right: 0.7rem;
   /* margin-bottom: 1rem; */
 }
-#__BVID__9___BV_tab_button__,
-#__BVID__11___BV_tab_button__,
-#__BVID__13___BV_tab_button__,
-#__BVID__15___BV_tab_button__,
-#__BVID__17___BV_tab_button__,
-#__BVID__19___BV_tab_button__,
-#__BVID__21___BV_tab_button__ {
+.nav-item > a {
   height: 50px;
   padding-top: 15px;
   padding-bottom: 0;

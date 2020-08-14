@@ -1,9 +1,9 @@
 <template>
   <div id="header" class="p-0" v-if="isHeader">
     <nav class="navbar navbar-expand-lg navbar-light header-nav col-md-12">
-      <router-link class="nav-title m-0" v-bind:to="{name:constants.URL_TYPE.POST.MAIN}">
-        <h5 class="my-auto font-weight-bold nav-title">𝑳𝒊𝒏𝒌𝒊𝒗𝒊𝒕𝒚</h5>
-      </router-link>
+      <!-- <router-link class="nav-title m-0" v-bind:to="{name:constants.URL_TYPE.POST.MAIN}"> -->
+        <h5 class="my-auto font-weight-bold nav-title" @click="rendering">𝑳𝒊𝒏𝒌𝒊𝒗𝒊𝒕𝒚</h5>
+      <!-- </router-link> -->
       <button
         class="navbar-toggler navbar-toggler-right text-black"
         type="button"
@@ -115,6 +115,12 @@ export default {
     }
   },
   methods: {
+    rendering() {
+      this.$router.push('/').catch(err =>{
+        this.$router.go()
+      })
+      
+    },
     authUser() {
       axios
         .get(`${baseURL}/account/authuser/${this.$cookies.get("Auth-Token")}`)

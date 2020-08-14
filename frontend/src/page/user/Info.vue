@@ -309,13 +309,4 @@ export default {
 </script>
 
 <style>
-#__BVID__12___BV_tab_button__,
-#__BVID__14___BV_tab_button__,
-#__BVID__16___BV_tab_button__,
-#__BVID__20___BV_tab_button__,
-#__BVID__22___BV_tab_button__ {
-  height: 50px;
-  padding-top: 15px;
-  padding-bottom: 0;
-}
 </style>
