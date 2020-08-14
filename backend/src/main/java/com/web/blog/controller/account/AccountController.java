@@ -199,6 +199,9 @@ public class AccountController {
     public Object viewInfo(@RequestBody User request) throws SQLException, IOException {
         String token = null;
         try {
+
+
+            
             Optional<User> userOpt = userDao.findUserByEmail(request.getEmail());
             if (userOpt.isPresent()) {
                 User tokenuser = new User();

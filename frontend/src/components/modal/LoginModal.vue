@@ -165,14 +165,14 @@ export default {
     },
     kakaoLogin() {
       let x = this;
-      Kakao.Auth.createLoginButton({
-        container: "#kakao-login-btn",
+      Kakao.Auth.login({
+        // container: "#kakao-login-btn",
         success: function(authObj) {
           Kakao.API.request({
             url: "/v2/user/me",
             success: function (res) {
-              //  console.log(res.kakao_account.email);//<---- 콘솔 로그에 email 정보 출력 (어딨는지 알겠죠?)
-              //  console.log(res.properties.nickname);//<---- 콘솔 로그에 닉네임 출력(properties에 있는 nickname 접근
+
+
               x.kakao.email = res.kakao_account.email;
               x.kakao.nickname = res.properties.nickname;
 
