@@ -13,8 +13,15 @@
           <h4
             class="modal-title w-100 text-center font-weight-bold position-absolute"
             id="exampleModalLabel"
-          >Login</h4>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          >
+            Login
+          </h4>
+          <button
+            type="button"
+            class="close"
+            data-dismiss="modal"
+            aria-label="Close"
+          >
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
@@ -28,7 +35,7 @@
             id="email"
             placeholder="이메일을 입력해주세요."
           />
-          <div class="error-text" v-if="error.email">{{error.email}}</div>
+          <div class="error-text" v-if="error.email">{{ error.email }}</div>
           <p class="mb-4"></p>
           <i class="fas fa-lock" style="font-size:20px"></i>
           <input
@@ -46,15 +53,30 @@
           <!-- <img src="../../assets/img/kakaologin.png"> -->
           <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> -->
           <div style>
-            <button type="button" class="btn" @click="join" data-dismiss="modal">
+            <button
+              type="button"
+              class="btn"
+              @click="join"
+              data-dismiss="modal"
+            >
               <i class="far fa-user mr-1"></i>
               <br />회원가입
             </button>
-            <button type="button" class="btn" @click="login" data-dismiss="modal">
+            <button
+              type="button"
+              class="btn"
+              @click="login"
+              data-dismiss="modal"
+            >
               <i class="fas fa-sign-in-alt mr-1"></i>
               <br />로그인
             </button>
-            <button type="button" class="btn" @click="pwsearch" data-dismiss="modal">
+            <button
+              type="button"
+              class="btn"
+              @click="pwsearch"
+              data-dismiss="modal"
+            >
               <i class="fas fa-unlock"></i>
               <br />비밀번호 찾기
             </button>
@@ -82,7 +104,6 @@ export default {
   name: "Post",
   components: {},
   created() {
-    //  Kakao.init('765ed14c0d508f8aa48c6d173446acba')
     this.passwordSchema
       .is()
       .min(8)
@@ -94,10 +115,10 @@ export default {
       .letters();
   },
   watch: {
-    password: function (v) {
+    password: function(v) {
       this.checkForm();
     },
-    email: function (v) {
+    email: function(v) {
       this.checkForm();
     },
   },
@@ -119,7 +140,16 @@ export default {
       axios
         .get(`${baseURL}/account/login/${this.email}/${this.password}`)
         .then((response) => {
-          this.$cookies.set("Auth-Token", response.data);
+          if (response.data == 0) {
+            alert(
+              "해당 아이디는 신고 누적으로 차후에 이용이 제한될 수 있습니다."
+            );
+            this.$cookies.set("Auth-Token", response.data);
+          } else if (response.data == 1) {
+            alert("해당 아이디는 신고 누적으로 이용이 제한되었습니다.");
+          } else {
+            this.$cookies.set("Auth-Token", response.data);
+          }
           this.$router.push("/");
           this.$router.go();
         })
@@ -130,23 +160,38 @@ export default {
           this.password = "";
         });
     },
-    join: function () {
+    join: function() {
       this.$router.push("/user/join/");
       this.$router.go();
     },
-    pwsearch: function () {
+    pwsearch: function() {
       this.$router.push("/user/Pwsearch/");
       this.$router.go();
     },
-
+    report() {
+      axios
+        .get(`${baseURL}/report/reports/${this.email}`)
+        .then((response) => {
+          alert(response.data);
+          if (response.data == 0) {
+            alert("경고!");
+          } else if (response.data == 1) {
+            alert("신고 누적으로 탈퇴되셨습니다!");
+            return;
+          }
+        })
+        .catch((err) => {
+          console.log(err.response);
+        });
+    },
     test() {
       let x = this;
       Kakao.Auth.createLoginButton({
         container: "#kakao-login-btn",
-        success: function (authObj) {
+        success: function(authObj) {
           Kakao.API.request({
             url: "/v2/user/me",
-            success: function (res) {
+            success: function(res) {
               console.log(res); //<---- 콘솔 로그에 id 정보 출력(id는 res안에 있기 때문에  res.id 로 불러온다)
               //  console.log(res.kakao_account.email);//<---- 콘솔 로그에 email 정보 출력 (어딨는지 알겠죠?)
               //  console.log(res.properties.nickname);//<---- 콘솔 로그에 닉네임 출력(properties에 있는 nickname 접근
@@ -169,7 +214,7 @@ export default {
           });
         },
 
-        fail: function (error) {
+        fail: function(error) {
           alert(JSON.stringify(error));
         },
       });
@@ -194,5 +239,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style></style>

@@ -8,8 +8,10 @@ import javax.mail.MessagingException;
 import javax.validation.Valid;
 
 import com.web.blog.jwt.JwtService;
+import com.web.blog.dao.user.ReportUserDao;
 import com.web.blog.dao.user.UserDao;
 import com.web.blog.model.BasicResponse;
+import com.web.blog.model.user.ReportUser;
 import com.web.blog.model.user.User;
 import com.web.blog.service.FindUtil;
 
@@ -48,20 +50,29 @@ public class AccountController {
     @Autowired
     JwtService jwtService;
 
+    @Autowired
+    ReportUserDao reportUserDao;
+
     @GetMapping("/login/{email}/{password}")
     @ApiOperation(value = "로그인")
     public Object login(@PathVariable String email, @PathVariable String password) throws SQLException, IOException {
         try {
-            Optional<User> userOpt = userDao.findUserByEmailAndPassword(email, password);
-            if (userOpt.isPresent()) {
-                User tokenuser = new User();
-                tokenuser.setEmail(userOpt.get().getEmail());
-                tokenuser.setPassword(userOpt.get().getPassword());
-                String token = jwtService.createLoginToken(tokenuser);
-                return new ResponseEntity<>(token, HttpStatus.ACCEPTED);
+            ReportUser user = reportUserDao.findByEmail(email);
+            if (user != null) {
+                return new ResponseEntity<>(user.getIsdrop(), HttpStatus.ACCEPTED);
             } else {
-                return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+                Optional<User> userOpt = userDao.findUserByEmailAndPassword(email, password);
+                if (userOpt.isPresent()) {
+                    User tokenuser = new User();
+                    tokenuser.setEmail(userOpt.get().getEmail());
+                    tokenuser.setPassword(userOpt.get().getPassword());
+                    String token = jwtService.createLoginToken(tokenuser);
+                    return new ResponseEntity<>(token, HttpStatus.ACCEPTED);
+                } else {
+                    return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+                }
             }
+
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -286,8 +297,8 @@ public class AccountController {
     @GetMapping("/pwd/{email}/{name}")
     @ApiOperation(value = "임시비밀번호 발급")
     public Object sendMail(@PathVariable String email, @PathVariable String name) throws Exception {
-        
-        //Mail Server 설정
+
+        // Mail Server 설정
 
         String charSet = "utf-8";
         String hostSMTP = "smtp.naver.com";
@@ -303,37 +314,36 @@ public class AccountController {
         String subject = "링키비티 임시 비밀번호 찾기";
 
         String newPwd = FindUtil.getNewPwd();
-        
+
         User user = userDao.findUserByEmailAndName(email, name);
-        if(user != null){ 
+        if (user != null) {
             user.setPassword(newPwd);
             userDao.save(user);
-        
 
-        // email 전송
-        try {
-            HtmlEmail mail = new HtmlEmail();
-            mail.setDebug(true);
-            mail.setCharset(charSet);
-            mail.setSSLOnConnect(true);
+            // email 전송
+            try {
+                HtmlEmail mail = new HtmlEmail();
+                mail.setDebug(true);
+                mail.setCharset(charSet);
+                mail.setSSLOnConnect(true);
 
-            // SSL 사용(TLS가 없는 경우 SSL 사용)
-            mail.setHostName(hostSMTP);
-            mail.setSmtpPort(587);
-            mail.setAuthentication(hostSMTPid, hostSMTPpwd);
-            mail.setStartTLSEnabled(true);
-            mail.addTo(email);
-            mail.setFrom(fromEmail, fromName, charSet);
-            mail.setSubject(subject);
-            // 내용
-            mail.setHtmlMsg("" + newPwd);
-            mail.send();
-            System.out.println("성공");
-            return "메일 전송 성공";
-        } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-             }
-        }else {
+                // SSL 사용(TLS가 없는 경우 SSL 사용)
+                mail.setHostName(hostSMTP);
+                mail.setSmtpPort(587);
+                mail.setAuthentication(hostSMTPid, hostSMTPpwd);
+                mail.setStartTLSEnabled(true);
+                mail.addTo(email);
+                mail.setFrom(fromEmail, fromName, charSet);
+                mail.setSubject(subject);
+                // 내용
+                mail.setHtmlMsg("" + newPwd);
+                mail.send();
+                System.out.println("성공");
+                return "메일 전송 성공";
+            } catch (Exception e) {
+                return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+        } else {
             System.out.println("다시 입력해주세요");
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }

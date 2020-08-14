@@ -161,7 +161,7 @@ export default {
         });
     },
     noticeregist(notice) {
-      var content = this.$refs.toastuiEditor.invoke("getHtml");
+      var content = this.$refs.toastuiEditor.invoke("getMarkdown");
       this.NoticeCreate.content = content
       console.log(this.NoticeCreate.content)
       var flag = 0;
