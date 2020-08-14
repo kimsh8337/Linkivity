@@ -85,35 +85,8 @@
         </div>
 
         <div class="modal-footer border-0" style="">
-        </div>
 
-        <!-- <div class="modal-footer border-0 pt-0">
-          <div>
-            <button type="button" class="btn" @click="join" data-dismiss="modal">
-              <i class="far fa-user mr-1"></i>
-              <br />회원가입
-            </button>
-            <button
-              type="button"
-              class="btn"
-              @click="login"
-              data-dismiss="modal"
-            >
-              <i class="fas fa-sign-in-alt mr-1"></i>
-              <br />로그인
-            </button>
-            <button type="button" class="btn" data-dismiss="modal">
-              <i class="fas fa-unlock"></i>
-              <br />비밀번호 찾기
-            </button>
-            <img
-              id="kakao-login-btn"
-              @click="test()"
-              src="../../assets/img/kakaologin.png"
-              style="cursor: pointer; width :100px;"
-            />카카오로그인
-          </div>
-        </div> -->
+        </div>
       </div>
     </div>
   </div>
@@ -243,4 +216,9 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+.container {
+  margin-left: 10%;
+  margin-right: 10%;
+}
+</style>
