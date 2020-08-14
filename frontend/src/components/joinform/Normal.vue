@@ -147,7 +147,7 @@
     <button
       @click="join"
       class="btn btn-primary btn-lg btn-block mt-4"
-      style="font-size:15px; font-weight:bold;background-color:RGB(134, 165, 212); border-color:RGB(134, 165, 212);"
+      style="font-size:15px; font-weight:bold;background-color:#86a5d4; border-color:RGB(134, 165, 212);"
     >
       <!-- <i class="fas fa-pen mr-1"></i> -->
       <span>회원가입</span>

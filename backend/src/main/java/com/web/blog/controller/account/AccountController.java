@@ -62,22 +62,16 @@ public class AccountController {
     @ApiOperation(value = "로그인")
     public Object login(@PathVariable String email, @PathVariable String password) throws SQLException, IOException {
         try {
-            ReportUser user = reportUserDao.findByEmail(email);
-            if (user != null) {
-                return new ResponseEntity<>(user.getIsdrop(), HttpStatus.ACCEPTED);
+            Optional<User> userOpt = userDao.findUserByEmailAndPassword(email, password);
+            if (userOpt.isPresent()) {
+                User tokenuser = new User();
+                tokenuser.setEmail(userOpt.get().getEmail());
+                tokenuser.setPassword(userOpt.get().getPassword());
+                String token = jwtService.createLoginToken(tokenuser);
+                return new ResponseEntity<>(token, HttpStatus.ACCEPTED);
             } else {
-                Optional<User> userOpt = userDao.findUserByEmailAndPassword(email, password);
-                if (userOpt.isPresent()) {
-                    User tokenuser = new User();
-                    tokenuser.setEmail(userOpt.get().getEmail());
-                    tokenuser.setPassword(userOpt.get().getPassword());
-                    String token = jwtService.createLoginToken(tokenuser);
-                    return new ResponseEntity<>(token, HttpStatus.ACCEPTED);
-                } else {
-                    return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
-                }
+                return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
             }
-
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -199,9 +193,6 @@ public class AccountController {
     public Object viewInfo(@RequestBody User request) throws SQLException, IOException {
         String token = null;
         try {
-
-
-            
             Optional<User> userOpt = userDao.findUserByEmail(request.getEmail());
             if (userOpt.isPresent()) {
                 User tokenuser = new User();
@@ -298,6 +289,13 @@ public class AccountController {
     public String getNickname(@PathVariable String email) {
         User user = userDao.getUserByEmail(email);
         return user.getNickname();
+    }
+
+    @GetMapping("/getType/{nickname}")
+    @ApiOperation(value = "닉네임가져오기")
+    public String getType(@PathVariable String nickname) {
+        User user = userDao.findByNickname(nickname);
+        return user.getCheckType();
     }
 
     @PutMapping("/modify/{pwvalidated}")

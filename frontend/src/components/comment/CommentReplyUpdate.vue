@@ -3,14 +3,14 @@
     <textarea
       type="text"
       class="form-control"
-      placeholder="Please write modify reply"
       aria-label="Recipient's username"
       aria-describedby="button-addon2"
       style="height:2.5rem"
       v-model="newContent"
     />
     <div class="input-group-append">
-      <button class="btn btn-outline-success" type="button" id="button-addon2" @click="replyModify">수정</button>
+      <button class="btn btn-default" style="border-radius:5px; border:1px solid gray; border-top-left-radius: 0;
+    border-bottom-left-radius: 0; font-size:12px;" type="button" id="button-addon2" @click="replyModify">수정</button>
     </div>
   </div>
 </template>

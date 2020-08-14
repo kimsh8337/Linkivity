@@ -82,9 +82,9 @@
             class="col-12 d-flex justify-content-center align-items-center"
             style="border:1px solid RGB(134, 165, 212); height:2rem; border-radius:5px"
           >
-            <i class="fas fa-sign-in-alt">
-              <span class="my-auto ml-2">로그인</span>
-            </i>
+            <i class="fas fa-sign-in-alt"
+              ><span class="my-auto ml-2">로그인</span></i
+            >
           </div>
         </div>
 
@@ -99,11 +99,11 @@
             class="col-12 d-flex justify-content-center align-items-center"
             style="border:1px solid RGB(134, 165, 212); height:2rem; border-radius:5px"
           >
-            <i class="far fa-user mr-1">
-              <span class="my-auto ml-2" style="font-weight:bold"
+            <i class="far fa-user mr-1"
+              ><span class="my-auto ml-2" style="font-weight:bold"
                 >회원가입</span
-              >
-            </i>
+              ></i
+            >
           </div>
         </div>
 
@@ -136,8 +136,10 @@
             class="col-12 d-flex justify-content-center align-items-center"
             style="border:1px solid RGB(134, 165, 212); height:2rem; border-radius:5px"
           >
-            <img src="../../assets/img/kakaologin2.jpg" style="width:20px" />
-            <span class="my-auto ml-2" style="font-weight:bold"
+            <img
+              src="../../assets/img/kakaologin2.jpg"
+              style="width:20px"
+            /><span class="my-auto ml-2" style="font-weight:bold"
               >카카오 로그인</span
             >
           </div>
@@ -147,7 +149,7 @@
           <hr />
         </div>
 
-        <div class="modal-footer border-0" style></div>
+        <div class="modal-footer border-0" style=""></div>
       </div>
     </div>
   </div>
@@ -338,6 +340,40 @@ export default {
             this.password = "";
           });
       }
+    },
+    report() {
+      axios
+        .get(`${baseURL}/report/reports/${this.email}`)
+        .then((response) => {
+          tempToken = response.data;
+          axios
+            .get(`${baseURL}/report/reports/${this.email}`)
+            .then((response) => {
+              alert(response.data);
+              if (response.data == 0) {
+                alert(
+                  "해당 아이디는 신고 누적으로 차후에 이용이 제한될 수 있습니다."
+                );
+                this.$cookies.set("Auth-Token", tempToken);
+                this.$router.go();
+              } else if (response.data == 1) {
+                alert("해당 아이디는 신고 누적으로 이용이 제한되었습니다.");
+                this.$router.go();
+              } else {
+                this.$cookies.set("Auth-Token", tempToken);
+                this.$router.go();
+              }
+            })
+            .catch((err) => {
+              console.log(err.response);
+            });
+        })
+        .catch((err) => {
+          console.log(err.response);
+          alert("아이디 및 비밀번호를 확인해주세요.");
+          this.email = "";
+          this.password = "";
+        });
     },
     report() {
       axios

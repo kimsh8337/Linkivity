@@ -36,22 +36,28 @@ public class TempListController {
 
     @GetMapping("/list/{email}")
     @ApiOperation(value = "임시저장 리스트")
-    public List<PostList> selectAll(@PathVariable String email) throws SQLException, IOException {
-        List<PostList> temp = new LinkedList<>();
-        temp = postDao.findByEmailAndFlagOrderByCreateDateDesc(email,0);
-        // System.out.println(temp);
-        return temp;
+    public Object selectAll(@PathVariable String email) throws SQLException, IOException {
+        try {
+            List<PostList> temp = new LinkedList<>();
+            temp = postDao.findByEmailAndFlagOrderByCreateDateDesc(email,0);
+            return new ResponseEntity<>(temp, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @GetMapping("/detail/{pid}")
     @ApiOperation(value = "임시저장 상세정보")
     public Object selectDetail(@PathVariable int pid) throws SQLException, IOException {
-        PostList post = postDao.findByPid(pid);
-        if(post!=null){
-            // System.out.println(post);
-            return post;
-        }else {
-            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        try {
+            PostList post = postDao.findByPid(pid);
+            if(post!=null){
+                return new ResponseEntity<>(post, HttpStatus.OK);
+            }else {
+                return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+            }
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -75,7 +81,7 @@ public class TempListController {
             temp.setCreateDate(time);
             postDao.save(temp);
 
-            return temp;    
+            return new ResponseEntity<>(temp, HttpStatus.OK);    
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -101,7 +107,7 @@ public class TempListController {
                 newTemp.setCreateDate(time);
                 
                 postDao.save(newTemp);
-                return newTemp;
+                return new ResponseEntity<>(newTemp, HttpStatus.OK);
             } else {
                 System.out.println("DB에 없음.");
                 return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
@@ -115,12 +121,16 @@ public class TempListController {
     @DeleteMapping("/delete/{pid}")
     @ApiOperation(value = "임시저장 삭제")
     public Object delete(@PathVariable int pid) throws SQLException, IOException {
-        PostList post = postDao.findByPid(pid);
-        if(post != null){
-            postDao.delete(post);
-            return "삭제 완료";
-        } else {
-            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        try {
+            PostList post = postDao.findByPid(pid);
+            if(post != null){
+                postDao.delete(post);
+                return new ResponseEntity<>("임시저장 삭제", HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+            }
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }
