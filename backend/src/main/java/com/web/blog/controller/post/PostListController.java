@@ -306,6 +306,7 @@ public class PostListController {
         PostList post = postDao.findByPid(pid);
         if (post != null) {
             post.setFlag(1);
+            postDao.save(post);
             return new ResponseEntity<>(post, HttpStatus.ACCEPTED);
         } else {
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);

@@ -28,10 +28,10 @@
 
     <!-- Button -->
     <div class="d-flex justify-content-end mb-5 mt-5">
-      <button v-if="this.email == superadmin" type="submit" class="btn btn-delete pr-0 mr-2" style="font-size: 1.1rem;" @click="noticemodify">
+      <button v-if="this.checkType == 'admin'" type="submit" class="btn btn-delete pr-0 mr-2" style="font-size: 1.1rem;" @click="noticemodify">
         <i class="far fa-edit mr-2"></i>수정하기
       </button>
-      <button v-if="this.email == superadmin" type="submit" class="btn btn-delete pr-0 mr-2" style="font-size: 1.1rem;" @click="noticedelete">
+      <button v-if="this.checkType == 'admin'" type="submit" class="btn btn-delete pr-0 mr-2" style="font-size: 1.1rem;" @click="noticedelete">
         <i class="fas fa-trash-alt mr-2"></i>삭제하기
       </button>
       <button type="submit" class="btn btn-outline pr-0" style="font-size: 1.1rem;" @click="goNotice">
@@ -52,7 +52,7 @@ import { Viewer } from "@toast-ui/vue-editor";
 
 import Swal from 'sweetalert2';
 
-const baseURL = 'http://localhost:8080';
+const baseURL = process.env.VUE_APP_BACKURL;
 
 export default {
     components: {
@@ -67,6 +67,7 @@ export default {
             notice:[],
             superadmin:'ssafy@ssafy.com',
             email:'',
+            checkType:"",
             // content: null,
         }
     },
@@ -76,9 +77,10 @@ export default {
         .get(`${baseURL}/account/authuser/${this.$cookies.get("Auth-Token")}`)
         .then((response) => {
           this.email = response.data.email;
+          this.checkType = response.data.checkType;
         })
         .catch((err) => {
-          console.log(err.response);
+          console.log(err);
         });
     },
         init() {
@@ -142,21 +144,6 @@ export default {
                 params: { ID: this.$route.params.ID }
             })
         },
-    },
-    mounted() {
-      this.init()
-      this.content = this.notice.content.json()
-      // fetch()
-      //  axios.get(`${baseURL}/notice/detail/${this.$route.params.ID}`)
-      //   .then((res) => {
-      //     if (res.ok) {
-      //       return res.json();
-      //     } else {
-      //       throw res
-      //     }
-      //   }).then((data) => {
-      //     this.content = data
-      //   })
     },
 }
 </script>

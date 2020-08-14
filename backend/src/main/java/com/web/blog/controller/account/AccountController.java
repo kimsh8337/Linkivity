@@ -286,6 +286,13 @@ public class AccountController {
         return user.getNickname();
     }
 
+    @GetMapping("/getType/{nickname}")
+    @ApiOperation(value = "닉네임가져오기")
+    public String getType(@PathVariable String nickname) {
+        User user = userDao.findByNickname(nickname);
+        return user.getCheckType();
+    }
+
     @PutMapping("/modify/{pwvalidated}")
     @ApiOperation(value = "회원정보수정")
     public Object modify(@Valid @RequestBody User request, @PathVariable int pwvalidated)
