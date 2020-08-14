@@ -414,7 +414,6 @@ export default {
       axios
         .post(`${baseURL}/post/regist/${this.tagValue}`, this.PostCreate)
         .then((response) => {
-          console.log(response.data);
           Toast.fire({
             icon: "success",
             title: "게시물 승인 요청이 완료되었습니다.",
@@ -435,7 +434,6 @@ export default {
       axios
         .post(`${baseURL}/temp/regist/${this.tagValue}`, this.PostCreate)
         .then((response) => {
-          console.log(response.data);
           this.$router.push("/posts");
         })
         .catch((error) => {

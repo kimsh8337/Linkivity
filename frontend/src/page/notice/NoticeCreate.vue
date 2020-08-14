@@ -194,7 +194,6 @@ export default {
       axios
         .post(`${baseURL}/notice/regist/`, this.NoticeCreate)
         .then((response) => {
-          console.log(response.data);
           Toast.fire({
             icon: "success",
             title: "작성이 완료되었습니다.",
