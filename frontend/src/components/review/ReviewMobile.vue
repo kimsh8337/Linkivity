@@ -16,7 +16,8 @@
       >
         <!-- Text slides with image -->
         <b-carousel-slide v-for="slide in slides" :key="slide.rvid" :img-src="slide.img">
-          <div style="height:15rem; background-color:black;z-index:1000;">
+          <div style="height:15rem; z-index:1000;">
+            <!-- background-color:black; -->
             <div class="d-flex justify-content-between" style="width:100%">
               <!-- 프로필 보여주기 -->
               <img class="profile-image d-flex my-2 ml-3" :src="slide.proimg" />

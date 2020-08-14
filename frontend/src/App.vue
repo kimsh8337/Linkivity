@@ -16,7 +16,7 @@ import constants from './lib/constants';
 import LoginModal from './components/modal/LoginModal.vue';
 import Footer from './components/common/Footer.vue';
 import Menubar from './components/common/MenuBar.vue';
-import FindPasswordModal from './components/modal/FindPasswordModal'
+import FindPasswordModal from './components/modal/FindPasswordModal';
 
 export default {
   name: 'App',
@@ -75,7 +75,8 @@ export default {
 
 <style>
 #app {
-  font-family: 'Lexend Zetta', sans-serif;
+  font-family: 'Nanum Gothic', sans-serif;
+  /* font-family: 'Lexend Zetta', sans-serif; */
   /* font-family: Avenir, Helvetica, Arial, sans-serif; */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

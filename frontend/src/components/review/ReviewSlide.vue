@@ -1,7 +1,9 @@
 <template>
 <div>
   <div v-if="!flag">
-    <i class="far fa-surprise mr-1 mb-3"></i>등록된 후기가 없습니다. 처음으로 후기를 남겨보세요!<i class="far fa-surprise ml-1"></i>
+    <!-- <i class="far fa-surprise mr-1 mb-3"></i> -->
+    등록된 후기가 없습니다. 
+    <!-- 처음으로 후기를 남겨보세요!<i class="far fa-surprise ml-1"></i> -->
   </div>
   <div v-if="flag" id="slider" class="slider" @mousemove="mouseMoving" @mouseout="stopDrag">
     <div class="slider-cards" :style="`transform: translate3d(${cardsX}px,0,0)`">
@@ -11,16 +13,17 @@
         :key="rvid"
         class="slider-card">
         <!-- img 보여주기 -->
-        <img class="review-img" style="width:100%" :src="slide.img" :alt="slide.title" draggable="false">
+        <img class="review-img" style="width:100%" v-if="slide.img" :src="slide.img" :alt="slide.title" draggable="false">
+        <img class="review-img" style="width:100%" v-if="!slide.img" src="../../assets/img/noimage.jpg" :alt="slide.title" draggable="false">
         <!-- 프로필 보여주기 -->
-        <div class="d-flex justify-content-between">
+        <div class="d-flex justify-content-between" style="border-bottom : 1px solid lightgray;">
           <img class="profile-img d-flex m-1" :src="slide.proimg">
           <div class="mt-2 mr-4">
               <div class="d-flex">
                   <small class="d-flex align-items-center" style="font-weight:bold">{{slide.nickname}}</small><br>
               </div>
               <div class="d-flex">
-                  <i class="fas fa-star" style="color:Salmon;" v-for="i in slide.star" :key="i.id"></i>
+                  <i class="fas fa-star" style="color:Salmon; font-size:0.7erm;" v-for="i in slide.star" :key="i.id"></i>
               </div>
           </div>
           <!-- 날짜 및 수정 삭제 -->
@@ -38,12 +41,12 @@
           </div>
         </div>
         <!-- 제목 -->
-        <div class="d-flex mt-2 ml-2 p-2">
-          <span style="font-weight:bold;">{{slide.title}}</span>
+        <div class="d-flex mr-2 ml-2">
+          <span style="font-weight:bold; ">{{slide.title}}</span>
         </div>
         <!-- 내용 -->
-        <div class="d-flex ml-2 p-2">
-          <small>{{slide.content}}</small>
+        <div class="d-flex ml-2 mr-2">
+          <small style="text-align:left;">{{slide.content}}</small>
         </div>
       </div>
     </div>
