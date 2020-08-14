@@ -6,24 +6,25 @@
       <b-tabs content-class="mt-3" fill>
         <!-- 포스트 관리 -->
         <b-tab class="admin-post" title="포스트 관리" active>
-          <table class="table mt-5">
-            <thead class="thead-dark">
-              <tr>
-                <th>No</th>
-                <th>제목</th>
-                <th>업체정보</th>
-                <th>작성자</th>
-                <th>요청 날짜</th>
-                <th>승인 및 거절</th>
-              </tr>
+          <table class="table my-5">
+      <thead class="thead-light">
+        <tr>
+          <th class="admin-post-num">No</th>
+          <th class="admin-post-title">제목</th>
+          <th class="admin-post-company">업체정보</th>
+          <th class="admin-post-email">작성자</th>
+          <th class="admin-post-date">요청 날짜</th>
+          <th class="admin-post-out">승인 및 거절</th>
+        </tr>
+
             </thead>
             <tbody>
               <tr v-for="(post, index) in postlists" :key="index">
                 <td>{{ ((ppage - 1) * 10) + index + 1 }}</td>
-                <td>{{ post.title }}</td>
-                <td>{{ post.companyInfo }}</td>
-                <td>{{ post.email }}</td>
-                <td>{{ permitdate(post.createDate) }}</td>
+                <td class="admin-data">{{ post.title }}</td>
+                <td class="admin-data">{{ post.companyInfo }}</td>
+                <td class="admin-data">{{ post.email }}</td>
+                <td class="admin-data">{{ permitdate(post.createDate) }}</td>
                 <td><button @click="gopostdetail(post.pid)">상세보기</button></td>
                 <!-- <td><button @click="postlistData(post)" data-toggle="modal" data-target="#postpermit">상세보기</button></td> -->
                 <!-- <td><button @click="postpermit(post.pid)">승인</button> <button @click="postreject(post.pid)">거절</button></td> -->
@@ -37,24 +38,25 @@
 
         <!-- 회원 관리 -->
         <b-tab class="admin-info" title="회원관리">
-          <table class="table mt-5">
-            <thead class="thead-dark">
-              <tr>
-                <th class="admin-info-num">No</th>
-                <th class="admin-info-email">이메일</th>
-                <th class="admin-info-nickname">닉네임</th>
-                <th class="admin-info-name">이름</th>
-                <th class="admin-info-type">사용자 유형</th>
-                <th class="admin-info-out">탈퇴</th>
-              </tr>
+          <table class="table my-5">
+      <thead class="thead-light">
+        <tr>
+          <th class="admin-info-num">No</th>
+          <th class="admin-info-email">이메일</th>
+          <th class="admin-info-nickname">닉네임</th>
+          <th class="admin-info-name">이름</th>
+          <th class="admin-info-type">사용자 유형</th>
+          <th class="admin-info-out">탈퇴</th>
+        </tr>
+
             </thead>
             <tbody>
               <tr v-for="(user, index) in users" :key="index">
-                <td class="admin-info-data">{{ ((upage - 1) * 10 ) + index + 1}}</td>
-                <td class="admin-info-data">{{ user.email }}</td>
-                <td class="admin-info-data">{{ user.nickname }}</td>
-                <td class="admin-info-data">{{ user.name }}</td>
-                <td class="admin-info-data">{{ user.checkType }}</td>
+                <td class="admin-data">{{ ((upage - 1) * 10 ) + index + 1}}</td>
+                <td class="admin-data">{{ user.email }}</td>
+                <td class="admin-data">{{ user.nickname }}</td>
+                <td class="admin-data">{{ user.name }}</td>
+                <td class="admin-data">{{ user.checkType }}</td>
                 <td v-if="user.uid != 1"><button class="admin-info-button" @click="dropuser(user.uid)">탈퇴</button></td>
               </tr>
             </tbody>
@@ -66,24 +68,25 @@
         <!-- 신고 관리 -->
         <b-tab title="신고 관리"
           ><p></p>
-          <table class="table mt-5">
-            <thead class="thead-dark">
-              <tr>
-                <th>No</th>
-                <th>신고한사람</th>
-                <th>신고당한사람</th>
-                <th>내용</th>
-                <th>상세보기</th>
-                <th>경고/탈퇴/취소</th>
+          <table class="table my-5">
+      <thead class="thead-light">
+        <tr>
+          <th class="admin-black-num">No</th>
+          <th class="admin-black-email">신고한사람</th>
+          <th class="admin-black-remail">신고당한사람</th>
+          <th class="admin-black-content">내용</th>
+          <th class="admin-black-detail">상세보기</th>
+          <th class="admin-black-out">취소/경고/탈퇴</th>
+
               </tr>
             </thead>
             <tbody>
               <tr v-for="(blacklist, index) in blacklists" :key="index">
                 <td>{{ ((bpage - 1) * 10) + index + 1 }}</td>
-                <td>{{ blacklist.email }}</td>
-                <td>{{ blacklist.remail }}</td>
-                <td>{{ blacklist.reason }}</td>
-                <td>
+                <td class="admin-data">{{ blacklist.email }}</td>
+                <td class="admin-data">{{ blacklist.remail }}</td>
+                <td class="admin-data">{{ blacklist.reason }}</td>
+                <td class="admin-data">
                   <button class="admin-black-view" @click="blacklistData(blacklist)" data-toggle="modal" data-target="#blacklist">
                     상세보기
                   </button>
