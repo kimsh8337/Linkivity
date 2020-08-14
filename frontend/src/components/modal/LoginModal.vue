@@ -313,11 +313,11 @@ export default {
                 }
               })
               .catch((err) => {
-                console.log(err.response);
+                console.log("asdfasdfasd");
               });
           })
           .catch((err) => {
-            console.log(err.response.status);
+            console.log(err.response.data.status);
             if (err.response.status == 400) {
               const Toast = Swal.mixin({
                 toast: true,
@@ -340,57 +340,6 @@ export default {
             this.password = "";
           });
       }
-    },
-    report() {
-      axios
-        .get(`${baseURL}/report/reports/${this.email}`)
-        .then((response) => {
-          tempToken = response.data;
-          axios
-            .get(`${baseURL}/report/reports/${this.email}`)
-            .then((response) => {
-              alert(response.data);
-              if (response.data == 0) {
-                alert(
-                  "해당 아이디는 신고 누적으로 차후에 이용이 제한될 수 있습니다."
-                );
-                this.$cookies.set("Auth-Token", tempToken);
-                this.$router.go();
-              } else if (response.data == 1) {
-                alert("해당 아이디는 신고 누적으로 이용이 제한되었습니다.");
-                this.$router.go();
-              } else {
-                this.$cookies.set("Auth-Token", tempToken);
-                this.$router.go();
-              }
-            })
-            .catch((err) => {
-              console.log(err.response);
-            });
-        })
-        .catch((err) => {
-          console.log(err.response);
-          alert("아이디 및 비밀번호를 확인해주세요.");
-          this.email = "";
-          this.password = "";
-        });
-    },
-    report() {
-      axios
-        .get(`${baseURL}/report/reports/${this.email}`)
-        .then((response) => {
-          if (response.data == 0) {
-            alert(
-              "해당 아이디는 신고 누적으로 차후에 이용이 제한될 수 있습니다."
-            );
-          } else if (response.data == 1) {
-            alert("해당 아이디는 신고 누적으로 이용이 제한되었습니다.");
-          } else {
-          }
-        })
-        .catch((err) => {
-          console.log(err.response);
-        });
     },
     join: function() {
       this.$router.push("/user/join/");

@@ -168,9 +168,9 @@ public class ReportController {
         try {
             ReportUser user = reportUserDao.findByEmail(email);
             if (user != null) {
-                return new ResponseEntity<>(user.getIsdrop(), HttpStatus.ACCEPTED);
+                return new ResponseEntity<>(user.getIsdrop(), HttpStatus.OK);
             } else {
-                return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+                return new ResponseEntity<>(3, HttpStatus.OK);
             }
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
