@@ -55,6 +55,9 @@ public class AccountController {
     @Autowired
     VerificationDao verificationDao;
 
+    @Autowired
+    ReportUserDao reportUserDao;
+
     @GetMapping("/login/{email}/{password}")
     @ApiOperation(value = "로그인")
     public Object login(@PathVariable String email, @PathVariable String password) throws SQLException, IOException {
