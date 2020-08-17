@@ -43,7 +43,7 @@ public class PurchaseController {
     LikeListDao likeDao;
 
     @GetMapping("/regist/{packPost}/{email}/{sum}")
-    @ApiOperation("상품 구매")
+    @ApiOperation("패키징 상품 구매")
     public Object regist(@PathVariable List<String> packPost, @PathVariable String email, @PathVariable int sum)
             throws SQLException, IOException {
         try {
@@ -94,6 +94,49 @@ public class PurchaseController {
         }
     }
 
+    @GetMapping("/registOne/{pid}/{email}/{price}")
+    @ApiOperation("단일 상품 구매")
+    public Object registOne(@PathVariable int pid, @PathVariable String email, @PathVariable int price)
+            throws SQLException, IOException {
+        try {
+
+            Pack pack = new Pack();
+            pack.setEmail(email);
+            pack.setPrice(price);
+            packDao.save(pack);
+            ///// 패키지테이블에 저장/////
+
+            int packno = pack.getPackno();
+            PostList post = postDao.findByPid(pid);
+
+            Purchase purchase = new Purchase();
+            purchase.setEmail(email);
+            purchase.setPid(pid);
+            purchase.setPackno(packno);
+            purchase.setPuse(0);
+            char[] charSet = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'I',
+                    'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z' };
+            StringBuffer serialno = new StringBuffer();
+            for (int i = 0; i < 8; i++) {
+                int idx = (int) (charSet.length * Math.random());
+                serialno.append(charSet[idx]);
+            }
+            purchase.setSerialno(serialno.toString());
+            purchase.setSeller(post.getEmail());
+            purchase.setTitle(post.getTitle());
+            purchase.setSdate(post.getSdate());
+            purchase.setEdate(post.getEdate());
+            purchase.setLocation(post.getLocation());
+            purchase.setPrice(post.getPrice());
+            purchase.setImg(post.getImgurl());
+            purchaseDao.save(purchase);
+            ///// 구매테이블에 저장/////
+            return new ResponseEntity<>(pack, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @GetMapping("/list/{email}")
     @ApiOperation("사용자 구매 리스트")
     public Object purchaseList(@PathVariable String email) throws SQLException, IOException {
@@ -115,7 +158,7 @@ public class PurchaseController {
     @ApiOperation("사업자 판매 리스트")
     public Object sellList(@PathVariable String seller) throws SQLException, IOException {
         try {
-            List<Purchase>  selllist = purchaseDao.findBySeller(seller);
+            List<Purchase> selllist = purchaseDao.findBySeller(seller);
             return new ResponseEntity<>(selllist, HttpStatus.ACCEPTED);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -127,12 +170,12 @@ public class PurchaseController {
     public Object checkuse(@PathVariable int purid, @PathVariable String serialno) throws SQLException, IOException {
         Purchase purchase = purchaseDao.findByPurid(purid);
         String pur_serialno = purchase.getSerialno();
-        if(pur_serialno.equals(serialno)){
+        if (pur_serialno.equals(serialno)) {
             purchase.setPuse(1);
             purchaseDao.save(purchase);
             return new ResponseEntity<>(purchase, HttpStatus.ACCEPTED);
-            
-        }else{
+
+        } else {
             return new ResponseEntity<>(null, HttpStatus.ACCEPTED);
         }
     }

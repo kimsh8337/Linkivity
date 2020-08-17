@@ -43,7 +43,6 @@ export default {
         .get(`${baseURL}/account/login/${data.email}/${data.password}`)
         .then(response => {
           alert("로그인 성공");
-          console.log(response.data);
           this.$router.push("/main");
         })
         .catch(err => {

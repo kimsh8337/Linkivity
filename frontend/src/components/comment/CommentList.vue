@@ -25,7 +25,7 @@
               class="mr-2"
               pill
               variant
-              style="background-color: #0047ab;"
+              style="background-color: #86a5d4;"
             >관리자</b-badge>
             {{comment.nickname}}
           </strong>

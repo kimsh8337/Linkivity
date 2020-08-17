@@ -30,8 +30,15 @@
           >
           <img
             style="width:100%; height:40%"
+            v-if="post.imgurl"
             :src="post.imgurl"
-            alt="../../assets/img/noimage.jpg"
+            :alt="post.title"
+          />
+          <img
+            style="width:100%; height:40%"
+            v-if="!post.imgurl"
+            src="../../assets/img/noimage.jpg"
+            :alt="post.title"
           />
           <p class="mt-2 d-flex" style="font-weight:bold">
             제목 :

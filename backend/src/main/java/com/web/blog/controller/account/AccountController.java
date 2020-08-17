@@ -2,6 +2,8 @@ package com.web.blog.controller.account;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Optional;
 
 import javax.mail.MessagingException;
@@ -26,6 +28,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.apache.commons.mail.HtmlEmail;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -233,15 +236,26 @@ public class AccountController {
 
     }
 
-    @GetMapping("/viewAllUser")
-    @ApiOperation(value = "모든 회원정보")
-    public Object viewAllUser() throws SQLException, IOException {
+    @GetMapping("/countAllUser")
+    @ApiOperation(value = "모든 회원수")
+    public Object countAllUser() throws SQLException, IOException {
         try {
-            return new ResponseEntity<>(userDao.findAll(), HttpStatus.ACCEPTED);
+            return new ResponseEntity<>(userDao.findByUidNot(1).size(), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-
+    }
+    
+    @GetMapping("/viewAllUser/{page}")
+    @ApiOperation(value = "모든 회원정보")
+    public Object viewAllUser(@PathVariable int page) throws SQLException, IOException {
+        try {
+            List<User> list = new LinkedList<>();
+            list = userDao.findByUidNot(1, PageRequest.of(page - 1, 10));
+            return new ResponseEntity<>(list, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @DeleteMapping("/dropUser/{uid}")
@@ -382,7 +396,7 @@ public class AccountController {
                 mail.setFrom(fromEmail, fromName, charSet);
                 mail.setSubject(subject);
                 // 내용
-                mail.setHtmlMsg("" + newPwd);
+                mail.setHtmlMsg("회원님의 임시 비밀번호는 [ " + newPwd +" ] 입니다.");
                 mail.send();
                 System.out.println("성공");
                 return "메일 전송 성공";

@@ -99,7 +99,6 @@ export default {
       axios
         .get(`${baseURL}/purchase/list/${this.email}`)
         .then((res) => {
-          console.log(res.data);
           this.items = res.data;
         })
         .catch((err) => {
@@ -107,11 +106,36 @@ export default {
         });
     },
     goDetail(pid) {
-      scroll(0, 0);
-      this.$router.push({
-        name: "PostListDetail",
-        params: { ID: pid },
-      });
+      axios
+        .get(`${baseURL}/post/detail/${pid}`)
+        .then((res) => {
+          scroll(0, 0);
+          this.$router.push({
+            name: "PostListDetail",
+            params: { ID: pid },
+          });
+        })
+        .catch((err) => {
+          const Toast = Swal.mixin({
+            toast: true,
+            position: "top-end",
+            showConfirmButton: false,
+            timer: 1000,
+            timerProgressBar: true,
+            onOpen: (toast) => {
+              toast.addEventListener("mouseenter", Swal.stopTimer);
+              toast.addEventListener("mouseleave", Swal.resumeTimer);
+            },
+          });
+
+          Toast.fire({
+            icon: "error",
+            title: "해당 상품은 삭제된 상품입니다.",
+          });
+          setTimeout(() => {
+            th.$router.go();
+          }, 1000);
+        });
     },
     goPost() {
       this.$router.push('/posts')

@@ -11,7 +11,7 @@
       <div class="modal-content" style="width:80%; border:0">
         <div
           class="modal-header pl-0"
-          style="background-color:RGB(134, 165, 212); width:100%"
+          style="background-color:#ccdced; width:100%"
         >
           <h4
             class="modal-title font-weight-bold my-auto ml-2"
@@ -40,14 +40,13 @@
             v-if="error.email"
             class="fas fa-envelope my-auto mr-2"
             style="font-size:25px; color:red"
-            title="이메일 형식을 아닙니다!"
+            title="이메일 형식이 아닙니다!"
           ></i>
           <input
             class="text-center"
             style="width:60%; border-radius:5px;"
             type="text"
             v-model="email"
-            id="email"
             placeholder="email@example.com"
           />
         </div>
@@ -61,7 +60,6 @@
             style="width:60%; border-radius:5px;"
             type="password"
             v-model="password"
-            id="password"
             placeholder="Input your password"
             @keypress.enter="login"
           />
@@ -313,7 +311,7 @@ export default {
                 }
               })
               .catch((err) => {
-                console.log("asdfasdfasd");
+                console.log(err);
               });
           })
           .catch((err) => {

@@ -1,7 +1,7 @@
 <template>
   <div class="container col-sm-12 col-md-12 col-lg-12 p-0">
     <!-- background image -->
-    <div class="post-img" style="display:block;"></div>
+    <div class="admin-img" style="display:block;"></div>
     <div class="container col-md-7" style="margin-top: 100px">
       <div class="column">
         <div class="card mt-5 mb-3" style="max-width: 100%;">
@@ -96,7 +96,7 @@
                     <!-- 신고하기 버튼 -->
                   </div>
                   <!-- 이용 가격 -->
-                  <div class="d-flex justify-content-end mt-3">
+                  <div class="d-flex justify-content-end" style="margin-top:4rem;">
                     <p
                       class="card-text mt-2 mr-4 mb-0"
                       style="font-size: 1rem; color: rgb(168, 168, 168); text-decoration:line-through;
@@ -109,15 +109,7 @@
                     >{{ post.price * 0.95 }} 원</p>
                   </div>
                   <hr class="mt-0" />
-                  <!-- 거절 승인 -->
-                  <div class="d-flex justify-content-end">
-                    <button type="button" class="btn btn-primary mr-1" @click="postreject(post.pid)">
-                      <i class="fas fa-times mr-2" ></i>거절
-                    </button>
-                    <button class="btn btn-danger" @click="postpermit(post.pid)">
-                      <i class="far fa-hand-point-up mr-2" ></i>승인
-                    </button>
-                  </div>
+                  
                 </div>
               </div>
             </div>
@@ -131,13 +123,13 @@
         class="navbar nav-info"
         style="position: sticky; top: 0; z-index:100;"
       >
-        <ul class="nav justify-content-between" style="width:100%;">
+        <ul class="nav justify-content-between" style="width:70%; margin:auto">
           <li class="nav-item">
             <a
               class="nav-link info-link"
               href="#item"
               @click="scroll"
-              style="font-size:0.9rem;"
+              style="font-size:0.9rem; width:100%;"
             >상세정보</a>
           </li>
           <li class="nav-item">
@@ -145,7 +137,7 @@
               class="nav-link info-link"
               href="#corp"
               @click="scroll"
-              style="font-size:0.9rem;"
+              style="font-size:0.9rem; width:100%"
             >업체정보</a>
           </li>
         </ul>
@@ -154,7 +146,7 @@
       <div data-spy="scroll" data-target="#navbar-example2" data-offset="0">
         <!-- 상세 정봉 -->
         <h4 id="item" class="d-flex mb-3" style="font-weight:bold">상세정보</h4>
-        <p class="d-flex" style="font-align:left">{{ post.detail }}</p>
+        <Viewer v-if="post.detail != null" :initialValue="post.detail"/>
         <hr />
         <!-- 업체 정보 -->
         <h4 id="corp" class="d-flex mb-3" style="font-weight:bold">업체정보</h4>
@@ -166,7 +158,17 @@
         <small class="d-flex mt-2" style="font-weight:bold;">{{ post.location }}</small>
         <hr class="mt-2" />
         </div>
+      <!-- 거절 승인 -->
+                  <div class="d-flex justify-content-end mb-5">
+                    <button type="button" class="btn btn-danger mr-1" @click="postreject(post.pid)">
+                      <i class="fas fa-times mr-2" ></i>거절
+                    </button>
+                    <button class="btn btn-primary" @click="postpermit(post.pid)">
+                      <i class="far fa-hand-point-up mr-2" ></i>승인
+                    </button>
+                  </div>
       </div>
+
 
     </div>
 </template>
@@ -174,10 +176,15 @@
 <script>
 import axios from "axios";
 
+import "codemirror/lib/codemirror.css";
+import "@toast-ui/editor/dist/toastui-editor.css";
+import { Viewer } from "@toast-ui/vue-editor";
+
 const baseURL = process.env.VUE_APP_BACKURL;
 
 export default {
   components: {
+    Viewer,
   },
   data() {
     return {
@@ -238,7 +245,6 @@ export default {
       geocoder.addressSearch(loc, function (result, status) {
         // 정상적으로 검색이 완료됐으면
         if (status === kakao.maps.services.Status.OK) {
-          // console.log(result);
           var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
 
           // 결과값으로 받은 위치를 마커로 표시합니다
@@ -275,7 +281,6 @@ export default {
       axios
         .get(`${baseURL}/post/permit/${pid}`)
         .then((res)=>{
-          console.log(res.data)
           this.$router.push('/admin')
         }).catch((err)=>{
           console.log(err)

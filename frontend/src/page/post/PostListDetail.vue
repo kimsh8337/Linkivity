@@ -24,7 +24,10 @@
                       style="text-align:left; font-size:1rem; text-overflow:ellipsis; overflow: hidden; white-space: nowrap;"
                       v-for="hash in hashTag"
                       :key="hash.id"
-                    ><p @click="goTag(hash)">#{{ hash }}</p></small>
+                    >
+                      <p @click="goTag(hash)">#{{ hash }}</p>
+                    </small>
+                    
                     <div class="ml-auto">
                       <!-- 카카오톡 공유하기 -->
                       <button
@@ -106,8 +109,21 @@
                       style="font-size: 1rem; text-overflow:ellipsis; overflow: hidden; white-space:nowrap;"
                     >유효기간 {{ post.sdate }}~{{ post.edate }}</p>
                     <!-- 신고하기 버튼 -->
-                    <span data-toggle="modal" data-target="#indict" class="mr-2 my-auto indict" style="border:none; font-size:1.2rem" title="신고하기"><i class="fas fa-angry" style="color:red"></i></span>
-                    <IndictPost :post="post"/>
+                    <span
+                      data-toggle="modal"
+                      data-target="#indict"
+                      class="mr-2 my-auto indict"
+                      style="border:none; font-size:1.2rem"
+                      title="신고하기"
+                    >
+                    <div class="row">
+                      <i class="fas fa-bell-slash" style="color:red"></i>
+                      <p style="font-size:1rem; color:red">신고</p>
+                    </div>
+                    <!-- <i class="fas fa-bullhorn" style="color:red">신고</i> -->
+                      <!-- <i class="fas fa-angry" style="color:red"></i> -->
+                    </span>
+                    <IndictPost :post="post" />
                   </div>
                   <!-- 이용 가격 -->
                   <div class="d-flex justify-content-end mt-3">
@@ -132,6 +148,7 @@
                       ></i>
                       {{ post.likecnt }}명이 좋아요를 눌렀습니다.
                     </div>
+                    
                   </div>
                   <!-- 장바구니, 구매 -->
                   <div class="d-flex justify-content-end" v-if="this.checkType == 'normal'">
@@ -189,7 +206,7 @@
       <div data-spy="scroll" data-target="#navbar-example2" data-offset="0">
         <!-- 상세 정봉 -->
         <h4 id="item" class="d-flex mb-3" style="font-weight:bold">상세정보</h4>
-        <p class="d-flex" style="font-align:left">{{ post.detail }}</p>
+        <Viewer v-if="post.detail != null" :initialValue="post.detail"/>
         <hr />
         <!-- 업체 정보 -->
         <h4 id="corp" class="d-flex mb-3" style="font-weight:bold">업체정보</h4>
@@ -205,11 +222,10 @@
           <div>
             <h4 id="review" class style="font-weight:bold">후기</h4>
           </div>
-          <div v-if="this.checkType == 'normal'" class="review-button">
-            <i data-toggle="modal" data-target="#reviewWrite" class="fas fa-pen mr-1">
-              <small>후기 작성</small>
-            </i>
-          </div>
+          <button data-toggle="modal" data-target="#reviewWrite" v-if="this.checkType == 'normal'" class="btn btn-default" style="background-color:#86a5d4; color:white;">
+            <i class="fas fa-pen"></i>
+            작성
+          </button>
         </div>
         <ReviewWrite :pid="pid" :email="email" />
         <div class="d-none d-sm-block">
@@ -222,23 +238,26 @@
         <!-- Q & A -->
         <h4 id="qna" class="d-flex mb-3" style="font-weight:bold">Q&A</h4>
         <!-- 댓글 List -->
-        <div class="d-flex bg-white">총 <span class="ml-1" style="color:#0047ab;">{{ receiveComment.length }}</span>개</div>
+        <div class="d-flex bg-white">
+          총
+          <span class="ml-1" style="color:#0047ab;">{{ receiveComment.length }}</span>개
+        </div>
         <!-- 댓글 작성 -->
-        
+
         <CommentInput class="mt-3" v-if="this.email" @create-comment="createcomment" />
-      
-        <div v-if="receiveComment.length ==  0" class="mt-2">
+
+        <!-- <div v-if="receiveComment.length ==  0" class="mt-2">
           <i class="far fa-surprise mr-1 mb-3"></i>등록된 질문이 없습니다. 처음으로 질문을 남겨보세요!
           <i class="far fa-surprise ml-1"></i>
-        </div>
-        <hr class="mb-0">
+        </div> -->
+        <hr class="mb-0" />
         <CommentList
           v-for="comment in receiveComment"
           :key="comment.rid"
           :comment="comment"
           @comment-delete="commentDelete"
         />
-        </div>
+      </div>
 
       <hr class="mt-0" />
       <!-- 글 수정 삭제 -->
@@ -246,9 +265,9 @@
         class="d-flex justify-content-end mt-3 mb-3"
         v-if="this.email == this.post.email | this.checkType == 'admin'"
       >
-        <!-- <button class="btn btn-success" v-if="this.email == this.post.email" @click="goModify">
+        <button class="btn btn-success" v-if="this.email == this.post.email" @click="goModify">
           <i class="far fa-edit mr-2"></i>수정하기
-        </button> -->
+        </button>
         <button class="btn btn-danger" @click="goDelete">
           <i class="far fa-trash-alt mr-2"></i>삭제하기
         </button>
@@ -269,9 +288,13 @@ import ReviewSlide from "../../components/review/ReviewSlide.vue";
 import ReviewWrite from "../../components/review/ReviewModal.vue";
 import ReviewMobile from "../../components/review/ReviewMobile.vue";
 
+import "codemirror/lib/codemirror.css";
+import "@toast-ui/editor/dist/toastui-editor.css";
+import { Viewer } from "@toast-ui/vue-editor";
+
 import Swal from "sweetalert2";
 
-import IndictPost from '../../components/modal/IndictPost.vue'
+import IndictPost from "../../components/modal/IndictPost.vue";
 
 const baseURL = process.env.VUE_APP_BACKURL;
 
@@ -283,6 +306,7 @@ export default {
     ReviewWrite,
     ReviewMobile,
     IndictPost,
+    Viewer,
   },
   data() {
     return {
@@ -311,9 +335,8 @@ export default {
   },
   methods: {
     goTag(tag) {
-      console.log(tag);
       this.$router.push({
-        name: 'TagList',
+        name: "TagList",
         params: { TAG: tag },
       });
     },
@@ -587,18 +610,30 @@ export default {
                 msg += "결제 금액 : " + rsp.paid_amount;
                 msg += "카드 승인번호 : " + rsp.apply_num;
 
-                console.log(th.packPost);
-                console.log(th.sum);
-                console.log(th.email);
-
                 axios
                   .get(
-                    `${baseURL}/purchase/regist/${th.packPost}/${th.email}/${th.sum}`
+                    `${baseURL}/purchase/registOne/${th.pid}/${th.email}/${th.post.price}`
                   )
                   .then((response) => {
-                    alert("구매 완료");
-                    th.$router.push("/user/basket");
-                    th.$router.go();
+                    const Toast = Swal.mixin({
+                      toast: true,
+                      position: "top-end",
+                      showConfirmButton: false,
+                      timer: 1000,
+                      timerProgressBar: true,
+                      onOpen: (toast) => {
+                        toast.addEventListener("mouseenter", Swal.stopTimer);
+                        toast.addEventListener("mouseleave", Swal.resumeTimer);
+                      },
+                    });
+
+                    Toast.fire({
+                      icon: "success",
+                      title: "구매 완료",
+                    });
+                    setTimeout(() => {
+                      th.$router.go();
+                    }, 1000);
                   })
                   .catch((err) => {
                     console.log(err);
@@ -630,7 +665,6 @@ export default {
       geocoder.addressSearch(loc, function (result, status) {
         // 정상적으로 검색이 완료됐으면
         if (status === kakao.maps.services.Status.OK) {
-          // console.log(result);
           var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
 
           // 결과값으로 받은 위치를 마커로 표시합니다
