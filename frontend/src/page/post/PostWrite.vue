@@ -10,8 +10,8 @@
           <th style="width:15%">바로가기</th>
         </tr>
       </thead>
-      <tr id="tt" v-for="(post, index) in posts" :key="index">
-        <td v-if="email == post.email">{{index+1}}</td>
+      <tr id="tt" v-for="(post, index) in wposts" :key="index">
+        <td v-if="email == post.email">{{((wpage - 1) * 8 ) + index + 1}}</td>
         <td v-if="email == post.email">
           <img :src="post.imgurl" style="width: 100px; height: 100px;" />
         </td>
@@ -21,6 +21,9 @@
       </tr>
     </table>
     <br />
+
+    <!-- paging -->
+    <b-pagination class="mt-5 mb-0" v-if="wtotalPage > 10" v-model="wpage" :total-rows="wtotalPage" pills :per-page="10"></b-pagination>
   </div>
 </template>
 
@@ -32,9 +35,10 @@ const baseURL = process.env.VUE_APP_BACKURL;
 export default {
     data(){
         return{
-            posts:{},
+            wposts:[],
             type:'all',
-            page:0,
+            wtotalPage: 0,
+            wpage:1,
             email:'',
         }
     },
@@ -42,26 +46,34 @@ export default {
         this.authUser();
     },
     methods:{
+        postCount() {
+            axios
+            .get(`${baseURL}/post/count/mypost/${this.email}`)
+            .then((res)=>{
+                this.wtotalPage = res.data
+                this.checkPage();
+            }).catch((err)=>{
+                console.log(err)
+            })
+        },
         authUser(){
             axios
                 .get(`${baseURL}/account/authuser/${this.$cookies.get('Auth-Token')}`)
                 .then((res)=>{
                     this.email = res.data.email
-                    console.log(this.email)
-                    this.init()
+                    this.postCount();
                 }).catch((err)=>{
                     console.log(err)
                 })
         },
-        init(){
+        checkPage(){
             axios
-                .get(`${baseURL}/post/getList/${this.type}/${this.page}`)
-                .then((res)=>{
-                    this.posts = res.data
-                }).catch((err)=>{
-                    console.log(err)
-                })
-              
+            .get(`${baseURL}/post/mypost/${this.email}/${this.wpage}`)
+            .then((res)=>{
+                this.wposts = res.data
+            }).catch((err)=>{
+                console.log(err)
+            })
         },
         createdate(date){
             var cd = date+""
@@ -72,6 +84,11 @@ export default {
             this.$router.push(`/posts/${pid}`)
         }
     },
+    watch: {
+    wpage: function(v) {
+      this.checkPage();
+    },
+  },
 
 }
 </script>

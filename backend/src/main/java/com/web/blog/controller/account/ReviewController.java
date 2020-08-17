@@ -12,6 +12,7 @@ import com.web.blog.model.post.PostList;
 import com.web.blog.model.user.Review;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -164,12 +165,28 @@ public class ReviewController {
         }
     }
 
-    @GetMapping("/listbyemail/{email}")
+    @GetMapping("/listbyemail/{email}/{page}")
     @ApiOperation("내가 쓴 후기 리스트")
-    public List<Review> list(@PathVariable String email) {
-        List<Review> list = new LinkedList<>();
-        list = reviewDao.findByEmail(email);
-        return list;
+    public Object list(@PathVariable String email, @PathVariable int page) {
+        try {
+            List<Review> list = new LinkedList<>();
+            list = reviewDao.findByEmail(email, PageRequest.of(page - 1, 8));
+            return new ResponseEntity<>(list, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/count/listbyemail/{email}")
+    @ApiOperation("내가 쓴 후기 리스트 카운트")
+    public Object countList(@PathVariable String email) {
+        try {
+            List<Review> list = new LinkedList<>();
+            list = reviewDao.findByEmail(email);
+            return new ResponseEntity<>(list.size(), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
 }

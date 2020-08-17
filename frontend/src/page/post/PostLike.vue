@@ -61,7 +61,7 @@
       </div>
     </div>
     <!-- paging -->
-    <b-pagination v-if="ltotalPage > 8" v-model="lpage" :total-rows="ltotalPage" pills :per-page="8"></b-pagination>
+    <b-pagination class="mt-5 mb-0" v-if="ltotalPage > 8" v-model="lpage" :total-rows="ltotalPage" pills :per-page="8"></b-pagination>
     <br />
     <br />
     <br />
