@@ -123,7 +123,7 @@
 
         <!-- <hr class="border-bottom-1 border-black mt-1" />
         <div class="card col-sm-12 mt-1"></div> -->
-        <hr>
+        <hr class="mt-5">
         <button @click="deluser" class="btn">
           <i class="fas fa-user-slash"><span class="ml-1">탈퇴하기</span></i>
         </button>

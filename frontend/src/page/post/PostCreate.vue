@@ -3,13 +3,13 @@
     <!-- background image -->
     <div class="post-img" style="display:block;"></div>
 
-    <div class="container col-md-7" style="margin-top: 100px">
+    <div class="container col-md-8" style="margin-top: 100px">
       <div class="column">
-        <div class="card mt-5 mb-3" style="max-width: 100%;">
+        <div class="card mt-5 mb-3" style="max-width: 100%">
           <div class="row no-gutters">
             <!-- 이미지 삽입 -->
             <div class="col-md-5">
-              <div class="col-md-8 p-0" align="left">
+              <div class="col-md-10 p-0 mr-0" align="left">
                 <img
                   class="card-img mb-2"
                   v-if="this.PostCreate.imgurl"
@@ -20,7 +20,7 @@
                   type="button"
                   class="btn btn-primary btn-sm"
                   @click="onClickImageUpload"
-                >이미지 업로드</button>
+                ><i class="fas fa-image"><span class="ml-1">이미지 업로드</span></i></button>
               </div>
               <input ref="imageInput" type="file" hidden @change="onChangeImages" />
               <small
@@ -34,7 +34,7 @@
             </div>
 
             <div class="col-md-7">
-              <div class="card-body" style="padding: 0 0 0 20px">
+              <div class="card-body" style="padding: 0 0 0 0px">
                 <div class="text">
                   <!-- 제목 -->
                   <div class="form-group">
@@ -106,9 +106,9 @@
         </div>
       </div>
       <hr class="mt-0" />
-      <!-- season, place check badge -->
-      <div class="d-flex justify-content-between">
-        <div class="form-group" style="width:23rem; ">
+      <div class="row">
+        <!-- field 선택 -->
+        <div class="form-group col-sm-12 col-md-5" style="width:23rem;">
           <label class="d-flex justify-content-start">Field</label>
           <select class="form-control" id="place" v-model="PostCreate.place">
             <option value="ground">Ground</option>
@@ -118,7 +118,8 @@
           <small class="form-text text-muted d-flex" v-if="!error.place">필드를 선택하세요.</small>
           <small class="form-text d-flex" style="color:red;" v-if="error.place">{{error.place}}</small>
         </div>
-        <div class="form-group">
+        <!-- Season 선택 -->
+        <div class="form-group col-sm-12 col-md-7">
           <label class="d-flex justify-content-start">Seasons</label>
           <div class="d-flex">
             <div class="form-check form-check-inline">
