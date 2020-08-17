@@ -74,6 +74,8 @@ export default {
       axios
         .post(`${baseURL}/account/signup`, data)
         .then(response => {
+          alert(response.data);
+
           alert("환영합니다.");
           this.$router.push("/");
         })
@@ -98,6 +100,9 @@ export default {
       axios
         .post(`${baseURL}/account/signup`, data)
         .then(response => {
+          if(response.data == 1){
+            alert("탈퇴된 회원입니다")
+          }
           alert("회원가입 인증 메일이 발송되었습니다. 이메일을 확인해주세요.");
           this.$router.push("/");
         })

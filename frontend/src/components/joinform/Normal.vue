@@ -10,7 +10,9 @@
         class="btn btn-default btn-sm d-flex m-1"
         @click="onClickImageUpload"
         style="border-radius:35px; font-size:13px; border:1.5px solid"
-      >사진 업로드(선택)</button>
+      >
+        사진 업로드(선택)
+      </button>
       <div class="col-md-8 p-0" align="left">
         <input ref="imageInput" type="file" hidden @change="onChangeImages" />
         <img
@@ -26,9 +28,25 @@
       <label for="exampleInputEmail1" class="d-flex">
         <i class="fas fa-user">Name</i>
       </label>
-      <input v-model="name" type="text" class="form-control" id="name" aria-describedby="emailHelp" />
-      <small id="emailHelp" class="form-text text-muted d-flex" v-if="!error.name">이름을 입력하세요.</small>
-      <span class="error-text d-flex mt-1" v-if="error.name" style="color:crimson;">{{error.name}}</span>
+      <input
+        v-model="name"
+        type="text"
+        class="form-control"
+        id="name"
+        aria-describedby="emailHelp"
+      />
+      <small
+        id="emailHelp"
+        class="form-text text-muted d-flex"
+        v-if="!error.name"
+        >이름을 입력하세요.</small
+      >
+      <span
+        class="error-text d-flex mt-1"
+        v-if="error.name"
+        style="color:crimson;"
+        >{{ error.name }}</span
+      >
     </div>
 
     <!-- 닉네임 입력칸 -->
@@ -36,13 +54,24 @@
       <label for="exampleInputPassword1" class="d-flex">
         <i class="fas fa-smile">Nickname</i>
       </label>
-      <input v-model="nickname" type="text" class="form-control" id="nickname" />
-      <small id="emailHelp" class="form-text text-muted d-flex" v-if="!error.nickname">닉네임을 입력하세요.</small>
+      <input
+        v-model="nickname"
+        type="text"
+        class="form-control"
+        id="nickname"
+      />
+      <small
+        id="emailHelp"
+        class="form-text text-muted d-flex"
+        v-if="!error.nickname"
+        >닉네임을 입력하세요.</small
+      >
       <span
         class="error-text d-flex mt-1"
         v-if="error.nickname"
         style="color:crimson;"
-      >{{error.nickname}}</span>
+        >{{ error.nickname }}</span
+      >
     </div>
 
     <!-- email 입력칸 -->
@@ -53,7 +82,10 @@
       <div class="d-flex justify-content-between">
         <input
           v-model="email"
-          v-bind:class="{error : error.email, complete:!error.email&&email.length!==0}"
+          v-bind:class="{
+            error: error.email,
+            complete: !error.email && email.length !== 0,
+          }"
           type="email"
           class="form-control"
           id="email"
@@ -64,29 +96,39 @@
           type="email"
           class="form-control"
           id="email"
-          v-if="code==1"
+          v-if="code == 1"
           style="width:30%"
           placeholder="인증번호 입력"
         />
         <button
           class="btn btn-default"
           @click="sendCode"
-          v-if="code==0"
+          v-if="code == 0"
           style="width:18%; border-radius:10px; font-size:13px; border:1.5px solid"
-        >인증번호 발송</button>
+        >
+          인증번호 발송
+        </button>
         <button
           class="btn btn-default"
           @click="checkCode"
-          v-if="code==1"
+          v-if="code == 1"
           style="width:18%; border-radius:10px; font-size:13px; border:1.5px solid"
-        >확인</button>
+        >
+          확인
+        </button>
       </div>
-      <small id="emailHelp" class="form-text text-muted d-flex" v-if="!error.email">이메일을 입력하세요.</small>
+      <small
+        id="emailHelp"
+        class="form-text text-muted d-flex"
+        v-if="!error.email"
+        >이메일을 입력하세요.</small
+      >
       <small
         class="error-text d-flex mt-1"
         v-if="error.email"
         style="color:crimson;"
-      >{{error.email}}</small>
+        >{{ error.email }}</small
+      >
     </div>
 
     <!-- 비밀번호 입력칸 -->
@@ -96,18 +138,27 @@
       </label>
       <input
         v-model="password"
-        v-bind:class="{error : error.password, complete:!error.password&&password.length!==0}"
+        v-bind:class="{
+          error: error.password,
+          complete: !error.password && password.length !== 0,
+        }"
         :type="passwordType"
         class="form-control"
         id="password"
       />
-      <small id="emailHelp" class="form-text text-muted d-flex" v-if="!error.password">비밀번호를 입력하세요.</small>
-      <span :class="{active : passwordType==='text'}">
+      <small
+        id="emailHelp"
+        class="form-text text-muted d-flex"
+        v-if="!error.password"
+        >비밀번호를 입력하세요.</small
+      >
+      <span :class="{ active: passwordType === 'text' }">
         <span
           class="error-text d-flex mt-1"
           v-if="error.password"
           style="color:crimson;"
-        >{{error.password}}</span>
+          >{{ error.password }}</span
+        >
       </span>
     </div>
 
@@ -118,7 +169,10 @@
       </label>
       <input
         v-model="passwordconfirm"
-        v-bind:class="{error : error.passwordconfirm, complete:!error.passwordconfirm&&passwordconfirm.length!==0}"
+        v-bind:class="{
+          error: error.passwordconfirm,
+          complete: !error.passwordconfirm && passwordconfirm.length !== 0,
+        }"
         :type="passwordConfirmType"
         class="form-control"
         id="passwordconfirm"
@@ -127,53 +181,70 @@
         id="emailHelp"
         class="form-text text-muted d-flex"
         v-if="!error.passwordconfirm"
-      >비밀번호를 다시 입력하세요.</small>
-      <span :class="{active : passwordConfirmType==='text'}">
+        >비밀번호를 다시 입력하세요.</small
+      >
+      <span :class="{ active: passwordConfirmType === 'text' }">
         <span
           class="error-text d-flex mt-1"
           v-if="error.passwordconfirm"
           style="color:crimson;"
-        >{{error.passwordconfirm}}</span>
+          >{{ error.passwordconfirm }}</span
+        >
       </span>
     </div>
     <label>
-      
       <input v-model="isTerm" type="checkbox" id="term" />
       <span>약관에 동의합니다</span>
-      
     </label>
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalLong">
+    <button
+      type="button"
+      class="btn btn-primary"
+      data-toggle="modal"
+      data-target="#exampleModalLong"
+    >
       약관 보기
-</button>
+    </button>
 
-     <!-- Modal -->
-<div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content" style="width:560px">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">최종이용자 이용약관</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body" style="overflow:auto">
-         <table width="100%" height="100%">
-  <tr>
-   <td width="50%" height="50%"> <b> 링키비티 이용 약관(쇼핑몰)</b>
-    <br>
-   </td>
-  </tr>
-  <tr>
-   <td width="30%" height="30%" align="center">
-   
-
-   <br>
-    <!-- <table width="100%" height="100%">
-      <tbody> -->
-  <pre>
+    <!-- Modal -->
+    <div
+      class="modal fade"
+      id="exampleModalLong"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="exampleModalLongTitle"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog" role="document">
+        <div class="modal-content" style="width:560px">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLongTitle">
+              최종이용자 이용약관
+            </h5>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body" style="overflow:auto;">
+            <table width="80%" height="80%">
+              <tr>
+                <td width="50%" height="50%">
+                  <b> 링키비티 이용 약관(쇼핑몰)</b>
+                  <br />
+                </td>
+              </tr>
+              <tr>
+                <td width="30%" height="30%" align="center">
+                  <br />
+      
+                  <pre>
  <textarea
   readonly
-     rows="20" cols="60">
+     rows="15" cols="60">
       
 제1조 (목적)
      
@@ -371,29 +442,27 @@
 ② "몰"과 이용자간에 제기된 전자상거래 소송에는 한국법을 적용합니다.     
      
    </textarea>
-   </pre>
-     <!-- </tbody>
-    </table> -->
-   <br>
-   <!-- <input type="checkbox" name="req"> 개인정보 수집 및 이용에 동의합니다. -->
-   </td>
-  </tr>
-  <tr>
-   <!-- <td align="center" valign="top">
-    <input type="button" value="동의" @click="chk()"/>&nbsp;&nbsp;&nbsp;
-    <input type="button" value="동의하지 않습니다" onclick="nochk()"/>
-   </td> -->
-  </tr>
- </table>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">확 인</button>
-        <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+   </pre>        
+                </td>
+              </tr>
+              <tr>
+
+              </tr>
+            </table>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-dismiss="modal"
+            >
+              확 인
+            </button>
+           
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-</div>
-
 
     <!-- <span class="go-term">약관 보기</span> -->
 
@@ -427,7 +496,6 @@ import axios from "axios";
 const baseURL = process.env.VUE_APP_BACKURL;
 
 export default {
-  
   created() {
     this.passwordSchema
       .is()
@@ -441,16 +509,16 @@ export default {
     this.checkForm();
   },
   watch: {
-    password: function (v) {
+    password: function(v) {
       this.checkForm();
     },
-    email: function (v) {
+    email: function(v) {
       this.checkForm();
     },
-    passwordconfirm: function (v) {
+    passwordconfirm: function(v) {
       this.checkForm();
     },
-    nickname: function (v) {
+    nickname: function(v) {
       this.checkForm();
     },
   },
@@ -459,8 +527,11 @@ export default {
   },
   methods: {
     sendCode() {
-      if(this.error.email || this.email.length == 0){
-        alert("올바른 이메일을 입력하세요.");
+      if (this.error.email || this.email.length == 0) {
+        if (this.error.email == "사용할수없는 이메일입니다") {
+        } else {
+          alert("올바른 이메일을 입력하세요.");
+        }
         return;
       }
       this.code = 1;
@@ -477,11 +548,11 @@ export default {
       axios
         .get(`${baseURL}/account/checkCode/${this.email}/${this.codeNum}`)
         .then((response) => {
-          if(response.data == "성공"){
+          if (response.data == "성공") {
             alert("인증완료");
             this.code = 2;
             this.iscertify = true;
-          }else{
+          } else {
             alert("인증실패");
             this.iscertify = false;
           }
@@ -512,7 +583,7 @@ export default {
             this.error.email = response.data;
           })
           .catch(() => {
-            alert("에러");
+            alert("이메일 에러");
           });
       } else this.error.email = false;
       //비번 에러
@@ -531,11 +602,11 @@ export default {
       else this.error.passwordconfirm = false;
     },
     join() {
-      if(!this.iscertify){
+      if (!this.iscertify) {
         alert("이메일 인증이 완료되지 않았습니다.");
         return;
       }
-      if(this.isTerm == false){
+      if (this.isTerm == false) {
         alert("약관에 동의해주세요");
         return;
       }
@@ -614,12 +685,11 @@ export default {
       passwordType: "password",
       passwordConfirmType: "password",
       code: 0,
-      codeNum:"",
-      iscertify:false,
+      codeNum: "",
+      iscertify: false,
     };
   },
 };
 </script>
 
-<style>
-</style>
+<style></style>

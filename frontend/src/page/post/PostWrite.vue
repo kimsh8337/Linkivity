@@ -1,13 +1,13 @@
 <template>
-  <div class="container">
+  <div class="container p-0">
     <table class="table">
       <thead class="thead-dark">
         <tr>
-          <th style="width:10%;">No</th>
-          <th style="width:20%">이미지</th>
-          <th style="width:40%">제목</th>
-          <th style="width:15%">작성일</th>
-          <th style="width:15%">바로가기</th>
+          <th style="width:10%; white-space: nowrap;">No</th>
+          <th style="width:20%; white-space: nowrap;">이미지</th>
+          <th style="width:40%; white-space: nowrap;">제목</th>
+          <th style="width:15%; white-space: nowrap;">작성일</th>
+          <th style="width:15%; white-space: nowrap;">바로가기</th>
         </tr>
       </thead>
       <tr id="tt" v-for="(post, index) in wposts" :key="index">
