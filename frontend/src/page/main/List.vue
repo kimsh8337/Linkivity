@@ -322,6 +322,9 @@ export default {
     this.reviewinit();
   },
   watch: {
+    tName: function(v) {
+      this.tagSearch(this.tName);
+    }
   },
 
   methods: {
@@ -506,7 +509,8 @@ export default {
       this.userCheck();
       this.infiniteId += 1;
       if(this.tName.length == 0) {
-        alert("해쉬태그를 입력해주세요");
+        // alert("해쉬태그를 입력해주세요");
+        this.$router.go();
       } 
       else {
         this.resultTitle = tags;
@@ -516,7 +520,7 @@ export default {
           this.pids = res.data;
           this.tPosts = [];
           this.tagFlag = true;
-          scroll(0, 200);
+          scroll(0, 350);
         })
         .catch(err => {
           console.log(err);

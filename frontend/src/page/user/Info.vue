@@ -232,16 +232,44 @@ export default {
       this.validated = 0;
     },
     deluser() {
-      axios
-        .delete(`${baseURL}/account/delete/${this.email}`)
-        .then((response) => {
-          alert('탈퇴 완료');
-          this.$cookies.remove('Auth-Token');
-          this.$router.push('/');
-          this.$router.go();
-        })
-        .catch((err) => {
-          console.log(err)
+      Swal.fire({
+        width: 350,
+        text: "삭제하시겠습니까?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: '<a style="font-size:1rem; color:black">Delete</a>',
+        cancelButtonText: '<a style="font-size:1rem; color:black">Cancel</a>',
+      }).then((result) => {
+        if (result.value) {
+          const Toast = Swal.mixin({
+            toast: true,
+            position: "top-end",
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            onOpen: (toast) => {
+              toast.addEventListener("mouseenter", Swal.stopTimer);
+              toast.addEventListener("mouseleave", Swal.resumeTimer);
+            },
+          });
+          Toast.fire({
+            icon: "success",
+            title: "글이 삭제되었습니다.",
+          });
+          axios
+          .delete(`${baseURL}/account/delete/${this.email}`)
+          .then((response) => {
+            alert('탈퇴 완료');
+            this.$cookies.remove('Auth-Token');
+            this.$router.push('/');
+            this.$router.go();
+          })
+          .catch((err) => {
+            console.log(err)
+          });
+          } 
         });
     },
     modify() {

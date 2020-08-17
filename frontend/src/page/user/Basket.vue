@@ -50,6 +50,14 @@
         <BasketPackingModal :prePosts="prePosts" />
       </div>
     </div>
+
+    <!-- 장바구니가 비어있을 때 -->
+    <div class="col">
+      <div class="mt-5 mb-3">
+        장바구니가 비어있습니다.
+      </div>
+      <button type="button" class="btn mb-5" @click="goPost()" style="background-color: rgb(134, 165, 212); color: white;">상품보러 가기</button>
+    </div>
   </div>
 </div>
 </template>
@@ -217,6 +225,9 @@ export default {
             });
         }
       });
+    },
+    goPost() {
+      this.$router.push("/posts")
     },
   },
   computed: {
