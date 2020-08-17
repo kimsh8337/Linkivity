@@ -20,7 +20,6 @@
         <td v-if="email == post.email"><button class="postwrite-button" @click="getdetail(post.pid)">바로가기</button></td>
       </tr>
     </table>
-    <br />
   </div>
 </template>
 
@@ -55,7 +54,7 @@ export default {
         },
         init(){
             axios
-                .get(`${baseURL}/post/getList/${this.type}/${this.page}`)
+                .get(`${baseURL}/post/mypost/${this.email}`)
                 .then((res)=>{
                     this.posts = res.data
                 }).catch((err)=>{
