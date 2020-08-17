@@ -1,13 +1,13 @@
 <template>
   <div>
     <!-- 판매된 상품이 없을 때 -->
-    <div class="mt-5 mb-5" v-if="items.length <= 0">
+    <div class="mt-5 mb-5" v-if="sitems.length <= 0">
       <i class="fas fa-surprise mt-5 mr-2 mb-5"></i
       ><span style="font-weight:bold">판매된 상품이 없습니다.</span
       ><i class="fas fa-surprise ml-2"></i>
     </div>
     <!-- 판매된 상품이 있을때 -->
-    <div class="container" v-if="items.length > 0">
+    <div class="container" v-if="sitems.length > 0">
       <table class="table">
         <thead class="thead-dark">
           <tr>
@@ -19,7 +19,7 @@
             <th>사용여부</th>
           </tr>
         </thead>
-        <tr id="tt" v-for="(itm, index) in items" :key="index">
+        <tr id="tt" v-for="(itm, index) in sitems" :key="index">
           <td>{{ itm.email }}</td>
           <td>
             <img
@@ -60,6 +60,8 @@
       <ConfirmModal :purid="this.id" @make-use="makeuse" />
       <br />
     </div>
+    <!-- paging -->
+    <b-pagination class="mt-5 mb-0" v-if="stotalPage > 10" v-model="spage" :total-rows="stotalPage" pills :per-page="10"></b-pagination>
   </div>
 </template>
 
@@ -72,8 +74,10 @@ export default {
   components: { ConfirmModal },
   data() {
     return {
-      items: [],
+      sitems: [],
       id: "",
+      spage: 1,
+      stotalPage: 0
     };
   },
 
@@ -92,17 +96,28 @@ export default {
         .get(`${baseURL}/account/authuser/${this.$cookies.get("Auth-Token")}`)
         .then((res) => {
           this.email = res.data.email;
-          this.init();
+          this.countPage();
         })
         .catch((err) => {
           console.log(err);
         });
     },
-    init() {
+    countPage() {
       axios
-        .get(`${baseURL}/purchase/sellList/${this.email}`)
+        .get(`${baseURL}/purchase/count/sellList/${this.email}`)
         .then((res) => {
-          this.items = res.data;
+          this.stotalPage = res.data;
+          this.checkPage();
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    checkPage() {
+      axios
+        .get(`${baseURL}/purchase/sellList/${this.email}/${this.spage}`)
+        .then((res) => {
+          this.sitems = res.data;
         })
         .catch((err) => {
           console.log(err);
@@ -169,6 +184,11 @@ export default {
   created() {
     this.authUser();
   },
+  watch: {
+    spage: function(v) {
+      this.checkPage();
+    }
+  }
 };
 </script>
 
