@@ -402,5 +402,6 @@ export default {
   height: 50px;
   padding-top: 15px;
   padding-bottom: 0;
+  color: black;
 }
 </style>

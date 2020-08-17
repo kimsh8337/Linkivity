@@ -18,50 +18,50 @@
           <div class="ml-4" style="text-align:left">
             <ul class="navbar-nav nav-sub ml-auto">
               <li class="nav-item">
-                <a class="nav-link mt-3" @click="goPost">
+                <a class="nav-link mt-3 hamburger" @click="goPost">
                   <i class="fas fa-stream mr-2"></i>
                   액티비티
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link mt-3" @click="goNotice">
+                <a class="nav-link mt-3  hamburger" @click="goNotice">
                   <i class="fas fa-flag mr-2"></i>
                   공지사항
                 </a>
               </li>
               <li class="nav-item">
-                <a v-if="this.$cookies.isKey('Auth-Token') && this.usertype == 'business'" class="nav-link mt-3" @click="gocreate">
+                <a v-if="this.$cookies.isKey('Auth-Token') && this.usertype == 'business'" class="nav-link mt-3  hamburger" @click="gocreate">
                   <i class="fas fa-pen mr-2"></i>
                   액티비티 등록
                 </a>
               </li>
               <li class="nav-item">
-                <a v-if="this.$cookies.isKey('Auth-Token') && this.usertype == 'normal'" class="nav-link mt-3" @click="goBasket">
+                <a v-if="this.$cookies.isKey('Auth-Token') && this.usertype == 'normal'" class="nav-link mt-3  hamburger" @click="goBasket">
                   <i class="fas fa-shopping-basket mr-2"></i>
                   장바구니
                 </a>
               </li>
 
               <li class="nav-item">
-                <a v-if="this.$cookies.isKey('Auth-Token') && this.usertype != 'admin'" @click="info" class="nav-link mt-3">
+                <a v-if="this.$cookies.isKey('Auth-Token') && this.usertype != 'admin'" @click="info" class="nav-link mt-3  hamburger">
                   <i class="far fa-user mr-2"></i>
                   마이페이지
                 </a>
               </li>
               <li class="nav-item">
-                <a v-if="this.$cookies.isKey('Auth-Token') && this.usertype == 'admin'" @click="goadmin" class="nav-link mt-3">
+                <a v-if="this.$cookies.isKey('Auth-Token') && this.usertype == 'admin'" @click="goadmin" class="nav-link mt-3  hamburger">
                   <i class="fas fa-users-cog mr-2"></i>
                   관리 페이지
                 </a>
               </li>
               <li class="nav-item">
-                <a v-if="this.$cookies.isKey('Auth-Token')" @click="logout" class="nav-link mt-3">
+                <a v-if="this.$cookies.isKey('Auth-Token')" @click="logout" class="nav-link mt-3  hamburger">
                   <i class="fas fa-sign-out-alt mr-2"></i>
                   로그아웃
                 </a>
               </li>
               <li class="nav-item">
-                <a v-if="!this.$cookies.isKey('Auth-Token')" data-toggle="modal" data-target="#LoginModal" class="nav-link mt-3">
+                <a v-if="!this.$cookies.isKey('Auth-Token')" data-toggle="modal" data-target="#LoginModal" class="nav-link mt-3  hamburger">
                   <i class="fas fa-sign-in-alt mr-2"></i>
                   로그인
                 </a>
@@ -70,18 +70,6 @@
           </div>
         </b-sidebar>
       </div>
-
-      <!-- <button
-        class="navbar-toggler navbar-toggler-right text-black"
-        type="button"
-        data-toggle="collapse"
-        data-target="#navbarSupportedContent"
-        aria-controls="navbarSupportedContent"
-        aria-expanded="false"
-        aria-label="Toggle navigation"
-      >
-        <span class="navbar-toggler-icon"></span>
-      </button> -->
 
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav nav-sub ml-auto">
@@ -250,7 +238,12 @@ export default {
 </script>
 
 <style scoped>
-/* .pageclick {
-  cursor: pointer;
-} */
+.nav-link {
+    font-size: 0.9rem;
+    color: white !important;
+    cursor: pointer;
+}
+.hamburger {
+  color: black !important;
+}
 </style>
