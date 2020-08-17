@@ -559,22 +559,23 @@ export default {
     tagSearch(tags) {
       this.userCheck();
       this.infiniteId += 1;
-      if (this.tName.length == 0) {
-        alert("해쉬태그를 입력해주세요");
-      } else {
+      if(this.tName.length == 0) {
+        // alert("해쉬태그를 입력해주세요");
+        this.$router.go();
+      } 
+      else {
         this.resultTitle = tags;
         this.page = 0;
-        axios
-          .get(`${baseURL}/tag/search/` + tags)
-          .then((res) => {
-            this.pids = res.data;
-            this.tPosts = [];
-            this.tagFlag = true;
-            scroll(0, 200);
-          })
-          .catch((err) => {
-            console.log(err);
-          });
+        axios.get(`${baseURL}/tag/search/` + tags)
+        .then(res => {
+          this.pids = res.data;
+          this.tPosts = [];
+          this.tagFlag = true;
+          scroll(0, 350);
+        })
+        .catch(err => {
+          console.log(err);
+        })
       }
     },
   },
