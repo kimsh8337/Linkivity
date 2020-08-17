@@ -11,7 +11,7 @@
       <div class="modal-content" style="width:80%; border:0">
         <div
           class="modal-header pl-0"
-          style="background-color:RGB(134, 165, 212); width:100%"
+          style="background-color:#ccdced; width:100%"
         >
           <h4
             class="modal-title font-weight-bold my-auto ml-2"
