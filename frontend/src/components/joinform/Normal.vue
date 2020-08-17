@@ -1,23 +1,24 @@
 <template>
   <div class="container col-md-6">
+    <hr>
     <!-- img upload -->
     <div class="form-group">
       <label class="d-flex">
-        <i class="fas fa-images">Profile Img</i>
+        <i class="fas fa-images"><span class="ml-1">Profile Img</span></i>
       </label>
       <button
         type="button"
-        class="btn btn-default btn-sm d-flex m-1"
+        class="btn btn-default btn-sm d-flex"
         @click="onClickImageUpload"
-        style="border-radius:35px; font-size:13px; border:1.5px solid"
+        style="border-radius:12px; font-size:13px; border:1.5px solid"
       >
-        사진 업로드(선택)
+      <span style="font-weight:bold">사진 업로드(선택)</span>
       </button>
       <div class="col-md-8 p-0" align="left">
         <input ref="imageInput" type="file" hidden @change="onChangeImages" />
         <img
           class="card-img mb-2 mt-2"
-          style="height: 15rem; width: 15rem; border-radius:10px; border:1.5px solid lightgray;"
+          style="height: 18rem; width: 18rem; border-radius:10px; border:1.5px solid lightgray;"
           v-if="this.imgurl"
           :src="this.imgurl"
         />
@@ -26,7 +27,7 @@
     <!-- 이름 입력칸  -->
     <div class="form-group">
       <label for="exampleInputEmail1" class="d-flex">
-        <i class="fas fa-user">Name</i>
+        <i class="fas fa-user"><span class="ml-1">Name</span></i>
       </label>
       <input
         v-model="name"
@@ -52,7 +53,7 @@
     <!-- 닉네임 입력칸 -->
     <div class="form-group">
       <label for="exampleInputPassword1" class="d-flex">
-        <i class="fas fa-smile">Nickname</i>
+        <i class="fas fa-smile"><span class="ml-1">Nickname</span></i>
       </label>
       <input
         v-model="nickname"
@@ -77,7 +78,7 @@
     <!-- email 입력칸 -->
     <div class="form-group">
       <label for="exampleInputPassword1" class="d-flex">
-        <i class="fas fa-at">E-mail</i>
+        <i class="fas fa-at"><span class="ml-1">E-mail</span></i>
       </label>
       <div class="d-flex justify-content-between">
         <input
@@ -104,7 +105,7 @@
           class="btn btn-default"
           @click="sendCode"
           v-if="code == 0"
-          style="width:18%; border-radius:10px; font-size:13px; border:1.5px solid"
+          style="width:18%; border-radius:10px; font-size:13px; border:1.5px solid;"
         >
           인증번호 발송
         </button>
@@ -134,7 +135,7 @@
     <!-- 비밀번호 입력칸 -->
     <div class="form-group">
       <label for="exampleInputPassword1" class="d-flex">
-        <i class="fas fa-eye">Password</i>
+        <i class="fas fa-eye"><span class="ml-1">Password</span></i>
       </label>
       <input
         v-model="password"
@@ -165,7 +166,7 @@
     <!-- 비밀번호 확인 입력칸 -->
     <div class="form-group">
       <label for="exampleInputPassword1" class="d-flex">
-        <i class="fas fa-eye">Password Confirm</i>
+        <i class="fas fa-eye"><span class="ml-1">Password Confirm</span></i>
       </label>
       <input
         v-model="passwordconfirm"

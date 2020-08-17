@@ -1,17 +1,18 @@
 <template>
   <div class="container col-md-6">
     <!-- img upload -->
+    <hr>
     <div class="form-group">
       <label class="d-flex">
         <i class="fas fa-images">Profile Img</i>
       </label>
       <button
         type="button"
-        class="btn btn-default btn-sm d-flex m-1"
+        class="btn btn-default btn-sm d-flex"
         @click="onClickImageUpload"
-        style="border-radius:35px; font-size:13px; border:1.5px solid"
+        style="border-radius:12px; font-size:13px; border:1.5px solid"
       >
-        사진 업로드(선택)
+      <span style="font-weight:bold">사진 업로드(선택)</span>
       </button>
       <div class="col-md-8 p-0" align="left">
         <input ref="imageInput" type="file" hidden @change="onChangeImages" />

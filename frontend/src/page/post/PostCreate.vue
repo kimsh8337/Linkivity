@@ -18,19 +18,31 @@
                 />
                 <button
                   type="button"
-                  class="btn btn-primary btn-sm"
+                  class="btn d-flex"
+                  style="border-radius:10px; font-size:15px; border:1.5px solid; height:2.5rem"
                   @click="onClickImageUpload"
-                ><i class="fas fa-image"><span class="ml-1">이미지 업로드</span></i></button>
+                >
+                  <i class="fas fa-image my-auto"
+                    ><span class="ml-1">이미지 업로드</span></i
+                  >
+                </button>
               </div>
-              <input ref="imageInput" type="file" hidden @change="onChangeImages" />
+              <input
+                ref="imageInput"
+                type="file"
+                hidden
+                @change="onChangeImages"
+              />
               <small
                 v-if="!this.PostCreate.imgurl"
                 class="form-text text-muted d-flex"
-              >원하는 사진을 업로드해주세요.</small>
+                >원하는 사진을 업로드해주세요.</small
+              >
               <small
                 v-if="this.PostCreate.imgurl"
                 class="form-text text-muted d-flex"
-              >이미지 수정을 원하시면 업로드 버튼을 눌러주세요.</small>
+                >이미지 수정을 원하시면 업로드 버튼을 눌러주세요.</small
+              >
             </div>
 
             <div class="col-md-7">
@@ -39,13 +51,23 @@
                   <!-- 제목 -->
                   <div class="form-group">
                     <label class="d-flex">Title</label>
-                    <input type="text" class="form-control" id="title" v-model="PostCreate.title" />
-                    <small class="form-text text-muted d-flex" v-if="!error.title">상품명을 입력하세요.</small>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="title"
+                      v-model="PostCreate.title"
+                    />
+                    <small
+                      class="form-text text-muted d-flex"
+                      v-if="!error.title"
+                      >상품명을 입력하세요.</small
+                    >
                     <small
                       class="form-text d-flex"
                       style="color:red;"
                       v-if="error.title"
-                    >{{error.title}}</small>
+                      >{{ error.title }}</small
+                    >
                     <label class="d-flex justify-content-start">Activity</label>
                     <input
                       type="text"
@@ -53,21 +75,36 @@
                       id="activity"
                       v-model="PostCreate.activity"
                     />
-                    <small class="form-text text-muted d-flex" v-if="!error.activity">활동명을 입력하세요.</small>
+                    <small
+                      class="form-text text-muted d-flex"
+                      v-if="!error.activity"
+                      >활동명을 입력하세요.</small
+                    >
                     <small
                       class="form-text d-flex"
                       style="color:red;"
                       v-if="error.activity"
-                    >{{error.activity}}</small>
+                      >{{ error.activity }}</small
+                    >
                   </div>
 
                   <!-- 사용 기간 -->
                   <div class="form-group">
-                    <label class="d-flex justify-content-start mb-0">Expiration-Date</label>
+                    <label class="d-flex justify-content-start mb-0"
+                      >Expiration-Date</label
+                    >
                     <div class="d-flex justify-content-between">
-                      <small class="form-text text-muted" style="margin-right:auto;">시작일</small>
+                      <small
+                        class="form-text text-muted"
+                        style="margin-right:auto;"
+                        >시작일</small
+                      >
                       <br />
-                      <small class="form-text text-muted" style="margin-right:auto;">마감일</small>
+                      <small
+                        class="form-text text-muted"
+                        style="margin-right:auto;"
+                        >마감일</small
+                      >
                     </div>
                     <div class="d-flex justify-content-between">
                       <b-form-datepicker
@@ -75,29 +112,43 @@
                         v-model="PostCreate.sdate"
                         class="col-md-6 mr-1"
                       ></b-form-datepicker>
-                      <b-form-datepicker id="edate" v-model="PostCreate.edate" class="col-md-6"></b-form-datepicker>
+                      <b-form-datepicker
+                        id="edate"
+                        v-model="PostCreate.edate"
+                        class="col-md-6"
+                      ></b-form-datepicker>
                     </div>
-                    <small class="form-text text-muted d-flex">상품 유효기간을 지정해주세요.</small>
+                    <small class="form-text text-muted d-flex"
+                      >상품 유효기간을 지정해주세요.</small
+                    >
                   </div>
 
                   <!-- 이용 가격 -->
                   <div class="form-group mb-0">
                     <label class="d-flex justify-content-start">Price</label>
-                    <input type="text" class="form-control" id="price" v-model="PostCreate.price" />
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="price"
+                      v-model="PostCreate.price"
+                    />
                     <small
                       class="form-text text-muted d-flex"
                       v-if="!error.price && !error.priceint"
-                    >가격을 입력하세요.</small>
+                      >가격을 입력하세요.</small
+                    >
                     <small
                       class="form-text d-flex"
                       style="color:red;"
                       v-if="error.price"
-                    >{{error.price}}</small>
+                      >{{ error.price }}</small
+                    >
                     <small
                       class="form-text d-flex"
                       style="color:red;"
                       v-if="error.priceint"
-                    >{{error.priceint}}</small>
+                      >{{ error.priceint }}</small
+                    >
                   </div>
                 </div>
               </div>
@@ -115,8 +166,15 @@
             <option value="water">Water</option>
             <option value="sky">Sky</option>
           </select>
-          <small class="form-text text-muted d-flex" v-if="!error.place">필드를 선택하세요.</small>
-          <small class="form-text d-flex" style="color:red;" v-if="error.place">{{error.place}}</small>
+          <small class="form-text text-muted d-flex" v-if="!error.place"
+            >필드를 선택하세요.</small
+          >
+          <small
+            class="form-text d-flex"
+            style="color:red;"
+            v-if="error.place"
+            >{{ error.place }}</small
+          >
         </div>
         <!-- Season 선택 -->
         <div class="form-group col-sm-12 col-md-7">
@@ -163,8 +221,15 @@
               <label class="form-check-label" for="winter">Winter</label>
             </div>
           </div>
-          <small class="form-text text-muted d-flex" v-if="!error.seasons">상품 이용 계절을 선택하세요.(중복가능)</small>
-          <small class="form-text d-flex" style="color:red;" v-if="error.seasons">{{error.seasons}}</small>
+          <small class="form-text text-muted d-flex" v-if="!error.seasons"
+            >상품 이용 계절을 선택하세요.(중복가능)</small
+          >
+          <small
+            class="form-text d-flex"
+            style="color:red;"
+            v-if="error.seasons"
+            >{{ error.seasons }}</small
+          >
         </div>
       </div>
       <div>
@@ -172,13 +237,20 @@
         <!-- <h4 class="d-flex mb-2" style="font-weight:bold">업체정보</h4> -->
         <div class="form-group">
           <label class="d-flex justify-content-start">Corporation-Detail</label>
-          <textarea class="form-control" id="company-information" v-model="PostCreate.companyInfo"></textarea>
-          <small class="form-text text-muted d-flex" v-if="!error.companyInfo">업체 정보를 입력하세요.</small>
+          <textarea
+            class="form-control"
+            id="company-information"
+            v-model="PostCreate.companyInfo"
+          ></textarea>
+          <small class="form-text text-muted d-flex" v-if="!error.companyInfo"
+            >업체 정보를 입력하세요.</small
+          >
           <small
             class="form-text d-flex"
             style="color:red;"
             v-if="error.companyInfo"
-          >{{error.companyInfo}}</small>
+            >{{ error.companyInfo }}</small
+          >
         </div>
 
         <hr />
@@ -188,15 +260,19 @@
         <div class="form-group">
           <label class="d-flex justify-content-start">Detail-Info</label>
           <Editor ref="toastuiEditor" />
-          <small class="form-text text-muted d-flex" v-if="!error.detail">상품 상세정보를 입력하세요.</small>
-          <small class="form-text d-flex" style="color:red;" v-if="error.detail">{{error.detail}}</small>
+          <small class="form-text text-muted d-flex" v-if="!error.detail"
+            >상품 상세정보를 입력하세요.</small
+          >
+          <small
+            class="form-text d-flex"
+            style="color:red;"
+            v-if="error.detail"
+            >{{ error.detail }}</small
+          >
         </div>
         <hr />
         <!-- 지도 -->
-        <!-- <p class="d-flex" style="font-size:1.5rem; font-weight:bold;">위치</p>
-        <div id="map" style="max-width: 100%; height:300px;"></div>-->
         <div>
-          <!-- <h4 class="d-flex mb-2" style="font-weight:bold">위치</h4> -->
           <label class="d-flex justify-content-start">Address</label>
           <div class="d-flex mb-1">
             <input
@@ -206,10 +282,28 @@
               style="width:200px;"
               placeholder="우편번호"
             />
-            <button type="button" class="btn btn-primary btn-sm ml-1" @click="Search">우편번호 찾기</button>
+            <button
+              type="button"
+              class="btn btn-default btn-sm ml-1"
+              style="border-radius:10px; font-size:13px; border:1.5px solid"
+              @click="Search"
+            >
+            <span style="font-weight:bold">우편번호 찾기</span>
+            </button>
           </div>
-          <input type="text" class="form-control mb-1" v-model="addr2" placeholder="주소" readonly />
-          <input type="text" class="form-control mb-1" v-model="addr3" placeholder="상세주소" />
+          <input
+            type="text"
+            class="form-control mb-1"
+            v-model="addr2"
+            placeholder="주소"
+            readonly
+          />
+          <input
+            type="text"
+            class="form-control mb-1"
+            v-model="addr3"
+            placeholder="상세주소"
+          />
         </div>
 
         <small class="form-text text-muted d-flex">주소를 입력하세요.</small>
@@ -228,7 +322,9 @@
           placeholder="원하는 태그를 입력해주세요."
           class="mb-2"
         ></b-form-tags>
-        <small class="form-text text-muted d-flex">해시태그를 입력해주세요.</small>
+        <small class="form-text text-muted d-flex"
+          >해시태그를 입력해주세요.</small
+        >
       </div>
 
       <hr class="mt-2" />
@@ -238,7 +334,9 @@
           class="btn btn-outline mr-1"
           style="font-size: 1rem; color: gray;"
           @click="tempSave"
-        >임시저장</button>
+        >
+          임시저장
+        </button>
         <button
           type="submit"
           class="btn btn-outline pr-0"
@@ -306,7 +404,7 @@ export default {
   },
   watch: {
     PostCreate: {
-      handler: function (val) {
+      handler: function(val) {
         if (!/^[0-9]+$/g.test(val.price) && val.price.length > 0) {
           this.error.priceint = "가격은 숫자만 입력 가능합니다.";
         } else {
@@ -330,14 +428,14 @@ export default {
     Search() {
       let x = this;
       new daum.Postcode({
-        oncomplete: function (data) {
+        oncomplete: function(data) {
           x.addr1 = data.zonecode;
           x.addr2 = data.address;
           x.addr3 = data.buildingName;
         },
       }).open();
     },
-    regist: function () {
+    regist: function() {
       var content = this.$refs.toastuiEditor.invoke("getMarkdown");
       this.PostCreate.detail = content;
       var flag = 0;
@@ -437,7 +535,7 @@ export default {
         .then((response) => {
           const Toast = Swal.mixin({
             toast: true,
-            position: 'top-end',
+            position: "top-end",
             showConfirmButton: false,
             timer: 3000,
             timerProgressBar: true,
@@ -445,12 +543,12 @@ export default {
             //   toast.addEventListener('mouseenter', Swal.stopTimer)
             //   toast.addEventListener('mouseleave', Swal.resumeTimer)
             // }
-          })
+          });
 
           Toast.fire({
-            icon: 'success',
-            title: '임시저장 완료!'
-          })
+            icon: "success",
+            title: "임시저장 완료!",
+          });
           this.$router.push("/posts");
         })
         .catch((error) => {
@@ -481,5 +579,4 @@ export default {
   },
 };
 </script>
-<style>
-</style>
+<style></style>
