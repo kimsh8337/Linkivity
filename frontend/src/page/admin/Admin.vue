@@ -52,7 +52,7 @@
             </thead>
             <tbody>
               <tr v-for="(user, index) in users" :key="index">
-                <td class="admin-data">{{ ((upage - 1) * 10 ) + index + 1}}</td>
+                <td>{{ ((upage - 1) * 10 ) + index + 1}}</td>
                 <td class="admin-data">{{ user.email }}</td>
                 <td class="admin-data">{{ user.nickname }}</td>
                 <td class="admin-data">{{ user.name }}</td>

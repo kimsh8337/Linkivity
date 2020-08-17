@@ -27,7 +27,7 @@
                   v-model="nickname"
                   id="nickname"
                   type="text"
-                  style="font-size: 30px; font-weight:bold;box-shadow:5px 5px 5px rgba(0,0,0,.15)"
+                  style="font-size: 30px; font-weight:bold;box-shadow:0px 5px 5px -5px rgba(0,0,0,.15)"
                 />
                 <span class="nickname-edit" v-if="validated == 0">
                   <!-- <i class="fas fa-arrow-up mr-2"></i> -->
@@ -111,6 +111,7 @@
 
         <div class="mt-5">
           <b-tabs content-class="mt-3" fill>
+            <b-tab title="내가쓴글" active v-if="this.checkType=='business'"><Mypost /></b-tab>
             <b-tab title="장바구니" active v-if="this.checkType=='normal'"><Cart /></b-tab>
             <b-tab title="좋아요"><Like /></b-tab>
             <b-tab title="구매목록" v-if="this.checkType=='normal'"><Buy /></b-tab>
@@ -122,15 +123,18 @@
 
         <!-- <hr class="border-bottom-1 border-black mt-1" />
         <div class="card col-sm-12 mt-1"></div> -->
-
+        <hr>
         <button @click="deluser" class="btn">
-          <span>탈퇴하기</span>
+          <i class="fas fa-user-slash"><span class="ml-1">탈퇴하기</span></i>
         </button>
         <button v-if="validated == 1" @click="gomodify" class="btn">
-          <span>수정하기</span>
+          <i class="fas fa-user-edit"><span class="ml-1">수정하기</span></i>
         </button>
         <button v-if="validated == 0" @click="modify" class="btn">
-          <span>완료</span>
+          <i class="fas fa-save"><span class="ml-1">완료</span></i>
+        </button>
+        <button v-if="validated == 0" @click="modifyCancel" class="btn">
+          <i class="fas fa-cut"><span class="ml-1">취소</span></i>
         </button>
         <!-- <button @click="templist" class="btn">
           <span>임시저장 리스트</span>
@@ -152,6 +156,8 @@ import Cart from '../post/PostCart.vue';
 import Buy from '../post/PostBuy.vue';
 import Sell from '../post/PostSell.vue';
 import Review from '../post/PostReview.vue';
+import Mypost from '../post/PostWrite.vue';
+import Swal from "sweetalert2";
 
 const baseURL = process.env.VUE_APP_BACKURL;
 
@@ -162,7 +168,8 @@ export default {
     Temp,
     Buy,
     Sell,
-    Review
+    Review,
+    Mypost,
   },
   created() {
     this.passwordSchema
@@ -232,16 +239,43 @@ export default {
       this.validated = 0;
     },
     deluser() {
-      axios
-        .delete(`${baseURL}/account/delete/${this.email}`)
-        .then((response) => {
-          alert('탈퇴 완료');
-          this.$cookies.remove('Auth-Token');
-          this.$router.push('/');
-          this.$router.go();
-        })
-        .catch((err) => {
-          console.log(err)
+      Swal.fire({
+        width: 350,
+        text: "삭제하시겠습니까?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: '<a style="font-size:1rem; color:black">Delete</a>',
+        cancelButtonText: '<a style="font-size:1rem; color:black">Cancel</a>',
+      }).then((result) => {
+        if (result.value) {
+          const Toast = Swal.mixin({
+            toast: true,
+            position: "top-end",
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            onOpen: (toast) => {
+              toast.addEventListener("mouseenter", Swal.stopTimer);
+              toast.addEventListener("mouseleave", Swal.resumeTimer);
+            },
+          });
+          Toast.fire({
+            icon: "success",
+            title: "계정 탈퇴가 완료되었습니다.",
+          });
+          axios
+          .delete(`${baseURL}/account/delete/${this.email}`)
+          .then((response) => {
+            this.$cookies.remove('Auth-Token');
+            this.$router.push('/');
+            this.$router.go();
+          })
+          .catch((err) => {
+            console.log(err)
+          });
+          } 
         });
     },
     modify() {
@@ -282,6 +316,9 @@ export default {
         this.imgurl = e.target.result;
       };
       reader.readAsDataURL(file);
+    },
+    modifyCancel() {
+      this.validated = !this.validated
     },
   },
   data: () => {

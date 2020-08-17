@@ -1,40 +1,66 @@
 <template>
-  <div class="container">
-    <table class="table">
-      <thead class="thead-dark">
-        <tr>
-          <th>구매자</th>
-          <th>사진</th>
-          <th>상품명</th>
-          <th>기간</th>
-          <th>가격</th>
-          <th>사용여부</th>
+  <div>
+    <!-- 판매된 상품이 없을 때 -->
+    <div class="mt-5 mb-5" v-if="items.length <= 0">
+      <i class="fas fa-surprise mt-5 mr-2 mb-5"></i
+      ><span style="font-weight:bold">판매된 상품이 없습니다.</span
+      ><i class="fas fa-surprise ml-2"></i>
+    </div>
+    <!-- 판매된 상품이 있을때 -->
+    <div class="container" v-if="items.length > 0">
+      <table class="table">
+        <thead class="thead-dark">
+          <tr>
+            <th>구매자</th>
+            <th>사진</th>
+            <th>상품명</th>
+            <th>기간</th>
+            <th>가격</th>
+            <th>사용여부</th>
+          </tr>
+        </thead>
+        <tr id="tt" v-for="(itm, index) in items" :key="index">
+          <td>{{ itm.email }}</td>
+          <td>
+            <img
+              :src="itm.img"
+              style="width: 100px; height: 100px; cursor:pointer;"
+              @click="getdetail(itm.pid)"
+            />
+          </td>
+          <td>
+            <div style="cursor:pointer;" @click="getdetail(itm.pid)">
+              {{ itm.title }}
+            </div>
+          </td>
+          <td>{{ itm.sdate }} ~ {{ itm.edate }}</td>
+          <td>{{ itm.price }}원</td>
+          <td>
+            <button
+              class="btn btn-outline-danger btn-sm pt-0 pb-0"
+              style="height:20px; font-size:12px;"
+              v-if="itm.puse == 0"
+              data-toggle="modal"
+              data-target="#confirmmodal"
+              @click="open(itm.purid)"
+            >
+              구매확정
+            </button>
+            <b-badge
+              v-if="itm.puse == 1"
+              pill
+              variant
+              style="background-color: #C4302B"
+              >사용완료</b-badge
+            >
+          </td>
         </tr>
-      </thead>
-      <tr id="tt" v-for="(itm, index) in items" :key="index">
-        <td>{{itm.email}}</td>
-        <td>
-          <img :src="itm.img" style="width: 100px; height: 100px; cursor:pointer;" @click="getdetail(itm.pid)" />
-        </td>
-        <td><div style="cursor:pointer;" @click="getdetail(itm.pid)">{{ itm.title }}</div></td>
-        <td>{{ itm.sdate }} ~ {{ itm.edate }}</td>
-        <td>{{ itm.price }}원</td>
-        <td>
-          <button
-            class="btn btn-outline-danger btn-sm pt-0 pb-0"
-            style="height:20px; font-size:12px;"
-            v-if="itm.puse==0"
-            data-toggle="modal" data-target="#confirmmodal"
-            @click="open(itm.purid)"
-          >구매확정</button>
-          <b-badge v-if="itm.puse == 1" pill variant style="background-color: #C4302B">사용완료</b-badge>
-        </td>
-      </tr>
-    </table>
-          <ConfirmModal :purid="this.id" @make-use="makeuse" />
-    <br />
+      </table>
+
+      <ConfirmModal :purid="this.id" @make-use="makeuse" />
+      <br />
+    </div>
   </div>
-  
 </template>
 
 <script>
@@ -43,21 +69,21 @@ import ConfirmModal from "../../components/modal/ConfirmModal.vue";
 const baseURL = process.env.VUE_APP_BACKURL;
 
 export default {
-  components:{ConfirmModal},
+  components: { ConfirmModal },
   data() {
     return {
       items: [],
-      id:'',
+      id: "",
     };
   },
-  
+
   methods: {
-    open(purid){
+    open(purid) {
       this.id = purid;
     },
     getdetail(pid) {
       this.$router.push({
-        name: 'PostListDetail',
+        name: "PostListDetail",
         params: { ID: pid },
       });
     },
@@ -82,7 +108,7 @@ export default {
           console.log(err);
         });
     },
-    makeuse(purid,serialno) {
+    makeuse(purid, serialno) {
       Swal.fire({
         width: 350,
         text: "사용확정 처리하시겠습니까?",
@@ -114,8 +140,8 @@ export default {
                   title: "사용확정 처리되었습니다.",
                 });
               } else {
-                  serialno=""
-                  const Toast = Swal.mixin({
+                serialno = "";
+                const Toast = Swal.mixin({
                   toast: true,
                   position: "top-end",
                   showConfirmButton: false,
@@ -131,7 +157,7 @@ export default {
                   title: "일련번호가 일치하지 않습니다.",
                 });
               }
-              this.init()
+              this.init();
             })
             .catch((error) => {
               console.log(error);

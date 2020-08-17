@@ -434,6 +434,22 @@ export default {
       axios
         .post(`${baseURL}/temp/regist/${this.tagValue}`, this.PostCreate)
         .then((response) => {
+          const Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            // onOpen: (toast) => {
+            //   toast.addEventListener('mouseenter', Swal.stopTimer)
+            //   toast.addEventListener('mouseleave', Swal.resumeTimer)
+            // }
+          })
+
+          Toast.fire({
+            icon: 'success',
+            title: '임시저장 완료!'
+          })
           this.$router.push("/posts");
         })
         .catch((error) => {

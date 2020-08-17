@@ -19,6 +19,17 @@
     opacity: 0.8;
 } */
 
+.logo{
+    width:200px;
+    height:60px;
+    /* opacity:0.9; */
+}
+
+.logo:hover{
+    transition: all 0.2s ease;
+    opacity: 0.9;
+    transform: scale(1.1);
+}
 .nav-title {
     color: white;
     opacity: 0.9;
@@ -38,16 +49,12 @@
 }
 
 .nav-sub :hover{
-    transition: all 0.3s ease;
-    opacity: 0.7;
+    transition: all 0.2s ease;
+    opacity: 0.8;
     transform: scale(1.1);
 }
 
-.nav-link {
-    font-size: 0.8rem;
-    color: black !important;
-    cursor: pointer;
-}
+
 
 /* .login {
     color: rgb(153, 153, 153);

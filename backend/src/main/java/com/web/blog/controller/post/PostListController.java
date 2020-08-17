@@ -212,7 +212,7 @@ public class PostListController {
     @ApiOperation(value = "포스트 리스트 좋아요 정렬")
     public List<PostList> selectAllByLike() throws SQLException, IOException {
         List<PostList> temp = new LinkedList<>();
-        temp = postDao.findTop10ByFlagOrderByLikecntDesc(1);
+        temp = postDao.findTop5ByFlagOrderByLikecntDesc(1);
         return temp;
     }
 
