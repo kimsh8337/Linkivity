@@ -200,9 +200,22 @@
       <div class="d-flex justify-content-end mb-5">
     <button
       type="submit"
-      class="btn btn-primary d-flex justify-content-start"
+      class="btn btn-outline d-flex justify-content-start mr-1"
+      style="font-size:1rem; color: red;"
+      @click="tempdelete"
+    >삭제</button>
+    <button
+      type="submit"
+      class="btn btn-outline d-flex justify-content-start mr-1"
+      style="font-size:1rem; color: gray;"
       @click="tempSave"
     >임시저장</button>
+    <button
+      type="submit"
+      class="btn btn-outline pr-0 d-flex justify-content-start"
+      style="font-size:1.1rem;"
+      @click="regist"
+    ><i class="fas fa-pen mr-1"></i>등록</button>
       </div>
     </div>
   </div>
@@ -230,6 +243,18 @@ export default {
       addr1:"",
       addr2:"",
       addr3:"",
+      error: {
+        activity: false,
+        detail: false,
+        price: false,
+        companyInfo: false,
+        title: false,
+        priceint: false,
+        location: false,
+        seasons: false,
+        place: false,
+        date:false,
+      },
       // Instance_Date: []
     };
   },
@@ -260,24 +285,103 @@ export default {
         .then((response) => {
           this.PostTemp = response.data;
         })
-        .catch((error) => {
-          console.log(error.response.data);
+        .catch((err) => {
+          console.log(err.response.data);
         });
+    },
+    tempdelete(){
+      Swal.fire({
+        width: 350,
+        text: "삭제하시겠습니까?",
+        icon: "question",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: '<a style="font-size:1rem; color:black">Delete</a>',
+        cancelButtonText: '<a style="font-size:1rem; color:black">Cancel</a>',
+      }).then((result) => {
+        if (result.value) {
+          const Toast = Swal.mixin({
+            toast: true,
+            position: "top-end",
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            onOpen: (toast) => {
+              toast.addEventListener("mouseenter", Swal.stopTimer);
+              toast.addEventListener("mouseleave", Swal.resumeTimer);
+            },
+          });
+          Toast.fire({
+            icon: "success",
+            title: "Update Completed!",
+          });
+      axios
+        .delete(`${baseURL}/temp/delete/${this.pid}`)
+        .then(()=>{
+          alert('삭제완료!')
+          this.$router.push('/user/info')
+        })
+        .catch((err)=>{
+          console.log(err)
+        })
+        }
+      });
     },
     tempSave: function () {
       this.PostTemp.detail = this.$refs.toastuiEditor.invoke("getMarkdown");
       this.PostTemp.location = this.addr2 + " " + this.addr3;
-      for (var i = 0; i < this.seasons.length; i++) {
-        if (this.seasons[i] == "spring") {
-          this.PostTemp.spring = 1;
-        } else if (this.seasons[i] == "summer") {
-          this.PostTemp.summer = 1;
-        } else if (this.seasons[i] == "autumn") {
-          this.PostTemp.autumn = 1;
-        } else if (this.seasons[i] == "winter") {
-          this.PostTemp.winter = 1;
-        }
+      if(this.PostTemp.spring == true){
+        this.PostTemp.spring = 1;
       }
+      if(this.PostTemp.summer == true){
+        this.PostTemp.summer = 1;
+      }
+      if(this.PostTemp.autumn == true){
+        this.PostTemp.autumn = 1;
+      }
+      if(this.PostTemp.winter == true){
+        this.PostTemp.winter = 1;
+      }
+      if(this.hashTag == ""){
+        Swal.fire({
+        width: 350,
+        text: "수정하시겠습니까?",
+        icon: "question",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: '<a style="font-size:1rem; color:black">Update</a>',
+        cancelButtonText: '<a style="font-size:1rem; color:black">Cancel</a>',
+      }).then((result) => {
+        if (result.value) {
+          const Toast = Swal.mixin({
+            toast: true,
+            position: "top-end",
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            onOpen: (toast) => {
+              toast.addEventListener("mouseenter", Swal.stopTimer);
+              toast.addEventListener("mouseleave", Swal.resumeTimer);
+            },
+          });
+          Toast.fire({
+            icon: "success",
+            title: "Update Completed!",
+          });
+      axios
+        .put(`${baseURL}/temp/modify/nononotag`, this.PostTemp)
+        .then(() => {
+          alert("수정 완료!!");
+          this.$router.push('/user/info');
+        })
+        .catch((err) => {
+          console.log(err.response.data);
+        });
+        }
+      });
+      }else{
       Swal.fire({
         width: 350,
         text: "수정하시겠습니까?",
@@ -305,16 +409,107 @@ export default {
             title: "Update Completed!",
           });
       axios
-        .put(`${baseURL}/temp/modify`, this.PostTemp)
+        .put(`${baseURL}/temp/modify/${this.hashTag}`, this.PostTemp)
         .then(() => {
           alert("수정 완료!!");
           this.$router.push('/user/info');
         })
-        .catch((error) => {
-          console.log(error.response.data);
+        .catch((err) => {
+          console.log(err.response.data);
         });
         }
       });
+      }
+    },
+    regist: function () {
+      var content = this.$refs.toastuiEditor.invoke("getMarkdown");
+      this.PostTemp.detail = content;
+      console.log(this.PostTemp)
+      var flag = 0;
+      if (this.PostTemp.activity == "") {
+        this.error.activity = "활동명은 빈칸일 수 없습니다.";
+        flag = 1;
+      } else {
+        this.error.activity = false;
+      }
+      if (this.PostTemp.detail == "") {
+        this.error.detail = "상품 세부정보는 빈칸일 수 없습니다.";
+        flag = 1;
+      } else {
+        this.error.detail = false;
+      }
+      if (this.PostTemp.companyInfo == "") {
+        this.error.companyInfo = "업체 정보는 빈칸일 수 없습니다.";
+        flag = 1;
+      } else {
+        this.error.companyInfo = false;
+      }
+      if (this.PostTemp.price == "") {
+        this.error.price = "가격은 빈칸일 수 없습니다.";
+        flag = 1;
+      } else {
+        this.error.price = false;
+      }
+      if (this.PostTemp.title == "") {
+        this.error.title = "상품명은 빈칸일 수 없습니다.";
+        flag = 1;
+      } else {
+        this.error.title = false;
+      }
+      if (!this.PostTemp.spring && !this.PostTemp.summer && !this.PostTemp.autumn && !this.PostTemp.winter) {
+        this.error.seasons = "계절은 하나 이상 선택해야합니다.";
+        flag = 1;
+      } else {
+        this.error.seasons = false;
+      }
+      if (this.PostTemp.place == "") {
+        this.error.place = "필드는 빈칸일 수 없습니다.";
+        flag = 1;
+      } else {
+        this.error.place = false;
+      }
+      if (flag == 1) {
+        alert("정보를 모두 입력해주세요.");
+        return;
+      }
+      this.PostTemp.location = this.addr2 + " " + this.addr3;
+
+      if(this.PostTemp.spring == true){
+        this.PostTemp.spring = 1;
+      }
+      if(this.PostTemp.summer == true){
+        this.PostTemp.summer = 1;
+      }
+      if(this.PostTemp.autumn == true){
+        this.PostTemp.autumn = 1;
+      }
+      if(this.PostTemp.winter == true){
+        this.PostTemp.winter = 1;
+      }
+      const Toast = Swal.mixin({
+        toast: true,
+        position: "top-end",
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        onOpen: (toast) => {
+          toast.addEventListener("mouseenter", Swal.stopTimer);
+          toast.addEventListener("mouseleave", Swal.resumeTimer);
+        },
+      });
+
+      axios
+        .post(`${baseURL}/post/regist/${this.hashTag}`, this.PostTemp)
+        .then((response) => {
+          Toast.fire({
+            icon: "success",
+            title: "게시물 승인 요청이 완료되었습니다.",
+          });
+          this.$router.push("/posts");
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
     onClickImageUpload() {
       this.$refs.imageInput.click();
@@ -327,10 +522,10 @@ export default {
       // this.imgurl = URL.createObjectURL(file);
     },
     createImage(file) {
-      this.PostCreate.imgurl = new Image();
+      this.PostTemp.imgurl = new Image();
       var reader = new FileReader();
       reader.onload = (e) => {
-        this.PostCreate.imgurl = e.target.result;
+        this.PostTemp.imgurl = e.target.result;
       };
       reader.readAsDataURL(file);
     },

@@ -12,7 +12,7 @@
         <tr class="bg-dark text-white" v-if="temps.length > 0">
           <td>제목</td>
           <td>작성일시</td>
-          <td></td>
+          <td>수정 / 삭제</td>
         </tr>
         <tr v-for="(temp, index) in temps" :key="index">
           <td>
