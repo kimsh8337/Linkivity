@@ -14,7 +14,7 @@
           :src="this.PostCreate.imgurl"
           style="height: 16rem;"
         />
-        <button type="button" class="btn btn-primary btn-sm" @click="onClickImageUpload">이미지 업로드</button>
+        <button style="background-color:RGB(134, 165, 212); color:white;" class="btn btn-sm" @click="onClickImageUpload">이미지 업로드</button>
       </div>
       <input ref="imageInput" type="file" hidden @change="onChangeImages" />
       <small v-if="!this.PostCreate.imgurl" class="form-text text-muted d-flex">원하는 사진을 업로드해주세요.</small>
@@ -116,7 +116,7 @@
             style="width:200px;"
             placeholder="우편번호"
           />
-          <button type="button" class="btn btn-primary btn-sm ml-1" @click="Search">우편번호 찾기</button>
+          <button style="background-color:RGB(134, 165, 212); color:white; border:none" type="button" class="btn btn-primary btn-sm ml-1" @click="Search">우편번호 찾기</button>
         </div>
         <input type="text" class="form-control mb-1" v-model="addr2" placeholder="주소" readonly />
         <input type="text" class="form-control mb-1" v-model="addr3" placeholder="상세주소" />
@@ -377,7 +377,22 @@ export default {
       axios
         .post(`${baseURL}/temp/regist/${this.tagValue}`, this.PostCreate)
         .then((response) => {
-          console.log(response.data);
+          const Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            // onOpen: (toast) => {
+            //   toast.addEventListener('mouseenter', Swal.stopTimer)
+            //   toast.addEventListener('mouseleave', Swal.resumeTimer)
+            // }
+          })
+
+          Toast.fire({
+            icon: 'success',
+            title: '임시저장 완료!'
+          })
           this.$router.push("/posts");
         })
         .catch((error) => {

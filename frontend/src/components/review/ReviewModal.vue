@@ -116,7 +116,7 @@ export default {
           }
         })
         setTimeout(() => {
-          this.$router.go()
+          this.$router.go();
         },1000)
         Toast.fire({
           icon: 'success',

@@ -1,6 +1,21 @@
 <template>
   <div>
-    <div class="row justify-content-left">
+    <!-- like list가 없을 때 -->
+    <div class="mt-5" v-if="likePosts.length <= 0">
+      <i class="fas fa-surprise mt-5 mr-2"></i
+      ><span style="font-weight:bold">좋아요한 게시글이 없습니다.</span
+      ><i class="fas fa-surprise ml-2"></i>
+      <br />
+      <button
+        @click="goPost"
+        class="btn mt-2"
+        style="font-weight:bold; color:white; background-color:RGB(134, 165, 212); border-radius:7px"
+      >
+        <i class="fas fa-heart mr-2"></i>좋아요 등록하러 가기
+      </button>
+    </div>
+    <!-- like list가 있을 때 -->
+    <div class="row justify-content-left" v-if="likePosts.length > 0">
       <div class="col-12 col-sm-12 col-md-3 card-deck" style="margin:auto 0;" v-for="(likePost, lindex) in likePosts" :key="lindex">
         <div class="card mb-3 profile-post mr-0 ml-0">
           <div class="card-body" style="padding: 0;">
@@ -170,6 +185,9 @@ export default {
     },
     round(star) {
       return Math.round(star * 10) / 10.0;
+    },
+    goPost() {
+      this.$router.push('/posts')
     },
   },
   watch: {
