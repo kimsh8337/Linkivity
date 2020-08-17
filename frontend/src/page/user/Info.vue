@@ -27,7 +27,7 @@
                   v-model="nickname"
                   id="nickname"
                   type="text"
-                  style="font-size: 30px; font-weight:bold;box-shadow:5px 5px 5px rgba(0,0,0,.15)"
+                  style="font-size: 30px; font-weight:bold;box-shadow:0px 5px 5px -5px rgba(0,0,0,.15)"
                 />
                 <span class="nickname-edit" v-if="validated == 0">
                   <!-- <i class="fas fa-arrow-up mr-2"></i> -->
@@ -111,6 +111,7 @@
 
         <div class="mt-5">
           <b-tabs content-class="mt-3" fill>
+            <b-tab title="내가쓴글" active v-if="this.checkType=='business'"><Mypost /></b-tab>
             <b-tab title="장바구니" active v-if="this.checkType=='normal'"><Cart /></b-tab>
             <b-tab title="좋아요"><Like /></b-tab>
             <b-tab title="구매목록" v-if="this.checkType=='normal'"><Buy /></b-tab>
@@ -152,6 +153,7 @@ import Cart from '../post/PostCart.vue';
 import Buy from '../post/PostBuy.vue';
 import Sell from '../post/PostSell.vue';
 import Review from '../post/PostReview.vue';
+import Mypost from '../post/PostWrite.vue';
 
 const baseURL = process.env.VUE_APP_BACKURL;
 
@@ -162,7 +164,8 @@ export default {
     Temp,
     Buy,
     Sell,
-    Review
+    Review,
+    Mypost,
   },
   created() {
     this.passwordSchema

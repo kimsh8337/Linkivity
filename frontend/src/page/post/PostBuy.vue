@@ -1,43 +1,74 @@
 <template>
-  <div class="container">
-    <table class="table" v-for="(item, index) in items" :key="index">
-      <thead class="thead-dark">
-        <tr>
-          <th>No</th>
-          <td>{{ index + 1 }}</td>
-        </tr>
-        <tr>
-          <th>사진</th>
-          <th>상품명</th>
-          <th>기간</th>
-          <th>가격</th>
-          <th>일련번호</th>
-          <th>사용여부</th>
-        </tr>
-      </thead>
-      <tbody v-for="(itm, idx) in item" :key="idx">
-        <tr id="tt">
-          <td>
-            <img
-              :src="itm.img"
-              @click="goDetail(itm.pid)"
-              style="width: 100px; height: 100px; cursor:pointer;"
-            />
-          </td>
-          <td>
-            <div @click="goDetail(itm.pid)" style="cursor:pointer;">{{ itm.title }}</div>
-          </td>
-          <td>{{ itm.sdate }} ~ {{ itm.edate }}</td>
-          <td>{{ itm.price }}</td>
-          <td>{{ itm.serialno }}</td>
-          <td>
-            <b-badge v-if="itm.puse == 0" pill variant style="background-color: #003399">미사용</b-badge>
-            <b-badge v-if="itm.puse == 1" pill variant style="background-color: #C4302B">사용완료</b-badge>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-    <br />
+  <div>
+    <!-- 구매목록이 없을 때 -->
+    <div class="mt-5 mb-5" v-if="items.length <= 0">
+      <i class="fas fa-surprise mt-5 mr-2"></i
+      ><span style="font-weight:bold">구매한 상품이 없습니다.</span
+      ><i class="fas fa-surprise ml-2"></i>
+      <br />
+      <button
+        @click="goPost"
+        class="btn mt-2 mb-4"
+        style="font-weight:bold; color:white; background-color:RGB(134, 165, 212); border-radius:7px"
+      >
+        <i class="fas fa-shopping-cart mr-2"></i>상품 구매하러 가기
+      </button>
+    </div>
+    <!-- 구매목록이 있을때 -->
+    <div class="container" v-if="items.length > 0">
+      <table class="table" v-for="(item, index) in items" :key="index">
+        <thead class="thead-dark">
+          <tr>
+            <th>No</th>
+            <td>{{ index + 1 }}</td>
+          </tr>
+          <tr>
+            <th>사진</th>
+            <th>상품명</th>
+            <th>기간</th>
+            <th>가격</th>
+            <th>일련번호</th>
+            <th>사용여부</th>
+          </tr>
+        </thead>
+        <tbody v-for="(itm, idx) in item" :key="idx">
+          <tr id="tt">
+            <td>
+              <img
+                :src="itm.img"
+                @click="goDetail(itm.pid)"
+                style="width: 100px; height: 100px; cursor:pointer;"
+              />
+            </td>
+            <td>
+              <div @click="goDetail(itm.pid)" style="cursor:pointer;">
+                {{ itm.title }}
+              </div>
+            </td>
+            <td>{{ itm.sdate }} ~ {{ itm.edate }}</td>
+            <td>{{ itm.price }}</td>
+            <td>{{ itm.serialno }}</td>
+            <td>
+              <b-badge
+                v-if="itm.puse == 0"
+                pill
+                variant
+                style="background-color: #003399"
+                >미사용</b-badge
+              >
+              <b-badge
+                v-if="itm.puse == 1"
+                pill
+                variant
+                style="background-color: #C4302B"
+                >사용완료</b-badge
+              >
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <br />
+    </div>
   </div>
 </template>
 
@@ -105,6 +136,9 @@ export default {
             th.$router.go();
           }, 1000);
         });
+    },
+    goPost() {
+      this.$router.push('/posts')
     },
   },
   created() {

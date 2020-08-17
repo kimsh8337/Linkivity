@@ -1,10 +1,35 @@
 <template>
   <div>
+    <!-- cart list가 없을때 -->
+    <div class="mt-5" v-if="cartPosts.length <= 0">
+      <i class="fas fa-surprise mt-5 mr-2"></i
+      ><span style="font-weight:bold">장바구니가 비어있습니다.</span
+      ><i class="fas fa-surprise ml-2"></i>
+      <br />
+      <button
+        @click="goPost"
+        class="btn mt-2"
+        style="font-weight:bold; color:white; background-color:RGB(134, 165, 212); border-radius:7px"
+      >
+        <i class="fas fa-shopping-basket mr-2"></i>장바구니 채우러 가기
+      </button>
+    </div>
+    <!-- cart list가 있을때 -->
     <div class="row justify-content-left" v-if="cartPosts.length > 0">
-      <div class="col-12 col-sm-12 col-md-3 card-deck" style="margin:auto 0;" v-for="(cartPost, cindex) in cartPosts" :key="cindex">
-        <div class="card mb-3 profile-post mr-0 ml-0" >
+      <div
+        class="col-12 col-sm-12 col-md-3 card-deck"
+        style="margin:auto 0;"
+        v-for="(cartPost, cindex) in cartPosts"
+        :key="cindex"
+      >
+        <div class="card mb-3 profile-post mr-0 ml-0">
           <div class="card-body" style="padding: 0;">
-            <img :src="cartPost.imgurl" class="card-img" @click="getdetail(cartPost.pid)" style="height:10rem; box-shadow:5px 5px 5px rgba(0,0,0,.15)" />
+            <img
+              :src="cartPost.imgurl"
+              class="card-img"
+              @click="getdetail(cartPost.pid)"
+              style="height:10rem; box-shadow:5px 5px 5px rgba(0,0,0,.15)"
+            />
             <!-- <div
               class="card-img-overlay"
               style="padding:4rem 0; text-align:center; font-size:1.3rem; font-weight:bold; color: white;"
@@ -24,20 +49,33 @@
                 >
                   {{ cartPost.title }}
                 </h5>
-                <div class="card-text mb-3" style="text-align: left; font-size: 0.8rem;">
-                      <span>
-                        <i class="fas fa-star mr-1" style="color:Salmon; font-size:0.7rem;"></i>
-                        {{round(cartPost.star)}}
-                      </span>
-                    </div>
+                <div
+                  class="card-text mb-3"
+                  style="text-align: left; font-size: 0.8rem;"
+                >
+                  <span>
+                    <i
+                      class="fas fa-star mr-1"
+                      style="color:Salmon; font-size:0.7rem;"
+                    ></i>
+                    {{ round(cartPost.star) }}
+                  </span>
+                </div>
                 <div class="text d-flex justify-content-between">
                   <p
                     class="card-text"
                     style="font-size: 1rem; text-align: left; text-overflow:ellipsis;overflow: hidden;white-space: nowrap;"
                   >
-                  {{ cartPost.price }}원
+                    {{ cartPost.price }}원
                   </p>
-                  <button type="button" class="btn btn-outline-danger btn-sm" style="height:30px;" @click="deleteCart(cartPost.pid)">삭제</button>
+                  <button
+                    type="button"
+                    class="btn btn-outline-danger btn-sm"
+                    style="height:30px;"
+                    @click="deleteCart(cartPost.pid)"
+                  >
+                    삭제
+                  </button>
                 </div>
               </div>
             </div>
@@ -47,7 +85,13 @@
     </div>
 
     <!-- paging -->
-    <b-pagination v-if="ctotalPage > 8" v-model="cpage" :total-rows="ctotalPage" pills :per-page="8"></b-pagination>
+    <b-pagination
+      v-if="ctotalPage > 8"
+      v-model="cpage"
+      :total-rows="ctotalPage"
+      pills
+      :per-page="8"
+    ></b-pagination>
     <br />
     <br />
     <br />
@@ -56,9 +100,9 @@
 
 <script>
 // import '../../assets/css/postlist.css';
-import axios from 'axios';
-import BPagenation from 'bootstrap-vue';
-import Swal from 'sweetalert2';
+import axios from "axios";
+import BPagenation from "bootstrap-vue";
+import Swal from "sweetalert2";
 
 const baseURL = process.env.VUE_APP_BACKURL;
 
@@ -69,16 +113,16 @@ export default {
   data() {
     return {
       cartPosts: {
-        pid: '',
-        email: '',
-        activity: '',
-        title: '',
-        location: '',
-        imgurl: '',
-        price: '',
-        sdate: '',
-        edate: '',
-        likecnt: '',
+        pid: "",
+        email: "",
+        activity: "",
+        title: "",
+        location: "",
+        imgurl: "",
+        price: "",
+        sdate: "",
+        edate: "",
+        likecnt: "",
       },
       cpage: 1,
       ctotalPage: 0,
@@ -87,7 +131,7 @@ export default {
   methods: {
     authUser() {
       axios
-        .get(`${baseURL}/account/authuser/${this.$cookies.get('Auth-Token')}`)
+        .get(`${baseURL}/account/authuser/${this.$cookies.get("Auth-Token")}`)
         .then((res) => {
           this.email = res.data.email;
           this.init();
@@ -117,7 +161,7 @@ export default {
     },
     getdetail(pid) {
       this.$router.push({
-        name: 'PostListDetail',
+        name: "PostListDetail",
         params: { ID: pid },
       });
     },
@@ -137,29 +181,29 @@ export default {
     deleteCart(pid) {
       Swal.fire({
         width: 350,
-        text: '삭제하시겠습니까?',
-        icon: 'warning',
+        text: "삭제하시겠습니까?",
+        icon: "warning",
         showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
         confirmButtonText: '<a style="font-size:1rem; color:black">Delete</a>',
         cancelButtonText: '<a style="font-size:1rem; color:black">Cancel</a>',
       }).then((result) => {
         if (result.value) {
           const Toast = Swal.mixin({
             toast: true,
-            position: 'top-end',
+            position: "top-end",
             showConfirmButton: false,
             timer: 3000,
             timerProgressBar: true,
             onOpen: (toast) => {
-              toast.addEventListener('mouseenter', Swal.stopTimer);
-              toast.addEventListener('mouseleave', Swal.resumeTimer);
+              toast.addEventListener("mouseenter", Swal.stopTimer);
+              toast.addEventListener("mouseleave", Swal.resumeTimer);
             },
           });
           Toast.fire({
-            icon: 'success',
-            title: '삭제되었습니다.',
+            icon: "success",
+            title: "삭제되었습니다.",
           });
           axios
             .delete(`${baseURL}/cart/deleteCart/${pid}/${this.email}/1`)
@@ -175,6 +219,9 @@ export default {
     round(star) {
       return Math.round(star * 10) / 10.0;
     },
+    goPost() {
+      this.$router.push("/posts");
+    },
   },
   watch: {
     cpage: function(v) {
@@ -188,9 +235,9 @@ export default {
 </script>
 
 <style scoped>
-.card-img:hover{
+.card-img:hover {
   transform: scale(1.05);
-  transition: all .3s ease-in-out;
+  transition: all 0.3s ease-in-out;
   cursor: pointer;
 }
 </style>

@@ -1,8 +1,9 @@
 <template>
   <div id="header" class="p-0" v-if="isHeader">
     <nav class="navbar navbar-expand-lg navbar-light header-nav col-md-12">
+      <img src="../../assets/img/logo4.png" @click="rendering" class="logo m-3">
       <!-- <router-link class="nav-title m-0" v-bind:to="{name:constants.URL_TYPE.POST.MAIN}"> -->
-      <h5 class="my-auto font-weight-bold nav-title" @click="rendering">𝑳𝒊𝒏𝒌𝒊𝒗𝒊𝒕𝒚</h5>
+        <!-- <h5 class="my-auto font-weight-bold nav-title" @click="rendering"></h5> -->
       <!-- </router-link> -->
 
       <div class="d-md-block d-lg-none">
@@ -86,51 +87,64 @@
         <ul class="navbar-nav nav-sub ml-auto">
           <li class="nav-item">
             <a class="nav-link mt-3 mr-2" @click="goPost">
-              <i class="fas fa-stream mr-1"></i>
-              <br />Post
+              <i class="fas fa-stream mr-1"></i>액티비티
             </a>
           </li>
           <li class="nav-item">
             <a class="nav-link mt-3 mr-2" @click="goNotice">
-              <i class="fas fa-flag"></i>
-              <br />Notice
+              <i class="fas fa-flag mr-1"></i>공지사항
             </a>
           </li>
           <li class="nav-item">
-            <a v-if="this.$cookies.isKey('Auth-Token') && this.usertype == 'business'" class="nav-link mt-3 mr-2" @click="gocreate">
-              <i class="fas fa-pen mr-1"></i>
-              <br />Write
+            <a
+              v-if="this.$cookies.isKey('Auth-Token') && this.usertype == 'business'"
+              class="nav-link mt-3 mr-2"
+              @click="gocreate"
+            >
+              <i class="fas fa-pen mr-1"></i>상품등록
             </a>
           </li>
           <li class="nav-item">
-            <a v-if="this.$cookies.isKey('Auth-Token') && this.usertype == 'normal'" class="nav-link mt-3 mr-2" @click="goBasket">
-              <i class="fas fa-shopping-basket"></i>
-              <br />Basket
+            <a
+              v-if="this.$cookies.isKey('Auth-Token') && this.usertype == 'normal'"
+              class="nav-link mt-3 mr-2"
+              @click="goBasket"
+            >
+              <i class="fas fa-shopping-basket mr-1"></i>장바구니
             </a>
           </li>
 
           <li class="nav-item">
-            <a v-if="this.$cookies.isKey('Auth-Token') && this.usertype != 'admin'" @click="info" class="nav-link mt-3 mr-2">
-              <i class="far fa-user mr-1"></i>
-              <br />MyPage
+            <a
+              v-if="this.$cookies.isKey('Auth-Token') && this.usertype != 'admin'"
+              @click="info"
+              class="nav-link mt-3 mr-2"
+            >
+              <i class="far fa-user mr-1"></i>마이페이지
             </a>
           </li>
           <li class="nav-item">
-            <a v-if="this.$cookies.isKey('Auth-Token') && this.usertype == 'admin'" @click="goadmin" class="nav-link mt-3 mr-2">
-              <i class="fas fa-users-cog mr-1"></i>
-              <br />Admin
+            <a
+              v-if="this.$cookies.isKey('Auth-Token') && this.usertype == 'admin'"
+              @click="goadmin"
+              class="nav-link mt-3 mr-2"
+            >
+              <i class="fas fa-users-cog mr-1"></i>관리페이지
             </a>
           </li>
           <li class="nav-item">
             <a v-if="this.$cookies.isKey('Auth-Token')" @click="logout" class="nav-link mt-3 pl-1">
-              <i class="fas fa-sign-out-alt mr-1"></i>
-              <br />Logout
+              <i class="fas fa-sign-out-alt mr-1"></i>로그아웃
             </a>
           </li>
           <li class="nav-item">
-            <a v-if="!this.$cookies.isKey('Auth-Token')" data-toggle="modal" data-target="#LoginModal" class="nav-link mt-3 pl-1">
-              <i class="fas fa-sign-in-alt mr-1"></i>
-              <br />Login
+            <a
+              v-if="!this.$cookies.isKey('Auth-Token')"
+              data-toggle="modal"
+              data-target="#LoginModal"
+              class="nav-link mt-3 pl-1"
+            >
+              <i class="fas fa-sign-in-alt mr-1"></i>로그인
             </a>
           </li>
         </ul>
@@ -235,7 +249,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 /* .pageclick {
   cursor: pointer;
 } */

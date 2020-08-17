@@ -1,5 +1,20 @@
 <template>
   <div>
+    <!-- 등록한 후기가 없을때 -->
+    <div class="mt-5 mb-5" v-if="reviews.length <= 0">
+      <i class="fas fa-surprise mt-5 mr-2"></i
+      ><span style="font-weight:bold">등록한 후기가 없습니다.</span
+      ><i class="fas fa-surprise ml-2"></i>
+      <br />
+      <button
+        @click="goPost"
+        class="btn mt-2 mb-4"
+        style="font-weight:bold; color:white; background-color:RGB(134, 165, 212); border-radius:7px"
+      >
+        <i class="fas fa-edit mr-2"></i>장바구니 채우러 가기
+      </button>
+    </div>
+    <!-- 등록한 후기가 있을 때 -->
     <div class="row justify-content-left" v-if="reviews.length > 0">
       <div
         v-for="(slide, index) in reviews"
@@ -118,6 +133,9 @@ export default {
     },
     bringReviewData(reviewData) {
       this.reviewDetail = reviewData;
+    },
+    goPost() {
+      this.$router.push('/posts')
     },
   },
   created() {
