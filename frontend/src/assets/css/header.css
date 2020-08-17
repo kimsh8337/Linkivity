@@ -54,11 +54,7 @@
     transform: scale(1.1);
 }
 
-.nav-link {
-    font-size: 0.9rem;
-    color: white !important;
-    cursor: pointer;
-}
+
 
 /* .login {
     color: rgb(153, 153, 153);

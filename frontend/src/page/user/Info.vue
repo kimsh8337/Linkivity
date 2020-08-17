@@ -123,15 +123,18 @@
 
         <!-- <hr class="border-bottom-1 border-black mt-1" />
         <div class="card col-sm-12 mt-1"></div> -->
-
+        <hr>
         <button @click="deluser" class="btn">
-          <span>탈퇴하기</span>
+          <i class="fas fa-user-slash"><span class="ml-1">탈퇴하기</span></i>
         </button>
         <button v-if="validated == 1" @click="gomodify" class="btn">
-          <span>수정하기</span>
+          <i class="fas fa-user-edit"><span class="ml-1">수정하기</span></i>
         </button>
         <button v-if="validated == 0" @click="modify" class="btn">
-          <span>완료</span>
+          <i class="fas fa-save"><span class="ml-1">완료</span></i>
+        </button>
+        <button v-if="validated == 0" @click="modifyCancel" class="btn">
+          <i class="fas fa-cut"><span class="ml-1">취소</span></i>
         </button>
         <!-- <button @click="templist" class="btn">
           <span>임시저장 리스트</span>
@@ -154,6 +157,7 @@ import Buy from '../post/PostBuy.vue';
 import Sell from '../post/PostSell.vue';
 import Review from '../post/PostReview.vue';
 import Mypost from '../post/PostWrite.vue';
+import Swal from "sweetalert2";
 
 const baseURL = process.env.VUE_APP_BACKURL;
 
@@ -259,12 +263,11 @@ export default {
           });
           Toast.fire({
             icon: "success",
-            title: "글이 삭제되었습니다.",
+            title: "계정 탈퇴가 완료되었습니다.",
           });
           axios
           .delete(`${baseURL}/account/delete/${this.email}`)
           .then((response) => {
-            alert('탈퇴 완료');
             this.$cookies.remove('Auth-Token');
             this.$router.push('/');
             this.$router.go();
@@ -313,6 +316,9 @@ export default {
         this.imgurl = e.target.result;
       };
       reader.readAsDataURL(file);
+    },
+    modifyCancel() {
+      this.validated = !this.validated
     },
   },
   data: () => {
