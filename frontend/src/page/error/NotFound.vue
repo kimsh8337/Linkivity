@@ -42,7 +42,6 @@ export default {
 
 .main-div {
   font-family: 'Jua', sans-serif;
-  background-color: mintcream;
 }
 .error-message-404-kr {
   text-align: left;

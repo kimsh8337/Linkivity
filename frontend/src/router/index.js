@@ -37,6 +37,9 @@ import News from '../page/post/NewsList.vue'
 
 import TagList from '../page/main/List.vue'
 
+//error
+import BadRequest from '../page/error/BadRequest.vue'
+
 Vue.use(Router)
 
 export default new Router({
@@ -93,6 +96,10 @@ export default new Router({
             path: '/params',
             component: Params,
             name: 'Params'
+        },
+        {
+            path: '/badRequest',
+            component: BadRequest,
         },
 
         // 공지사항
