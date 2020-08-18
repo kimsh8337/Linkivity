@@ -345,7 +345,7 @@ export default {
       evt.preventDefault();
       const href = evt.target.getAttribute("href");
       var location = document.querySelector(href).offsetTop;
-      window.scrollTo({ top: location + 360, behavior: "smooth" });
+      window.scrollTo({ top: location + 340, behavior: "smooth" });
     },
     authUser() {
       axios
