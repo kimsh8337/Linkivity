@@ -389,15 +389,6 @@ export default {
 </script>
 
 <style>
-.upBtn {
-  /* position: fixed;
-  right: 5%;
-  top: 90%; */
-  color: red;
-  margin-left: 0.7rem;
-  margin-right: 0.7rem;
-  /* margin-bottom: 1rem; */
-}
 .nav-item > a {
   height: 50px;
   padding-top: 15px;

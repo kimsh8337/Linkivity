@@ -84,4 +84,7 @@ export default {
   color: #2c3e50;
   /* margin-top: 7rem; */
 }
+html {
+  scroll-behavior: smooth;
+}
 </style>
