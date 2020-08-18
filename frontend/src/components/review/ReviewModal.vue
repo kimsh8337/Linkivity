@@ -136,7 +136,9 @@ export default {
     email: String,
   },
   created() {
-    if (this.$cookies.get("Auth-Token") != null) this.authUser();
+    if (this.$cookies.get("Auth-Token") != null) {
+      this.authUser();
+    }
   },
   methods: {
     authUser() {

@@ -124,7 +124,13 @@ export default {
           this.fetchReview();
         })
         .catch((err) => {
-          console.log(err.response);
+          if(err.response.status == 400) {
+            this.$router.push("/badRequest").catch(err => {
+            });
+          } else if(err.response.status == 500) {
+            this.$router.push("/serverError").catch(err => {
+            });
+          }
         });
     },
     makeimgurl(imgurl) {
@@ -142,7 +148,13 @@ export default {
           }
         })
         .catch((error) => {
-          console.log(error);
+          if(err.response.status == 400) {
+            this.$router.push("/badRequest").catch(err => {
+            });
+          } else if(err.response.status == 500) {
+            this.$router.push("/serverError").catch(err => {
+            });
+          }
         });
     },
     startDrag(e) {
@@ -211,7 +223,13 @@ export default {
               // }, 1000);
             })
             .catch((error) => {
-              console.log(error);
+              if(err.response.status == 400) {
+                this.$router.push("/badRequest").catch(err => {
+                });
+              } else if(err.response.status == 500) {
+                this.$router.push("/serverError").catch(err => {
+                });
+              }
             });
         }
       });
@@ -225,7 +243,9 @@ export default {
     },
   },
   created() {
-    if (this.$cookies.get("Auth-Token") != null) this.authUser();
+    if (this.$cookies.get("Auth-Token") != null) {
+      this.authUser();
+    }
     else {
       this.fetchReview();
     }
