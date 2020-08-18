@@ -306,7 +306,7 @@ public class AccountController {
             }
             return result;
         }
-        return result;
+       
     }
 
     @GetMapping("/checkNickname/{nickname}")

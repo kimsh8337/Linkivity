@@ -1,5 +1,6 @@
 package com.web.blog.controller.post;
 
+import java.io.Console;
 import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -232,13 +233,15 @@ public class PostListController {
         }
     }
 
-    @PutMapping("/modify")
+    @PutMapping("/modify/{tagValue}")
     @ApiOperation(value = "포스트 수정하기")
     public Object modify(@Valid @RequestBody PostList request, @PathVariable List<String> tagValue) throws SQLException, IOException {
         try {
+
+            System.out.println(request.toString());
             PostList post = postDao.findByPid(request.getPid());
             if (post != null) {
-
+               System.out.println(request.getLocation());
                 PostList newTemp = post;
                 newTemp.setTitle(request.getTitle());
                 newTemp.setLocation(request.getLocation());

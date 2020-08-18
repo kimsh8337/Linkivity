@@ -164,19 +164,19 @@
           <!-- <h4 class="d-flex mb-2" style="font-weight:bold">위치</h4> -->
           <label class="d-flex justify-content-start">Address</label>
           <div class="d-flex mb-1">
-            <input
+            <!-- <input
               type="text"
               class="form-control"
               v-model="addr1"
               style="width:200px;"
               placeholder="우편번호"
-            />
+            /> -->
             <button type="button" class="btn btn-primary btn-sm ml-1" @click="Search">우편번호 찾기</button>
           </div>
-          <input type="text" class="form-control mb-1" v-model="addr2" placeholder="주소" readonly />
-          <input type="text" class="form-control mb-1" v-model="addr3" placeholder="상세주소" />
+           <input hidden type="text" class="form-control mb-1" v-model="addr2" placeholder="주소" readonly />
+          <input hidden type="text" class="form-control mb-1" v-model="addr3" placeholder="상세주소" />
+          <input type="text" class="form-control mb-1" v-model="PostTemp.location" placeholder="상세주소" />
         </div>
-
         <small class="form-text text-muted d-flex">주소를 입력하세요.</small>
 
         <hr />
@@ -265,7 +265,9 @@ export default {
         oncomplete: function (data) {
           x.addr1 = data.zonecode;
           x.addr2 = data.address;
+          
           x.addr3 = data.buildingName;
+         x.PostTemp.location = x.addr2 + " " + x.addr3;
         },
       }).open();
     },
@@ -333,7 +335,7 @@ export default {
     },
     tempSave: function () {
       this.PostTemp.detail = this.$refs.toastuiEditor.invoke("getMarkdown");
-      this.PostTemp.location = this.addr2 + " " + this.addr3;
+      // this.PostTemp.location = this.addr2 + " " + this.addr3;
       if(this.PostTemp.spring == true){
         this.PostTemp.spring = 1;
       }
@@ -376,7 +378,7 @@ export default {
       axios
         .put(`${baseURL}/temp/modify/nononotag`, this.PostTemp)
         .then(() => {
-          alert("수정 완료!!");
+          alert("수정 완료!!"); 
           this.$router.push('/user/info');
         })
         .catch((err) => {
@@ -475,7 +477,7 @@ export default {
         alert("정보를 모두 입력해주세요.");
         return;
       }
-      this.PostTemp.location = this.addr2 + " " + this.addr3;
+      // this.PostTemp.location = this.addr2 + " " + this.addr3;
 
       if(this.PostTemp.spring == true){
         this.PostTemp.spring = 1;
