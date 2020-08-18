@@ -7,6 +7,8 @@
       ><i class="fas fa-surprise ml-2"></i>
     </div>
     <!-- 판매된 상품이 있을때 -->
+    <!-- 웹버전 -->
+    <div class="Webtable d-none d-sm-block">
     <div class="container" v-if="sitems.length > 0">
       <table class="table">
         <thead class="thead" style="background:RGB(134, 165, 212); color:white;">
@@ -60,9 +62,32 @@
 
       <ConfirmModal :purid="this.id" @make-use="makeuse" />
       <br />
-    </div>
     <!-- paging -->
+    </div>
     <b-pagination class="mt-5 mb-0" v-if="stotalPage > 10" v-model="spage" :total-rows="stotalPage" pills :per-page="10"></b-pagination>
+    </div>
+
+    <!-- 모바일버전 > :src="makeimgurl(itm.img)" v-if="itm.img" 추가해야함-->
+    <div class="MoblieCard d-block d-sm-none d-md-none">
+    <div class="col-12 col-sm-12 col-md-3 card-deck" style="margin:auto 0; padding:0 30px" v-for="(itm, index) in sitems" :key="index">
+        <div class="card mb-3 profile-post mr-0 ml-0">
+          <div class="card-body" style="padding: 0;" @click="getdetail(post.pid)">
+            <img
+              src="../../assets/img/noimage.jpg"
+              style="width: 100%; height: 100%; cursor:pointer;"
+              @click="getdetail(itm.pid)"
+            />
+            <div class="col-md-12 p-0">
+              <div class="card-body" style="padding: 5px;">
+                <div style="cursor:pointer;" @click="getdetail(itm.pid)">
+              {{ itm.title }}
+            </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>
   </div>
 </template>
 

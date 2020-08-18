@@ -18,7 +18,7 @@
     <div class="row justify-content-left" v-if="likePosts.length > 0">
       <div class="col-12 col-sm-12 col-md-3 card-deck" style="margin:auto 0;" v-for="(likePost, lindex) in likePosts" :key="lindex">
         <div class="card mb-3 profile-post mr-0 ml-0">
-          <div class="card-body" style="padding: 0 15px;">
+          <div class="card-body" style="padding: 0 30px;">
             <img :src="makeimgurl(likePost.imgurl)" v-if="likePost.imgurl" @click="getdetail(likePost.pid)" class="card-img" style="height:10rem; box-shadow:5px 5px 5px rgba(0,0,0,.15)" />
             <!-- <div
               class="card-img-overlay"
