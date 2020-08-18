@@ -1,7 +1,7 @@
 <template>
   <div v-if="this.scrollposition > 200" class="side-menu">
     <i class="fas fa-2x fa-angle-double-up upBtn" @click="toTop" style="cursor:pointer;"></i>
-    <b-button v-b-toggle.sidebar-1 class="side-main-button btn btn-light" style="background-color:rgba(255,255,255,0); border:none">
+    <b-button v-b-toggle.sidebar-1 class="side-main-button btn btn-light" style="background-color:rgba(255,255,255,0); border:none;">
       <i class="fas fa-2x fa-bars" style="color:rgb(134, 165, 212)"></i>
       <b-sidebar id="sidebar-1" title="Menu" shadow width="250px">
           <div class="ml-4" style="text-align:left">
