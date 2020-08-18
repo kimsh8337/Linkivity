@@ -285,9 +285,26 @@ public class AccountController {
     @ApiOperation(value = "이메일확인")
     public String checkEmail(@PathVariable String email) {
         String result = "";
-        Optional<User> userOpt = userDao.findUserByEmail(email);
-        if (userOpt.isPresent()) {
-            result = "이미 존재하는 이메일입니다.";
+
+        ReportUser reuser = reportUserDao.findByEmail(email);
+    if(reuser != null){
+        if (reuser.getIsdrop() == 1) {
+            result = "사용할수없는 이메일입니다";
+            return result;
+        }else {
+            Optional<User> userOpt = userDao.findUserByEmail(email);
+            if (userOpt.isPresent()) {
+                result = "이미 존재하는 이메일입니다.";
+            }
+            return result;
+        }
+        
+    } else {
+            Optional<User> userOpt = userDao.findUserByEmail(email);
+            if (userOpt.isPresent()) {
+                result = "이미 존재하는 이메일입니다.";
+            }
+            return result;
         }
         return result;
     }

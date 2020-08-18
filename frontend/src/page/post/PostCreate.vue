@@ -83,17 +83,19 @@
                     </div>
                     <div class="d-flex justify-content-between">
                       <b-form-datepicker
+                      
                         id="sdate"
-                        v-model="PostCreate.sdate"
+                        v-model="PostCreate.sdate" :min="min" 
                         class="col-md-6 mr-1"
                       ></b-form-datepicker>
-                      <b-form-datepicker id="edate" v-model="PostCreate.edate" class="col-md-6"></b-form-datepicker>
+                    
+                      <b-form-datepicker id="edate" v-model="PostCreate.edate" :min="PostCreate.sdate" class="col-md-6"></b-form-datepicker>
                     </div>
                     <small class="form-text text-muted d-flex" v-if="!error.sedate">상품 유효기간을 지정해주세요.</small>
                     <small class="form-text d-flex" style="color:red;" v-if="error.sedate">{{error.sedate}}</small>
                   
                   </div>
-
+                   
                   <!-- 이용 가격 -->
                   <div class="form-group mb-0">
                     <label class="d-flex justify-content-start">Price</label>
@@ -290,6 +292,10 @@ export default {
     Editor,
   },
   data() {
+    const now = new Date()
+    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate())
+    const minDate = new Date(today)
+    
     return {
       //
       PostCreate: {
@@ -339,6 +345,15 @@ export default {
         } else {
           this.error.priceint = false;
         }
+
+        if((val.sdate != "" && val.edate != "") && (val.sdate > val.edate)) {
+          const now = new Date()
+          const today = new Date(now.getFullYear(), now.getMonth(), now.getDate())
+     
+          val.edate = this.$refs.edate;
+        }
+        
+     
       },
       deep: true,
     },
@@ -385,6 +400,12 @@ export default {
         flag = 1;
       } else {
         this.error.companyInfo = false;
+      }
+      if(this.PostCreate.sdate == "" || this.PostCreate.edate == ""){
+        this.error.date = "날짜가 빈칸일 수 없습니다"
+        flag = 1;
+      }else{
+        this.error.date = false;
       }
       if (this.PostCreate.price == "") {
         this.error.price = "가격은 빈칸일 수 없습니다.";
@@ -569,6 +590,9 @@ export default {
   created() {
     this.authUser();
   },
+  mounted(){
+
+  }
 };
 </script>
 <style></style>
