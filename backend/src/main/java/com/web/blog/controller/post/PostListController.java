@@ -475,8 +475,6 @@ public class PostListController {
         if (!file.getParentFile().exists())
             file.getParentFile().mkdirs();
             ff.transferTo(file);
-        System.out.println("file is " + file.getAbsolutePath());
-        System.out.println("name is " + file.getName() );
 
         PostList post = postDao.findByPid(pid);
         post.setImgurl(file.getName());
