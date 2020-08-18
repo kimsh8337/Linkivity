@@ -35,6 +35,7 @@
           <tr id="tt">
             <td>
               <img
+                v-if="itm.img"
                 :src="makeimgurl(itm.img)"
                 @click="goDetail(itm.pid)"
                 style="width: 100px; height: 100px; cursor:pointer;"
