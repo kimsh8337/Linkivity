@@ -115,17 +115,49 @@ export default {
       axios
         .post(`${baseURL}/account/signup`, data)
         .then((response) => {
-          alert(response.data);
+          if (response.data == 1) {
+            const Toast = Swal.mixin({
+              toast: true,
+              position: 'top-end',
+              showConfirmButton: false,
+              timer: 2000,
+              timerProgressBar: true,
+              onOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer)
+                toast.addEventListener('mouseleave', Swal.resumeTimer)
+              }
+            })
 
-          alert("환영합니다.");
+            Toast.fire({
+              icon: 'error',
+              title: '사용이 제한된 회원입니다.'
+            })
+          }
+          const Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            onOpen: (toast) => {
+              toast.addEventListener('mouseenter', Swal.stopTimer)
+              toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+          })
+
+          Toast.fire({
+            icon: 'success',
+            title: '회원 가입을 축하합니다!'
+          })
           this.$router.push("/");
         })
         .catch((err) => {
-          console.log(err);
-          // this.$router.push({
-          //   name: "Params",
-          //   params: { name: err.response.status }
-          // });
+          Swal.fire({
+            width:300,
+            icon: 'error',
+            text: '회원 정보를 모두 입력해주세요.',
+            confirmButtonText: '<small style:"font-size:0.8rem;">확인</small>'
+          })
         });
     },
     joinNormal(email, name, nickname, password, checkType, imgurl) {
@@ -141,17 +173,48 @@ export default {
         .post(`${baseURL}/account/signup`, data)
         .then((response) => {
           if (response.data == 1) {
-            alert("탈퇴된 회원입니다");
+            const Toast = Swal.mixin({
+              toast: true,
+              position: 'top-end',
+              showConfirmButton: false,
+              timer: 2000,
+              timerProgressBar: true,
+              onOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer)
+                toast.addEventListener('mouseleave', Swal.resumeTimer)
+              }
+            })
+
+            Toast.fire({
+              icon: 'error',
+              title: '사용이 제한된 회원입니다.'
+            })
           }
-          alert("회원가입 인증 메일이 발송되었습니다. 이메일을 확인해주세요.");
+          const Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            onOpen: (toast) => {
+              toast.addEventListener('mouseenter', Swal.stopTimer)
+              toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+          })
+
+          Toast.fire({
+            icon: 'success',
+            title: '회원 가입을 축하합니다!'
+          })
           this.$router.push("/");
         })
         .catch(() => {
-          alert("회원 정보를 모두 입력해주세요.");
-          // this.$router.push({
-          //   name: "Params",
-          //   params: { name: err.response.status }
-          // });
+          Swal.fire({
+            width:300,
+            icon: 'error',
+            text: '회원 정보를 모두 입력해주세요.',
+            confirmButtonText: '<small style:"font-size:0.8rem;">확인</small>'
+          })
         });
     },
   },
