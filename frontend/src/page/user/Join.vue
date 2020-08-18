@@ -1,40 +1,72 @@
 <template>
-<div class="container col-sm-12 col-md-12 col-lg-12 p-0">
-  <!-- background image -->
-  <div class="info-img" style="display:block;">
-  </div>
-  <div class="user my-5" id="join">
-    <div class="wrapC table">
-      <div class="middle">
-        <h1 class="text-center font-weight-bold">회원가입</h1>
-        <div class="form-wrap mt-3 mb-3">
-          <!-- 라디오 박스 -->
-            <input class="mr-1" type="radio" id="normal" name="type" value="normal" v-model="checkType">
-              <i class="fas fa-child"></i><label for="normal">일반 사용자 &emsp;</label>
-            
-            <input class="mr-1 ml-5" type="radio" id="business" name="type" value="business" v-model="checkType">
-              <i class="fas fa-user-tie"></i><label for="business">사업자 </label><br>
-            <div class="error-text my-4" v-if="error.checkType" style="color:crimson;">{{error.checkType}}</div>
+  <div class="container col-sm-12 col-md-12 col-lg-12 p-0">
+    <!-- background image -->
+    <div class="info-img" style="display:block;"></div>
+    <div class="user my-5" id="join">
+      <div class="wrapC table">
+        <div class="middle">
+          <h1 class="text-center font-weight-bold">회원가입</h1>
+          <div class="form-wrap mt-3 mb-3">
+            <!-- 라디오 박스 -->
+            <input
+              style="cursor: pointer;"
+              class="mr-1"
+              type="radio"
+              id="normal"
+              name="type"
+              value="normal"
+              v-model="checkType"
+            />
+            <i style="cursor: pointer;" class="fas fa-child mr-1"></i
+            ><label style="cursor: pointer;" for="normal"
+              >일반 사용자 &emsp;</label
+            >
 
-          <Business v-if="checkType == 'business'" :checkType="checkType" @join-create-business="joinBusiness"/>
-          <Normal v-if="checkType == 'normal'" :checkType="checkType" @join-create-normal="joinNormal" />
+            <input
+              style="cursor: pointer;"
+              class="mr-1 ml-5"
+              type="radio"
+              id="business"
+              name="type"
+              value="business"
+              v-model="checkType"
+            />
+            <i style="cursor: pointer;" class="fas fa-user-tie mr-1"></i
+            ><label style="cursor: pointer;" for="business">사업자 </label
+            ><br />
+            <div
+              class="error-text my-4"
+              v-if="error.checkType"
+              style="color:crimson;"
+            >
+              {{ error.checkType }}
+            </div>
 
+            <Business
+              v-if="checkType == 'business'"
+              :checkType="checkType"
+              @join-create-business="joinBusiness"
+            />
+            <Normal
+              v-if="checkType == 'normal'"
+              :checkType="checkType"
+              @join-create-normal="joinNormal"
+            />
+          </div>
         </div>
-
       </div>
     </div>
   </div>
-</div>
 </template>
 
 <script>
 import PV from "password-validator";
 import * as EmailValidator from "email-validator";
 import axios from "axios";
-import '../../assets/css/join.css'
+import "../../assets/css/join.css";
 
-import Business from '../../components/joinform/Business.vue'
-import Normal from '../../components/joinform/Normal.vue'
+import Business from "../../components/joinform/Business.vue";
+import Normal from "../../components/joinform/Normal.vue";
 
 const baseURL = process.env.VUE_APP_BACKURL;
 
@@ -50,17 +82,26 @@ export default {
   watch: {
     checkType: function(v) {
       this.checkForm();
-    }
+    },
   },
   methods: {
     checkForm() {
-      if(this.checkType == "") {
+      if (this.checkType == "") {
         this.error.checkType = "사용자 구분을 해주세요.";
       } else {
         this.error.checkType = false;
       }
     },
-    joinBusiness(email, nickname, password, name, checkType, imgurl, clocation, cphone){
+    joinBusiness(
+      email,
+      nickname,
+      password,
+      name,
+      checkType,
+      imgurl,
+      clocation,
+      cphone
+    ) {
       let data = {
         name,
         nickname,
@@ -73,7 +114,7 @@ export default {
       };
       axios
         .post(`${baseURL}/account/signup`, data)
-        .then(response => {
+        .then((response) => {
           alert(response.data);
 
           alert("환영합니다.");
@@ -81,14 +122,13 @@ export default {
         })
         .catch((err) => {
           console.log(err);
-// this.$router.push({
+          // this.$router.push({
           //   name: "Params",
           //   params: { name: err.response.status }
           // });
         });
     },
     joinNormal(email, name, nickname, password, checkType, imgurl) {
-      
       let data = {
         name,
         nickname,
@@ -99,9 +139,9 @@ export default {
       };
       axios
         .post(`${baseURL}/account/signup`, data)
-        .then(response => {
-          if(response.data == 1){
-            alert("탈퇴된 회원입니다")
+        .then((response) => {
+          if (response.data == 1) {
+            alert("탈퇴된 회원입니다");
           }
           alert("회원가입 인증 메일이 발송되었습니다. 이메일을 확인해주세요.");
           this.$router.push("/");
@@ -129,13 +169,12 @@ export default {
         // password: false,
         // nickname: false,
         // passwordconfirm: false,
-        checkType: false
+        checkType: false,
       },
       // isTerm: false,
       // passwordType: "password",
       // passwordConfirmType: "password"
     };
-  }
+  },
 };
 </script>
-
