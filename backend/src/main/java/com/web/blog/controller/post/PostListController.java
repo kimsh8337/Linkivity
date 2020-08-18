@@ -1,8 +1,11 @@
 package com.web.blog.controller.post;
 
+import java.io.Console;
+import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
+import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -24,7 +27,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -212,7 +217,7 @@ public class PostListController {
     @ApiOperation(value = "포스트 리스트 좋아요 정렬")
     public List<PostList> selectAllByLike() throws SQLException, IOException {
         List<PostList> temp = new LinkedList<>();
-        temp = postDao.findTop5ByFlagOrderByLikecntDesc(1);
+        temp = postDao.findTop4ByFlagOrderByLikecntDesc(1);
         return temp;
     }
 
@@ -228,17 +233,19 @@ public class PostListController {
         }
     }
 
-    @PutMapping("/modify")
+    @PutMapping("/modify/{tagValue}")
     @ApiOperation(value = "포스트 수정하기")
-    public Object modify(@Valid @RequestBody PostList request) throws SQLException, IOException {
+    public Object modify(@Valid @RequestBody PostList request, @PathVariable List<String> tagValue) throws SQLException, IOException {
         try {
+
+            System.out.println(request.toString());
             PostList post = postDao.findByPid(request.getPid());
             if (post != null) {
-
+               System.out.println(request.getLocation());
                 PostList newTemp = post;
                 newTemp.setTitle(request.getTitle());
                 newTemp.setLocation(request.getLocation());
-                newTemp.setImgurl(request.getImgurl());
+                // newTemp.setImgurl(request.getImgurl());
                 newTemp.setPrice(request.getPrice());
                 newTemp.setSdate(request.getSdate());
                 newTemp.setEdate(request.getEdate());
@@ -254,7 +261,21 @@ public class PostListController {
                 newTemp.setCreateDate(time);
                 // System.out.println(newTemp);
                 postDao.save(newTemp);
-                return newTemp;
+                
+                int pid = newTemp.getPid();
+
+                tagDao.deleteAll(tagDao.findByPid(pid));
+                
+                List<String> tags = new LinkedList<>();
+                tags = tagValue;
+                for (String tagname : tags) {
+                    Tag newTag = new Tag();
+                    newTag.setPid(pid);
+                    newTag.setTagname(tagname);
+                    tagDao.save(newTag);
+                }
+
+                return new ResponseEntity<>(newTemp, HttpStatus.OK);
             } else {
                 System.out.println("DB에 없음.");
                 return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
@@ -277,12 +298,23 @@ public class PostListController {
         }
     }
 
-    @GetMapping("/mypost/{email}")
+    @GetMapping("/mypost/{email}/{page}")
     @ApiOperation(value = "내가 쓴 글(승인)")
-    public Object mypost(@PathVariable String email) throws SQLException, IOException {
+    public Object mypost(@PathVariable String email, @PathVariable int page) throws SQLException, IOException {
+        List<PostList> list = postDao.findByEmailAndFlag(email,1, PageRequest.of(page - 1, 10)); //내가 쓰고 승인된 글
+        if (list != null) {
+            return new ResponseEntity<>(list, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }
+    }
+    
+    @GetMapping("/count/mypost/{email}")
+    @ApiOperation(value = "내가 쓴 글(승인) 카운트")
+    public Object countMypost(@PathVariable String email) throws SQLException, IOException {
         List<PostList> list = postDao.findByEmailAndFlag(email,1); //내가 쓰고 승인된 글
         if (list != null) {
-            return new ResponseEntity<>(list, HttpStatus.ACCEPTED);
+            return new ResponseEntity<>(list.size(), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
@@ -344,7 +376,7 @@ public class PostListController {
             temp.setEmail(request.getEmail());
             temp.setTitle(request.getTitle());
             temp.setLocation(request.getLocation());
-            temp.setImgurl(request.getImgurl());
+            // temp.setImgurl(request.getImgurl());
             temp.setPrice(request.getPrice());
             temp.setSdate(request.getSdate());
             temp.setEdate(request.getEdate());
@@ -368,7 +400,7 @@ public class PostListController {
                 newTag.setTagname(tagname);
                 tagDao.save(newTag);
             }
-            return temp;
+            return new ResponseEntity<>(temp, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -425,5 +457,31 @@ public class PostListController {
     public Object pageTest(@PathVariable int page) throws SQLException, IOException {
         // return postDao.findAll(PageRequest.of(page, 5, Direction.DESC, "createDate"));
         return postDao.findByFlagOrderByCreateDateDesc(1, PageRequest.of(page, 5));
+    }
+
+    @PostMapping("/file/{pid}")
+    @ApiOperation(value = "이미지 저장")
+    public String fileTest(@RequestPart("file") MultipartFile ff, @PathVariable int pid) throws IllegalStateException, IOException {
+        // File file = new File("home\\ubuntu\\ssafy6\\s03p13b206\\frontend\\src\\assets\\file\\" + ff.getOriginalFilename());
+        String fileName = "";
+		
+		Calendar calendar = Calendar.getInstance();
+		fileName += calendar.get(Calendar.YEAR);
+		fileName += calendar.get(Calendar.MONTH);
+		fileName += calendar.get(Calendar.DATE);
+		fileName += calendar.get(Calendar.HOUR);
+		fileName += calendar.get(Calendar.MINUTE);
+		fileName += calendar.get(Calendar.SECOND);
+		fileName += calendar.get(Calendar.MILLISECOND);
+		fileName += ".png";
+        File file = new File("C:\\nhj\\project-sub3\\s03p13b206\\frontend\\src\\assets\\file\\" + fileName);
+        if (!file.getParentFile().exists())
+            file.getParentFile().mkdirs();
+            ff.transferTo(file);
+
+        PostList post = postDao.findByPid(pid);
+        post.setImgurl(file.getName());
+        postDao.save(post);
+        return file.getName();
     }
 }

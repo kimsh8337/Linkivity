@@ -85,10 +85,18 @@ public class NoticeController {
     //detail
     @GetMapping("/detail/{nid}")
     @ApiOperation("공지사항 상세")
-    public Notice detail(@PathVariable int nid) throws SQLException, IOException {
-        Notice notice = new Notice();
-        notice = noticeDao.findByNid(nid);
-        return notice;
+    public Object detail(@PathVariable int nid) throws SQLException, IOException {
+        try {
+            Notice notice = new Notice();
+            notice = noticeDao.findByNid(nid);
+            if(notice != null) {
+                return new ResponseEntity<>(notice, HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+            }
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     //visit++

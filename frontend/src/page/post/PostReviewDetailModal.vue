@@ -6,7 +6,7 @@
             <h5 class="modal-title" id="exampleModalLabel">
                 <div class="d-flex">
                     <!-- profile img 보여주기 -->
-                    <img v-if="reviewDetail.proimg" class="user-img d-flex m-1 mr-2" :src="reviewDetail.proimg" style="border-radius:70px;" />
+                    <img v-if="reviewDetail.proimg" class="user-img d-flex m-1 mr-2" :src="makeimgurl(reviewDetail.proimg)" style="border-radius:70px;" />
                     <img v-if="!reviewDetail.proimg" class="user-img d-flex m-1 mr-2" src="../../assets/img/noimage.jpg" style="border-radius:70px;" />
                     <span class="my-auto mr-1" style="font-weight:bold">[{{this.reviewDetail.nickname}}]</span>
                     <small style="margin-top:6%">님이 남긴 후기 상세 정보</small>
@@ -96,6 +96,9 @@ export default {
                 params: { ID: pid },
             });
         },
+         makeimgurl(imgurl){
+            return require("@/assets/file/"+imgurl);
+    },
     },
     created() {
 

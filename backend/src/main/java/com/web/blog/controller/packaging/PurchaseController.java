@@ -15,6 +15,7 @@ import com.web.blog.model.post.LikeList;
 import com.web.blog.model.post.PostList;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -137,9 +138,9 @@ public class PurchaseController {
         }
     }
 
-    @GetMapping("/list/{email}")
+    @GetMapping("/list/{email}/{page}")
     @ApiOperation("사용자 구매 리스트")
-    public Object purchaseList(@PathVariable String email) throws SQLException, IOException {
+    public Object purchaseList(@PathVariable String email, @PathVariable int page) throws SQLException, IOException {
         try {
             List<Pack> packlist = packDao.findByEmail(email);
             List<List<Purchase>> purlist = new LinkedList<>();
@@ -148,18 +149,59 @@ public class PurchaseController {
                 List<Purchase> list = purchaseDao.findByPackno(packno);
                 purlist.add(list);
             }
-            return new ResponseEntity<>(purlist, HttpStatus.ACCEPTED);
+
+            int start = (page - 1) * 5;
+            int end = start + 5;
+            if (end > purlist.size()) {
+                end = purlist.size();
+            }
+
+            List<List<Purchase>> nlist = new LinkedList<>();
+
+            for (int i = start; i < end; i++) {
+                nlist.add(purlist.get(i));
+            }
+
+            return new ResponseEntity<>(nlist, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-    @GetMapping("/sellList/{seller}")
+    @GetMapping("/count/list/{email}")
+    @ApiOperation("사용자 구매 리스트 카운트")
+    public Object countPurchaseList(@PathVariable String email) throws SQLException, IOException {
+        try {
+            List<Pack> packlist = packDao.findByEmail(email);
+            List<List<Purchase>> purlist = new LinkedList<>();
+            for (Pack pack : packlist) {
+                int packno = pack.getPackno();
+                List<Purchase> list = purchaseDao.findByPackno(packno);
+                purlist.add(list);
+            }
+            return new ResponseEntity<>(purlist.size(), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/sellList/{seller}/{page}")
     @ApiOperation("사업자 판매 리스트")
-    public Object sellList(@PathVariable String seller) throws SQLException, IOException {
+    public Object sellList(@PathVariable String seller, @PathVariable int page) throws SQLException, IOException {
+        try {
+            List<Purchase> selllist = purchaseDao.findBySeller(seller, PageRequest.of(page - 1, 10));
+            return new ResponseEntity<>(selllist, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/count/sellList/{seller}")
+    @ApiOperation("사업자 판매 리스트 카운트")
+    public Object countSellList(@PathVariable String seller) throws SQLException, IOException {
         try {
             List<Purchase> selllist = purchaseDao.findBySeller(seller);
-            return new ResponseEntity<>(selllist, HttpStatus.ACCEPTED);
+            return new ResponseEntity<>(selllist.size(), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }

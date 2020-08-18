@@ -33,12 +33,12 @@
               >사진 업로드</button>
               <img
                 class="card-img mb-2"
-                v-if="this.reviewCreate.img"
-                :src="this.reviewCreate.img"
+                v-if="tempimg"
+                :src="tempimg"
                 style="height: 16rem; width:100%;"
               />
             </div>
-            <input ref="imageInput" type="file" hidden @change="onChangeImages" />
+            <input ref="file" type="file" hidden @change="onChangeImages" />
             <small v-if="!this.reviewCreate.img" class="form-text text-muted d-flex">원하는 사진을 업로드하세요.</small>
             <!-- <small
             v-if="this.reviewCreate.img"
@@ -128,6 +128,7 @@ export default {
         content: false,
         star: false,
       },
+      tempimg:"",
     };
   },
   props: {
@@ -135,7 +136,9 @@ export default {
     email: String,
   },
   created() {
-    if (this.$cookies.get("Auth-Token") != null) this.authUser();
+    if (this.$cookies.get("Auth-Token") != null) {
+      this.authUser();
+    }
   },
   methods: {
     authUser() {
@@ -150,6 +153,9 @@ export default {
         .catch((err) => {
           console.log(err.response);
         });
+    },
+     makeimgurl(imgurl){
+      return require("@/assets/file/"+imgurl);
     },
     reviewRegist() {
       let check = 0;
@@ -171,6 +177,7 @@ export default {
       axios
         .post(`${baseURL}/review/regist`, this.reviewCreate)
         .then((response) => {
+          this.fileUpload(response.data.rvid);
           const Toast = Swal.mixin({
             toast: true,
             position: "top-end",
@@ -204,23 +211,30 @@ export default {
           console.log(error);
         });
     },
+    fileUpload(rvid) {
+    var formData = new FormData();
+    const file = this.$refs.file.files[0];
+    formData.append("file", file);
+    axios.post(`${baseURL}/review/file/${rvid}`
+        ,formData
+        , {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        }
+        )
+      .then(function (response) {
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+    },
     onClickImageUpload() {
-      this.$refs.imageInput.click();
+      this.$refs.file.click();
     },
     onChangeImages(e) {
       const file = e.target.files[0];
-      var img = new Image(file);
-      img = e.target.files[0];
-      this.createImage(img);
-      // this.imgurl = URL.createObjectURL(file);
-    },
-    createImage(file) {
-      this.reviewCreate.img = new Image();
-      var reader = new FileReader();
-      reader.onload = (e) => {
-        this.reviewCreate.img = e.target.result;
-      };
-      reader.readAsDataURL(file);
+      this.tempimg = URL.createObjectURL(file);
     },
   },
 };
