@@ -270,8 +270,7 @@ export default {
                   });
                   Toast.fire({
                     icon: "warning",
-                    title:
-                      "해당 아이디는 신고 누적으로 차후에 이용이 제한될 수 있습니다.",
+                    title: "해당 아이디는 신고 누적으로 차후에 이용이 제한될 수 있습니다.",
                   }).then((result) => {
                     if (result.value) {
                       this.$router.push("/").catch((err) => {
@@ -293,7 +292,7 @@ export default {
                   Toast.fire({
                     icon: "warning",
                     title:
-                      "해당 아이디는 신고 누적으로 차후에 이용이 제한되었습니다.",
+                      "해당 아이디는 신고 누적으로 이용이 제한되었습니다.",
                   }).then((result) => {
                     if (result.value) {
                       this.$router.push("/").catch((err) => {
@@ -364,16 +363,49 @@ export default {
                     .get(`${baseURL}/report/reports/${x.kakao.email}`)
                     .then((response) => {
                       if (response.data == 0) {
-                        alert(
-                          "해당 아이디는 신고 누적으로 차후에 이용이 제한될 수 있습니다."
-                        );
+                        const Toast = Swal.mixin({
+                          toast: true,
+                          position: "top-end",
+                          showConfirmButton: true,
+                          onOpen: (toast) => {
+                            toast.addEventListener("mouseenter", Swal.stopTimer);
+                            toast.addEventListener("mouseleave", Swal.resumeTimer);
+                          },
+                        });
+                        Toast.fire({
+                          icon: "warning",
+                          title: "해당 아이디는 신고 누적으로 차후에 이용이 제한될 수 있습니다.",
+                        }).then((result) => {
+                          if (result.value) {
+                            x.$router.push("/").catch((err) => {
+                              console.log(err);
+                            });
+                            x.$router.go();
+                          }
+                        });
                         x.$cookies.set("Auth-Token", kakaotempToken);
-                        x.$router.go();
                       } else if (response.data == 1) {
-                        alert(
-                          "해당 아이디는 신고 누적으로 이용이 제한되었습니다."
-                        );
-                        x.$router.go();
+                        const Toast = Swal.mixin({
+                          toast: true,
+                          position: "top-end",
+                          showConfirmButton: true,
+                          onOpen: (toast) => {
+                            toast.addEventListener("mouseenter", Swal.stopTimer);
+                            toast.addEventListener("mouseleave", Swal.resumeTimer);
+                          },
+                        });
+                        Toast.fire({
+                          icon: "warning",
+                          title:
+                            "해당 아이디는 신고 누적으로 이용이 제한되었습니다.",
+                        }).then((result) => {
+                          if (result.value) {
+                            x.$router.push("/").catch((err) => {
+                              console.log(err);
+                            });
+                            x.$router.go();
+                          }
+                        });
                       } else {
                         x.$cookies.set("Auth-Token", kakaotempToken);
                         x.$router.go();
