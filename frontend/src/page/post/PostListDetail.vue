@@ -166,7 +166,7 @@
       <nav
         id="navbar-example2"
         class="navbar nav-info"
-        style="position: sticky; top: 0; z-index:100;"
+        style="position: sticky; top: 0; z-index:1;"
       >
         <ul class="nav justify-content-between" style="width:100%;">
           <li class="nav-item">
