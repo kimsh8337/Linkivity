@@ -355,7 +355,7 @@
                 v-if="slide.img"
                 class="review-img"
                 :src="slide.img"
-                style="height:8rem; border-radius:5px"
+                style="height:8rem; border-top-right-radius:5px;border-top-left-radius:5px;"
               />
               <img
                 v-if="!slide.img"

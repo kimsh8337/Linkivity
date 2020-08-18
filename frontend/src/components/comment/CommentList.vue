@@ -85,6 +85,7 @@ export default {
       replyCheck: false,
       checkType: "",
       comType:"",
+      currentNickname: "",
     };
   },
   methods: {
@@ -94,6 +95,7 @@ export default {
         .then((response) => {
           this.email = response.data.email;
           this.checkType = response.data.checkType;
+          this.currentNickname = response.data.nickname;
           this.fetchNickName();
         })
         .catch((err) => {
