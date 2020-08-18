@@ -10,21 +10,9 @@
             <!-- 이미지 삽입 -->
             <div class="col-md-5">
               <div class="col-md-10 p-0 mr-0" align="left">
-                <img
-                  class="card-img mb-2"
-                  v-if="PostUpdate.imgurl && !tempcheck"
-                  :src="makeimgurl(PostUpdate.imgurl)"
-                  style="height: 16rem; width:100%"
-                />
-                <img
-                  class="card-img mb-2"
-                  v-if="PostUpdate.imgurl && tempcheck"
-                  :src="tempimg"
-                  style="height: 16rem; width:100%"
-                />
                 <button
                   type="button"
-                  class="btn btn-default btn-sm d-flex"
+                  class="btn btn-default btn-sm d-flex mb-1"
                   @click="onClickImageUpload"
                   style="border-radius:10px; font-size:15px; border:1.5px solid;height:2rem;"
                 >
@@ -32,12 +20,26 @@
                     <span class="ml-1">이미지 업로드</span>
                   </i>
                 </button>
+                <div
+                  class="mb-1"
+                  style="height: 16rem; width:100%; border-radius:5px; border:1px solid lightgray;"
+                >
+                  <img
+                    class="card-img mb-2"
+                    v-if="PostUpdate.imgurl && !tempcheck"
+                    :src="makeimgurl(PostUpdate.imgurl)"
+                    style="height: 16rem; width:100%"
+                  />
+                  <img
+                    class="card-img mb-2"
+                    v-if="PostUpdate.imgurl && tempcheck"
+                    :src="tempimg"
+                    style="height: 16rem; width:100%"
+                  />
+                </div>
               </div>
               <input ref="file" type="file" hidden @change="onChangeImages" />
-              <small
-                v-if="!this.PostUpdate.imgurl"
-                class="form-text text-muted d-flex"
-              >사진을 업로드하세요.</small>
+              <small v-if="!this.PostUpdate.imgurl" class="form-text text-muted d-flex">사진을 업로드하세요.</small>
               <!-- <small
                 v-if="this.PostUpdate.imgurl"
                 class="form-text text-muted d-flex"
@@ -57,23 +59,52 @@
                       style="color:red;"
                       v-if="error.title"
                     >{{ error.title }}</small>
-                    <label class="d-flex justify-content-start">Activity</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="activity"
-                      v-model="PostUpdate.activity"
-                    />
-                    <small class="form-text text-muted d-flex" v-if="!error.activity">활동명을 입력하세요.</small>
-                    <small
-                      class="form-text d-flex"
-                      style="color:red;"
-                      v-if="error.activity"
-                    >{{ error.activity }}</small>
-                  </div>
+                    <div class="d-flex justify-content-between mt-2 mb-2">
+                      <div style="width:49%;">
+                        <label class="d-flex justify-content-start">Activity</label>
+                        <input
+                          type="text"
+                          class="form-control"
+                          id="activity"
+                          v-model="PostUpdate.activity"
+                        />
+                        <small
+                          class="form-text text-muted d-flex"
+                          v-if="!error.activity"
+                        >활동명을 입력하세요.</small>
+                        <small
+                          class="form-text d-flex"
+                          style="color:red;"
+                          v-if="error.activity"
+                        >{{ error.activity }}</small>
+                      </div>
+                      <!-- 이용 가격 -->
+                      <div style="width:49%;">
+                        <label class="d-flex justify-content-start">Price</label>
+                        <input
+                          type="text"
+                          class="form-control"
+                          id="price"
+                          v-model="PostUpdate.price"
+                        />
+                        <small
+                          class="form-text text-muted d-flex"
+                          v-if="!error.price && !error.priceint"
+                        >가격을 입력하세요.</small>
+                        <small
+                          class="form-text d-flex"
+                          style="color:red;"
+                          v-if="error.price"
+                        >{{ error.price }}</small>
+                        <small
+                          class="form-text d-flex"
+                          style="color:red;"
+                          v-if="error.priceint"
+                        >{{ error.priceint }}</small>
+                      </div>
+                    </div>
 
-                  <!-- 사용 기간 -->
-                  <div class="form-group">
+                    <!-- 사용 기간 -->
                     <label class="d-flex justify-content-start mb-0">Expiration-Date</label>
                     <div class="d-flex justify-content-between">
                       <small class="form-text text-muted" style="margin-right:auto;">시작일</small>
@@ -89,27 +120,11 @@
                       <b-form-datepicker id="edate" v-model="PostUpdate.edate" class="col-md-6"></b-form-datepicker>
                     </div>
                     <small class="form-text text-muted d-flex" v-if="!error.sedate">상품 유효기간을 지정하세요.</small>
-                    <small class="form-text d-flex" style="color:red;" v-if="error.sedate">{{error.sedate}}</small>
-                  </div>
-
-                  <!-- 이용 가격 -->
-                  <div class="form-group mb-0">
-                    <label class="d-flex justify-content-start">Price</label>
-                    <input type="text" class="form-control" id="price" v-model="PostUpdate.price" />
-                    <small
-                      class="form-text text-muted d-flex"
-                      v-if="!error.price && !error.priceint"
-                    >가격을 입력하세요.</small>
                     <small
                       class="form-text d-flex"
                       style="color:red;"
-                      v-if="error.price"
-                    >{{ error.price }}</small>
-                    <small
-                      class="form-text d-flex"
-                      style="color:red;"
-                      v-if="error.priceint"
-                    >{{ error.priceint }}</small>
+                      v-if="error.sedate"
+                    >{{error.sedate}}</small>
                   </div>
                 </div>
               </div>
@@ -209,12 +224,10 @@
           />
           <small class="form-text text-muted d-flex" v-if="!error.detail">상품 상세정보를 입력하세요.</small>
           <small class="form-text d-flex" style="color:red;" v-if="error.detail">{{ error.detail }}</small>
-        
         </div>
         <hr />
-        
+
         <div>
-         
           <label class="d-flex justify-content-start">Address</label>
           <div class="d-flex mb-1">
             <!-- <input
@@ -223,7 +236,7 @@
               v-model="addr1"
               style="width:200px;"
               placeholder="우편번호"
-            /> -->
+            />-->
             <button
               type="button"
               class="btn btn-default btn-sm ml-1"
@@ -231,13 +244,25 @@
               @click="Search"
             >우편번호 찾기</button>
           </div>
-            <input hidden type="text" class="form-control mb-1" v-model="addr2" placeholder="주소" readonly />
+          <input
+            hidden
+            type="text"
+            class="form-control mb-1"
+            v-model="addr2"
+            placeholder="주소"
+            readonly
+          />
           <input hidden type="text" class="form-control mb-1" v-model="addr3" placeholder="상세주소" />
-          <input type="text" class="form-control mb-1" v-model="PostUpdate.location" placeholder="상세주소" />
+          <input
+            type="text"
+            class="form-control mb-1"
+            v-model="PostUpdate.location"
+            placeholder="상세주소"
+          />
         </div>
 
         <small class="form-text text-muted d-flex">주소를 입력하세요.</small>
-       
+
         <hr />
 
         <!-- HasTag -->
@@ -262,7 +287,9 @@
           class="btn btn-defalut"
           style="background-color:#86a5d4; color:white; font-weight:bold;"
           @click="modify"
-        ><i class="far fa-edit mr-2"></i>수정하기</button>
+        >
+          <i class="far fa-edit mr-2"></i>수정하기
+        </button>
       </div>
     </div>
   </div>
@@ -304,7 +331,7 @@ export default {
         seasons: false,
         place: false,
         sedate: false,
-        tagValue:false,
+        tagValue: false,
       },
     };
   },
@@ -325,12 +352,11 @@ export default {
       let x = this;
       new daum.Postcode({
         oncomplete: function (data) {
-           
           x.addr1 = data.zonecode;
           x.addr2 = data.address;
-          
+
           x.addr3 = data.buildingName;
-         x.PostUpdate.location = x.addr2 + " " + x.addr3;
+          x.PostUpdate.location = x.addr2 + " " + x.addr3;
         },
       }).open();
     },
@@ -339,7 +365,7 @@ export default {
         .get(`${baseURL}/post/detail/${this.pid}`)
         .then((response) => {
           this.PostUpdate = response.data;
-          console.log(this.PostUpdate)
+          console.log(this.PostUpdate);
           this.checkSeason();
         })
         .catch((error) => {
@@ -347,13 +373,16 @@ export default {
         });
     },
     checkSeason() {
-      if(this.PostUpdate.spring == 1) {
+      if (this.PostUpdate.spring == 1) {
         this.seasons.push("spring");
-      } if(this.PostUpdate.summer == 1) {
+      }
+      if (this.PostUpdate.summer == 1) {
         this.seasons.push("summer");
-      } if(this.PostUpdate.autumn == 1) {
+      }
+      if (this.PostUpdate.autumn == 1) {
         this.seasons.push("autumn");
-      } if(this.PostUpdate.winter == 1) {
+      }
+      if (this.PostUpdate.winter == 1) {
         this.seasons.push("winter");
       }
     },
@@ -440,7 +469,7 @@ export default {
         alert("정보를 모두 입력해주세요.");
         return;
       }
-     
+
       this.PostUpdate.spring = 0;
       this.PostUpdate.summer = 0;
       this.PostUpdate.autumn = 0;
@@ -457,8 +486,8 @@ export default {
         }
       }
 
-      console.log(this.seasons)
-      console.log(this.PostUpdate)
+      console.log(this.seasons);
+      console.log(this.PostUpdate);
 
       Swal.fire({
         width: 350,
@@ -489,7 +518,6 @@ export default {
           axios
             .put(`${baseURL}/post/modify/${this.tagValue}`, this.PostUpdate)
             .then((response) => {
-             
               this.fileUpload(response.data.pid);
               this.$router.push({
                 name: "PostListDetail",
