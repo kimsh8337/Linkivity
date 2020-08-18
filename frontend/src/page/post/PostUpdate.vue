@@ -259,6 +259,7 @@ export default {
         .get(`${baseURL}/tag/list/${this.pid}`)
         .then((res) => {
           this.hashTag = res.data;
+          console.log(this.hashTag)
         })
         .catch((err) => {
           console.log(err);
@@ -267,17 +268,19 @@ export default {
     modify: function () {
       this.PostUpdate.detail = this.$refs.toastuiEditor.invoke("getMarkdown");
       this.PostUpdate.location = this.addr2 + " " + this.addr3;
-      for (var i = 0; i < this.seasons.length; i++) {
-        if (this.seasons[i] == "spring") {
-          this.PostUpdate.spring = 1;
-        } else if (this.seasons[i] == "summer") {
-          this.PostUpdate.summer = 1;
-        } else if (this.seasons[i] == "autumn") {
-          this.PostUpdate.autumn = 1;
-        } else if (this.seasons[i] == "winter") {
-          this.PostUpdate.winter = 1;
-        }
+      if(this.PostUpdate.spring == true){
+        this.PostUpdate.spring = 1;
       }
+      if(this.PostUpdate.summer == true){
+        this.PostUpdate.summer = 1;
+      }
+      if(this.PostUpdate.autumn == true){
+        this.PostUpdate.autumn = 1;
+      }
+      if(this.PostUpdate.winter == true){
+        this.PostUpdate.winter = 1;
+      }
+
       Swal.fire({
         width: 350,
         text: "수정하시겠습니까?",

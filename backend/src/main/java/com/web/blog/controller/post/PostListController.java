@@ -230,7 +230,7 @@ public class PostListController {
 
     @PutMapping("/modify")
     @ApiOperation(value = "포스트 수정하기")
-    public Object modify(@Valid @RequestBody PostList request) throws SQLException, IOException {
+    public Object modify(@Valid @RequestBody PostList request, @PathVariable List<String> tagValue) throws SQLException, IOException {
         try {
             PostList post = postDao.findByPid(request.getPid());
             if (post != null) {
@@ -254,7 +254,21 @@ public class PostListController {
                 newTemp.setCreateDate(time);
                 // System.out.println(newTemp);
                 postDao.save(newTemp);
-                return newTemp;
+                
+                int pid = newTemp.getPid();
+
+                tagDao.deleteAll(tagDao.findByPid(pid));
+                
+                List<String> tags = new LinkedList<>();
+                tags = tagValue;
+                for (String tagname : tags) {
+                    Tag newTag = new Tag();
+                    newTag.setPid(pid);
+                    newTag.setTagname(tagname);
+                    tagDao.save(newTag);
+                }
+
+                return new ResponseEntity<>(newTemp, HttpStatus.OK);
             } else {
                 System.out.println("DB에 없음.");
                 return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
@@ -277,12 +291,23 @@ public class PostListController {
         }
     }
 
-    @GetMapping("/mypost/{email}")
+    @GetMapping("/mypost/{email}/{page}")
     @ApiOperation(value = "내가 쓴 글(승인)")
-    public Object mypost(@PathVariable String email) throws SQLException, IOException {
+    public Object mypost(@PathVariable String email, @PathVariable int page) throws SQLException, IOException {
+        List<PostList> list = postDao.findByEmailAndFlag(email,1, PageRequest.of(page - 1, 10)); //내가 쓰고 승인된 글
+        if (list != null) {
+            return new ResponseEntity<>(list, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }
+    }
+    
+    @GetMapping("/count/mypost/{email}")
+    @ApiOperation(value = "내가 쓴 글(승인) 카운트")
+    public Object countMypost(@PathVariable String email) throws SQLException, IOException {
         List<PostList> list = postDao.findByEmailAndFlag(email,1); //내가 쓰고 승인된 글
         if (list != null) {
-            return new ResponseEntity<>(list, HttpStatus.ACCEPTED);
+            return new ResponseEntity<>(list.size(), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }

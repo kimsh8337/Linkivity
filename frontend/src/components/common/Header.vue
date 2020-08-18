@@ -1,7 +1,7 @@
 <template>
   <div id="header" class="p-0" v-if="isHeader">
     <nav class="navbar navbar-expand-lg navbar-light header-nav col-md-12">
-      <img src="../../assets/img/logo4.png" @click="rendering" class="logo m-3">
+      <img style="cursor: pointer;" src="../../assets/img/logo4.png" @click="rendering" class="logo m-3">
       <!-- <router-link class="nav-title m-0" v-bind:to="{name:constants.URL_TYPE.POST.MAIN}"> -->
         <!-- <h5 class="my-auto font-weight-bold nav-title" @click="rendering"></h5> -->
       <!-- </router-link> -->
