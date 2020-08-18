@@ -39,6 +39,7 @@ import TagList from '../page/main/List.vue'
 
 //error
 import BadRequest from '../page/error/BadRequest.vue'
+import ServerError from '../page/error/ServerError.vue'
 
 Vue.use(Router)
 
@@ -100,6 +101,10 @@ export default new Router({
         {
             path: '/badRequest',
             component: BadRequest,
+        },
+        {
+            path: '/serverError',
+            component: ServerError,
         },
 
         // 공지사항

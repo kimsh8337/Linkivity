@@ -33,7 +33,7 @@
           />
           <!-- 프로필 보여주기 -->
           <div class="d-flex justify-content-between" style="border-bottom : 1px solid lightgray;">
-            <img class="profile-img d-flex m-1" :src="slide.proimg" />
+            <img class="profile-img d-flex m-1" v-if="slide.proimg" :src="makeimgurl(slide.proimg)" />
             <div class="mt-2 mr-4">
               <div class="d-flex">
                 <small class="d-flex align-items-center" style="font-weight:bold">{{slide.nickname}}</small>
@@ -124,7 +124,13 @@ export default {
           this.fetchReview();
         })
         .catch((err) => {
-          console.log(err.response);
+          if(err.response.status == 400) {
+            this.$router.push("/badRequest").catch(err => {
+            });
+          } else if(err.response.status == 500) {
+            this.$router.push("/serverError").catch(err => {
+            });
+          }
         });
     },
     makeimgurl(imgurl) {
@@ -142,7 +148,13 @@ export default {
           }
         })
         .catch((error) => {
-          console.log(error);
+          if(err.response.status == 400) {
+            this.$router.push("/badRequest").catch(err => {
+            });
+          } else if(err.response.status == 500) {
+            this.$router.push("/serverError").catch(err => {
+            });
+          }
         });
     },
     startDrag(e) {
@@ -211,7 +223,13 @@ export default {
               // }, 1000);
             })
             .catch((error) => {
-              console.log(error);
+              if(err.response.status == 400) {
+                this.$router.push("/badRequest").catch(err => {
+                });
+              } else if(err.response.status == 500) {
+                this.$router.push("/serverError").catch(err => {
+                });
+              }
             });
         }
       });
@@ -225,7 +243,9 @@ export default {
     },
   },
   created() {
-    if (this.$cookies.get("Auth-Token") != null) this.authUser();
+    if (this.$cookies.get("Auth-Token") != null) {
+      this.authUser();
+    }
     else {
       this.fetchReview();
     }

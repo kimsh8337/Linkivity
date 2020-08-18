@@ -15,12 +15,12 @@
         <span style="font-weight:bold">사진 업로드(선택)</span>
       </button>
       <div class="col-md-8 p-0" align="left">
-        <input ref="imageInput" type="file" hidden @change="onChangeImages" />
+        <input ref="file" type="file" hidden @change="onChangeImages" />
         <img
           class="card-img mb-2 mt-2"
           style="height: 18rem; width: 18rem; border-radius:10px; border:1.5px solid lightgray;"
-          v-if="this.imgurl"
-          :src="this.imgurl"
+          v-if="tempimg"
+          :src="tempimg"
         />
       </div>
     </div>
@@ -547,7 +547,7 @@ export default {
             toast: true,
             position: 'top-end',
             showConfirmButton: false,
-            timer: 3000,
+            timer: 1000,
             timerProgressBar: true,
           })
 
@@ -696,26 +696,15 @@ export default {
         this.nickname,
         this.password,
         this.checkType,
-        this.imgurl
+        this.file
       );
     },
     onClickImageUpload() {
-      this.$refs.imageInput.click();
+      this.$refs.file.click();
     },
     onChangeImages(e) {
-      const file = e.target.files[0];
-      var img = new Image(file);
-      img = e.target.files[0];
-      this.createImage(img);
-      // this.imgurl = URL.createObjectURL(file);
-    },
-    createImage(file) {
-      this.imgurl = new Image();
-      var reader = new FileReader();
-      reader.onload = (e) => {
-        this.imgurl = e.target.result;
-      };
-      reader.readAsDataURL(file);
+      this.file = e.target.files[0];
+      this.tempimg = URL.createObjectURL(this.file);
     },
   },
   data() {
@@ -740,6 +729,8 @@ export default {
       code: 0,
       codeNum: "",
       iscertify: false,
+      tempimg:"",
+      file:"",
     };
   },
 };

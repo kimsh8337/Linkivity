@@ -245,7 +245,7 @@ public class PostListController {
                 PostList newTemp = post;
                 newTemp.setTitle(request.getTitle());
                 newTemp.setLocation(request.getLocation());
-                newTemp.setImgurl(request.getImgurl());
+                // newTemp.setImgurl(request.getImgurl());
                 newTemp.setPrice(request.getPrice());
                 newTemp.setSdate(request.getSdate());
                 newTemp.setEdate(request.getEdate());
@@ -376,7 +376,7 @@ public class PostListController {
             temp.setEmail(request.getEmail());
             temp.setTitle(request.getTitle());
             temp.setLocation(request.getLocation());
-            temp.setImgurl(request.getImgurl());
+            // temp.setImgurl(request.getImgurl());
             temp.setPrice(request.getPrice());
             temp.setSdate(request.getSdate());
             temp.setEdate(request.getEdate());
@@ -478,8 +478,6 @@ public class PostListController {
         if (!file.getParentFile().exists())
             file.getParentFile().mkdirs();
             ff.transferTo(file);
-        System.out.println("file is " + file.getAbsolutePath());
-        System.out.println("name is " + file.getName() );
 
         PostList post = postDao.findByPid(pid);
         post.setImgurl(file.getName());

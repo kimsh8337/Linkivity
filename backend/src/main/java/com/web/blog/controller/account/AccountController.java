@@ -306,7 +306,6 @@ public class AccountController {
             }
             return result;
         }
-       
     }
 
     @GetMapping("/checkNickname/{nickname}")
@@ -436,7 +435,7 @@ public class AccountController {
     public String fileTest(@RequestPart("file") MultipartFile ff, @PathVariable String email) throws IllegalStateException, IOException {
         // File file = new File("home\\ubuntu\\ssafy6\\s03p13b206\\frontend\\src\\assets\\file\\" + ff.getOriginalFilename());
         
-        String originFilename = ff.getOriginalFilename();
+        // String originFilename = ff.getOriginalFilename();
         // String extName = "."+originFilename.substring(originFilename.lastIndexOf(".")+1, originFilename.length()).toLowerCase();
         String fileName = "";
 		
@@ -453,8 +452,8 @@ public class AccountController {
         if (!file.getParentFile().exists())
             file.getParentFile().mkdirs();
             ff.transferTo(file);
-        System.out.println("file is " + file.getAbsolutePath());
-        System.out.println("name is " + file.getName() );
+        // System.out.println("file is " + file.getAbsolutePath());
+        // System.out.println("name is " + file.getName() );
 
         User user = userDao.findUserByEmail(email).get();
         user.setImgurl(file.getName());

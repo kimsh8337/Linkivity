@@ -8,7 +8,7 @@
         <h4>내부 서버에 오류가 발생했습니다.</h4>
       </div>
       <div class="col-sm-4">
-        <i class="fa fa-9x fa-compass fa-spin" style="color:#7EC0EE"></i>
+        <i class="fa fa-9x fa-internet-explorer fa-spin" style="color:#7EC0EE"></i>
       </div>
       <div class="error-message-404-en col-sm-3">
         <h6>ERROR CODE 500</h6>

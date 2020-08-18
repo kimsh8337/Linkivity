@@ -212,8 +212,6 @@ public class ReviewController {
         if (!file.getParentFile().exists())
             file.getParentFile().mkdirs();
             ff.transferTo(file);
-        System.out.println("file is " + file.getAbsolutePath());
-        System.out.println("name is " + file.getName() );
 
         Review review = reviewDao.findByRvid(rvid);
         review.setImg(file.getName());

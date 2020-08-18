@@ -68,7 +68,9 @@ export default {
     };
   },
   created() {
-    if (this.$cookies.get("Auth-Token") != null) this.authUser();
+    if (this.$cookies.get("Auth-Token") != null) {
+      this.authUser();
+    }
     this.init();
   },
   methods: {
@@ -85,18 +87,12 @@ export default {
       }
     },
     init() {
-      axios
-        .get(`${baseURL}/notice/list/${this.page}`)
-        .then((res) => {
-          this.notices = res.data;
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      
       axios
         .get(`${baseURL}/notice/count`)
         .then((res) => {
           this.len = res.data;
+          this.checkPage();
         })
         .catch((err) => {
           console.log(err);
