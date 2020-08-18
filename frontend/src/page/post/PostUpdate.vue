@@ -37,7 +37,7 @@
               <small
                 v-if="!this.PostUpdate.imgurl"
                 class="form-text text-muted d-flex"
-              >원하는 사진을 업로드해주세요.</small>
+              >사진을 업로드하세요.</small>
               <!-- <small
                 v-if="this.PostUpdate.imgurl"
                 class="form-text text-muted d-flex"

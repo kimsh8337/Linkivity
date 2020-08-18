@@ -117,7 +117,7 @@ export default {
             Swal.fire({
               title: "관리자만 글 작성가능합니다!",
               html: "<b></b> 후 전 페이지로 돌아갑니다.",
-              timer: 3000,
+              timer: 1000,
               timerProgressBar: true,
               onBeforeOpen: () => {
                 Swal.showLoading();
@@ -183,7 +183,7 @@ export default {
         toast: true,
         position: "top-end",
         showConfirmButton: false,
-        timer: 3000,
+        timer: 1000,
         timerProgressBar: true,
         onOpen: (toast) => {
           toast.addEventListener("mouseenter", Swal.stopTimer);
