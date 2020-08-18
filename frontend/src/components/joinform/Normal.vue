@@ -696,15 +696,15 @@ export default {
         this.nickname,
         this.password,
         this.checkType,
-        this.imgurl
+        this.file
       );
     },
     onClickImageUpload() {
       this.$refs.file.click();
     },
     onChangeImages(e) {
-      const file = e.target.files[0];
-      this.tempimg = URL.createObjectURL(file);
+      this.file = e.target.files[0];
+      this.tempimg = URL.createObjectURL(this.file);
     },
   },
   data() {
@@ -729,6 +729,8 @@ export default {
       code: 0,
       codeNum: "",
       iscertify: false,
+      tempimg:"",
+      file:"",
     };
   },
 };
