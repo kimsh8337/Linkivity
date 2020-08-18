@@ -216,13 +216,7 @@
         <div>
           <label class="d-flex justify-content-start">Address</label>
           <div class="d-flex mb-1">
-            <input
-              type="text"
-              class="form-control"
-              v-model="addr1"
-              style="width:200px;"
-              placeholder="우편번호"
-            />
+         
             <button
               type="button"
               class="btn btn-default btn-sm ml-1"
@@ -232,8 +226,9 @@
               <span style="font-weight:bold">우편번호 찾기</span>
             </button>
           </div>
-          <input type="text" class="form-control mb-1" v-model="addr2" placeholder="주소" readonly />
-          <input type="text" class="form-control mb-1" v-model="addr3" placeholder="상세주소" />
+          <input hidden type="text" class="form-control mb-1" v-model="addr2" placeholder="주소" readonly />
+          <input hidden type="text" class="form-control mb-1" v-model="addr3" placeholder="상세주소" />
+            <input type="text" class="form-control mb-1" v-model="PostCreate.location" placeholder="상세주소" />
         </div>
 
         <small class="form-text text-muted d-flex">주소를 입력하세요.</small>
@@ -377,6 +372,7 @@ export default {
           x.addr1 = data.zonecode;
           x.addr2 = data.address;
           x.addr3 = data.buildingName;
+          x.PostCreate.location = x.addr2 + " " + x.addr3;
         },
       }).open();
     },
@@ -591,9 +587,7 @@ export default {
   created() {
     this.authUser();
   },
-  mounted(){
 
-  }
 };
 </script>
 <style></style>
