@@ -22,9 +22,9 @@ public interface PostListDao extends JpaRepository<PostList, String> {
     List<PostList> findByFlagAndPriceLessThanEqualOrderByCreateDateDesc(int flag, int word);
     List<PostList> findByFlagAndPriceLessThanEqualOrderByCreateDateDesc(int flag, int word, Pageable page);
     List<PostList> findTop4ByFlagOrderByLikecntDesc(int flag);
-
+    
     List<PostList> findAllByOrderByLikecntDesc();
-
+    
     List<PostList> findBySpringAndFlagOrderByCreateDateDesc(int spring, int flag);
     List<PostList> findBySummerAndFlagOrderByCreateDateDesc(int summer, int flag);
     List<PostList> findByAutumnAndFlagOrderByCreateDateDesc(int autumn, int flag);
@@ -33,17 +33,18 @@ public interface PostListDao extends JpaRepository<PostList, String> {
     List<PostList> findBySummerAndFlagOrderByCreateDateDesc(int summer, int flag, Pageable page);
     List<PostList> findByAutumnAndFlagOrderByCreateDateDesc(int autumn, int flag, Pageable page);
     List<PostList> findByWinterAndFlagOrderByCreateDateDesc(int winter, int flag, Pageable page);
-
+    
     List<PostList> findByPlaceAndFlagOrderByCreateDateDesc(String place, int flag);
     List<PostList> findByPlaceAndFlagOrderByCreateDateDesc(String place, int flag, Pageable page);
-
+    
     List<PostList> findByFlagAndPlace(int flag, String place);
     List<PostList> findByFlagAndPriceLessThanEqual(int flag, int price);
     List<PostList> findByFlagAndLocationLike(int flag, String location);
     List<PostList> findByEmailAndFlag(String email, int flag);
-
+    
     List<PostList> findByFlagAndPidInOrderByCreateDateDesc(int flag, List<Integer> pid, Pageable page);
     List<PostList> findByFlagAndPidInOrderByCreateDateDesc(int flag, List<Integer> pid);
-
+    
     List<PostList> findByEmailAndFlag(String email, int flag, Pageable page);
+    List<PostList> findByEmailAndFlagOrderByCreateDateDesc(String email, int flag, Pageable page);
 }
