@@ -33,7 +33,7 @@
           />
           <!-- 프로필 보여주기 -->
           <div class="d-flex justify-content-between" style="border-bottom : 1px solid lightgray;">
-            <img class="profile-img d-flex m-1" v-if="slide.proimg" :src="makeimgurl(slide.proimg)" />
+            <img class="profile-img d-flex m-2" v-if="slide.proimg" :src="makeimgurl(slide.proimg)" />
             <div class="mt-2 mr-4">
               <div class="d-flex">
                 <small class="d-flex align-items-center" style="font-weight:bold">{{slide.nickname}}</small>
@@ -63,8 +63,8 @@
                   <i class="fas fa-trash-alt ml-2" title="삭제"></i>
                 </small>
               </div>
-              <div class="d-flex align-items-end mt-1 mr-3">
-                <small style="font-weight:bold">{{datecut(slide.createDate)}}</small>
+              <div class="d-flex align-items-end mt-1 mr-3" style="white-space: nowrap;">
+                <small style="font-weight:bold;">{{datecut(slide.createDate)}}</small>
               </div>
             </div>
             <div v-if="email != slide.email" class="d-flex align-items-center mt-4 mr-3">
@@ -72,12 +72,12 @@
             </div>
           </div>
           <!-- 제목 -->
-          <div class="d-flex mr-2 ml-2">
-            <span style="font-weight:bold; ">{{slide.title}}</span>
+          <div class="d-flex ml-2 mt-1">
+            <span style="font-weight:bold; font-size:1.2rem">[{{slide.title}}]</span>
           </div>
           <!-- 내용 -->
-          <div class="d-flex ml-2 mr-2">
-            <small style="text-align:left;">{{slide.content}}</small>
+          <div class="d-flex ml-2">
+            <small style="text-align:justify;">{{slide.content}}</small>
           </div>
         </div>
       </div>
@@ -284,7 +284,7 @@ export default {
 }
 .profile-img {
   width: 50px;
-  height: 50px;
+  height: 47px;
   border-radius: 35px;
   font-size: 1rem;
   line-height: 1.33;
