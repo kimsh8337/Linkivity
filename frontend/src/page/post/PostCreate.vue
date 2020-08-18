@@ -335,6 +335,7 @@ export default {
       tagValue: [],
       tempimg: "",
       tempcheck: false,
+      min: minDate,
     };
   },
   watch: {
