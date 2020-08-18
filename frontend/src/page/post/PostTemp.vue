@@ -40,9 +40,8 @@
         </tr>
       </table>
 
-      <!-- <br />
-    <br />
-    <br /> -->
+      <!-- paging -->
+      <b-pagination class="mt-5 mb-0" v-if="ttotalPage > 10" v-model="tpage" :total-rows="ttotalPage" pills :per-page="10"></b-pagination>
     </div>
   </div>
 </template>
@@ -70,6 +69,8 @@ export default {
         createDate: "",
       },
       email: "",
+      tpage: 1,
+      ttotalPage: 0
     };
   },
   methods: {
@@ -78,15 +79,26 @@ export default {
         .get(`${baseURL}/account/authuser/${this.$cookies.get("Auth-Token")}`)
         .then((response) => {
           this.email = response.data.email;
-          this.init();
+          this.countPage();
         })
         .catch((err) => {
           console.log(err.response);
         });
     },
-    init() {
+    countPage() {
       axios
-        .get(`${baseURL}/temp/list/${this.email}`)
+        .get(`${baseURL}/temp/count/list/${this.email}`)
+        .then((res) => {
+          this.ttotalPage = res.data;
+          this.checkPage();
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    checkPage() {
+      axios
+        .get(`${baseURL}/temp/list/${this.email}/${this.tpage}`)
         .then((res) => {
           this.temps = res.data;
         })
@@ -99,6 +111,7 @@ export default {
       return datecut.substring(0, 10);
     },
     tempUpdate(pid) {
+      scroll(0, 0);
       this.$router.push({
         name: "PostTempDetail",
         params: { ID: pid },
@@ -130,7 +143,7 @@ export default {
           axios
             .delete(`${baseURL}/post/delete/${pid}`)
             .then(() => {
-              this.init();
+              this.checkPage();
             })
             .catch((error) => {
               console.log(error);
@@ -141,6 +154,11 @@ export default {
   },
   created() {
     this.authUser();
+  },
+  watch: {
+    tpage: function(v) {
+      this.checkPage();
+    }
   },
 };
 </script>

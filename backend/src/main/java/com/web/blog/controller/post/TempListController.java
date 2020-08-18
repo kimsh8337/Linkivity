@@ -14,6 +14,7 @@ import com.web.blog.model.post.PostList;
 import com.web.blog.model.post.Tag;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -39,13 +40,25 @@ public class TempListController {
     @Autowired
     TagDao tagDao;
 
-    @GetMapping("/list/{email}")
+    @GetMapping("/list/{email}/{page}")
     @ApiOperation(value = "임시저장 리스트")
-    public Object selectAll(@PathVariable String email) throws SQLException, IOException {
+    public Object selectAll(@PathVariable String email, @PathVariable int page) throws SQLException, IOException {
+        try {
+            List<PostList> temp = new LinkedList<>();
+            temp = postDao.findByEmailAndFlagOrderByCreateDateDesc(email, 0, PageRequest.of(page - 1, 10));
+            return new ResponseEntity<>(temp, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    
+    @GetMapping("/count/list/{email}")
+    @ApiOperation(value = "임시저장 리스트 카운트")
+    public Object countAll(@PathVariable String email) throws SQLException, IOException {
         try {
             List<PostList> temp = new LinkedList<>();
             temp = postDao.findByEmailAndFlagOrderByCreateDateDesc(email,0);
-            return new ResponseEntity<>(temp, HttpStatus.OK);
+            return new ResponseEntity<>(temp.size(), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
