@@ -47,7 +47,8 @@
           <div class="d-flex justify-content-between">
             <img
               class="user-img d-flex m-3"
-              :src="slide.proimg"
+              v-if="slide.proimg"
+              :src="makeimgurl(slide.proimg)"
               style="border-radius:70px;"
             />
             <div class="mt-2 mr-4">

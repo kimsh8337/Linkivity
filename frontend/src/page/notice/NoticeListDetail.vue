@@ -59,7 +59,9 @@ export default {
       Viewer
     },
     created(){
-      this.authUser();
+      if(this.$cookies.get("Auth-Token") != null) {
+        this.authUser();
+      }
       this.init();
     },
     data(){
@@ -90,7 +92,13 @@ export default {
                 this.notice = res.data;
             })
             .catch((err) => {
-            console.log(err);
+              if(err.response.status == 400) {
+                this.$router.push("/badRequest").catch(err => {
+                });
+              } else if(err.response.status == 500) {
+                this.$router.push("/serverError").catch(err => {
+                });
+              }
             });
         },
         writeDate(createDate){
@@ -116,7 +124,7 @@ export default {
                     toast: true,
                     position: 'top-end',
                     showConfirmButton: false,
-                    timer: 3000,
+                    timer: 1000,
                     timerProgressBar: true,
                     onOpen: (toast) => {
                     toast.addEventListener('mouseenter', Swal.stopTimer);

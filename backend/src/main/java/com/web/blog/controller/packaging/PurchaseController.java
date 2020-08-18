@@ -152,7 +152,7 @@ public class PurchaseController {
 
             int start = (page - 1) * 5;
             int end = start + 5;
-            if(end > purlist.size()) {
+            if (end > purlist.size()) {
                 end = purlist.size();
             }
 
@@ -167,7 +167,7 @@ public class PurchaseController {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-   
+
     @GetMapping("/count/list/{email}")
     @ApiOperation("사용자 구매 리스트 카운트")
     public Object countPurchaseList(@PathVariable String email) throws SQLException, IOException {
@@ -189,13 +189,13 @@ public class PurchaseController {
     @ApiOperation("사업자 판매 리스트")
     public Object sellList(@PathVariable String seller, @PathVariable int page) throws SQLException, IOException {
         try {
-            List<Purchase> selllist = purchaseDao.findBySeller(seller, PageRequest.of(page, 10));
+            List<Purchase> selllist = purchaseDao.findBySeller(seller, PageRequest.of(page - 1, 10));
             return new ResponseEntity<>(selllist, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    
+
     @GetMapping("/count/sellList/{seller}")
     @ApiOperation("사업자 판매 리스트 카운트")
     public Object countSellList(@PathVariable String seller) throws SQLException, IOException {

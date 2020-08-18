@@ -357,7 +357,13 @@ export default {
           this.fetchComment();
         })
         .catch((err) => {
-          console.log(err.response);
+          if(err.response.status == 400) {
+            this.$router.push("/badRequest").catch(err => {
+            });
+          } else if(err.response.status == 500) {
+            this.$router.push("/serverError").catch(err => {
+            });
+          }
         });
     },
      makeimgurl(imgurl){
@@ -408,7 +414,13 @@ export default {
           this.mapView(this.post.location);
         })
         .catch((err) => {
-          console.log(err);
+          if(err.response.status == 400) {
+            this.$router.push("/badRequest").catch(err => {
+            });
+          } else if(err.response.status == 500) {
+            this.$router.push("/serverError").catch(err => {
+            });
+          }
         });
     },
     goModify() {
@@ -433,7 +445,7 @@ export default {
             toast: true,
             position: "top-end",
             showConfirmButton: false,
-            timer: 3000,
+            timer: 1000,
             timerProgressBar: true,
             onOpen: (toast) => {
               toast.addEventListener("mouseenter", Swal.stopTimer);
@@ -450,7 +462,13 @@ export default {
               this.$router.push(`/posts`);
             })
             .catch((error) => {
-              console.log(error.response.data);
+              if(err.response.status == 400) {
+                this.$router.push("/badRequest").catch(err => {
+                });
+              } else if(err.response.status == 500) {
+                this.$router.push("/serverError").catch(err => {
+                });
+              }
             });
         }
       });
@@ -478,7 +496,13 @@ export default {
           });
         })
         .catch((error) => {
-          console.log(error);
+          if(err.response.status == 400) {
+            this.$router.push("/badRequest").catch(err => {
+            });
+          } else if(err.response.status == 500) {
+            this.$router.push("/serverError").catch(err => {
+            });
+          }
         });
     },
     fetchComment() {
@@ -488,7 +512,13 @@ export default {
           this.receiveComment = response.data;
         })
         .catch((error) => {
-          console.log(error.response.data);
+          if(err.response.status == 400) {
+            this.$router.push("/badRequest").catch(err => {
+            });
+          } else if(err.response.status == 500) {
+            this.$router.push("/serverError").catch(err => {
+            });
+          }
         });
     },
     commentDelete(comment) {
@@ -525,7 +555,13 @@ export default {
               this.fetchComment();
             })
             .catch((error) => {
-              console.log(error.response.data);
+              if(err.response.status == 400) {
+                this.$router.push("/badRequest").catch(err => {
+                });
+              } else if(err.response.status == 500) {
+                this.$router.push("/serverError").catch(err => {
+                });
+              }
             });
         }
       });
@@ -552,7 +588,13 @@ export default {
                   this.posts = this.res;
                 })
                 .catch((err) => {
-                  console.log(err);
+                  if(err.response.status == 400) {
+                    this.$router.push("/badRequest").catch(err => {
+                    });
+                  } else if(err.response.status == 500) {
+                    this.$router.push("/serverError").catch(err => {
+                    });
+                  }
                 });
           }
         })
@@ -580,7 +622,7 @@ export default {
             toast: true,
             position: "top-end",
             showConfirmButton: false,
-            timer: 3000,
+            timer: 1000,
             timerProgressBar: true,
             onOpen: (toast) => {
               toast.addEventListener("mouseenter", Swal.stopTimer);
@@ -696,7 +738,13 @@ export default {
           this.hashTag = response.data;
         })
         .catch((error) => {
-          console.log(error);
+          if(err.response.status == 400) {
+            this.$router.push("/badRequest").catch(err => {
+            });
+          } else if(err.response.status == 500) {
+            this.$router.push("/serverError").catch(err => {
+            });
+          }
         });
     },
   },

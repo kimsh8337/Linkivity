@@ -1,8 +1,10 @@
 package com.web.blog.controller.post;
 
+import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
+import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -25,7 +27,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import io.swagger.annotations.ApiOperation;
 
@@ -87,7 +91,7 @@ public class TempListController {
             temp.setEmail(request.getEmail());
             temp.setTitle(request.getTitle());
             temp.setLocation(request.getLocation());
-            temp.setImgurl(request.getImgurl());
+            // temp.setImgurl(request.getImgurl());
             temp.setPrice(request.getPrice());
             temp.setSdate(request.getSdate());
             temp.setEdate(request.getEdate());
@@ -132,7 +136,7 @@ public class TempListController {
                 PostList newTemp = temp;
                 newTemp.setTitle(request.getTitle());
                 newTemp.setLocation(request.getLocation());
-                newTemp.setImgurl(request.getImgurl());
+                // newTemp.setImgurl(request.getImgurl());
                 newTemp.setPrice(request.getPrice());
                 newTemp.setSdate(request.getSdate());
                 newTemp.setEdate(request.getEdate());
@@ -187,5 +191,31 @@ public class TempListController {
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    @PostMapping("/file/{pid}")
+    @ApiOperation(value = "이미지 저장")
+    public String fileTest(@RequestPart("file") MultipartFile ff, @PathVariable int pid) throws IllegalStateException, IOException {
+        String fileName = "";
+		Calendar calendar = Calendar.getInstance();
+		fileName += calendar.get(Calendar.YEAR);
+		fileName += calendar.get(Calendar.MONTH);
+		fileName += calendar.get(Calendar.DATE);
+		fileName += calendar.get(Calendar.HOUR);
+		fileName += calendar.get(Calendar.MINUTE);
+		fileName += calendar.get(Calendar.SECOND);
+		fileName += calendar.get(Calendar.MILLISECOND);
+		fileName += ".png";
+        File file = new File("C:\\leejaein\\project-sub3\\s03p13b206\\frontend\\src\\assets\\file\\" + fileName);
+        if (!file.getParentFile().exists())
+            file.getParentFile().mkdirs();
+            ff.transferTo(file);
+        System.out.println("file is " + file.getAbsolutePath());
+        System.out.println("name is " + file.getName() );
+
+        PostList post = postDao.findByPid(pid);
+        post.setImgurl(file.getName());
+        postDao.save(post);
+        return file.getName();
     }
 }
