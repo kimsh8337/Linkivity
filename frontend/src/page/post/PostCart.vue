@@ -23,7 +23,7 @@
         :key="cindex"
       >
         <div class="card mb-3 profile-post mr-0 ml-0">
-          <div class="card-body" style="padding: 0;">
+          <div class="card-body" style="padding: 0 15px;">
             <img
               :src="makeimgurl(cartPost.imgurl)"
               v-if="cartPost.imgurl"

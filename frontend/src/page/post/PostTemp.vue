@@ -9,13 +9,15 @@
     <!-- 임시저장 List가 있을 때 -->
     <div class="container p-0" v-if="temps.length > 0">
       <table class="table">
-        <tr class="bg-dark text-white" v-if="temps.length > 0">
-          <td>제목</td>
-          <td>작성일시</td>
-          <td>수정 / 삭제</td>
+        <tr style="background:RGB(134, 165, 212); color:white;" v-if="temps.length > 0">
+          <td style="width:10%; font-weight:bold">No</td>
+          <td style="width:40%; font-weight:bold">제목</td>
+          <td style="width:25%; font-weight:bold">작성일시</td>
+          <td style="width:15%; font-weight:bold">수정/삭제</td>
         </tr>
         <tr v-for="(temp, index) in temps" :key="index">
-          <td>
+          <td>{{index+1}}</td>
+          <td style="text-overflow:ellipsis; overflow: hidden; white-space: nowrap;">
             <router-link
               v-if="temp.pid"
               style="color:black"
@@ -24,15 +26,15 @@
               >{{ temp.title }}</router-link
             >
           </td>
-          <td>{{ tempDate(temp.createDate) }}</td>
+          <td style="text-overflow:ellipsis; overflow: hidden; white-space: nowrap;">{{ tempDate(temp.createDate) }}</td>
           <td>
-            <span class="mr-2 badge" style="color:lightblue; cursor: pointer; font-size:0.9rem;" @click="tempUpdate(temp.pid)"
+            <span class="badge" style="color:lightblue; cursor: pointer; font-size:0.9rem;" @click="tempUpdate(temp.pid)"
               >수정</span
             >
             <span>/</span>
             <span
               style="color:pink; cursor: pointer; font-size:0.9rem;"
-              class="ml-2 badge"
+              class="badge"
               @click="tempDelete(temp.pid)"
               >삭제</span
             >

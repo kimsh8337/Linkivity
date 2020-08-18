@@ -45,7 +45,7 @@
 
               <li class="nav-item">
                 <a v-if="this.$cookies.isKey('Auth-Token') && this.usertype != 'admin'" @click="info" class="nav-link mt-3  hamburger">
-                  <i class="far fa-user mr-2"></i>
+                  <i class="fas fa-user mr-2"></i>
                   마이페이지
                 </a>
               </li>
@@ -109,7 +109,7 @@
               @click="info"
               class="nav-link mt-3 mr-2"
             >
-              <i class="far fa-user mr-1"></i>마이페이지
+              <i class="fas fa-user mr-1"></i>마이페이지
             </a>
           </li>
           <li class="nav-item">

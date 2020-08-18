@@ -9,7 +9,7 @@
     <!-- 판매된 상품이 있을때 -->
     <div class="container" v-if="sitems.length > 0">
       <table class="table">
-        <thead class="thead-dark">
+        <thead class="thead" style="background:RGB(134, 165, 212); color:white;">
           <tr>
             <th>구매자</th>
             <th>사진</th>
