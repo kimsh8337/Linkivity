@@ -33,7 +33,7 @@
           <img
             v-if="slide.img"
             class="review-img"
-            :src="slide.img"
+            :src="makeimgurl(slide.img)"
             :alt="slide.title"
             style="height:8rem;"
           />
@@ -84,6 +84,8 @@
     </div>
       <PostReviewDetailModal :reviewDetail="reviewDetail" />
 
+    <!-- paging -->
+    <b-pagination class="mt-5 mb-0" v-if="rtotalPage > 8" v-model="rpage" :total-rows="rtotalPage" pills :per-page="8"></b-pagination>
   </div>
 </template>
 
@@ -103,6 +105,8 @@ export default {
       reviews: [],
       email: "",
       reviewDetail: [],
+      rpage: 1,
+      rtotalPage: 0,
     };
   },
   methods: {
@@ -111,15 +115,29 @@ export default {
         .get(`${baseURL}/account/authuser/${this.$cookies.get("Auth-Token")}`)
         .then((response) => {
           this.email = response.data.email;
-          this.fetchReview();
+          this.countReview();
         })
         .catch((err) => {
           console.log(err.response);
         });
     },
+     makeimgurl(imgurl){
+      return require("@/assets/file/"+imgurl);
+    },
+    countReview() {
+      axios
+        .get(`${baseURL}/review/count/listbyemail/${this.email}`)
+        .then((response) => {
+          this.rtotalPage = response.data;
+          this.fetchReview();
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
     fetchReview() {
       axios
-        .get(`${baseURL}/review/listbyemail/${this.email}`)
+        .get(`${baseURL}/review/listbyemail/${this.email}/${this.rpage}`)
         .then((response) => {
           this.reviews = response.data;
         })
@@ -141,6 +159,11 @@ export default {
   created() {
     this.authUser();
   },
+  watch: {
+    rpage: function(v) {
+      this.fetchReview();
+    }
+  }
 };
 </script>
 

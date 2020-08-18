@@ -8,7 +8,8 @@
           <div class="row no-gutters">
             <div class="col-md-5">
               <img
-                :src="post.imgurl"
+                :src="makeimgurl(post.imgurl)"
+                v-if="post.imgurl"
                 class="card-img"
                 style="height: 16rem; box-shadow:5px 5px 5px rgba(0,0,0,.15)"
                 alt
@@ -25,8 +26,7 @@
                       v-for="hash in hashTag"
                       :key="hash.id"
                     >#{{ hash }}</small>
-                    <div class="ml-auto">
-                    </div>
+                    <div class="ml-auto"></div>
                   </div>
                   <div class="d-flex justify-content-start">
                     <!-- 업체 위치 -->
@@ -109,7 +109,6 @@
                     >{{ post.price * 0.95 }} 원</p>
                   </div>
                   <hr class="mt-0" />
-                  
                 </div>
               </div>
             </div>
@@ -146,7 +145,7 @@
       <div data-spy="scroll" data-target="#navbar-example2" data-offset="0">
         <!-- 상세 정봉 -->
         <h4 id="item" class="d-flex mb-3" style="font-weight:bold">상세정보</h4>
-        <Viewer v-if="post.detail != null" :initialValue="post.detail"/>
+        <Viewer v-if="post.detail != null" :initialValue="post.detail" />
         <hr />
         <!-- 업체 정보 -->
         <h4 id="corp" class="d-flex mb-3" style="font-weight:bold">업체정보</h4>
@@ -157,20 +156,18 @@
         <div id="map" style="max-width: 100%; height:300px;"></div>
         <small class="d-flex mt-2" style="font-weight:bold;">{{ post.location }}</small>
         <hr class="mt-2" />
-        </div>
-      <!-- 거절 승인 -->
-                  <div class="d-flex justify-content-end mb-5">
-                    <button type="button" class="btn btn-danger mr-1" @click="postreject(post.pid)">
-                      <i class="fas fa-times mr-2" ></i>거절
-                    </button>
-                    <button class="btn btn-primary" @click="postpermit(post.pid)">
-                      <i class="far fa-hand-point-up mr-2" ></i>승인
-                    </button>
-                  </div>
       </div>
-
-
+      <!-- 거절 승인 -->
+      <div class="d-flex justify-content-end mb-5">
+        <button type="button" class="btn btn-danger mr-1" @click="postreject(post.pid)">
+          <i class="fas fa-times mr-2"></i>거절
+        </button>
+        <button class="btn btn-primary" @click="postpermit(post.pid)">
+          <i class="far fa-hand-point-up mr-2"></i>승인
+        </button>
+      </div>
     </div>
+  </div>
 </template>
 
 <script>
@@ -206,11 +203,14 @@ export default {
     this.fetchHashTag();
   },
   methods: {
-      scroll(evt) {
+    scroll(evt) {
       evt.preventDefault();
       const href = evt.target.getAttribute("href");
       var location = document.querySelector(href).offsetTop;
       window.scrollTo({ top: location + 360, behavior: "smooth" });
+    },
+    makeimgurl(imgurl) {
+      return require("@/assets/file/" + imgurl);
     },
     getPost() {
       axios
@@ -277,25 +277,27 @@ export default {
     },
 
     // 승인
-    postpermit(pid){
+    postpermit(pid) {
       axios
         .get(`${baseURL}/post/permit/${pid}`)
-        .then((res)=>{
-          this.$router.push('/admin')
-        }).catch((err)=>{
-          console.log(err)
+        .then((res) => {
+          this.$router.push("/admin");
         })
+        .catch((err) => {
+          console.log(err);
+        });
     },
 
     // 거절
-    postreject(pid){
+    postreject(pid) {
       axios
         .delete(`${baseURL}/post/delete/${pid}`)
-        .then(()=>{
-          this.$router.push('/admin')
-      }).catch((err)=>{
-        console.log(err)
-      })
+        .then(() => {
+          this.$router.push("/admin");
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
   },
 };

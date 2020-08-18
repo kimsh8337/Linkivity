@@ -19,7 +19,7 @@
       <div class="col-12 col-sm-12 col-md-3 card-deck" style="margin:auto 0;" v-for="(likePost, lindex) in likePosts" :key="lindex">
         <div class="card mb-3 profile-post mr-0 ml-0">
           <div class="card-body" style="padding: 0;">
-            <img :src="likePost.imgurl" @click="getdetail(likePost.pid)" class="card-img" style="height:10rem; box-shadow:5px 5px 5px rgba(0,0,0,.15)" />
+            <img :src="makeimgurl(likePost.imgurl)" v-if="likePost.imgurl" @click="getdetail(likePost.pid)" class="card-img" style="height:10rem; box-shadow:5px 5px 5px rgba(0,0,0,.15)" />
             <!-- <div
               class="card-img-overlay"
               style="padding:4rem 0; text-align:center; font-size:1.3rem; font-weight:bold; color: white;"
@@ -61,7 +61,7 @@
       </div>
     </div>
     <!-- paging -->
-    <b-pagination v-if="ltotalPage > 8" v-model="lpage" :total-rows="ltotalPage" pills :per-page="8"></b-pagination>
+    <b-pagination class="mt-5 mb-0" v-if="ltotalPage > 8" v-model="lpage" :total-rows="ltotalPage" pills :per-page="8"></b-pagination>
     <br />
     <br />
     <br />
@@ -134,6 +134,9 @@ export default {
         name: 'PostListDetail',
         params: { ID: pid },
       });
+    },
+     makeimgurl(imgurl){
+      return require("@/assets/file/"+imgurl);
     },
     checkPage() {
       axios

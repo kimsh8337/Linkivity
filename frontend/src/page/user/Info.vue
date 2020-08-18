@@ -11,13 +11,26 @@
         <!-- img -->
         <div class="card col-sm-12 mt-1">
           <div class="d-flex justify-content-start">
-            <div class="inputimg">
-              <input ref="imageInput" type="file" hidden @change="onChangeImages" />
+
+
+              <!-- <input ref="imageInput" type="file" hidden @change="onChangeImages" />
               <img class="infoimg" v-if="this.imgurl" :src="this.imgurl" style="box-shadow:5px 5px 5px rgba(0,0,0,.15)" />
+              <button type="button" class="btn btn-outline" @click="onClickImageUpload" v-if="validated == 0"> -->
+            <div class="inputimg">
+              <input ref="file" type="file" hidden @change="onChangeImages" />
+              <img class="infoimg" v-if="imgurl && !tempcheck" :src="makeimgurl(imgurl)" style="box-shadow:5px 5px 5px rgba(0,0,0,.15)" />
+              <img class="infoimg"  v-if="tempimg && tempcheck" :src="tempimg" style="box-shadow:5px 5px 5px rgba(0,0,0,.15)" />
               <button type="button" class="btn btn-outline" @click="onClickImageUpload" v-if="validated == 0">
                 <i class="fas fa-image mr-2"></i>이미지 업로드
               </button>
             </div>
+
+            <!-- <input type="file" id="file" name="file" ref="file" />
+            <button v-on:click="fileUpload" >fileUpload</button>
+            <img v-bind:src="this.imgurl" width="200"/> -->
+            <!-- <img v-bind:src="path" width="200"/> -->
+
+
             <div style="margin-left:20%; width: 100%">
               <div class="form-group-info">
                 <!-- <label for="nickname">닉네임</label> -->
@@ -123,7 +136,7 @@
 
         <!-- <hr class="border-bottom-1 border-black mt-1" />
         <div class="card col-sm-12 mt-1"></div> -->
-        <hr class="mt-5">
+        <hr>
         <button @click="deluser" class="btn">
           <i class="fas fa-user-slash"><span class="ml-1">탈퇴하기</span></i>
         </button>
@@ -136,9 +149,6 @@
         <button v-if="validated == 0" @click="modifyCancel" class="btn">
           <i class="fas fa-cut"><span class="ml-1">취소</span></i>
         </button>
-        <!-- <button @click="templist" class="btn">
-          <span>임시저장 리스트</span>
-        </button> -->
       </div>
     </div>
   </div>
@@ -205,6 +215,9 @@ export default {
           console.log(err.response);
         });
     },
+    makeimgurl(imgurl){
+      return require("@/assets/file/"+imgurl);
+    },
     getuser() {
       axios
         .get(`${baseURL}/account/viewInfo/${this.email}`)
@@ -226,7 +239,6 @@ export default {
     cancel() {
       this.pwvalidated = 0;
     },
-
     checkForm() {
       if (this.password.length > 0 && !this.passwordSchema.validate(this.password))
         this.error.password = '영문,숫자 포함 8 자리이상이어야 합니다.';
@@ -287,6 +299,7 @@ export default {
         name,
         imgurl,
       };
+      this.fileUpload();
       axios
         .put(`${baseURL}/account/modify/${this.pwvalidated}`, data)
         .then((response) => {
@@ -299,24 +312,45 @@ export default {
           // this.$router.push({name: 'Params', params: {name: err.response.status}});
         });
     },
+
+    fileUpload: function () {
+    var formData = new FormData();
+    const file = this.$refs.file.files[0];
+    formData.append("file", file);
+    axios.post(`${baseURL}/account/file/${this.email}`
+        ,formData
+        , {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        }
+        )
+      .then(function (response) {
+
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+    },
+
     onClickImageUpload() {
-      this.$refs.imageInput.click();
+      this.$refs.file.click();
     },
     onChangeImages(e) {
       const file = e.target.files[0];
-      var img = new Image(file);
-      img = e.target.files[0];
-      this.createImage(img);
-      // this.imgurl = URL.createObjectURL(file);
+      this.tempimg = URL.createObjectURL(file);
+      this.tempcheck = true;
+      // var img = new Image(file);
+      // img = e.target.files[0];
+      // this.createImage(img);
     },
-    createImage(file) {
-      this.imgurl = new Image();
-      var reader = new FileReader();
-      reader.onload = (e) => {
-        this.imgurl = e.target.result;
-      };
-      reader.readAsDataURL(file);
-    },
+    // createImage(file) {
+    //   this.imgurl = new Image();
+    //   var reader = new FileReader();
+    //   reader.onload = (e) => {
+    //     this.imgurl = e.target.result;
+    //   };
+    // },
     modifyCancel() {
       this.validated = !this.validated
     },
@@ -340,6 +374,8 @@ export default {
       validated: 1,
       pwvalidated: 0,
       checkType:'',
+      tempimg:'',
+      tempcheck:false,
     };
   },
 };

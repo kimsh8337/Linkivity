@@ -1,23 +1,24 @@
 <template>
   <div class="container col-md-6">
     <!-- img upload -->
+    <hr />
     <div class="form-group">
       <label class="d-flex">
-        <i class="fas fa-images">Profile Img</i>
+        <i class="fas fa-images"><span class="ml-1">Profile Img</span></i>
       </label>
       <button
         type="button"
-        class="btn btn-default btn-sm d-flex m-1"
+        class="btn btn-default btn-sm d-flex"
         @click="onClickImageUpload"
-        style="border-radius:35px; font-size:13px; border:1.5px solid"
+        style="border-radius:12px; font-size:13px; border:1.5px solid"
       >
-        사진 업로드(선택)
+        <span style="font-weight:bold">사진 업로드(선택)</span>
       </button>
       <div class="col-md-8 p-0" align="left">
         <input ref="imageInput" type="file" hidden @change="onChangeImages" />
         <img
           class="card-img mb-2 mt-2"
-          style="height: 15rem; width: 15rem; border-radius:10px; border:1.5px solid lightgray;"
+          style="height: 18rem; width: 18rem; border-radius:10px; border:1.5px solid lightgray;"
           v-if="this.imgurl"
           :src="this.imgurl"
         />
@@ -26,7 +27,7 @@
     <!-- 이름 입력칸  -->
     <div class="form-group">
       <label for="exampleInputEmail1" class="d-flex">
-        <i class="fas fa-user">Name</i>
+        <i class="fas fa-user"><span class="ml-1">Name</span></i>
       </label>
       <input
         v-model="name"
@@ -52,7 +53,7 @@
     <!-- 닉네임 입력칸 -->
     <div class="form-group">
       <label for="exampleInputPassword1" class="d-flex">
-        <i class="fas fa-smile">Nickname</i>
+        <i class="fas fa-smile"><span class="ml-1">Nickname</span></i>
       </label>
       <input
         v-model="nickname"
@@ -77,7 +78,7 @@
     <!-- email 입력칸 -->
     <div class="form-group">
       <label for="exampleInputPassword1" class="d-flex">
-        <i class="fas fa-at">E-mail</i>
+        <i class="fas fa-at"><span class="ml-1">E-mail</span></i>
       </label>
       <div class="d-flex justify-content-between">
         <input
@@ -134,7 +135,7 @@
     <!-- 비밀번호 입력칸 -->
     <div class="form-group">
       <label for="exampleInputPassword1" class="d-flex">
-        <i class="fas fa-eye">Password</i>
+        <i class="fas fa-eye"><span class="ml-1">Password</span></i>
       </label>
       <input
         v-model="password"
@@ -165,7 +166,7 @@
     <!-- 비밀번호 확인 입력칸 -->
     <div class="form-group">
       <label for="exampleInputPassword1" class="d-flex">
-        <i class="fas fa-eye">Password Confirm</i>
+        <i class="fas fa-eye"><span class="ml-1">Password Confirm</span></i>
       </label>
       <input
         v-model="passwordconfirm"
@@ -196,7 +197,7 @@
     <!-- 주소 입력칸 -->
     <div class="form-group">
       <label for="exampleInputEmail1" class="d-flex">
-        <i class="fas fa-map-marker-alt">Address</i>
+        <i class="fas fa-map-marker-alt"><span class="ml-1">Address</span></i>
       </label>
       <div>
         <div class="d-flex mb-1">
@@ -240,7 +241,9 @@
     <!-- 핸드폰 번호 입력칸 -->
     <div class="form-group">
       <label for="exampleInputEmail1" class="d-flex">
-        <i class="fas fa-phone-square-alt">Phone Number</i>
+        <i class="fas fa-phone-square-alt"
+          ><span class="ml-1">Phone Number</span></i
+        >
       </label>
       <input
         v-model="cphone"
@@ -256,23 +259,28 @@
         v-if="!error.cphone"
         >연락처를 입력하세요.</small
       >
-      <input v-model="isTerm" type="checkbox" id="term" />
-      <span>약관에 동의합니다</span>
-      <button
-        type="button"
-        class="btn btn-primary"
-        data-toggle="modal"
-        data-target="#exampleModalLong"
-      >
-        약관 보기
-      </button>
-
       <span
         class="error-text d-flex mt-1"
         v-if="error.cphone"
         style="color:crimson;"
         >{{ error.cphone }}</span
       >
+    </div>
+    <!-- 이용약관 -->
+    <div class="d-flex">
+      <label class="mb-0 my-auto">
+        <input class="mr-1" v-model="isTerm" type="checkbox" id="term" />
+        <span>약관에 동의합니다</span>
+      </label>
+      <button
+        type="button"
+        class="btn btn-sm ml-3"
+        data-toggle="modal"
+        data-target="#exampleModalLong"
+        style="border:1.5px solid black; border-radius:10px; font-size:0.8rem; font-weight:bold;"
+      >
+        약관 보기
+      </button>
     </div>
 
     <!-- Modal -->
@@ -299,10 +307,10 @@
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
-          <div class="modal-body" style="overflow:auto">
+          <div class="modal-body pt-0" style="overflow:auto">
             <table width="100%" height="100%">
               <tr>
-                <td width="50%" height="50%">
+                <td class="border-0 p-4">
                   <b> 링키비티 이용 약관(쇼핑몰)</b>
                   <br />
                 </td>
@@ -312,7 +320,7 @@
                   <br />
                   <!-- <table width="100%" height="100%">
       <tbody> -->
-                  <pre>
+                  <pre class="mb-0">
  <textarea
   readonly
      rows="15" cols="60">
@@ -645,15 +653,31 @@ export default {
       if (this.error.email || this.email.length == 0) {
         if (this.error.email == "사용할수없는 이메일입니다") {
         } else {
-          alert("올바른 이메일을 입력하세요.");
+          Swal.fire({
+            width:300,
+            icon: 'error',
+            text: '올바른 이메일을 입력해주세요!!',
+            confirmButtonText: '<small style:"font-size:0.8rem;">확인</small>'
+          })
         }
         return;
       }
       this.code = 1;
       axios
         .get(`${baseURL}/account/certify/${this.email}`)
-        .then((response) => {
-          alert("인증번호가 발송되었습니다.");
+        .then(() => {
+          const Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+          })
+
+          Toast.fire({
+            icon: 'success',
+            title: '인증번호가 발송되었습니다.'
+          })
         })
         .catch((err) => {
           cosole.log(err);
@@ -664,11 +688,33 @@ export default {
         .get(`${baseURL}/account/checkCode/${this.email}/${this.codeNum}`)
         .then((response) => {
           if (response.data == "성공") {
-            alert("인증완료");
+            const Toast = Swal.mixin({
+              toast: true,
+              position: 'top-end',
+              showConfirmButton: false,
+              timer: 1000,
+              timerProgressBar: true,
+            })
+
+            Toast.fire({
+              icon: 'success',
+              title: '이메일 인증완료!'
+            })
             this.code = 2;
             this.iscertify = true;
           } else {
-            alert("인증실패");
+            const Toast = Swal.mixin({
+              toast: true,
+              position: 'top-end',
+              showConfirmButton: false,
+              timer: 1000,
+              timerProgressBar: true,
+            })
+
+            Toast.fire({
+              icon: 'error',
+              title: '이메일 인증실패!'
+            })
             this.iscertify = false;
           }
         })
@@ -684,7 +730,7 @@ export default {
             this.error.nickname = response.data;
           })
           .catch(() => {
-            alert("에러");
+            // alert("에러");
           });
       } else if (this.nickname.length != 0) this.error.nickname = false;
       if (this.email.length > 0 && !EmailValidator.validate(this.email))
@@ -696,7 +742,7 @@ export default {
             this.error.email = response.data;
           })
           .catch(() => {
-            alert("에러");
+            // alert("에러");
           });
       } else this.error.email = false;
 
@@ -715,11 +761,21 @@ export default {
     },
     join() {
       if (this.isTerm == false) {
-        alert("약관에 동의해주세요");
+        Swal.fire({
+          width:250,
+          icon: 'error',
+          text: '약관을 동의해주세요.',
+          confirmButtonText: '<small style:"font-size:0.8rem;">확인</small>'
+        })
         return;
       }
       if (!this.iscertify) {
-        alert("이메일 인증이 완료되지 않았습니다.");
+        Swal.fire({
+          width:330,
+          icon: 'error',
+          text: '이메일 인증이 완료되지 않았습니다.',
+          confirmButtonText: '<small style:"font-size:0.8rem;">확인</small>'
+        })
         return;
       }
       let check = 0;
@@ -752,7 +808,12 @@ export default {
         check = 1;
       } else this.error.cphone = false;
       if (check == 1) {
-        alert("정보를 모두 입력해주세요.");
+        Swal.fire({
+          width:300,
+          icon: 'error',
+          text: '회원 정보를 모두 입력해주세요.',
+          confirmButtonText: '<small style:"font-size:0.8rem;">확인</small>'
+        })
         return;
       }
       this.$emit(

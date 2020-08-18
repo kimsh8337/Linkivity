@@ -12,25 +12,37 @@
               <div class="col-md-10 p-0 mr-0" align="left">
                 <img
                   class="card-img mb-2"
-                  v-if="this.PostCreate.imgurl"
-                  :src="this.PostCreate.imgurl"
+                  v-if="this.PostCreate.imgurl && !tempcheck"
+                  :src="makeimgurl(this.PostCreate.imgurl)"
+                  style="height: 16rem; width:100%"
+                />
+                <img
+                  class="card-img mb-2"
+                  v-if="tempimg && tempcheck"
+                  :src="tempimg"
                   style="height: 16rem; width:100%"
                 />
                 <button
                   type="button"
-                  class="btn btn-primary btn-sm"
+                  class="btn btn-default btn-sm d-flex"
+                  style="border-radius:10px; font-size:15px; border:1.5px solid; height:2rem"
                   @click="onClickImageUpload"
-                ><i class="fas fa-image"><span class="ml-1">이미지 업로드</span></i></button>
+                >
+                  <i class="fas fa-image my-auto">
+                    <span class="ml-1">이미지 업로드</span>
+                  </i>
+                </button>
               </div>
-              <input ref="imageInput" type="file" hidden @change="onChangeImages" />
+              <input ref="file" type="file" hidden @change="onChangeImages" />
               <small
                 v-if="!this.PostCreate.imgurl"
                 class="form-text text-muted d-flex"
               >원하는 사진을 업로드해주세요.</small>
-              <small
+              <!-- <small
                 v-if="this.PostCreate.imgurl"
                 class="form-text text-muted d-flex"
-              >이미지 수정을 원하시면 업로드 버튼을 눌러주세요.</small>
+              >이미지 수정을 원하시면 업로드 버튼을 눌러주세요.</small-->
+              
             </div>
 
             <div class="col-md-7">
@@ -45,7 +57,7 @@
                       class="form-text d-flex"
                       style="color:red;"
                       v-if="error.title"
-                    >{{error.title}}</small>
+                    >{{ error.title }}</small>
                     <label class="d-flex justify-content-start">Activity</label>
                     <input
                       type="text"
@@ -58,7 +70,7 @@
                       class="form-text d-flex"
                       style="color:red;"
                       v-if="error.activity"
-                    >{{error.activity}}</small>
+                    >{{ error.activity }}</small>
                   </div>
 
                   <!-- 사용 기간 -->
@@ -79,7 +91,9 @@
                     
                       <b-form-datepicker id="edate" v-model="PostCreate.edate" :min="PostCreate.sdate" class="col-md-6"></b-form-datepicker>
                     </div>
-                    <small class="form-text text-muted d-flex">상품 유효기간을 지정해주세요.</small>
+                    <small class="form-text text-muted d-flex" v-if="!error.sedate">상품 유효기간을 지정해주세요.</small>
+                    <small class="form-text d-flex" style="color:red;" v-if="error.sedate">{{error.sedate}}</small>
+                  
                   </div>
                    
                   <!-- 이용 가격 -->
@@ -94,12 +108,12 @@
                       class="form-text d-flex"
                       style="color:red;"
                       v-if="error.price"
-                    >{{error.price}}</small>
+                    >{{ error.price }}</small>
                     <small
                       class="form-text d-flex"
                       style="color:red;"
                       v-if="error.priceint"
-                    >{{error.priceint}}</small>
+                    >{{ error.priceint }}</small>
                   </div>
                 </div>
               </div>
@@ -118,7 +132,7 @@
             <option value="sky">Sky</option>
           </select>
           <small class="form-text text-muted d-flex" v-if="!error.place">필드를 선택하세요.</small>
-          <small class="form-text d-flex" style="color:red;" v-if="error.place">{{error.place}}</small>
+          <small class="form-text d-flex" style="color:red;" v-if="error.place">{{ error.place }}</small>
         </div>
         <!-- Season 선택 -->
         <div class="form-group col-sm-12 col-md-7">
@@ -166,7 +180,11 @@
             </div>
           </div>
           <small class="form-text text-muted d-flex" v-if="!error.seasons">상품 이용 계절을 선택하세요.(중복가능)</small>
-          <small class="form-text d-flex" style="color:red;" v-if="error.seasons">{{error.seasons}}</small>
+          <small
+            class="form-text d-flex"
+            style="color:red;"
+            v-if="error.seasons"
+          >{{ error.seasons }}</small>
         </div>
       </div>
       <div>
@@ -180,7 +198,7 @@
             class="form-text d-flex"
             style="color:red;"
             v-if="error.companyInfo"
-          >{{error.companyInfo}}</small>
+          >{{ error.companyInfo }}</small>
         </div>
 
         <hr />
@@ -191,14 +209,11 @@
           <label class="d-flex justify-content-start">Detail-Info</label>
           <Editor ref="toastuiEditor" />
           <small class="form-text text-muted d-flex" v-if="!error.detail">상품 상세정보를 입력하세요.</small>
-          <small class="form-text d-flex" style="color:red;" v-if="error.detail">{{error.detail}}</small>
+          <small class="form-text d-flex" style="color:red;" v-if="error.detail">{{ error.detail }}</small>
         </div>
         <hr />
         <!-- 지도 -->
-        <!-- <p class="d-flex" style="font-size:1.5rem; font-weight:bold;">위치</p>
-        <div id="map" style="max-width: 100%; height:300px;"></div>-->
         <div>
-          <!-- <h4 class="d-flex mb-2" style="font-weight:bold">위치</h4> -->
           <label class="d-flex justify-content-start">Address</label>
           <div class="d-flex mb-1">
             <input
@@ -208,7 +223,14 @@
               style="width:200px;"
               placeholder="우편번호"
             />
-            <button type="button" class="btn btn-primary btn-sm ml-1" @click="Search">우편번호 찾기</button>
+            <button
+              type="button"
+              class="btn btn-default btn-sm ml-1"
+              style="border-radius:10px; font-size:13px; border:1.5px solid"
+              @click="Search"
+            >
+              <span style="font-weight:bold">우편번호 찾기</span>
+            </button>
           </div>
           <input type="text" class="form-control mb-1" v-model="addr2" placeholder="주소" readonly />
           <input type="text" class="form-control mb-1" v-model="addr3" placeholder="상세주소" />
@@ -230,7 +252,8 @@
           placeholder="원하는 태그를 입력해주세요."
           class="mb-2"
         ></b-form-tags>
-        <small class="form-text text-muted d-flex">해시태그를 입력해주세요.</small>
+        <small class="form-text text-muted d-flex" v-if="!error.tagValue">해시태그를 입력해주세요.</small>
+        <small class="form-text d-flex" style="color:red;" v-if="error.tagValue">{{error.tagValue}}</small>
       </div>
 
       <hr class="mt-2" />
@@ -243,11 +266,11 @@
         >임시저장</button>
         <button
           type="submit"
-          class="btn btn-outline pr-0"
-          style="font-size: 1.1rem;"
+          class="btn btn-defalut d-flex justify-content-start"
+          style="background-color:#86a5d4; color:white; font-weight:bold;"
           @click="regist"
         >
-          <i class="fas fa-pen mr-1"></i>등록
+          <i class="fas fa-pen mr-1"></i>등록 
         </button>
       </div>
     </div>
@@ -302,14 +325,16 @@ export default {
         location: false,
         seasons: false,
         place: false,
+        sedate: false,
+        tagValue:false,
       },
       addr1: "",
       addr2: "",
       addr3: "",
       seasons: [],
       tagValue: [],
-        min: minDate,
-        // max: maxDate
+      tempimg: "",
+      tempcheck: false,
     };
   },
   watch: {
@@ -400,11 +425,23 @@ export default {
       } else {
         this.error.seasons = false;
       }
+      if (this.tagValue.length == 0) {
+        this.error.tagValue = "해시태그는 하나 이상 입력해야합니다.";
+        flag = 1;
+      } else {
+        this.error.tagValue = false;
+      }
       if (this.PostCreate.place == "") {
         this.error.place = "필드는 빈칸일 수 없습니다.";
         flag = 1;
       } else {
         this.error.place = false;
+      }
+      if (this.PostCreate.sdate == "" || this.PostCreate.edate == "") {
+        this.error.sedate = "유효기간은 빈칸일 수 없습니다.";
+        flag = 1;
+      } else {
+        this.error.sedate = false;
       }
       if (flag == 1) {
         alert("정보를 모두 입력해주세요.");
@@ -442,11 +479,15 @@ export default {
             icon: "success",
             title: "게시물 승인 요청이 완료되었습니다.",
           });
+          this.fileUpload(response.data.pid);
           this.$router.push("/posts");
         })
         .catch((error) => {
           console.log(error);
         });
+    },
+    makeimgurl(imgurl) {
+      return require("@/assets/file/" + imgurl);
     },
     tempSave() {
       //임시저장 메소드
@@ -455,48 +496,95 @@ export default {
         alert("정보를 확인해주세요");
         return;
       }
-      axios
-        .post(`${baseURL}/temp/regist/${this.tagValue}`, this.PostCreate)
-        .then((response) => {
-          const Toast = Swal.mixin({
-            toast: true,
-            position: 'top-end',
-            showConfirmButton: false,
-            timer: 3000,
-            timerProgressBar: true,
-            // onOpen: (toast) => {
-            //   toast.addEventListener('mouseenter', Swal.stopTimer)
-            //   toast.addEventListener('mouseleave', Swal.resumeTimer)
-            // }
-          })
+      for (var i = 0; i < this.seasons.length; i++) {
+        if (this.seasons[i] == "spring") {
+          this.PostCreate.spring = 1;
+        } else if (this.seasons[i] == "summer") {
+          this.PostCreate.summer = 1;
+        } else if (this.seasons[i] == "autumn") {
+          this.PostCreate.autumn = 1;
+        } else if (this.seasons[i] == "winter") {
+          this.PostCreate.winter = 1;
+        }
+      }
+      if (this.tagValue == "") {
+        axios
+          .post(`${baseURL}/temp/regist/nononotag`, this.PostCreate)
+          .then((response) => {
+            console.log(this.PostCreate);
+            const Toast = Swal.mixin({
+              toast: true,
+              position: "top-end",
+              showConfirmButton: false,
+              timer: 3000,
+              timerProgressBar: true,
+              // onOpen: (toast) => {
+              //   toast.addEventListener('mouseenter', Swal.stopTimer)
+              //   toast.addEventListener('mouseleave', Swal.resumeTimer)
+              // }
+            });
 
-          Toast.fire({
-            icon: 'success',
-            title: '임시저장 완료!'
+            Toast.fire({
+              icon: "success",
+              title: "임시저장 완료!",
+            });
+            this.$router.push("/posts");
           })
-          this.$router.push("/posts");
+          .catch((error) => {
+            console.log(error);
+          });
+      } else {
+        axios
+          .post(`${baseURL}/temp/regist/${this.tagValue}`, this.PostCreate)
+          .then((response) => {
+            console.log(this.PostCreate);
+            const Toast = Swal.mixin({
+              toast: true,
+              position: "top-end",
+              showConfirmButton: false,
+              timer: 3000,
+              timerProgressBar: true,
+              // onOpen: (toast) => {
+              //   toast.addEventListener('mouseenter', Swal.stopTimer)
+              //   toast.addEventListener('mouseleave', Swal.resumeTimer)
+              // }
+            });
+
+            Toast.fire({
+              icon: "success",
+              title: "임시저장 완료!",
+            });
+            this.$router.push("/posts");
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      }
+    },
+    fileUpload(pid) {
+      var formData = new FormData();
+      const file = this.$refs.file.files[0];
+      formData.append("file", file);
+      axios
+        .post(`${baseURL}/post/file/${pid}`, formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
         })
-        .catch((error) => {
+        .then(function (response) {
+          alert("업로드 완료");
+        })
+        .catch(function (error) {
           console.log(error);
         });
     },
     onClickImageUpload() {
-      this.$refs.imageInput.click();
+      this.$refs.file.click();
     },
     onChangeImages(e) {
       const file = e.target.files[0];
-      var img = new Image(file);
-      img = e.target.files[0];
-      this.createImage(img);
-      // this.imgurl = URL.createObjectURL(file);
-    },
-    createImage(file) {
-      this.PostCreate.imgurl = new Image();
-      var reader = new FileReader();
-      reader.onload = (e) => {
-        this.PostCreate.imgurl = e.target.result;
-      };
-      reader.readAsDataURL(file);
+      this.tempimg = URL.createObjectURL(file);
+      this.tempcheck = true;
     },
   },
   created() {
@@ -507,5 +595,4 @@ export default {
   }
 };
 </script>
-<style>
-</style>
+<style></style>

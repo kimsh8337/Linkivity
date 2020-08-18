@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- 구매목록이 없을 때 -->
-    <div class="mt-5 mb-5" v-if="items.length <= 0">
+    <div class="mt-5 mb-5" v-if="bitems.length <= 0">
       <i class="fas fa-surprise mt-5 mr-2"></i
       ><span style="font-weight:bold">구매한 상품이 없습니다.</span
       ><i class="fas fa-surprise ml-2"></i>
@@ -15,12 +15,12 @@
       </button>
     </div>
     <!-- 구매목록이 있을때 -->
-    <div class="container" v-if="items.length > 0">
-      <table class="table" v-for="(item, index) in items" :key="index">
+    <div class="container" v-if="bitems.length > 0">
+      <table class="table" v-for="(item, index) in bitems" :key="index">
         <thead class="thead-dark">
           <tr>
             <th>No</th>
-            <td>{{ index + 1 }}</td>
+            <td>{{ (bpage - 1) * 5 +  index + 1 }}</td>
           </tr>
           <tr>
             <th>사진</th>
@@ -35,7 +35,7 @@
           <tr id="tt">
             <td>
               <img
-                :src="itm.img"
+                :src="makeimgurl(itm.img)"
                 @click="goDetail(itm.pid)"
                 style="width: 100px; height: 100px; cursor:pointer;"
               />
@@ -68,6 +68,8 @@
         </tbody>
       </table>
       <br />
+      <!-- paging -->
+      <b-pagination class="mt-5 mb-0" v-if="btotalPage > 5" v-model="bpage" :total-rows="btotalPage" pills :per-page="5"></b-pagination>
     </div>
   </div>
 </template>
@@ -80,7 +82,9 @@ const baseURL = process.env.VUE_APP_BACKURL;
 export default {
   data() {
     return {
-      items: [],
+      bitems: [],
+      bpage: 1,
+      btotalPage: 0,
     };
   },
   methods: {
@@ -89,17 +93,31 @@ export default {
         .get(`${baseURL}/account/authuser/${this.$cookies.get("Auth-Token")}`)
         .then((res) => {
           this.email = res.data.email;
-          this.init();
+          this.pageCount();
         })
         .catch((err) => {
           console.log(err);
         });
     },
-    init() {
+    makeimgurl(imgurl){
+      return require("@/assets/file/"+imgurl);
+    },
+    pageCount() {
       axios
-        .get(`${baseURL}/purchase/list/${this.email}`)
+        .get(`${baseURL}/purchase/count/list/${this.email}`)
         .then((res) => {
-          this.items = res.data;
+          this.btotalPage = res.data;
+          this.pageCheck();
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    pageCheck() {
+      axios
+        .get(`${baseURL}/purchase/list/${this.email}/${this.bpage}`)
+        .then((res) => {
+          this.bitems = res.data;
         })
         .catch((err) => {
           console.log(err);
@@ -144,6 +162,11 @@ export default {
   created() {
     this.authUser();
   },
+  watch: {
+    bpage: function(v) {
+      this.pageCheck();
+    }
+  }
 };
 </script>
 
@@ -151,8 +174,5 @@ export default {
 #tt td {
   text-align: center;
   vertical-align: middle;
-}
-#tt:hover {
-  /* background-color: rgba(127, 172, 255, 0.25); */
 }
 </style>

@@ -17,7 +17,7 @@
       </div>
     </div>
     <div class="button-div">
-      <button type="button" class="btn" @click="goBack()">돌아가기</button>
+      <!-- <button type="button" class="btn" @click="goBack()">돌아가기</button> -->
       <button type="button" class="btn" @click="goHome()">메인으로</button>
     </div>
     <div style="height:50px"></div>
@@ -28,6 +28,7 @@
 export default {
   methods: {
     goBack() {
+      window.history.back();
       window.history.back();
     },
     goHome() {
@@ -42,7 +43,6 @@ export default {
 
 .main-div {
   font-family: 'Jua', sans-serif;
-  background-color: mintcream;
 }
 .error-message-404-kr {
   text-align: left;

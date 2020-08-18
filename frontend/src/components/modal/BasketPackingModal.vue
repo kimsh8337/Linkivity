@@ -22,7 +22,8 @@
         <div class="modal-body">
           <div class="d-flex justify-content-start mb-4" v-for="(post, index) in prePosts" :key="index">
             <img
-              :src="post.imgurl"
+              :src="makeimgurl(post.imgurl)"
+              v-if="post.imgurl"
               alt
               @click="getdetail(post.pid)"
               data-dismiss="modal"
@@ -85,6 +86,9 @@ export default {
         .catch((err) => {
           console.log(err.response);
         });
+    },
+     makeimgurl(imgurl){
+      return require("@/assets/file/"+imgurl);
     },
     purchase() {
  

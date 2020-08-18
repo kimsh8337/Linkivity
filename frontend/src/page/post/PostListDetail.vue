@@ -8,7 +8,8 @@
           <div class="row no-gutters">
             <div class="col-md-5">
               <img
-                :src="post.imgurl"
+                :src="makeimgurl(post.imgurl)"
+                v-if="post.imgurl"
                 class="card-img"
                 style="height: 16rem; box-shadow:5px 5px 5px rgba(0,0,0,.15)"
                 alt
@@ -358,6 +359,9 @@ export default {
         .catch((err) => {
           console.log(err.response);
         });
+    },
+     makeimgurl(imgurl){
+      return require("@/assets/file/"+imgurl);
     },
     test() {
       Kakao.Link.createDefaultButton({

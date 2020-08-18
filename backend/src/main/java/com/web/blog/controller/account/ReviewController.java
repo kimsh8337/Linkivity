@@ -1,8 +1,10 @@
 package com.web.blog.controller.account;
 
+import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
+import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -12,6 +14,7 @@ import com.web.blog.model.post.PostList;
 import com.web.blog.model.user.Review;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -22,7 +25,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import io.swagger.annotations.ApiOperation;
 
@@ -60,7 +65,7 @@ public class ReviewController {
             review.setEmail(request.getEmail());
             review.setTitle(request.getTitle());
             review.setContent(request.getContent());
-            review.setImg(request.getImg());
+            // review.setImg(request.getImg());
             review.setStar(request.getStar());
             review.setProimg(request.getProimg());
             LocalDateTime time = LocalDateTime.now();
@@ -164,12 +169,57 @@ public class ReviewController {
         }
     }
 
-    @GetMapping("/listbyemail/{email}")
+    @GetMapping("/listbyemail/{email}/{page}")
     @ApiOperation("내가 쓴 후기 리스트")
-    public List<Review> list(@PathVariable String email) {
-        List<Review> list = new LinkedList<>();
-        list = reviewDao.findByEmail(email);
-        return list;
+    public Object list(@PathVariable String email, @PathVariable int page) {
+        try {
+            List<Review> list = new LinkedList<>();
+            list = reviewDao.findByEmail(email, PageRequest.of(page - 1, 8));
+            return new ResponseEntity<>(list, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/count/listbyemail/{email}")
+    @ApiOperation("내가 쓴 후기 리스트 카운트")
+    public Object countList(@PathVariable String email) {
+        try {
+            List<Review> list = new LinkedList<>();
+            list = reviewDao.findByEmail(email);
+            return new ResponseEntity<>(list.size(), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PostMapping("/file/{rvid}")
+    @ApiOperation(value = "이미지 저장")
+    public String fileTest(@RequestPart("file") MultipartFile ff, @PathVariable int rvid) throws IllegalStateException, IOException {
+        // File file = new File("home\\ubuntu\\ssafy6\\s03p13b206\\frontend\\src\\assets\\file\\" + ff.getOriginalFilename());
+        String fileName = "";
+		
+		Calendar calendar = Calendar.getInstance();
+		fileName += calendar.get(Calendar.YEAR);
+		fileName += calendar.get(Calendar.MONTH);
+		fileName += calendar.get(Calendar.DATE);
+		fileName += calendar.get(Calendar.HOUR);
+		fileName += calendar.get(Calendar.MINUTE);
+		fileName += calendar.get(Calendar.SECOND);
+		fileName += calendar.get(Calendar.MILLISECOND);
+		fileName += ".png";
+        File file = new File("C:\\leejaein\\project-sub3\\s03p13b206\\frontend\\src\\assets\\file\\" + fileName);
+        if (!file.getParentFile().exists())
+            file.getParentFile().mkdirs();
+            ff.transferTo(file);
+        System.out.println("file is " + file.getAbsolutePath());
+        System.out.println("name is " + file.getName() );
+
+        Review review = reviewDao.findByRvid(rvid);
+        review.setImg(file.getName());
+        reviewDao.save(review);
+
+        return file.getName();
     }
 
 }

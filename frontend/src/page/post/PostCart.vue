@@ -25,7 +25,8 @@
         <div class="card mb-3 profile-post mr-0 ml-0">
           <div class="card-body" style="padding: 0;">
             <img
-              :src="cartPost.imgurl"
+              :src="makeimgurl(cartPost.imgurl)"
+              v-if="cartPost.imgurl"
               class="card-img"
               @click="getdetail(cartPost.pid)"
               style="height:10rem; box-shadow:5px 5px 5px rgba(0,0,0,.15)"
@@ -158,6 +159,9 @@ export default {
         .catch((err) => {
           console.log(err);
         });
+    },
+    makeimgurl(imgurl){
+      return require("@/assets/file/"+imgurl);
     },
     getdetail(pid) {
       this.$router.push({
