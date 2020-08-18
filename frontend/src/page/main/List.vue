@@ -347,7 +347,7 @@
             <!-- <div class="card mb-3 profile-post mr-0 ml-0"> -->
             <div
               class="card-body list-profile"
-              style="padding: 0; cursor: pointer;"
+              style="padding: 0; cursor: pointer; box-shadow:5px 5px 5px rgba(0,0,0,.15);"
               @click="getdetail(slide.pid)"
             >
               <!-- img 보여주기 -->
@@ -355,13 +355,13 @@
                 v-if="slide.img"
                 class="review-img"
                 :src="slide.img"
-                style="height:8rem; box-shadow:5px 5px 5px rgba(0,0,0,.15);border-top-right-radius:5px;border-top-left-radius:5px;"
+                style="height:8rem; border-radius:5px"
               />
               <img
                 v-if="!slide.img"
                 class="review-img"
                 src="../../assets/img/noimage.jpg"
-                style="height:8rem; box-shadow:5px 5px 5px rgba(0,0,0,.15);"
+                style="height:8rem; border-top-right-radius:5px;border-top-left-radius:5px;"
               />
               <!-- 프로필 보여주기 -->
               <div class="d-flex justify-content-between">
