@@ -266,11 +266,11 @@
         >임시저장</button>
         <button
           type="submit"
-          class="btn btn-defalut d-flex justify-content-start"
+          class="btn btn-defalut"
           style="background-color:#86a5d4; color:white; font-weight:bold;"
           @click="regist"
         >
-          <i class="fas fa-pen mr-1"></i>등록 
+          <i class="fas fa-pen mr-1"></i>등록하기 
         </button>
       </div>
     </div>

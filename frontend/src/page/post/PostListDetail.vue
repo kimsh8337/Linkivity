@@ -261,10 +261,10 @@
         class="d-flex justify-content-end mt-3 mb-3"
         v-if="this.email == this.post.email | this.checkType == 'admin'"
       >
-        <button class="btn btn-success" v-if="this.email == this.post.email" @click="goModify">
+        <button class="btn btn-default mr-2" v-if="this.email == this.post.email" style="background-color:#86a5d4; color:white; font-weight:bold;" @click="goModify">
           <i class="far fa-edit mr-2"></i>수정하기
         </button>
-        <button class="btn btn-danger" @click="goDelete">
+        <button class="btn btn-danger" style="font-weight:bold;" @click="goDelete">
           <i class="far fa-trash-alt mr-2"></i>삭제하기
         </button>
       </div>
