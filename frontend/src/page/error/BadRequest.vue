@@ -8,7 +8,7 @@
         <h4>요청하신 데이터를 불러올 수 없습니다. </h4>
       </div>
       <div class="col-sm-4">
-        <i class="fa fa-9x fa-compass fa-spin" style="color:#7EC0EE"></i>
+        <i class="fa fa-9x fa-hourglass-half fa-spin" style="color:#7EC0EE"></i>  
       </div>
       <div class="error-message-404-en col-sm-3">
         <h6>ERROR CODE 400</h6>
@@ -17,7 +17,7 @@
       </div>
     </div>
     <div class="button-div">
-      <!-- <button type="button" class="btn" @click="goBack()">돌아가기</button> -->
+      <button type="button" class="btn" @click="goHome()">돌아가기</button>
       <button type="button" class="btn" @click="goHome()">메인으로</button>
     </div>
     <div style="height:50px"></div>
@@ -27,10 +27,6 @@
 <script>
 export default {
   methods: {
-    goBack() {
-      window.history.back();
-      window.history.back();
-    },
     goHome() {
       this.$router.push('/');
     },
