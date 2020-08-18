@@ -530,9 +530,22 @@ export default {
         alert("정보를 확인해주세요");
         return;
       }
-      axios
-        .post(`${baseURL}/temp/regist/${this.tagValue}`, this.PostCreate)
+      for (var i = 0; i < this.seasons.length; i++) {
+        if (this.seasons[i] == "spring") {
+          this.PostCreate.spring = 1;
+        } else if (this.seasons[i] == "summer") {
+          this.PostCreate.summer = 1;
+        } else if (this.seasons[i] == "autumn") {
+          this.PostCreate.autumn = 1;
+        } else if (this.seasons[i] == "winter") {
+          this.PostCreate.winter = 1;
+        }
+      }
+      if (this.tagValue == ""){
+        axios
+        .post(`${baseURL}/temp/regist/nononotag`, this.PostCreate)
         .then((response) => {
+          console.log(this.PostCreate)
           const Toast = Swal.mixin({
             toast: true,
             position: "top-end",
@@ -554,6 +567,34 @@ export default {
         .catch((error) => {
           console.log(error);
         });
+      }else{
+
+        axios
+          .post(`${baseURL}/temp/regist/${this.tagValue}`, this.PostCreate)
+          .then((response) => {
+            console.log(this.PostCreate)
+            const Toast = Swal.mixin({
+              toast: true,
+              position: 'top-end',
+              showConfirmButton: false,
+              timer: 3000,
+              timerProgressBar: true,
+              // onOpen: (toast) => {
+              //   toast.addEventListener('mouseenter', Swal.stopTimer)
+              //   toast.addEventListener('mouseleave', Swal.resumeTimer)
+              // }
+            })
+  
+            Toast.fire({
+              icon: 'success',
+              title: '임시저장 완료!'
+            })
+            this.$router.push("/posts");
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      }
     },
     onClickImageUpload() {
       this.$refs.imageInput.click();
