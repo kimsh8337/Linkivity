@@ -129,7 +129,6 @@
           </select>
           <small class="form-text text-muted d-flex" v-if="!error.place">필드를 선택하세요.</small>
           <small class="form-text d-flex" style="color:red;" v-if="error.place">{{ error.place }}</small>
-    
         </div>
         <div class="form-group col-sm-12 col-md-7">
           <label class="d-flex justify-content-start">Seasons</label>
@@ -213,20 +212,18 @@
         
         </div>
         <hr />
-        <!-- 지도 -->
-        <!-- <p class="d-flex" style="font-size:1.5rem; font-weight:bold;">위치</p>
-        <div id="map" style="max-width: 100%; height:300px;"></div>-->
+        
         <div>
-          <!-- <h4 class="d-flex mb-2" style="font-weight:bold">위치</h4> -->
+         
           <label class="d-flex justify-content-start">Address</label>
           <div class="d-flex mb-1">
-            <input
+            <!-- <input
               type="text"
               class="form-control"
               v-model="addr1"
               style="width:200px;"
               placeholder="우편번호"
-            />
+            /> -->
             <button
               type="button"
               class="btn btn-default btn-sm ml-1"
@@ -234,19 +231,20 @@
               @click="Search"
             >우편번호 찾기</button>
           </div>
-          <input type="text" class="form-control mb-1" v-model="addr2" placeholder="주소" readonly />
-          <input type="text" class="form-control mb-1" v-model="addr3" placeholder="상세주소" />
+            <input hidden type="text" class="form-control mb-1" v-model="addr2" placeholder="주소" readonly />
+          <input hidden type="text" class="form-control mb-1" v-model="addr3" placeholder="상세주소" />
+          <input type="text" class="form-control mb-1" v-model="PostUpdate.location" placeholder="상세주소" />
         </div>
 
         <small class="form-text text-muted d-flex">주소를 입력하세요.</small>
-
+       
         <hr />
 
         <!-- HasTag -->
         <label for="tags-basic" class="d-flex mt-3"># HASHTAG</label>
         <b-form-tags
           input-id="tags-pills"
-          v-model="hashTag"
+          v-model="tagValue"
           tag-variant="primary"
           tag-pills
           size="md"
@@ -288,7 +286,7 @@ export default {
       PostUpdate: [],
       pid: "",
       seasons: [],
-      hashTag: [],
+      tagValue: [],
       addr1: "",
       addr2: "",
       addr3: "",
@@ -327,9 +325,12 @@ export default {
       let x = this;
       new daum.Postcode({
         oncomplete: function (data) {
+           
           x.addr1 = data.zonecode;
           x.addr2 = data.address;
+          
           x.addr3 = data.buildingName;
+         x.PostUpdate.location = x.addr2 + " " + x.addr3;
         },
       }).open();
     },
@@ -338,10 +339,23 @@ export default {
         .get(`${baseURL}/post/detail/${this.pid}`)
         .then((response) => {
           this.PostUpdate = response.data;
+          console.log(this.PostUpdate)
+          this.checkSeason();
         })
         .catch((error) => {
           console.log(error.response.data);
         });
+    },
+    checkSeason() {
+      if(this.PostUpdate.spring == 1) {
+        this.seasons.push("spring");
+      } if(this.PostUpdate.summer == 1) {
+        this.seasons.push("summer");
+      } if(this.PostUpdate.autumn == 1) {
+        this.seasons.push("autumn");
+      } if(this.PostUpdate.winter == 1) {
+        this.seasons.push("winter");
+      }
     },
     makeimgurl(imgurl) {
       return require("@/assets/file/" + imgurl);
@@ -350,8 +364,8 @@ export default {
       axios
         .get(`${baseURL}/tag/list/${this.pid}`)
         .then((res) => {
-          this.hashTag = res.data;
-          console.log(this.hashTag);
+          this.tagValue = res.data;
+          // console.log(this.hashTag);
         })
         .catch((err) => {
           console.log(err);
@@ -415,12 +429,22 @@ export default {
       } else {
         this.error.sedate = false;
       }
+      if (this.PostUpdate.location == "") {
+        this.error.location = "주소가 빈칸일 수 없습니다.";
+        flag = 1;
+      } else {
+        this.error.sedate = false;
+      }
+
       if (flag == 1) {
         alert("정보를 모두 입력해주세요.");
         return;
       }
-      this.PostUpdate.location = this.addr2 + " " + this.addr3;
-
+     
+      this.PostUpdate.spring = 0;
+      this.PostUpdate.summer = 0;
+      this.PostUpdate.autumn = 0;
+      this.PostUpdate.winter = 0;
       for (var i = 0; i < this.seasons.length; i++) {
         if (this.seasons[i] == "spring") {
           this.PostUpdate.spring = 1;
@@ -432,6 +456,9 @@ export default {
           this.PostUpdate.winter = 1;
         }
       }
+
+      console.log(this.seasons)
+      console.log(this.PostUpdate)
 
       Swal.fire({
         width: 350,
@@ -460,8 +487,9 @@ export default {
             title: "Update Completed!",
           });
           axios
-            .put(`${baseURL}/post/modify`, this.PostUpdate)
+            .put(`${baseURL}/post/modify/${this.tagValue}`, this.PostUpdate)
             .then((response) => {
+             
               this.fileUpload(response.data.pid);
               this.$router.push({
                 name: "PostListDetail",

@@ -40,7 +40,7 @@
               <label class="form-check-label" for="seasonRadios4">겨울</label>
             </span>
           </div>
-
+          
           <div class="form-check-survey">
             <span class="survey-title">2. 필드 :</span>
             <span class="mx-4">
