@@ -211,13 +211,13 @@
           <!-- <h4 class="d-flex mb-2" style="font-weight:bold">위치</h4> -->
           <label class="d-flex justify-content-start">Address</label>
           <div class="d-flex mb-1">
-            <!-- <input
+             <!-- <input
               type="text"
               class="form-control"
               v-model="addr1"
               style="width:200px;"
               placeholder="우편번호"
-            />
+            /> -->
             <button
               type="button"
               class="btn btn-default btn-sm ml-1"
