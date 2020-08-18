@@ -119,7 +119,7 @@ export default {
           this.indictData.email = response.data.email;
         })
         .catch((err) => {
-          console.log(err.response);
+          console.log(err);
         });
     },
     indictReceipt() {
@@ -177,7 +177,9 @@ export default {
   updated() {
     this.indictData.pid = this.post.pid;
     this.indictData.remail = this.post.email;
-    this.authUser();
+    if (this.$cookies.get("Auth-Token") != null) {
+      this.authUser();
+    }
   },
 };
 </script>
