@@ -136,7 +136,7 @@
 
         <!-- <hr class="border-bottom-1 border-black mt-1" />
         <div class="card col-sm-12 mt-1"></div> -->
-        <hr class="mt-5">
+        <hr>
         <button @click="deluser" class="btn">
           <i class="fas fa-user-slash"><span class="ml-1">탈퇴하기</span></i>
         </button>
@@ -314,7 +314,6 @@ export default {
     },
 
     fileUpload: function () {
-    // JSON 타입이 아닌 폼 데이터 형식으로 던진다! 왜?! 바이너리 형태(파일, 이미지) 니깐
     var formData = new FormData();
     const file = this.$refs.file.files[0];
     formData.append("file", file);
@@ -327,14 +326,13 @@ export default {
         }
         )
       .then(function (response) {
-        // alert("업로드 완료!\n" + response.data);
-        // this.path = "/file/ " + response.data;
-        // console.log(this.path);
+
       })
       .catch(function (error) {
         console.log(error);
       });
     },
+
     onClickImageUpload() {
       this.$refs.file.click();
     },

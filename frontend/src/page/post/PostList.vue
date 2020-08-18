@@ -54,7 +54,7 @@
             <div class="card-body" style="padding: 0;">
               <div class="postlist-img"  @click="getdetail(post.pid)">
 
-              <img :src="post.imgurl" class="card-img postlist-img" style="height:10rem; box-shadow:5px 5px 5px rgba(0,0,0,.15)" />
+              <img :src="makeimgurl(post.imgurl)" v-if="post.imgurl" class="card-img postlist-img" style="height:10rem; box-shadow:5px 5px 5px rgba(0,0,0,.15)" />
               <div
                 class="card-img-overlay pt-0 pr-2"
                 style="text-align:right; font-size:0.7rem; font-weight:400; color: white; widht:1rem; height:1rem; "
@@ -165,6 +165,9 @@ export default {
   methods: {
     round(star) {
       return Math.round(star * 10) / 10.0;
+    },
+    makeimgurl(imgurl){
+      return require("@/assets/file/"+imgurl);
     },
     settype(typename) {
       this.key = "";

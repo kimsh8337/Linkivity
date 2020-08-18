@@ -35,7 +35,7 @@
           <tr id="tt">
             <td>
               <img
-                :src="itm.img"
+                :src="makeimgurl(itm.img)"
                 @click="goDetail(itm.pid)"
                 style="width: 100px; height: 100px; cursor:pointer;"
               />
@@ -98,6 +98,9 @@ export default {
         .catch((err) => {
           console.log(err);
         });
+    },
+    makeimgurl(imgurl){
+      return require("@/assets/file/"+imgurl);
     },
     pageCount() {
       axios

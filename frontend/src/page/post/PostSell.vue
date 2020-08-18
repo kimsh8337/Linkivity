@@ -23,7 +23,8 @@
           <td>{{ itm.email }}</td>
           <td>
             <img
-              :src="itm.img"
+              :src="makeimgurl(itm.img)"
+              v-if="itm.img"
               style="width: 100px; height: 100px; cursor:pointer;"
               @click="getdetail(itm.pid)"
             />
@@ -84,6 +85,9 @@ export default {
   methods: {
     open(purid) {
       this.id = purid;
+    },
+     makeimgurl(imgurl){
+      return require("@/assets/file/"+imgurl);
     },
     getdetail(pid) {
       this.$router.push({

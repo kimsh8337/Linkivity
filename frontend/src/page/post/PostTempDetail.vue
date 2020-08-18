@@ -13,7 +13,7 @@
                 <img
                   class="card-img mb-2"
                   v-if="PostTemp.imgurl"
-                  :src="PostTemp.imgurl"
+                  :src="makeimgurl(PostTemp.imgurl)"
                   style="height: 16rem; width:100%"
                 />
                 <button
@@ -268,6 +268,9 @@ export default {
           x.addr3 = data.buildingName;
         },
       }).open();
+    },
+     makeimgurl(imgurl){
+      return require("@/assets/file/"+imgurl);
     },
     taglist() {
       axios

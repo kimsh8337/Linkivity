@@ -1,8 +1,10 @@
 package com.web.blog.controller.post;
 
+import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
+import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -24,7 +26,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -393,7 +397,7 @@ public class PostListController {
                 newTag.setTagname(tagname);
                 tagDao.save(newTag);
             }
-            return temp;
+            return new ResponseEntity<>(temp, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -450,5 +454,33 @@ public class PostListController {
     public Object pageTest(@PathVariable int page) throws SQLException, IOException {
         // return postDao.findAll(PageRequest.of(page, 5, Direction.DESC, "createDate"));
         return postDao.findByFlagOrderByCreateDateDesc(1, PageRequest.of(page, 5));
+    }
+
+    @PostMapping("/file/{pid}")
+    @ApiOperation(value = "이미지 저장")
+    public String fileTest(@RequestPart("file") MultipartFile ff, @PathVariable int pid) throws IllegalStateException, IOException {
+        // File file = new File("home\\ubuntu\\ssafy6\\s03p13b206\\frontend\\src\\assets\\file\\" + ff.getOriginalFilename());
+        String fileName = "";
+		
+		Calendar calendar = Calendar.getInstance();
+		fileName += calendar.get(Calendar.YEAR);
+		fileName += calendar.get(Calendar.MONTH);
+		fileName += calendar.get(Calendar.DATE);
+		fileName += calendar.get(Calendar.HOUR);
+		fileName += calendar.get(Calendar.MINUTE);
+		fileName += calendar.get(Calendar.SECOND);
+		fileName += calendar.get(Calendar.MILLISECOND);
+		fileName += ".png";
+        File file = new File("C:\\leejaein\\project-sub3\\s03p13b206\\frontend\\src\\assets\\file\\" + fileName);
+        if (!file.getParentFile().exists())
+            file.getParentFile().mkdirs();
+            ff.transferTo(file);
+        System.out.println("file is " + file.getAbsolutePath());
+        System.out.println("name is " + file.getName() );
+
+        PostList post = postDao.findByPid(pid);
+        post.setImgurl(file.getName());
+        postDao.save(post);
+        return file.getName();
     }
 }

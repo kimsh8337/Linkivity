@@ -33,7 +33,7 @@
           <img
             v-if="slide.img"
             class="review-img"
-            :src="slide.img"
+            :src="makeimgurl(slide.img)"
             :alt="slide.title"
             style="height:8rem;"
           />
@@ -120,6 +120,9 @@ export default {
         .catch((err) => {
           console.log(err.response);
         });
+    },
+     makeimgurl(imgurl){
+      return require("@/assets/file/"+imgurl);
     },
     countReview() {
       axios
