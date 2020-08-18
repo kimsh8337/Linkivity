@@ -39,7 +39,7 @@
           <td>
             <button
               class="btn btn-outline-danger btn-sm pt-0 pb-0"
-              style="height:20px; font-size:12px;"
+              style="height:20px; font-size:12px; white-space: nowrap;"
               v-if="itm.puse == 0"
               data-toggle="modal"
               data-target="#confirmmodal"
