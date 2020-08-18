@@ -32,7 +32,7 @@
             </tbody>
           </table>
           <!-- paging -->
-          <b-pagination v-model="ppage" :total-rows="ptotalPage" pills :per-page="10"></b-pagination>
+          <b-pagination v-model="ppage" v-if="ptotalPage > 10" :total-rows="ptotalPage" pills :per-page="10"></b-pagination>
           <!-- <PostPermitDetailModal :post="postlistDataReceive"/> -->
         </b-tab>
 
@@ -62,7 +62,7 @@
             </tbody>
           </table>
           <!-- paging -->
-          <b-pagination v-model="upage" :total-rows="utotalPage" pills :per-page="10"></b-pagination>
+          <b-pagination v-model="upage" v-if="utotalPage > 10" :total-rows="utotalPage" pills :per-page="10"></b-pagination>
         </b-tab>
 
         <!-- 신고 관리 -->
@@ -106,7 +106,7 @@
             @cancel-black="cancelblack"
           />
           <!-- paging -->
-          <b-pagination v-model="bpage" :total-rows="btotalPage" pills :per-page="10"></b-pagination>
+          <b-pagination v-model="bpage" v-if="btotalPage > 10" :total-rows="btotalPage" pills :per-page="10"></b-pagination>
         </b-tab>
       </b-tabs>
     </div>

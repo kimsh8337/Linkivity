@@ -180,20 +180,32 @@ public class AccountController {
     @PostMapping("/signup")
     @ApiOperation(value = "가입하기")
     public Object signup(@RequestBody User request) throws SQLException, IOException {
-        User user = new User();
-        user.setEmail(request.getEmail());
-        user.setName(request.getName());
-        user.setPassword(request.getPassword());
-        user.setNickname(request.getNickname());
-        user.setCheckType(request.getCheckType());
-        user.setImgurl(request.getImgurl());
-        if (request.getCheckType().equals("business")) {
-            user.setClocation(request.getClocation());
-            user.setCphone(request.getCphone());
-        }
-        userDao.save(user);
 
-        return user;
+        try {
+            ReportUser reuser = reportUserDao.findByEmail(request.getEmail());
+            if (reuser != null) {
+
+                return new ResponseEntity<>(reuser.getIsdrop(), HttpStatus.OK);
+            } else {
+                User user = new User();
+                user.setEmail(request.getEmail());
+                user.setName(request.getName());
+                user.setPassword(request.getPassword());
+                user.setNickname(request.getNickname());
+                user.setCheckType(request.getCheckType());
+                user.setImgurl(request.getImgurl());
+                if (request.getCheckType().equals("business")) {
+                    user.setClocation(request.getClocation());
+                    user.setCphone(request.getCphone());
+                }
+                userDao.save(user);
+
+                return user;
+            }
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
     }
 
     @PostMapping("/kakaologin")
@@ -250,7 +262,7 @@ public class AccountController {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    
+
     @GetMapping("/viewAllUser/{page}")
     @ApiOperation(value = "모든 회원정보")
     public Object viewAllUser(@PathVariable int page) throws SQLException, IOException {
@@ -285,11 +297,27 @@ public class AccountController {
     @ApiOperation(value = "이메일확인")
     public String checkEmail(@PathVariable String email) {
         String result = "";
-        Optional<User> userOpt = userDao.findUserByEmail(email);
-        if (userOpt.isPresent()) {
-            result = "이미 존재하는 이메일입니다.";
+
+        ReportUser reuser = reportUserDao.findByEmail(email);
+    if(reuser != null){
+        if (reuser.getIsdrop() == 1) 
+            result = "사용할수없는 이메일입니다";
+            return result;
+         
+        
+    } else {
+            Optional<User> userOpt = userDao.findUserByEmail(email);
+            if (userOpt.isPresent()) {
+                result = "이미 존재하는 이메일입니다.";
+            }
+            return result;
         }
-        return result;
+
+        // Optional<User> userOpt = userDao.findUserByEmail(email);
+        // if (userOpt.isPresent()) {
+        // result = "이미 존재하는 이메일입니다.";
+        // }
+        // return result;
     }
 
     @GetMapping("/checkNickname/{nickname}")
@@ -401,7 +429,7 @@ public class AccountController {
                 mail.setFrom(fromEmail, fromName, charSet);
                 mail.setSubject(subject);
                 // 내용
-                mail.setHtmlMsg("회원님의 임시 비밀번호는 [ " + newPwd +" ] 입니다.");
+                mail.setHtmlMsg("회원님의 임시 비밀번호는 [ " + newPwd + " ] 입니다.");
                 mail.send();
                 System.out.println("성공");
                 return "메일 전송 성공";

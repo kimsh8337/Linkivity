@@ -44,4 +44,6 @@ public interface PostListDao extends JpaRepository<PostList, String> {
 
     List<PostList> findByFlagAndPidInOrderByCreateDateDesc(int flag, List<Integer> pid, Pageable page);
     List<PostList> findByFlagAndPidInOrderByCreateDateDesc(int flag, List<Integer> pid);
+
+    List<PostList> findByEmailAndFlag(String email, int flag, Pageable page);
 }
