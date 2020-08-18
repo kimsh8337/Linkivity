@@ -359,11 +359,24 @@ export default {
         .get(`${baseURL}/temp/detail/${this.pid}`)
         .then((response) => {
           this.PostTemp = response.data;
+          this.checkSeason();
         })
         .catch((err) => {
           console.log(err.response.data);
         });
     },
+    checkSeason() {
+      if(this.PostTemp.spring == 1) {
+        this.seasons.push("spring");
+      } if(this.PostTemp.summer == 1) {
+        this.seasons.push("summer");
+      } if(this.PostTemp.autumn == 1) {
+        this.seasons.push("autumn");
+      } if(this.PostTemp.winter == 1) {
+        this.seasons.push("winter");
+      }
+    },
+
     tempdelete() {
       Swal.fire({
         width: 350,
@@ -405,8 +418,12 @@ export default {
     tempSave: function () {
       var content = this.$refs.toastuiEditor.invoke("getMarkdown");
       this.PostTemp.detail = content;
-      this.PostTemp.location = this.addr2 + " " + this.addr3;
+    
 
+      this.PostTemp.spring = 0;
+      this.PostTemp.summer = 0;
+      this.PostTemp.autumn = 0;
+      this.PostTemp.winter = 0;
       for (var i = 0; i < this.seasons.length; i++) {
         if (this.seasons[i] == "spring") {
           this.PostTemp.spring = 1;
@@ -562,6 +579,10 @@ export default {
       }
       // this.PostTemp.location = this.addr2 + " " + this.addr3;
 
+      this.PostTemp.spring = 0;
+      this.PostTemp.summer = 0;
+      this.PostTemp.autumn = 0;
+      this.PostTemp.winter = 0;
       for (var i = 0; i < this.seasons.length; i++) {
         if (this.seasons[i] == "spring") {
           this.PostTemp.spring = 1;
