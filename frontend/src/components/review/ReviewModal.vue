@@ -224,7 +224,6 @@ export default {
         }
         )
       .then(function (response) {
-        alert("업로드완료")
       })
       .catch(function (error) {
         console.log(error);

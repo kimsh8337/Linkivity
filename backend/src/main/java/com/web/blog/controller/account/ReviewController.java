@@ -54,7 +54,6 @@ public class ReviewController {
             } else {
                 float cur = post.getStar();
                 float newStar = (cur * reviewCnt + (float) request.getStar()) / (reviewCnt + 1);
-                System.out.println(newStar);
                 post.setStar(newStar);
             }
             postDao.save(post);

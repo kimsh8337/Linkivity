@@ -354,7 +354,7 @@
             :key="index"
             class="col-6 col-sm-4 col-md-2 p-3"
           >
-            <!-- <div class="card mb-3 profile-post mr-0 ml-0"> -->
+            <div class="card mb-3 profile-post mr-0 ml-0">
             <div
               class="card-body list-profile"
               style="padding: 0; cursor: pointer; box-shadow:5px 5px 5px rgba(0,0,0,.15);"
@@ -410,7 +410,7 @@
                 <span style="font-weight:bold;">{{ slide.title }}</span>
               </div>
             </div>
-            <!-- </div> -->
+            </div>
           </div>
         </div>
       </div>

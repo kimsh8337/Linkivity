@@ -259,10 +259,10 @@
       <div class="d-flex justify-content-end mb-5">
         <button
           type="submit"
-          class="btn btn-defalut d-flex justify-content-start"
+          class="btn btn-defalut"
           style="background-color:#86a5d4; color:white; font-weight:bold;"
           @click="modify"
-        >수정하기</button>
+        ><i class="far fa-edit mr-2"></i>수정하기</button>
       </div>
     </div>
   </div>
