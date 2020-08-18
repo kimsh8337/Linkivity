@@ -31,7 +31,7 @@
           <img
             style="width:100%; height:40%"
             v-if="post.imgurl"
-            :src="post.imgurl"
+            :src="makeimgurl(post.imgurl)"
             :alt="post.title"
           />
           <img
@@ -121,6 +121,9 @@ export default {
         .catch((err) => {
           console.log(err.response);
         });
+    },
+     makeimgurl(imgurl){
+      return require("@/assets/file/"+imgurl);
     },
     indictReceipt() {
       if (this.indictData.reason.length <= 0) {

@@ -15,12 +15,12 @@
         style="text-shadow: 1px 1px 2px #333;"
       >
         <!-- Text slides with image -->
-        <b-carousel-slide v-for="slide in slides" :key="slide.rvid" :img-src="slide.img">
+        <b-carousel-slide v-for="slide in slides" :key="slide.rvid" :img-src="makeimgurl(slide.img)">
           <div style="height:15rem; z-index:1000;">
             <!-- background-color:black; -->
             <div class="d-flex justify-content-between" style="width:100%">
               <!-- 프로필 보여주기 -->
-              <img class="profile-image d-flex my-2 ml-3" :src="slide.proimg" />
+              <img class="profile-image d-flex my-2 ml-3" v-if="slide.proimg" :src="makeimgurl(slide.proimg)"/>
               <div class="mt-2 mr-4 ml-0">
                 <div class="d-flex">
                   <small
@@ -134,6 +134,9 @@ export default {
     datecut(date) {
       var tempdatecut = date + "";
       return tempdatecut.substring(0, 10);
+    },
+    makeimgurl(imgurl) {
+      return require("@/assets/file/" + imgurl);
     },
     update(slide) {
       this.reviewInfo = slide;
