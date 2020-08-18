@@ -10,24 +10,33 @@
             <!-- 이미지 삽입 -->
             <div class="col-md-5">
               <div class="col-md-10 p-0 mr-0" align="left">
-                <img
-                  class="card-img mb-2"
-                  v-if="PostTemp.imgurl && !tempcheck"
-                  :src="makeimgurl(PostTemp.imgurl)"
-                  style="height: 16rem; width:100%"
-                />
-                <img
-                  class="card-img mb-2"
-                  v-if="tempimg && tempcheck"
-                  :src="tempimg"
-                  style="height: 16rem; width:100%"
-                />
                 <button
                   type="button"
-                  class="btn btn-default btn-sm"
+                  class="btn btn-default btn-sm d-flex mb-1"
                   style="border-radius:10px; font-size:15px; border:1.5px solid;height:2rem;"
                   @click="onClickImageUpload"
-                >이미지 업로드</button>
+                >
+                  <i class="fas fa-image my-auto">
+                    <span class="ml-1">이미지 업로드</span>
+                  </i>
+                </button>
+                <div
+                  class="mb-1"
+                  style="height: 16rem; width:100%; border-radius:5px; border:1px solid lightgray;"
+                >
+                  <img
+                    class="card-img mb-2"
+                    v-if="PostTemp.imgurl && !tempcheck"
+                    :src="makeimgurl(PostTemp.imgurl)"
+                    style="height: 16rem; width:100%"
+                  />
+                  <img
+                    class="card-img mb-2"
+                    v-if="tempimg && tempcheck"
+                    :src="tempimg"
+                    style="height: 16rem; width:100%"
+                  />
+                </div>
               </div>
               <input ref="file" type="file" hidden @change="onChangeImages" />
               <small v-if="!this.PostTemp.imgurl" class="form-text text-muted d-flex">사진을 업로드하세요.</small>
@@ -50,23 +59,46 @@
                       style="color:red;"
                       v-if="error.title"
                     >{{ error.title }}</small>
-                    <label class="d-flex justify-content-start">Activity</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="activity"
-                      v-model="PostTemp.activity"
-                    />
-                    <small class="form-text text-muted d-flex" v-if="!error.activity">활동명을 입력하세요.</small>
-                    <small
-                      class="form-text d-flex"
-                      style="color:red;"
-                      v-if="error.activity"
-                    >{{ error.activity }}</small>
-                  </div>
-
-                  <!-- 사용 기간 -->
-                  <div class="form-group">
+                    <div class="d-flex justify-content-between mt-2 mb-2">
+                      <div style="width:49%;">
+                        <label class="d-flex justify-content-start">Activity</label>
+                        <input
+                          type="text"
+                          class="form-control"
+                          id="activity"
+                          v-model="PostTemp.activity"
+                        />
+                        <small
+                          class="form-text text-muted d-flex"
+                          v-if="!error.activity"
+                        >활동명을 입력하세요.</small>
+                        <small
+                          class="form-text d-flex"
+                          style="color:red;"
+                          v-if="error.activity"
+                        >{{ error.activity }}</small>
+                      </div>
+                      <!-- 이용 가격 -->
+                      <div style="width:49%;">
+                        <label class="d-flex justify-content-start">Price</label>
+                        <input type="text" class="form-control" id="price" v-model="PostTemp.price" />
+                        <small
+                          class="form-text text-muted d-flex"
+                          v-if="!error.price && !error.priceint"
+                        >가격을 입력하세요.</small>
+                        <small
+                          class="form-text d-flex"
+                          style="color:red;"
+                          v-if="error.price"
+                        >{{ error.price }}</small>
+                        <small
+                          class="form-text d-flex"
+                          style="color:red;"
+                          v-if="error.priceint"
+                        >{{ error.priceint }}</small>
+                      </div>
+                    </div>
+                    <!-- 사용 기간 -->
                     <label class="d-flex justify-content-start mb-0">Expiration-Date</label>
                     <div class="d-flex justify-content-between">
                       <small class="form-text text-muted" style="margin-right:auto;">시작일</small>
@@ -83,26 +115,6 @@
                       style="color:red;"
                       v-if="error.sedate"
                     >{{error.sedate}}</small>
-                  </div>
-
-                  <!-- 이용 가격 -->
-                  <div class="form-group mb-0">
-                    <label class="d-flex justify-content-start">Price</label>
-                    <input type="text" class="form-control" id="price" v-model="PostTemp.price" />
-                    <small
-                      class="form-text text-muted d-flex"
-                      v-if="!error.price && !error.priceint"
-                    >가격을 입력하세요.</small>
-                    <small
-                      class="form-text d-flex"
-                      style="color:red;"
-                      v-if="error.price"
-                    >{{ error.price }}</small>
-                    <small
-                      class="form-text d-flex"
-                      style="color:red;"
-                      v-if="error.priceint"
-                    >{{ error.priceint }}</small>
                   </div>
                 </div>
               </div>
@@ -211,13 +223,13 @@
           <!-- <h4 class="d-flex mb-2" style="font-weight:bold">위치</h4> -->
           <label class="d-flex justify-content-start">Address</label>
           <div class="d-flex mb-1">
-             <!-- <input
+            <!-- <input
               type="text"
               class="form-control"
               v-model="addr1"
               style="width:200px;"
               placeholder="우편번호"
-            /> -->
+            />-->
             <button
               type="button"
               class="btn btn-default btn-sm ml-1"
@@ -225,9 +237,21 @@
               @click="Search"
             >우편번호 찾기</button>
           </div>
-           <input hidden type="text" class="form-control mb-1" v-model="addr2" placeholder="주소" readonly />
+          <input
+            hidden
+            type="text"
+            class="form-control mb-1"
+            v-model="addr2"
+            placeholder="주소"
+            readonly
+          />
           <input hidden type="text" class="form-control mb-1" v-model="addr3" placeholder="상세주소" />
-          <input type="text" class="form-control mb-1" v-model="PostTemp.location" placeholder="상세주소" />
+          <input
+            type="text"
+            class="form-control mb-1"
+            v-model="PostTemp.location"
+            placeholder="상세주소"
+          />
         </div>
         <small class="form-text text-muted d-flex">주소를 입력하세요.</small>
 
@@ -335,9 +359,9 @@ export default {
         oncomplete: function (data) {
           x.addr1 = data.zonecode;
           x.addr2 = data.address;
-          
+
           x.addr3 = data.buildingName;
-         x.PostTemp.location = x.addr2 + " " + x.addr3;
+          x.PostTemp.location = x.addr2 + " " + x.addr3;
         },
       }).open();
     },
@@ -630,8 +654,7 @@ export default {
             "Content-Type": "multipart/form-data",
           },
         })
-        .then(function (response) {
-        })
+        .then(function (response) {})
         .catch(function (error) {
           console.log(error);
         });
