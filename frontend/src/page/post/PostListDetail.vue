@@ -129,15 +129,10 @@
                   <!-- 이용 가격 -->
                   <div class="d-flex justify-content-end mt-3">
                     <p
-                      class="card-text mt-2 mr-4 mb-0"
-                      style="font-size: 1rem; color: rgb(168, 168, 168); text-decoration:line-through;
-                  "
-                    >\{{ post.price }}</p>
-                    <p
                       class="card-text font-weight-bold mb-0"
                       style="font-size: 1.5rem; text-align: left; margin-bottom: 5px;
                   "
-                    >{{ post.price * 0.95 }} 원</p>
+                    >{{ post.price }} 원</p>
                   </div>
                   <hr class="mt-0" />
                   <!-- like heart -->

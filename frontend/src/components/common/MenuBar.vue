@@ -1,44 +1,44 @@
 <template>
   <div v-if="this.scrollposition > 200" class="side-menu">
     <i class="fas fa-2x fa-angle-double-up upBtn" @click="toTop" style="cursor:pointer;"></i>
-    <b-button v-b-toggle.sidebar-1 class="side-main-button btn btn-light" style="background-color:rgba(255,255,255,0); border:none;">
+    <b-button v-b-toggle.sidebar-2 class="side-main-button btn btn-light" style="background-color:rgba(255,255,255,0); border:none;">
       <i class="fas fa-2x fa-bars" style="color:rgb(134, 165, 212)"></i>
-      <b-sidebar id="sidebar-1" title="Menu" shadow width="250px">
+      <b-sidebar id="sidebar-2" no-header-close title="Menu" shadow width="250px">
           <div class="ml-4" style="text-align:left">
             <ul class="navbar-nav nav-sub ml-auto">
               <li class="nav-item">
-                <a class="nav-link mt-3 hamburger" @click="goPost">
+                <a class="nav-link mt-3 hamburger2" @click="goPost">
                   <i class="fas fa-stream mr-2"></i>
                   액티비티
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link mt-3  hamburger" @click="goNotice">
+                <a class="nav-link mt-3  hamburger2" @click="goNotice">
                   <i class="fas fa-flag mr-2"></i>
                   공지사항
                 </a>
               </li>
-              <li class="nav-item">
-                <a v-if="this.$cookies.isKey('Auth-Token') && this.usertype == 'business'" class="nav-link mt-3  hamburger" @click="gocreate">
+              <li class="nav-item" v-if="this.$cookies.isKey('Auth-Token') && usertype == 'business'">
+                <a class="nav-link mt-3  hamburger2" @click="gocreate">
                   <i class="fas fa-pen mr-2"></i>
                   액티비티 등록
                 </a>
               </li>
-              <li class="nav-item">
-                <a v-if="this.$cookies.isKey('Auth-Token') && this.usertype == 'normal'" class="nav-link mt-3  hamburger" @click="goBasket">
+              <li class="nav-item" v-if="this.$cookies.isKey('Auth-Token') && usertype == 'normal'">
+                <a class="nav-link mt-3 hamburger2" @click="goBasket">
                   <i class="fas fa-shopping-basket mr-2"></i>
                   장바구니
                 </a>
               </li>
 
-              <li class="nav-item">
-                <a v-if="this.$cookies.isKey('Auth-Token') && this.usertype != 'admin'" @click="info" class="nav-link mt-3  hamburger">
+              <li class="nav-item" v-if="this.$cookies.isKey('Auth-Token') && usertype != 'admin'">
+                <a @click="info" class="nav-link mt-3 hamburger2">
                   <i class="far fa-user mr-2"></i>
                   마이페이지
                 </a>
               </li>
-              <li class="nav-item">
-                <a v-if="this.$cookies.isKey('Auth-Token') && this.usertype == 'admin'" @click="goadmin" class="nav-link mt-3  hamburger">
+              <li class="nav-item" v-if="this.$cookies.isKey('Auth-Token') && usertype == 'admin'">
+                <a @click="goadmin" class="nav-link mt-3 hamburger2">
                   <i class="fas fa-users-cog mr-2"></i>
                   관리 페이지
                 </a>
@@ -84,7 +84,7 @@ export default {
     scrollposition: Number,
     showbar: Boolean,
   },
-  deta() {
+  data() {
     return {
       usertype: '',
     };
@@ -106,18 +106,22 @@ export default {
         });
     },
     goadmin() {
+      scroll(0, 0);
       this.$router.push('/admin').catch((err) => {
         this.$router.go();
       });
     },
     gocreate() {
+      scroll(0, 0);
       this.$router.push({
         name: 'PostCreate',
+      }).catch(err => {
+        this.$router.go();
       });
-      this.$router.go();
     },
     logout: function() {
       this.$cookies.remove('Auth-Token');
+      scroll(0, 0);
       this.$router.push('/').catch((err) => {
         this.$router.go();
       });
@@ -133,19 +137,26 @@ export default {
       }, 1000);
     },
     info: function() {
-      this.$router.push('/user/info/');
-      this.$router.go();
+      scroll(0, 0);
+      this.$router.push('/user/info/').catch(err => {
+        this.$router.go();
+      });
     },
     goPost: function() {
-      this.$router.push('/posts/');
-      this.$router.go();
+      scroll(0, 0);
+      this.$router.push('/posts/').catch(err => {
+        this.$router.go();
+      });
     },
     goBasket: function() {
-      this.$router.push('/user/basket/');
-      this.$router.go();
+      this.$router.push('/user/basket/').catch(err => {
+        this.$router.go();
+        });
     },
     goNotice: function() {
-      this.$router.push('/notice/');
+      this.$router.push('/notice/').catch(err => {
+        this.$router.go();
+      });
     },
     // changeshowbar() {
     //   this.$emit('change-showbar', this.showbar);
@@ -158,4 +169,13 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped>
+.nav-link {
+    font-size: 0.9rem;
+    cursor: pointer;
+    font-weight: bold;
+}
+.hamburger2 {
+  color: black !important;
+}
+</style>
