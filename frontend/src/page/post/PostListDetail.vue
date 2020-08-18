@@ -113,13 +113,13 @@
                     <span
                       data-toggle="modal"
                       data-target="#indict"
-                      class="mr-2 my-auto indict"
+                      class="mr-2 indict my-auto"
                       style="border:none; font-size:1.2rem"
                       title="신고하기"
                     >
                     <div class="row">
-                      <i class="fas fa-bell-slash" style="color:red"></i>
-                      <p style="font-size:1rem; color:red">신고</p>
+                      <i class="fas fa-bell-slash my-auto" style="color:red"></i>
+                      <p class="my-auto" style="font-size:1rem; color:red">신고</p>
                     </div>
                     <!-- <i class="fas fa-bullhorn" style="color:red">신고</i> -->
                       <!-- <i class="fas fa-angry" style="color:red"></i> -->
@@ -223,7 +223,7 @@
           <div>
             <h4 id="review" class style="font-weight:bold">후기</h4>
           </div>
-          <button data-toggle="modal" data-target="#reviewWrite" v-if="this.checkType == 'normal'" class="btn btn-default" style="background-color:#86a5d4; color:white;">
+          <button data-toggle="modal" data-target="#reviewWrite" v-if="this.checkType == 'normal'" class="btn btn-sm" style="background-color:#86a5d4; color:white; height:1.8rem">
             <i class="fas fa-pen"></i>
             작성
           </button>
