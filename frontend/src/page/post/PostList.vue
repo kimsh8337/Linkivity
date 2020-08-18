@@ -394,6 +394,7 @@ export default {
 <style>
 .nav-item > a {
   height: 50px;
+  font-weight: bold;
   padding-top: 15px;
   padding-bottom: 0;
   color: black;
