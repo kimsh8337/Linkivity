@@ -67,12 +67,12 @@
 
   <!-- 모바일버전 > 이미지 들어오면 img에 :src="makeimgurl(post.imgurl)" v-if="post.imgurl" 수정해야함 -->
   <div class="MoblieCard d-block d-sm-none d-md-none">
-    <div class="col-12 col-sm-12 col-md-3 card-deck" style="margin:auto 0;" v-for="(post, index) in wposts" :key="index">
+    <div class="col-12 col-sm-12 col-md-3 card-deck" style="margin:auto 0; padding:0 30px" v-for="(post, index) in wposts" :key="index">
         <div class="card mb-3 profile-post mr-0 ml-0">
           <div class="card-body" style="padding: 0;" @click="getdetail(post.pid)">
             <img
             src="../../assets/img/noimage.jpg"
-            style="width: 80%; height: 100%;"
+            style="width: 100%; height: 100%;"
           />
             <div class="col-md-12 p-0">
               <div class="card-body" style="padding: 5px;">

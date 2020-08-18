@@ -27,8 +27,12 @@
           data-target="#postReviewModal"
           @click="bringReviewData(slide)"
           class="card-body"
-          style="padding: 0; cursor: pointer;"
+          style="padding: 0 30px; cursor: pointer;"
         >
+        <!-- 제목 -->
+          <div class="d-flex mt-1 justify-content-center">
+            <span style="font-weight:bold;">{{ slide.title }}</span>
+          </div>
           <!-- img 보여주기 -->
           <img
             v-if="slide.img"
@@ -44,7 +48,7 @@
             style="height:8rem;"
           />
           <!-- 프로필 보여주기 -->
-          <div class="d-flex justify-content-between">
+          <div class="d-flex justify-content-start">
             <img
               class="user-img d-flex m-3"
               v-if="slide.proimg"
@@ -68,17 +72,14 @@
                   :key="i.id"
                 ></i>
               </div>
-              <div class="d-flex align-items-end mt-1 mr-3">
+              <div class="d-flex align-items-end mt-1">
                 <small style="font-weight:bold">{{
                   datecut(slide.createDate)
                 }}</small>
               </div>
             </div>
           </div>
-          <!-- 제목 -->
-          <div class="d-flex mt-2 ml-2 p-2">
-            <span style="font-weight:bold;">{{ slide.title }}</span>
-          </div>
+          
         </div>
         <!-- </div> -->
       </div>
