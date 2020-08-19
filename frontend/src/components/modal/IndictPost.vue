@@ -10,24 +10,18 @@
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="exampleModalLabel">
-            <i class="fas fa-user-tie"
-              ><span class="ml-2">{{ this.nickname }}</span></i
-            ><small>님!! 해당 게시글을 신고하시겠습니까?</small>
+            <i class="fas fa-user-tie">
+              <span class="ml-2">{{ this.nickname }}</span>
+            </i>
+            <small>님, 해당 게시글을 신고하시겠습니까?</small>
           </h5>
-          <button
-            type="button"
-            class="close"
-            data-dismiss="modal"
-            aria-label="Close"
-          >
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body">
           <!-- 게시글 정보 -->
-          <span class="d-flex mb-3" style="font-weight:bold"
-            >[ 신고 게시글 정보를 확인해주세요 ]</span
-          >
+          <span class="d-flex mb-3" style="font-weight:bold"> 신고 게시글 정보를 확인해주세요 </span>
           <img
             style="width:100%; height:40%"
             v-if="post.imgurl"
@@ -41,25 +35,23 @@
             :alt="post.title"
           />
           <p class="mt-2 d-flex" style="font-weight:bold">
-            제목 :
+            상품명 
             <span class="ml-2" style="color:gray">[{{ post.title }}]</span>
           </p>
           <p class="mt-2 d-flex" style="font-weight:bold">
-            활동 :
+            활동명 
             <span class="ml-2" style="color:gray">[{{ post.activity }}]</span>
           </p>
           <p class="mt-2 d-flex" style="font-weight:bold">
-            업체명 :
-            <span class="ml-2" style="color:gray"
-              >[{{ post.companyInfo }}]</span
-            >
+            업체명 
+            <span class="ml-2" style="color:gray">[{{ post.companyInfo }}]</span>
           </p>
           <hr />
           <div class="form-group">
             <label for="exampleInputEmail1" class="d-flex mt-2">
-              <i class="far fa-comment" style="font-weight:bold"
-                ><span class="ml-1">신고 사유를 적어주세요!</span></i
-              >
+              <i class="far fa-comment my-auto" style="font-weight:bold"></i>
+                <span class="ml-1">신고 사유를 작성하세요.</span>
+              
             </label>
             <textarea
               v-model="indictData.reason"
@@ -68,24 +60,19 @@
               id="name"
               aria-describedby="emailHelp"
             />
-            <small id="emailHelp" class="form-text text-muted d-flex"
-              >사유를 상세하게 적어주세요.</small
-            >
+            <small id="emailHelp" class="form-text text-muted d-flex">해당 내용은 관리자에게 전송됩니다.</small>
             <!-- <span class="error-text d-flex mt-1" style="color:crimson;">{{error.name}}</span> -->
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">
-            Close
-          </button>
+          <button type="button" class="btn btn-default" style="background-color:lightgray; color:white;" data-dismiss="modal">Close</button>
           <button
             type="button"
-            class="btn btn-primary"
+            class="btn btn-default"
             data-dismiss="modal"
+            style="background-color:#86a5d4; color:white;"
             @click="indictReceipt"
-          >
-            신고 접수
-          </button>
+          >신고 접수</button>
         </div>
       </div>
     </div>
@@ -122,8 +109,8 @@ export default {
           console.log(err);
         });
     },
-     makeimgurl(imgurl){
-      return require("@/assets/file/"+imgurl);
+    makeimgurl(imgurl) {
+      return require("@/assets/file/" + imgurl);
     },
     indictReceipt() {
       if (this.indictData.reason.length <= 0) {
