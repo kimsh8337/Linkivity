@@ -72,8 +72,7 @@
                   <div class="card-body" style="padding: 0;">
                     <div class="postlist-img" @click="getdetail(post.pid)">
                       <img
-                        v-if="post.imgurl"
-                        :src="makeimgurl(post.imgurl)"
+                        :src="post.imgurl"
                         class="card-img postlist-img"
                         style="height:10rem; box-shadow:5px 5px 5px rgba(0,0,0,.15)"
                       />
@@ -243,6 +242,9 @@
                 style="height:18rem;"
                 alt="paragliding"
               />
+              <div class="carousel-caption" style="text-align:right; width:80%; height:90%">
+                  <h3>다 같이 놀아요!</h3>
+            </div>
             </div>
             <div class="carousel-item">
               <img
@@ -269,7 +271,7 @@
               />
             </div>
           </div>
-          <a
+          <!-- <a
             class="carousel-control-prev"
             href="#carouselExampleControls"
             role="button"
@@ -288,7 +290,7 @@
           >
             <span class="carousel-control-next-icon" aria-hidden="true"></span>
             <span class="sr-only">Next</span>
-          </a>
+          </a> -->
         </div>
 
         <!-- HOt item -->
@@ -307,15 +309,7 @@
             style="width: 17rem; border: none;"
           >
             <img
-              :src="makeimgurl(post.imgurl)"
-              v-if="post.imgurl"
-              class="card-img-top"
-              style="height:12rem; cursor: pointer; box-shadow:5px 5px 5px rgba(0,0,0,.15);"
-              @click="getdetail(post.pid)"
-            />
-            <img
-              src="../../assets/img/noimage.jpg"
-              v-if="!post.imgurl"
+              :src="post.imgurl"
               class="card-img-top"
               style="height:12rem; cursor: pointer; box-shadow:5px 5px 5px rgba(0,0,0,.15);"
               @click="getdetail(post.pid)"
@@ -323,8 +317,7 @@
             <div class="card-body p-0">
               <p
                 class="card-text mt-2 mb-0"
-                @click="getdetail(post.pid)"
-                style="cursor: pointer; text-overflow:ellipsis;overflow: hidden;white-space: nowrap; font-weight: bold; color: black; text-align:left;"
+                style="text-overflow:ellipsis;overflow: hidden;white-space: nowrap; font-weight: bold; color: black; text-align:left;"
               >
                 {{ post.title }}
               </p>
@@ -354,31 +347,30 @@
             :key="index"
             class="col-6 col-sm-4 col-md-2 p-3"
           >
-            <div class="card mb-3 profile-post mr-0 ml-0">
+            <!-- <div class="card mb-3 profile-post mr-0 ml-0"> -->
             <div
               class="card-body list-profile"
-              style="padding: 0; cursor: pointer; box-shadow:5px 5px 5px rgba(0,0,0,.15);"
+              style="padding: 0; cursor: pointer;"
               @click="getdetail(slide.pid)"
             >
               <!-- img 보여주기 -->
               <img
                 v-if="slide.img"
                 class="review-img"
-                :src="makeimgurl(slide.img)"
-                style="height:8rem; border-top-right-radius:5px;border-top-left-radius:5px;"
+                :src="slide.img"
+                style="height:8rem; box-shadow:5px 5px 5px rgba(0,0,0,.15);border-top-right-radius:5px;border-top-left-radius:5px;"
               />
               <img
                 v-if="!slide.img"
                 class="review-img"
                 src="../../assets/img/noimage.jpg"
-                style="height:8rem; border-top-right-radius:5px;border-top-left-radius:5px;"
+                style="height:8rem; box-shadow:5px 5px 5px rgba(0,0,0,.15);"
               />
               <!-- 프로필 보여주기 -->
               <div class="d-flex justify-content-between">
                 <img
                   class="user-img d-flex m-2"
-                  :src="makeimgurl(slide.proimg)" 
-                  v-if="slide.proimg"
+                  :src="slide.proimg" 
                   style="border-radius:70px; width:50px; height:50px;"
                 />
                 <div class="mt-2 mr-4">
@@ -399,7 +391,7 @@
                     ></i>
                   </div>
                   <div class="d-flex align-items-end mt-1">
-                    <small style="font-weight:bold; white-space:nowrap;">{{
+                    <small style="font-weight:bold">{{
                       datecut(slide.createDate)
                     }}</small>
                   </div>
@@ -410,7 +402,7 @@
                 <span style="font-weight:bold;">{{ slide.title }}</span>
               </div>
             </div>
-            </div>
+            <!-- </div> -->
           </div>
         </div>
       </div>
