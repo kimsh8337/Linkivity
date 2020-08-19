@@ -446,12 +446,16 @@ public class AccountController {
 		fileName += calendar.get(Calendar.MINUTE);
 		fileName += calendar.get(Calendar.SECOND);
 		fileName += calendar.get(Calendar.MILLISECOND);
-		fileName += ".png";
-        File file = new File("home\\ubuntu\\ssafy6\\s03p13b206\\frontend\\src\\assets\\file\\" + fileName);
+        fileName += ".png";
+        // File file = new File("\\frontend\\src\\assets\\file\\" + fileName);
+        // String rootPath = System.getProperty("user.dir");
+        // System.out.println(" @@@@@@@@@@@@@@@@@@@"+rootPath);
+        File file = new File("home/ubuntu/ssafy6/s03p13b206/frontend/src/assets/file/" + fileName);
+        System.out.println(file.getAbsolutePath());
         // File file = new File("C:\\nhj\\project-sub3\\s03p13b206\\frontend\\src\\assets\\file\\" + fileName);
         if (!file.getParentFile().exists())
             file.getParentFile().mkdirs();
-            ff.transferTo(file);
+        ff.transferTo(file);
         // System.out.println("file is " + file.getAbsolutePath());
         // System.out.println("name is " + file.getName() );
 
