@@ -118,8 +118,8 @@
                       title="신고하기"
                     >
                     <div class="row">
-                      <i class="fas fa-bell-slash my-auto" style="color:red"></i>
-                      <p class="my-auto" style="font-size:1rem; color:red">신고</p>
+                      <i class="fas fa-bell-slash my-auto" style="color:crimson"></i>
+                      <p class="my-auto" style="font-size:1rem; color:crimson">신고</p>
                     </div>
                     <!-- <i class="fas fa-bullhorn" style="color:red">신고</i> -->
                       <!-- <i class="fas fa-angry" style="color:red"></i> -->
@@ -139,8 +139,16 @@
                   <div class="d-flex justify-content-end mr-0 mt-3 mb-3">
                     <div class="d-flex justify-content-start">
                       <i
-                        class="fas fa-heart select-button mr-2"
+                        v-if="isheart"
+                        class="fas fa-heart mr-1 my-auto"
                         style="text-align: right; font-size: 20px; color:crimson"
+                        @click="registlike(post.pid)"
+                      ></i>
+                      <i
+                        v-if="!isheart"
+                        class="far fa-heart mr-1 my-auto"
+                        style="text-align: right; font-size: 20px; color:crimson"
+                        @click="registlike(post.pid)"
                       ></i>
                       {{ post.likecnt }}명이 좋아요를 눌렀습니다.
                     </div>
@@ -166,7 +174,7 @@
       <nav
         id="navbar-example2"
         class="navbar nav-info"
-        style="position: sticky; top: 0; z-index:100;"
+        style="position: sticky; top: 0; z-index:1;"
       >
         <ul class="nav justify-content-between" style="width:100%;">
           <li class="nav-item">
@@ -201,8 +209,8 @@
       <br />
       <div data-spy="scroll" data-target="#navbar-example2" data-offset="0">
         <!-- 상세 정봉 -->
-        <h4 id="item" class="d-flex mb-3" style="font-weight:bold">상세정보</h4>
-        <Viewer v-if="post.detail != null" :initialValue="post.detail"/>
+        <h4 id="item" class="d-flex mb-3" style="font-weight:bold;">상세정보</h4>
+        <Viewer v-if="post.detail != null" :initialValue="post.detail" style="text-align:justify"/>
         <hr />
         <!-- 업체 정보 -->
         <h4 id="corp" class="d-flex mb-3" style="font-weight:bold">업체정보</h4>
@@ -317,6 +325,7 @@ export default {
       autumnCheck: "",
       winterCheck: "",
       placeCheck: "",
+      isheart :false,
     };
   },
   created() {
@@ -360,6 +369,61 @@ export default {
             });
           }
         });
+    },
+    checklike(){
+      axios
+        .get(`${baseURL}/like/checkpidlike/${this.email}/${this.post.pid}`)
+        .then((res) => {
+          if(res.data==0){
+            this.isheart = false;
+          }else if(res.data==1){
+            this.isheart = true;
+          }
+        })
+        .catch((err) => {
+          alert(err);
+        });
+    },
+    registlike(pid) {
+      if (this.email != "") {
+        axios
+          .get(`${baseURL}/like/registDelete/${this.email}/${pid}`)
+          .then((res) => {
+            // this.checklike();
+            // this.reloading(this.page);
+            if (res.data == "regist") {
+              this.$toasted.show('좋아좋아요', {
+                theme: 'bubble',
+                position: 'top-right',
+                duration: 1000,
+              });
+              this.isheart=true;
+            } else {
+              this.$toasted.show('좋아요 취소', {
+                theme: 'bubble',
+                position: 'top-right',
+                duration: 1000,
+              });
+              this.isheart=false;
+            }
+          })
+          .catch((err) => {
+            alert(err);
+          });
+      } else {
+        Swal.fire({
+          icon: 'error',
+          text: '로그인 후 이용해주세요...',
+          confirmButtonColor: '#fff',
+          width: 350,
+          confirmButtonText: '<a data-toggle="modal" data-target="#LoginModal" style="font-size:1rem; color:black" >Login</a>',
+          showCancelButton: true,
+          cancelButtonText: '<a style="font-size:1rem; color:black">Cancel</a>',
+          cancelButtonColor: '#fff',
+        }).then((result) => {
+          Swal.close();
+        });
+      }
     },
      makeimgurl(imgurl){
       return require("@/assets/file/"+imgurl);
@@ -407,6 +471,7 @@ export default {
           this.placeCheck = res.data.place;
           this.post = res.data;
           this.mapView(this.post.location);
+          this.checklike();
         })
         .catch((err) => {
           if(err.response.status == 400) {
