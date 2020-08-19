@@ -260,6 +260,7 @@ public class PostListController {
                 newTemp.setPlace(request.getPlace());
                 LocalDateTime time = LocalDateTime.now();
                 newTemp.setCreateDate(time);
+                newTemp.setLocationdetail(request.getLocationdetail());
                 // System.out.println(newTemp);
                 postDao.save(newTemp);
                 
@@ -390,8 +391,9 @@ public class PostListController {
             temp.setAutumn(request.getAutumn());
             temp.setWinter(request.getWinter());
             temp.setPlace(request.getPlace());
+            temp.setLocationdetail(request.getLocationdetail()
             postDao.save(temp);
-            
+
             int pid = temp.getPid();
             List<String> tags = new LinkedList<>();
             tags = tagValue;
