@@ -20,11 +20,11 @@
               aria-label="Checkbox for following text input"
               :value="post"
               v-model="checked"
-              @click="changetf(index)"
+              @click="changetf((page - 1) * 8 + index)"
             />
           </div>
         </div>
-        <img :src="post.imgurl" alt="" @click="getdetail(post.pid)" />
+        <img :src="makeimgurl(post.imgurl)" v-if="post.imgurl" alt="" @click="getdetail(post.pid)" />
         <div type="text" class="basket-list col-md-8" aria-label="Text input with checkbox" @click="getdetail(post.pid)">
           <p class="mb-0">제목 : {{ post.title }}</p>
           <p class="mb-0">기간 : {{ post.sdate }}~{{ post.edate }}</p>
@@ -39,9 +39,6 @@
         <p class="checked-price">Total : {{ checkedprice }}</p>
       </div>
 
-      <!-- paging -->
-      <b-pagination v-model="page" :total-rows="len" pills :per-page="8" style="align:center;"></b-pagination>
-
       <!-- 구매하기 button -->
       <div class="d-flex justify-content-end mb-5">
         <button class="btn btn-danger" data-toggle="modal" data-target="#BasketPackingModal" @click="btnClick">
@@ -51,8 +48,11 @@
       </div>
     </div>
 
+    <!-- paging -->
+    <b-pagination v-model="page" :total-rows="len" pills :per-page="8" style="align:center;"></b-pagination>
+
     <!-- 장바구니가 비어있을 때 -->
-    <div class="col">
+    <div class="col" v-if="carts.length <= 0">
       <div class="mt-5 mb-3">
         장바구니가 비어있습니다.
       </div>
@@ -111,6 +111,9 @@ export default {
     };
   },
   methods: {
+    makeimgurl(imgurl){
+      return require("@/assets/file/"+imgurl);
+    },
     btnClick() {
       this.temp = [];
       for (let i = 0; i < this.len; i++) {
@@ -143,31 +146,26 @@ export default {
           this.init();
         })
         .catch((err) => {
-          console.log(err.response);
+          console.log(err);
         });
     },
     init() {
+      this.likeCheck();
+    },
+    likeCheck() {
       axios
-        .get(`${baseURL}/cart/list/${this.email}/${this.page}`)
-        .then((res) => {
-          this.carts = res.data;
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-
-      // likelist
-      axios
-        .get(`${baseURL}/cart/likelist/${this.email}`)
-        .then((res) => {
-          this.likes = res.data;
-          this.len = this.likes.length;
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      .get(`${baseURL}/cart/likelist/${this.email}`)
+      .then((res) => {
+        this.likes = res.data;
+        this.len = this.likes.length;
+        this.checkPage();
+      })
+      .catch((err) => {
+        console.log(err);
+      }); 
     },
     getdetail(pid) {
+      scroll(0, 0);
       this.$router.push({
         name: 'PostListDetail',
         params: { ID: pid },
@@ -221,7 +219,7 @@ export default {
               this.init();
             })
             .catch((error) => {
-              console.log(error.response.data);
+              console.log(error);
             });
         }
       });
@@ -236,7 +234,6 @@ export default {
       for (var i = 0; i < this.checked.length; i++) {
         this.sum += this.checked[i].price;
       }
-      // console.log(this.sum)
       return this.sum;
     },
   },
