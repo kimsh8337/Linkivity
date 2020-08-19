@@ -521,7 +521,8 @@ export default {
         });
     },
     makeimgurl(imgurl) {
-      return require("@/assets/file/" + imgurl);
+      var url = "../../../contents/"+imgurl;
+      return url;
     },
     tempSave() {
       //임시저장 메소드

@@ -168,8 +168,9 @@ export default {
        
     },
     methods:{
-         makeimgurl(imgurl){
-      return require("@/assets/file/"+imgurl);
+         makeimgurl(imgurl) {
+      var url = "../../../contents/"+imgurl;
+      return url;
     },
     },
 };

@@ -2,6 +2,7 @@ package com.web.blog.controller.account;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.InetAddress;
 import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.LinkedList;
@@ -446,14 +447,24 @@ public class AccountController {
 		fileName += calendar.get(Calendar.MINUTE);
 		fileName += calendar.get(Calendar.SECOND);
 		fileName += calendar.get(Calendar.MILLISECOND);
-		fileName += ".png";
-        File file = new File("home\\ubuntu\\ssafy6\\s03p13b206\\frontend\\src\\assets\\file\\" + fileName);
-        // File file = new File("C:\\nhj\\project-sub3\\s03p13b206\\frontend\\src\\assets\\file\\" + fileName);
+        fileName += ".png";
+
+        // String root = System.getProperty("user.dir");
+        // String url = root + "/frontend/public/contents/";
+        String hostname = InetAddress.getLocalHost().getHostName();
+
+        File file = null;
+        if(hostname.substring(0,7).equals("DESKTOP")){
+            //local
+            file = new File("C:\\leejaein\\project-sub3\\s03p13b206\\frontend\\src\\assets\\file\\" + fileName);
+        }else{
+            //aws
+            file = new File("/home/ubuntu/ssafy6/s03p13b206/frontend/public/contents/" + fileName);
+        }
+        // File file = new File(url + fileName);
         if (!file.getParentFile().exists())
             file.getParentFile().mkdirs();
-            ff.transferTo(file);
-        // System.out.println("file is " + file.getAbsolutePath());
-        // System.out.println("name is " + file.getName() );
+        ff.transferTo(file);
 
         User user = userDao.findUserByEmail(email).get();
         user.setImgurl(file.getName());

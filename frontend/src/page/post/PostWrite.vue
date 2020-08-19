@@ -132,7 +132,8 @@ export default {
         });
     },
     makeimgurl(imgurl) {
-      return require("@/assets/file/" + imgurl);
+      var url = "../../../contents/"+imgurl;
+      return url;
     },
     checkPage() {
       axios

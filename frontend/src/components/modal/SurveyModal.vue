@@ -19,6 +19,7 @@
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
+        
         <!-- Survey -->
         <div v-if="this.flag == 0 && this.loadFlag == 0" class="modal-body pl-5">
           <div class="form-check-survey">
@@ -132,8 +133,45 @@
         </div>
 
         <!-- Recommend -->
-        <div v-if="this.flag == 1 && this.loadFlag == 0" class="modal-body">
-          <div class="row text-center">
+        <div v-if="this.flag == 1 && this.loadFlag == 0" class="modal-body d-flex justify-content-center p-0" style="height:25rem">
+          <!-- silver -->
+          <div class="d-flex align-items-end justify-content-center row" style="width:20%; margin-right:15px">
+            <div class="d-flex justify-content-center align-items-center" style="width:100px; height:100px">
+              <h4 class="d-flex justify-content-center" style="white-space:nowrap; width:200%; padding-top:120%">[{{ surveyResult[1] }}]</h4>
+            </div>
+            <div class="d-flex align-items-center" style="width:100px; height:100px">
+              <i class="fas fa-medal d-flex justify-content-center" style="width:100%; heigth:100%; font-size:50px; color:silver;"></i>
+            </div>
+            <div class="d-flex justify-content-center align-items-center" style="border: 2px solid silver; background-color:silver; width:100%; height:7rem">
+              <span style="font-size:50px; color:white">②</span>
+            </div>
+          </div>
+          <!-- gold -->
+          <div class="d-flex align-items-end justify-content-center row" style="width:20%; margin-right:15px">
+            <div class="d-flex justify-content-center align-items-center" style="width:100px; height:100px">
+              <h4 class="d-flex justify-content-center" style="white-space:nowrap; width:200%; padding-top:70%">[{{ surveyResult[0] }}]</h4>
+            </div>
+            <div class="d-flex align-items-center" style="width:100px; height:100px">
+              <i class="fas fa-medal d-flex justify-content-center" style="width:100%; heigth:100%; font-size:50px; color:gold"></i>
+            </div>
+            <div class="d-flex justify-content-center align-items-center" style="border: 2px solid gold; background-color:gold; width:100%; height:10rem">
+              <span style="font-size:50px; color:white">①</span>
+              <!-- <h4 style="color:white;">[{{surveyResult[0]}}]</h4> -->
+            </div>
+          </div>
+          <!-- bronze -->
+          <div class="d-flex align-items-end justify-content-center row" style="width:20%;">
+            <div class="d-flex justify-content-center align-items-center" style="width:100px; height:100px">
+              <h4 class="d-flex justify-content-center" style="white-space:nowrap; width:200%; padding-top:150%">[{{ surveyResult[2] }}]</h4>
+            </div>
+            <div class="d-flex align-items-center" style="width:100px; height:100px">
+              <i class="fas fa-medal d-flex justify-content-center" style="width:100%; heigth:100%; font-size:50px; color:brown"></i>
+            </div>
+            <div class="d-flex justify-content-center align-items-center" style="border:2px solid brown; background-color:brown; width:100%; height:5rem">
+              <span style="font-size:50px; color:white">③</span> 
+            </div>
+          </div>
+          <!-- <div class="row text-center">
             <div class="col-md-2"></div>
             <div class="col-md-3"></div>
 
@@ -174,7 +212,7 @@
             </div>
 
             <div class="col-md-3"></div>
-          </div>
+          </div> -->
         </div>
 
         <!-- Footer -->
@@ -225,25 +263,20 @@ export default {
       }, 2000);
     },
     recommend() {
-      if (this.season == '' && this.field == '' && this.people == '' && this.price == '' && this.region == '') {
-        alert('항목을 체크해주세요!');
-      } else {
-        if (this.season == '') {
-          alert('계절을 체크해주세요!');
-        }
-        if (this.field == '') {
-          alert('필드을 체크해주세요!');
-        }
-        if (this.people == '') {
-          alert('인원을 체크해주세요!');
-        }
-        if (this.price == '') {
-          alert('가격을 체크해주세요!');
-        }
-        if (this.region == '') {
-          alert('지역을 체크해주세요!');
-        }
-      }
+      if (this.season == '' || this.field == '' || this.people == '' || this.price == '' || this.region == '') {
+        const Toast = Swal.mixin({
+          toast: true,
+          position: 'top-end',
+          showConfirmButton: false,
+          timer: 3000,
+          timerProgressBar: true,
+        })
+
+        Toast.fire({
+          icon: 'warning',
+          title: '모든 항목을 체크해주세요!'
+        })
+      } 
       if (this.season != '' && this.field != '' && this.people != '' && this.price != '' && this.region != '') {
         this.flag = 1;
 
