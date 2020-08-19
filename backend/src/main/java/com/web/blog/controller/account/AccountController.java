@@ -2,6 +2,7 @@ package com.web.blog.controller.account;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.InetAddress;
 import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.LinkedList;
@@ -449,11 +450,25 @@ public class AccountController {
         fileName += ".png";
 
         String root = System.getProperty("user.dir");
-        String url = root+"/frontend/public/contents/";
+        String url = root + "/frontend/public/contents/";
+        String hostname = InetAddress.getLocalHost().getHostName();
+
+        File file = null;
+        if(hostname.substring(0,7).equals("DESKTOP")){
+            //local
+            file = new File("C:\\leejaein\\project-sub3\\s03p13b206\\frontend\\src\\assets\\file\\" + fileName);
+        }else{
+            //aws
+            file = new File("/home/ubuntu/ssafy6/s03p13b206/frontend/public/contents/" + fileName);
+        }
+        // int slash = 0;
+        // for (int i = 0; i < root.length(); i++) {
+            
+        // }
         System.out.println(url);
         // File file = new File("/home/ubuntu/ssafy6/s03p13b206/frontend/dist/file/" + fileName);
         // File file = new File("C:\\leejaein\\project-sub3\\s03p13b206\\frontend\\src\\assets\\file\\" + fileName);
-        File file = new File(url + fileName);
+        // File file = new File(url + fileName);
         if (!file.getParentFile().exists())
             file.getParentFile().mkdirs();
         ff.transferTo(file);
