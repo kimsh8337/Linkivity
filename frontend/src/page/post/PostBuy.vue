@@ -82,7 +82,8 @@
         </thead>
         <div class="container row p-2" @click="goDetail(itm.pid)" style="width:210%" v-for="(itm, idx) in item" :key="idx">
           <div class="col-6 p-2 d-flex align-items-center">
-            <img src="../../assets/img/noimage.jpg" style="width:100%; heigh:100%;">
+            <img v-if="itm.img" :src="makeimgurl(itm.img)" style="width:100%; heigh:100%;">
+            <img v-if="!itm.img" src="../../assets/img/noimage.jpg" style="width:100%; heigh:100%;">
           </div>
           <div class="col-6 p-2 d-flex align-items-center">
             <div class="" style="text-align:left">
