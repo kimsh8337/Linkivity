@@ -365,8 +365,8 @@ export default {
       return require("@/assets/file/"+imgurl);
     },
     test() {
-      Kakao.Link.createDefaultButton({
-        container: "#kakao-link-btn",
+      Kakao.Link.sendDefault({
+        // container: "#kakao-link-btn",
         objectType: "feed",
         content: {
           title: this.post.title, // 콘텐츠의 타이틀
@@ -717,7 +717,7 @@ export default {
       var mapContainer = document.getElementById("map"), // 지도를 표시할 div
         mapOption = {
           center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
-          level: 5, // 지도의 확대 레벨
+          level: 3, // 지도의 확대 레벨
         };
 
       // 지도를 생성합니다
@@ -737,13 +737,13 @@ export default {
             map: map,
             position: coords,
           });
-          var test = loc;
+          // var test = '<div class="row" style="height:50px;text-align:center;"><div class="col-md-12">'+loc+'</div></div>';
 
           // 인포윈도우로 장소에 대한 설명을 표시합니다
           var infowindow = new kakao.maps.InfoWindow({
-            content: test,
+            // content: test,
           });
-          infowindow.open(map, marker);
+          // infowindow.open(map, marker);
 
           // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
           map.setCenter(coords);
