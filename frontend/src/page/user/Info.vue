@@ -387,8 +387,8 @@ export default {
         });
     },
     makeimgurl(imgurl) {
-      console.log(imgurl);
-      return "/file/" + imgurl;
+      var url = "../../../contents/"+imgurl;
+      return url;
     },
     getuser() {
       axios
