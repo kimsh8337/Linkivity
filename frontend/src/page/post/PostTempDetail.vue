@@ -486,12 +486,12 @@ export default {
             });
             Toast.fire({
               icon: "success",
-              title: "Update Completed!",
+              title: "게시물이 수정되었습니다.",
             });
             axios
               .put(`${baseURL}/temp/modify/nononotag`, this.PostTemp)
-              .then(() => {
-                alert("수정 완료!!");
+              .then((response) => {
+                this.fileUpload(response.data.pid);
                 this.$router.push("/user/info");
               })
               .catch((err) => {
