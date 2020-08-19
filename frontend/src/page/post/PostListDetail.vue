@@ -567,10 +567,15 @@ export default {
         .get(`${baseURL}/cart/check/${this.email}/${this.pid}`)
         .then((res) => {
           if (res.data) {
-            alert("동일한 상품이 장바구니에 있습니다.");
+            Swal.fire({
+              width:350,
+              icon: 'error',
+              text: '동일한 상품이 장바구니에 있습니다.!',
+              confirmButtonText:"<span>확인</span>"
+            })
           } else {
             Swal.fire({
-              title: `${post.title}`,
+              title: `게시글 : [${post.title}]`,
               text: "장바구니에 담겼습니다.",
               imageUrl: `${post.imgurl}`,
               imageWidth: 400,
@@ -670,7 +675,7 @@ export default {
 
                     Toast.fire({
                       icon: "success",
-                      title: "구매 완료",
+                      title: "구매완료!",
                     });
                     setTimeout(() => {
                       th.$router.go();
@@ -682,8 +687,27 @@ export default {
               } else {
                 var msg = "결제에 실패하였습니다.";
                 msg += "에러내용 : " + rsp.error_msg;
+                const Toast = Swal.mixin({
+                  toast: true,
+                  position: "top-end",
+                  showConfirmButton: false,
+                  timer: 1000,
+                  timerProgressBar: true,
+                  onOpen: (toast) => {
+                    toast.addEventListener("mouseenter", Swal.stopTimer);
+                    toast.addEventListener("mouseleave", Swal.resumeTimer);
+                  },
+                });
+
+                Toast.fire({
+                  icon: "error",
+                  title: msg,
+                });
+                setTimeout(() => {
+                  th.$router.go();
+                }, 1000);
               }
-              alert(msg);
+              // alert(msg);
             }
           );
         }

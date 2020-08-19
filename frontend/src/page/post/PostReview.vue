@@ -11,7 +11,7 @@
         class="btn mt-2 mb-4"
         style="font-weight:bold; color:white; background-color:RGB(134, 165, 212); border-radius:7px"
       >
-        <i class="fas fa-edit mr-2"></i>장바구니 채우러 가기
+        <i class="fas fa-edit mr-2"></i>후기 남기러 가기
       </button>
     </div>
     <!-- 등록한 후기가 있을 때 -->
@@ -19,7 +19,7 @@
       <div
         v-for="(slide, index) in reviews"
         :key="index"
-        class="col-12 col-sm-12 col-md-3 p-3"
+        class="col-6 col-sm-6 col-md-3 p-3"
       >
         <!-- <div class="card mb-3 profile-post mr-0 ml-0"> -->
         <div
@@ -29,10 +29,7 @@
           class="card-body"
           style="padding: 0 30px; cursor: pointer;"
         >
-        <!-- 제목 -->
-          <div class="d-flex mt-1 justify-content-center">
-            <span style="font-weight:bold;">{{ slide.title }}</span>
-          </div>
+          
           <!-- img 보여주기 -->
           <img
             v-if="slide.img"
@@ -79,6 +76,11 @@
               </div>
             </div>
           </div>
+          <!-- 제목 -->
+          <div class="d-flex mt-1 justify-content-start">
+            <span style="font-weight:bold; text-align:justify;">{{ slide.title }}</span>
+          </div>
+
           
         </div>
         <!-- </div> -->
