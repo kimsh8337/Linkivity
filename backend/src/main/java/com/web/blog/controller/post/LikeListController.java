@@ -135,6 +135,17 @@ public class LikeListController {
         return likelist;
     }
 
+    @GetMapping("/checkpidlike/{email}/{pid}")
+    @ApiOperation("포스트 좋아요 확인")
+    public Object checkpidlike(@PathVariable String email, @PathVariable int pid) throws SQLException, IOException {
+        LikeList like = likeListDao.findByEmailAndPidAndCart(email, pid, 0);
+        if(like!=null){
+            return new ResponseEntity<>(1, HttpStatus.OK);
+        }else{
+            return new ResponseEntity<>(0, HttpStatus.OK);
+        }
+    }
+
     // @GetMapping("/cnt")
     // @ApiOperation("좋아요 개수")
     // public Object cnt() throws SQLException, IOException {
