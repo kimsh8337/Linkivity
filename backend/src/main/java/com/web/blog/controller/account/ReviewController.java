@@ -209,7 +209,7 @@ public class ReviewController {
         fileName += ".png";
         
         String hostname = InetAddress.getLocalHost().getHostName();
-
+        
         File file = null;
         if(hostname.substring(0,7).equals("DESKTOP")){
             //local

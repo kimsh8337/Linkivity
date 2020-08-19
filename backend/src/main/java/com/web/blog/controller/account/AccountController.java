@@ -452,7 +452,7 @@ public class AccountController {
         // String root = System.getProperty("user.dir");
         // String url = root + "/frontend/public/contents/";
         String hostname = InetAddress.getLocalHost().getHostName();
-
+        System.out.println(hostname);
         File file = null;
         if(hostname.substring(0,7).equals("DESKTOP")){
             //local

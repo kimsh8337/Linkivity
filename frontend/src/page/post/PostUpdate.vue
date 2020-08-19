@@ -32,7 +32,7 @@
                   />
                   <img
                     class="card-img mb-2"
-                    v-if="PostUpdate.imgurl && tempcheck"
+                    v-if="tempimg && tempcheck"
                     :src="tempimg"
                     style="height: 16rem; width:100%"
                   />
@@ -245,20 +245,19 @@
             >우편번호 찾기</button>
           </div>
           <input
-            hidden
             type="text"
             class="form-control mb-1"
-            v-model="addr2"
+            v-model="PostUpdate.location"
             placeholder="주소"
             readonly
           />
-          <input hidden type="text" class="form-control mb-1" v-model="addr3" placeholder="상세주소" />
-          <input
+          <input type="text" class="form-control mb-1" v-model="PostUpdate.locationdetail" placeholder="상세주소" />
+          <!-- <input
             type="text"
             class="form-control mb-1"
             v-model="PostUpdate.location"
             placeholder="상세주소"
-          />
+          /> -->
         </div>
 
         <small class="form-text text-muted d-flex">주소를 입력하세요.</small>
@@ -356,7 +355,8 @@ export default {
           x.addr2 = data.address;
 
           x.addr3 = data.buildingName;
-          x.PostUpdate.location = x.addr2 + " " + x.addr3;
+          x.PostUpdate.location = x.addr2;
+          x.PostUpdate.locationdetail = x.addr3;
         },
       }).open();
     },
@@ -535,17 +535,19 @@ export default {
     fileUpload(pid) {
       var formData = new FormData();
       const file = this.$refs.file.files[0];
-      formData.append("file", file);
-      axios
-        .post(`${baseURL}/post/file/${pid}`, formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        })
-        .then(function (response) {})
-        .catch(function (error) {
-          console.log(error);
-        });
+      if(file != null) {
+        formData.append("file", file);
+        axios
+          .post(`${baseURL}/post/file/${pid}`, formData, {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          })
+          .then(function (response) {})
+          .catch(function (error) {
+            console.log(error);
+          });
+      }
     },
     onClickImageUpload() {
       this.$refs.file.click();

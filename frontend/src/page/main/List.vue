@@ -72,7 +72,7 @@
                   <div class="card-body" style="padding: 0;">
                     <div class="postlist-img" @click="getdetail(post.pid)">
                       <img
-                        :src="post.imgurl"
+                        :src="makeimgurl(post.imgurl)"
                         class="card-img postlist-img"
                         style="height:10rem; box-shadow:5px 5px 5px rgba(0,0,0,.15)"
                       />
@@ -309,7 +309,7 @@
             style="width: 17rem; border: none;"
           >
             <img
-              :src="post.imgurl"
+              :src="makeimgurl(post.imgurl)"
               class="card-img-top"
               style="height:12rem; cursor: pointer; box-shadow:5px 5px 5px rgba(0,0,0,.15);"
               @click="getdetail(post.pid)"
@@ -357,7 +357,7 @@
               <img
                 v-if="slide.img"
                 class="review-img"
-                :src="slide.img"
+                :src="makeimgurl(slide.img)"
                 style="height:8rem; box-shadow:5px 5px 5px rgba(0,0,0,.15);border-top-right-radius:5px;border-top-left-radius:5px;"
               />
               <img
@@ -370,7 +370,7 @@
               <div class="d-flex justify-content-between">
                 <img
                   class="user-img d-flex m-2"
-                  :src="slide.proimg" 
+                  :src="makeimgurl(slide.proimg)" 
                   style="border-radius:70px; width:50px; height:50px;"
                 />
                 <div class="mt-2 mr-4">

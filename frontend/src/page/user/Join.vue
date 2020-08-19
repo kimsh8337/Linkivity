@@ -158,6 +158,7 @@ export default {
             icon: "success",
             title: "회원 가입을 축하합니다!",
           });
+          scroll(0, 0);
           this.$router.push("/");
         })
         .catch((err) => {
