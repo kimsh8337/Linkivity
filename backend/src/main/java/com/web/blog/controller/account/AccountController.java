@@ -434,8 +434,6 @@ public class AccountController {
     @ApiOperation(value = "이미지 저장")
     public String fileTest(@RequestPart("file") MultipartFile ff, @PathVariable String email) throws IllegalStateException, IOException {
         
-        // String originFilename = ff.getOriginalFilename();
-        // String extName = "."+originFilename.substring(originFilename.lastIndexOf(".")+1, originFilename.length()).toLowerCase();
         String fileName = "";
 		
 		Calendar calendar = Calendar.getInstance();
@@ -447,12 +445,10 @@ public class AccountController {
 		fileName += calendar.get(Calendar.SECOND);
 		fileName += calendar.get(Calendar.MILLISECOND);
         fileName += ".png";
-        // File file = new File("\\frontend\\src\\assets\\file\\" + fileName);
-        // String rootPath = System.getProperty("user.dir");
-        // System.out.println(" @@@@@@@@@@@@@@@@@@@"+rootPath);
-        File file = new File("home/ubuntu/ssafy6/s03p13b206/frontend/src/assets/file/" + fileName);
+
+        File file = new File("../../frontend/src/assets/file/" + fileName);
         System.out.println(file.getAbsolutePath());
-        // File file = new File("C:\\nhj\\project-sub3\\s03p13b206\\frontend\\src\\assets\\file\\" + fileName);
+        // File file = new File("C:\\leejaein\\project-sub3\\s03p13b206\\frontend\\src\\assets\\file\\" + fileName);
         if (!file.getParentFile().exists())
             file.getParentFile().mkdirs();
         ff.transferTo(file);
