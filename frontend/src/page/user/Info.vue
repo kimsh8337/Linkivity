@@ -19,7 +19,7 @@
                   <img
                     class="infoimg"
                     v-if="imgurl && !tempcheck"
-                    :src="makeimgurl(imgurl)"
+                    src=""
                     style="box-shadow:5px 5px 5px rgba(0,0,0,.15)"
                   />
                   <img
@@ -387,7 +387,7 @@ export default {
         });
     },
     makeimgurl(imgurl) {
-      return require("@/assets/file/" + imgurl);
+      return require("'/file/'" + imgurl);
     },
     getuser() {
       axios
