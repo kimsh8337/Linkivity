@@ -29,15 +29,19 @@ tbody :hover{
 }
 
 .table-num {
-  width: 20%;
+  width: 10%;
 }
 
 .table-title {
-  width: 60%;
+  width: 52%;
 }
 
 .table-date {
   width: 20%;
+}
+
+.table-visit {
+  width: 18%;
 }
 
 .notice-title {
