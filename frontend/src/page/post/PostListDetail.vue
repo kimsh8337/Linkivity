@@ -118,8 +118,8 @@
                       title="신고하기"
                     >
                     <div class="row">
-                      <i class="fas fa-bell-slash my-auto" style="color:red"></i>
-                      <p class="my-auto" style="font-size:1rem; color:red">신고</p>
+                      <i class="fas fa-bell-slash my-auto" style="color:crimson"></i>
+                      <p class="my-auto" style="font-size:1rem; color:crimson">신고</p>
                     </div>
                     <!-- <i class="fas fa-bullhorn" style="color:red">신고</i> -->
                       <!-- <i class="fas fa-angry" style="color:red"></i> -->
@@ -140,13 +140,13 @@
                     <div class="d-flex justify-content-start">
                       <i
                         v-if="isheart"
-                        class="fas fa-heart select-button mr-2"
+                        class="fas fa-heart mr-1 my-auto"
                         style="text-align: right; font-size: 20px; color:crimson"
                         @click="registlike(post.pid)"
                       ></i>
                       <i
                         v-if="!isheart"
-                        class="far fa-heart select-button mr-2"
+                        class="far fa-heart mr-1 my-auto"
                         style="text-align: right; font-size: 20px; color:crimson"
                         @click="registlike(post.pid)"
                       ></i>
@@ -632,10 +632,15 @@ export default {
         .get(`${baseURL}/cart/check/${this.email}/${this.pid}`)
         .then((res) => {
           if (res.data) {
-            alert("동일한 상품이 장바구니에 있습니다.");
+            Swal.fire({
+              width:350,
+              icon: 'error',
+              text: '동일한 상품이 장바구니에 있습니다.!',
+              confirmButtonText:"<span>확인</span>"
+            })
           } else {
             Swal.fire({
-              title: `${post.title}`,
+              title: `게시글 : [${post.title}]`,
               text: "장바구니에 담겼습니다.",
               imageUrl: `${post.imgurl}`,
               imageWidth: 400,
@@ -735,7 +740,7 @@ export default {
 
                     Toast.fire({
                       icon: "success",
-                      title: "구매 완료",
+                      title: "구매완료!",
                     });
                     setTimeout(() => {
                       th.$router.go();
@@ -747,8 +752,27 @@ export default {
               } else {
                 var msg = "결제에 실패하였습니다.";
                 msg += "에러내용 : " + rsp.error_msg;
+                const Toast = Swal.mixin({
+                  toast: true,
+                  position: "top-end",
+                  showConfirmButton: false,
+                  timer: 1000,
+                  timerProgressBar: true,
+                  onOpen: (toast) => {
+                    toast.addEventListener("mouseenter", Swal.stopTimer);
+                    toast.addEventListener("mouseleave", Swal.resumeTimer);
+                  },
+                });
+
+                Toast.fire({
+                  icon: "error",
+                  title: msg,
+                });
+                setTimeout(() => {
+                  th.$router.go();
+                }, 1000);
               }
-              alert(msg);
+              // alert(msg);
             }
           );
         }

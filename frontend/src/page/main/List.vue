@@ -399,7 +399,7 @@
                     ></i>
                   </div>
                   <div class="d-flex align-items-end mt-1">
-                    <small style="font-weight:bold">{{
+                    <small style="font-weight:bold; white-space:nowrap;">{{
                       datecut(slide.createDate)
                     }}</small>
                   </div>

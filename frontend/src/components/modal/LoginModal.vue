@@ -15,7 +15,6 @@
         >
           <h4
             class="modal-title font-weight-bold my-auto ml-2"
-            id="exampleModalLabel"
             style="width:60%;"
           >
             <i class="fas fa-file-signature ml-5">ＬＯＧＩＮ</i>
@@ -81,8 +80,8 @@
             style="border:1px solid RGB(134, 165, 212); height:2rem; border-radius:5px"
           >
             <i class="fas fa-sign-in-alt"
-              ><span class="my-auto ml-2">로그인</span></i
-            >
+              ></i
+            ><span class="my-auto ml-2">로그인</span>
           </div>
         </div>
 
@@ -98,9 +97,9 @@
             style="border:1px solid RGB(134, 165, 212); height:2rem; border-radius:5px"
           >
             <i class="far fa-user mr-1"
+              ></i
               ><span class="my-auto ml-2" style="font-weight:bold"
                 >회원가입</span
-              ></i
             >
           </div>
         </div>
@@ -118,8 +117,8 @@
             style="border:1px solid RGB(134, 165, 212); height:2rem; border-radius:5px"
           >
             <i class="fas fa-unlock">
-              <span class="my-auto ml-2">비밀번호 찾기</span>
             </i>
+            <span class="my-auto ml-2">비밀번호 찾기</span>
           </div>
         </div>
 
