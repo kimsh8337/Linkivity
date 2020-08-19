@@ -238,20 +238,19 @@
             >우편번호 찾기</button>
           </div>
           <input
-            hidden
             type="text"
             class="form-control mb-1"
-            v-model="addr2"
+            v-model="PostTemp.location"
             placeholder="주소"
             readonly
           />
-          <input hidden type="text" class="form-control mb-1" v-model="addr3" placeholder="상세주소" />
-          <input
+          <input type="text" class="form-control mb-1" v-model="PostTemp.locationdetail" placeholder="상세주소" />
+          <!-- <input
             type="text"
             class="form-control mb-1"
             v-model="PostTemp.location"
             placeholder="상세주소"
-          />
+          /> -->
         </div>
         <small class="form-text text-muted d-flex">주소를 입력하세요.</small>
 
@@ -361,7 +360,8 @@ export default {
           x.addr2 = data.address;
 
           x.addr3 = data.buildingName;
-          x.PostTemp.location = x.addr2 + " " + x.addr3;
+          x.PostTemp.location = x.addr2;
+          x.PostTemp.locationdetail = x.addr3;
         },
       }).open();
     },
@@ -486,12 +486,12 @@ export default {
             });
             Toast.fire({
               icon: "success",
-              title: "Update Completed!",
+              title: "게시물이 수정되었습니다.",
             });
             axios
               .put(`${baseURL}/temp/modify/nononotag`, this.PostTemp)
-              .then(() => {
-                alert("수정 완료!!");
+              .then((response) => {
+                this.fileUpload(response.data.pid);
                 this.$router.push("/user/info");
               })
               .catch((err) => {
@@ -648,17 +648,19 @@ export default {
     fileUpload(pid) {
       var formData = new FormData();
       const file = this.$refs.file.files[0];
-      formData.append("file", file);
-      axios
-        .post(`${baseURL}/temp/file/${pid}`, formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        })
-        .then(function (response) {})
-        .catch(function (error) {
-          console.log(error);
-        });
+      if(file != null) {
+        formData.append("file", file);
+        axios
+          .post(`${baseURL}/temp/file/${pid}`, formData, {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          })
+          .then(function (response) {})
+          .catch(function (error) {
+            console.log(error);
+          });
+      }
     },
     onClickImageUpload() {
       this.$refs.file.click();
