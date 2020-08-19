@@ -449,7 +449,8 @@ public class AccountController {
         fileName += ".png";
 
         String root = System.getProperty("user.dir");
-        String url = root+"\\frontend\\public\\contents\\";
+        String url = root+"/frontend/public/contents/";
+        System.out.println(url);
         // File file = new File("/home/ubuntu/ssafy6/s03p13b206/frontend/dist/file/" + fileName);
         // File file = new File("C:\\leejaein\\project-sub3\\s03p13b206\\frontend\\src\\assets\\file\\" + fileName);
         File file = new File(url + fileName);
