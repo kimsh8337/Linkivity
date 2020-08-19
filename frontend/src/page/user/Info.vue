@@ -73,7 +73,6 @@
                       v-if="pwvalidated == 0"
                       disabled="false"
                       v-model="email"
-                      id="email"
                       type="text"
                       style="font-size: 20px; "
                     />

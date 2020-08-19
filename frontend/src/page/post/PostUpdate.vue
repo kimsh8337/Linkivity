@@ -47,7 +47,7 @@
             </div>
 
             <div class="col-md-7">
-              <div class="card-body" style="padding: 0 0 0 20px">
+              <div class="card-body" style="padding: 0 0 0 ">
                 <div class="text">
                   <!-- 제목 -->
                   <div class="form-group">
@@ -147,7 +147,7 @@
         </div>
         <div class="form-group col-sm-12 col-md-7">
           <label class="d-flex justify-content-start">Seasons</label>
-          <div class="d-flex">
+          <div class="d-flex justify-content-between">
             <div class="form-check form-check-inline">
               <input
                 class="form-check-input"
@@ -158,7 +158,7 @@
               />
               <label class="form-check-label" for="spring">Spring</label>
             </div>
-            <div class="form-check form-check-inline ml-3">
+            <div class="form-check form-check-inline">
               <input
                 class="form-check-input"
                 type="checkbox"
@@ -168,7 +168,7 @@
               />
               <label class="form-check-label" for="summer">Summer</label>
             </div>
-            <div class="form-check form-check-inline ml-3">
+            <div class="form-check form-check-inline">
               <input
                 class="form-check-input"
                 type="checkbox"
@@ -178,7 +178,7 @@
               />
               <label class="form-check-label" for="autumn">Autumn</label>
             </div>
-            <div class="form-check form-check-inline ml-3">
+            <div class="form-check form-check-inline">
               <input
                 class="form-check-input"
                 type="checkbox"

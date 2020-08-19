@@ -6,6 +6,8 @@
       <b-tabs content-class="mt-3" fill>
         <!-- 포스트 관리 -->
         <b-tab class="container admin-post" title="포스트 관리" active>
+          <!-- 포스트관리 웹버전 -->
+          <div class="Webtable d-none d-sm-block">
           <table class="table my-5">
             <thead class="thead-dark">
               <tr>
@@ -43,10 +45,48 @@
           <!-- paging -->
           <b-pagination v-model="ppage" v-if="ptotalPage > 10" :total-rows="ptotalPage" pills :per-page="10"></b-pagination>
           <!-- <PostPermitDetailModal :post="postlistDataReceive"/> -->
+          </div>
+
+          <!-- 포스트관리 모바일버전 -->
+          <div class="MoblieCard d-block d-sm-none d-md-none">
+            <table class="table my-5">
+            <thead class="thead-dark">
+              <tr>
+                <th style="width:15%">No</th>
+                <th style="width:60%">제목</th>
+                <th style="width:25%">관리</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr id="tt" v-for="(post, index) in postlists" :key="index">
+                <td>{{ (ppage - 1) * 10 + index + 1 }}</td>
+                <td class="admin-data" style="padding:10px">{{ post.title }}</td>
+                <td>
+                  <button
+                    @click="gopostdetail(post.pid)"
+                    type="button"
+                    class="btn btn-sm ml-0"
+                    style="color:white; background-color:RGB(134, 165, 212); border-radius:7px;"
+                  >
+                    관리
+                  </button>
+                </td>
+                <!-- <td><button @click="gopostdetail(post.pid)">상세보기</button></td> -->
+                <!-- <td><button @click="postlistData(post)" data-toggle="modal" data-target="#postpermit">상세보기</button></td> -->
+                <!-- <td><button @click="postpermit(post.pid)">승인</button> <button @click="postreject(post.pid)">거절</button></td> -->
+              </tr>
+            </tbody>
+          </table>
+          <!-- paging -->
+          <b-pagination v-model="ppage" v-if="ptotalPage > 10" :total-rows="ptotalPage" pills :per-page="10"></b-pagination>
+          </div>
+
         </b-tab>
 
         <!-- 회원 관리 -->
         <b-tab class="admin-info" title="회원관리">
+          <!-- 회원관리 웹버전 -->
+          <div class="Webtable d-none d-sm-block">
           <table class="table my-5">
             <thead class="thead-dark">
               <tr>
@@ -73,10 +113,40 @@
           </table>
           <!-- paging -->
           <b-pagination v-model="upage" v-if="utotalPage > 10" :total-rows="utotalPage" pills :per-page="10"></b-pagination>
+          </div>
+
+           <!-- 포스트관리 모바일버전 -->
+          <div class="MoblieCard d-block d-sm-none d-md-none">
+            <table class="table my-5">
+            <thead class="thead-dark">
+              <tr>
+                <th style="width:15%">No</th>
+                <th style="width:35%">이메일</th>
+                <th style="width:25%">구분</th>
+                <th style="width:25%">탈퇴</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr id="tt" v-for="(user, index) in users" :key="index">
+                <td>{{ (upage - 1) * 10 + index + 1 }}</td>
+                <td class="admin-data">{{ user.email }}</td>
+                <td class="admin-data">{{ user.checkType }}</td>
+                <td class="pl-1" v-if="user.uid != 1">
+                  <button class="admin-info-button btn btn-sm btn-outline-danger" @click="dropuser(user.uid)">탈퇴처리</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <!-- paging -->
+          <b-pagination v-model="upage" v-if="utotalPage > 10" :total-rows="utotalPage" pills :per-page="10"></b-pagination>
+          </div>
+
         </b-tab>
 
         <!-- 신고 관리 -->
         <b-tab title="신고 관리">
+          <!-- 회원관리 웹버전 -->
+          <div class="Webtable d-none d-sm-block">
           <table class="table my-5">
             <thead class="thead-dark">
               <tr>
@@ -129,6 +199,59 @@
           />
           <!-- paging -->
           <b-pagination v-model="bpage" v-if="btotalPage > 10" :total-rows="btotalPage" pills :per-page="10"></b-pagination>
+          </div>
+
+          <!-- 포스트관리 모바일버전 -->
+          <div class="MoblieCard d-block d-sm-none d-md-none">
+          <table class="table my-5">
+            <thead class="thead-dark">
+              <tr>
+                <th style="width:15%">No</th>
+                <th style="width:35%">신고당한사람</th>
+                <th style="width:17%">확인</th>
+                <th style="width:23%">구분</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr id="tt" v-for="(blacklist, index) in blacklists" :key="index">
+                <td>{{ (bpage - 1) * 10 + index + 1 }}</td>
+                <td class="admin-data">{{ blacklist.remail }}</td>
+                <td class="pl-1">
+                  <button
+                    class="admin-black-view btn-sm"
+                    style="color:white; background-color:RGB(134, 165, 212); border-radius:7px;"
+                    @click="blacklistData(blacklist)"
+                    data-toggle="modal"
+                    data-target="#blacklist"
+                  >
+                    확인
+                  </button>
+                </td>
+                <td class="pl-1">
+                  <div class="btn-group btn-group-sm">
+                    <button type="button" class="btn btn-danger">처리</button>
+                    <button type="button" class="btn btn-danger dropdown-toggle dropdown-toggle-split" data-toggle="dropdown">
+                      <span class="caret"></span>
+                    </button>
+                    <div class="dropdown-menu">
+                      <a class="dropdown-item admin-drop-item" @click="warnblack(blacklist.rpid)">경고</a>
+                      <a class="dropdown-item admin-drop-item" @click="dropblack(blacklist.rpid)">삭제</a>
+                      <a class="dropdown-item admin-drop-item" @click="cancelblack(blacklist.rpid)">취소</a>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <BlackListDetailModal
+            :blacklist="blacklistDataReceive"
+            @warn-black="warnblack"
+            @drop-black="dropblack"
+            @cancel-black="cancelblack"
+          />
+          <!-- paging -->
+          <b-pagination v-model="bpage" v-if="btotalPage > 10" :total-rows="btotalPage" pills :per-page="10"></b-pagination>
+          </div>
         </b-tab>
       </b-tabs>
     </div>
@@ -315,7 +438,7 @@ export default {
     },
     permitdate(createDate) {
       var pd = createDate + '';
-      return pd.substring(0, 10) + ' ' + pd.substring(11, 19);
+      return pd.substring(0, 10) + ' ' + pd.substring(11, 16);
     },
     gopostdetail(pid) {
       scroll(0, 0);

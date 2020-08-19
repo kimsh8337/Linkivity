@@ -20,7 +20,7 @@
             <th scope="col" class="table-num">No</th>
             <th scope="col" class="table-title">Title</th>
             <th scope="col" class="table-date">Date</th>
-            <th scope="col" class="table-date">Visit</th>
+            <th scope="col" class="table-visit">Visit</th>
           </tr>
         </thead>
         <tbody v-if="notices.length > 0">
@@ -32,7 +32,9 @@
               <span class="badge badge-pill badge-success" v-if="notice.importance == 1">일반</span>
               {{ notice.title }}
             </td>
-            <td>{{ writeDate(notice.createDate) }}</td>
+            <td style="text-overflow:ellipsis;
+  overflow: hidden;
+  white-space: nowrap;">{{ writeDate(notice.createDate) }}</td>
             <td>{{ notice.visit }}</td>
           </tr>
         </tbody>
