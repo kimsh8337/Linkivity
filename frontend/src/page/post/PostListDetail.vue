@@ -409,6 +409,7 @@ export default {
                 duration: 1000,
               });
               this.isheart = true;
+              this.getPost();
             } else {
               this.$toasted.show("좋아요 취소", {
                 theme: "bubble",
@@ -416,6 +417,7 @@ export default {
                 duration: 1000,
               });
               this.isheart = false;
+              this.getPost();
             }
           })
           .catch((err) => {
