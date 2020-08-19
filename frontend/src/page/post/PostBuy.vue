@@ -71,7 +71,7 @@
       </div>
     </div>
 
-    <!-- 모바일버전 > 이미지들어오면 img에 v-if="itm.img" :src="makeimgurl(itm.img) 수정해야함"- -->
+    <!-- 모바일버전 -->
     <div class="MoblieCard d-block d-sm-none d-md-none">
       <table class="table" v-for="(item, index) in bitems" :key="index">
         <thead class="thead" style="background:RGB(134, 165, 212); color:white;">
@@ -80,27 +80,29 @@
             <td>{{ (bpage - 1) * 5 + index + 1 }}</td>
           </tr>
         </thead>
-        <div class="d-flex justify-content-left">
-          <div
-            class="col-12 col-sm-6 col-md-3 card-deck"
-            style="margin:auto 0;"
-            v-for="(itm, idx) in item"
-            :key="idx"
-          >
-            <div class="card mb-3 profile-post mr-0 ml-0">
-              <div class="card-body" style="padding: 0;" @click="getdetail(itm.pid)">
-                <img
-                  src="../../assets/img/noimage.jpg"
-                  @click="goDetail(itm.pid)"
-                  style="width: 100px; height: 100px; cursor:pointer;"
-                />
-                <div class="col-md-12 p-0">
-                  <div class="card-body" style="padding: 5px;">
-                    <h5 @click="goDetail(itm.pid)" style="cursor:pointer;">{{ itm.title }}</h5>
-                  </div>
-                </div>
-                <b-badge v-if="itm.puse == 0" pill variant style="background-color: #003399">미사용</b-badge>
-                <b-badge v-if="itm.puse == 1" pill variant style="background-color: #C4302B">사용완료</b-badge>
+        <div class="container row p-2" @click="goDetail(itm.pid)" style="width:210%" v-for="(itm, idx) in item" :key="idx">
+          <div class="col-6 p-2 d-flex align-items-center">
+            <img src="../../assets/img/noimage.jpg" style="width:100%; heigh:100%;">
+          </div>
+          <div class="col-6 p-2 d-flex align-items-center">
+            <div class="" style="text-align:left">
+              <b-badge v-if="itm.puse == 0" pill variant style="background-color: #003399">미사용</b-badge>
+              <b-badge v-if="itm.puse == 1" pill variant style="background-color: #C4302B">사용완료</b-badge>
+              <br>
+              <div class="mt-1 mb-1">
+                <span style="font-size:1rem" class="white-space:pre;">상품명 : [{{ itm.title }}]</span>
+              </div>
+              <div class="mt-1 mb-1">
+                <span>가격 : {{itm.price}}원</span>
+              </div>
+              <div class="mt-1 mb-1">
+                <span>일련번호 : {{itm.serialno}}</span>
+              </div>
+              <div class="mt-1 mb-1">
+                <small>시작일 : {{itm.sdate}}</small>
+              </div>
+              <div class="mt-1 mb-1">
+                <small>종료일 : {{itm.edate}}</small>
               </div>
             </div>
           </div>
