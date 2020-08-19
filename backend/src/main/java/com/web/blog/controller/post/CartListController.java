@@ -11,6 +11,7 @@ import com.web.blog.model.post.LikeList;
 import com.web.blog.model.post.PostList;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -36,26 +37,15 @@ public class CartListController {
     @ApiOperation("장바구니 리스트")
     public Object selectAll(@PathVariable String email, @PathVariable int page) throws SQLException, IOException {
         try {
-            int start = (page - 1) * 8;
-            int end = start + 8;
-            
             List<LikeList> plist = new LinkedList<>();
-            plist = likeListDao.findByEmailAndCart(email,1);
+            plist = likeListDao.findByEmailAndCart(email, 1, PageRequest.of(page - 1, 8));
             
             List<PostList> list = new LinkedList<>();
             for (LikeList likeList : plist) {
                 list.add(postListDao.findByPid(likeList.getPid()));
             }
             
-            if(end > list.size()){
-                end = list.size();
-            }
-            
-            List<PostList> tlist = new LinkedList<>();
-            for (int i = start; i < end; i++) {
-                tlist.add(list.get(i));
-            }
-            return new ResponseEntity<>(tlist, HttpStatus.OK);
+            return new ResponseEntity<>(list, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }

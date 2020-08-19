@@ -23,7 +23,7 @@
     <!-- contents -->
     <div class="form-group">
         <label class="d-flex notice-content-main mr-3">Contents</label>
-        <Viewer v-if="notice.content != null" :initialValue="notice.content"/>
+        <Viewer v-if="notice.content != null" :initialValue="notice.content" style="text-align:justify"/>
     </div>
 
     <!-- Button -->
