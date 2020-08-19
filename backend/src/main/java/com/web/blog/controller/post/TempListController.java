@@ -107,6 +107,7 @@ public class TempListController {
             temp.setPlace(request.getPlace());
             LocalDateTime time = LocalDateTime.now();
             temp.setCreateDate(time);
+            temp.setLocationdetail(request.getLocationdetail());
             postDao.save(temp);
 
             if(!tagValue.get(0).equals("nononotag")) {
@@ -151,6 +152,7 @@ public class TempListController {
                 newTemp.setPlace(request.getPlace());
                 LocalDateTime time = LocalDateTime.now();
                 newTemp.setCreateDate(time);
+                newTemp.setLocationdetail(request.getLocationdetail());
                 
                 postDao.save(newTemp);
 
@@ -213,7 +215,7 @@ public class TempListController {
         File file = null;
         if(hostname.substring(0,7).equals("DESKTOP")){
             //local
-            file = new File("C:\\Users\\multicampus\\Desktop\\s03p13b206 - sub3\\frontend\\public\\contents\\" + fileName);
+            file = new File("C:\\nhj\\project-sub3\\s03p13b206\\frontend\\public\\contents\\" + fileName);
         }else{
             //aws
             file = new File("/home/ubuntu/ssafy6/s03p13b206/frontend/public/contents/" + fileName);

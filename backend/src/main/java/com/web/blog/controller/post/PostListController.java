@@ -260,6 +260,7 @@ public class PostListController {
                 newTemp.setPlace(request.getPlace());
                 LocalDateTime time = LocalDateTime.now();
                 newTemp.setCreateDate(time);
+                newTemp.setLocationdetail(request.getLocationdetail());
                 // System.out.println(newTemp);
                 postDao.save(newTemp);
                 
@@ -390,8 +391,9 @@ public class PostListController {
             temp.setAutumn(request.getAutumn());
             temp.setWinter(request.getWinter());
             temp.setPlace(request.getPlace());
+            temp.setLocationdetail(request.getLocationdetail()
             postDao.save(temp);
-            
+
             int pid = temp.getPid();
             List<String> tags = new LinkedList<>();
             tags = tagValue;
@@ -480,7 +482,7 @@ public class PostListController {
         File file = null;
         if(hostname.substring(0,7).equals("DESKTOP")){
             //local
-            file = new File("C:\\Users\\multicampus\\Desktop\\s03p13b206 - sub3\\frontend\\public\\contents\\" + fileName);
+            file = new File("C:\\Users\\multicampus\\Desktop\\janerun\\s03p13b206\\frontend\\public\\contents\\" + fileName);
         }else{
             //aws
             file = new File("/home/ubuntu/ssafy6/s03p13b206/frontend/public/contents/" + fileName);
