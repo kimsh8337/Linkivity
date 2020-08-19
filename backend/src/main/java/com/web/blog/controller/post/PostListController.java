@@ -474,7 +474,8 @@ public class PostListController {
 		fileName += calendar.get(Calendar.SECOND);
 		fileName += calendar.get(Calendar.MILLISECOND);
         fileName += ".png";
-        File file = new File("home\\ubuntu\\ssafy6\\s03p13b206\\frontend\\src\\assets\\file\\" + fileName);
+        
+        File file = new File("/home/ubuntu/ssafy6/s03p13b206/frontend/dist/file/" + fileName);
         // File file = new File("C:\\nhj\\project-sub3\\s03p13b206\\frontend\\src\\assets\\file\\" + fileName);
         if (!file.getParentFile().exists())
             file.getParentFile().mkdirs();
