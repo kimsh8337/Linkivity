@@ -149,7 +149,8 @@ export default {
       window.scrollTo({ top: location + 360, behavior: 'smooth' });
     },
     makeimgurl(imgurl) {
-      return require('@/assets/file/' + imgurl);
+      var url = "../../../contents/"+imgurl;
+      return url;
     },
     getPost() {
       axios

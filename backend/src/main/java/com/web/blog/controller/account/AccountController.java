@@ -449,8 +449,8 @@ public class AccountController {
 		fileName += calendar.get(Calendar.MILLISECOND);
         fileName += ".png";
 
-        String root = System.getProperty("user.dir");
-        String url = root + "/frontend/public/contents/";
+        // String root = System.getProperty("user.dir");
+        // String url = root + "/frontend/public/contents/";
         String hostname = InetAddress.getLocalHost().getHostName();
 
         File file = null;
@@ -461,13 +461,6 @@ public class AccountController {
             //aws
             file = new File("/home/ubuntu/ssafy6/s03p13b206/frontend/public/contents/" + fileName);
         }
-        // int slash = 0;
-        // for (int i = 0; i < root.length(); i++) {
-            
-        // }
-        System.out.println(url);
-        // File file = new File("/home/ubuntu/ssafy6/s03p13b206/frontend/dist/file/" + fileName);
-        // File file = new File("C:\\leejaein\\project-sub3\\s03p13b206\\frontend\\src\\assets\\file\\" + fileName);
         // File file = new File(url + fileName);
         if (!file.getParentFile().exists())
             file.getParentFile().mkdirs();

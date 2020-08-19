@@ -366,7 +366,8 @@ export default {
       }).open();
     },
     makeimgurl(imgurl) {
-      return require("@/assets/file/" + imgurl);
+      var url = "../../../contents/"+imgurl;
+      return url;
     },
     taglist() {
       axios

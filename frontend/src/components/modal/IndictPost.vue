@@ -110,7 +110,8 @@ export default {
         });
     },
     makeimgurl(imgurl) {
-      return require("@/assets/file/" + imgurl);
+      var url = "../../../contents/"+imgurl;
+      return url;
     },
     indictReceipt() {
       if (this.indictData.reason.length <= 0) {

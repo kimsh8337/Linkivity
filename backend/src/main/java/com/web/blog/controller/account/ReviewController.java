@@ -2,6 +2,7 @@ package com.web.blog.controller.account;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.InetAddress;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.Calendar;
@@ -195,7 +196,6 @@ public class ReviewController {
     @PostMapping("/file/{rvid}")
     @ApiOperation(value = "이미지 저장")
     public String fileTest(@RequestPart("file") MultipartFile ff, @PathVariable int rvid) throws IllegalStateException, IOException {
-        // File file = new File("home\\ubuntu\\ssafy6\\s03p13b206\\frontend\\src\\assets\\file\\" + ff.getOriginalFilename());
         String fileName = "";
 		
 		Calendar calendar = Calendar.getInstance();
@@ -208,8 +208,16 @@ public class ReviewController {
 		fileName += calendar.get(Calendar.MILLISECOND);
         fileName += ".png";
         
-        File file = new File("/home/ubuntu/ssafy6/s03p13b206/frontend/dist/file/" + fileName);
-        // File file = new File("C:\\nhj\\project-sub3\\s03p13b206\\frontend\\src\\assets\\file\\" + fileName);
+        String hostname = InetAddress.getLocalHost().getHostName();
+
+        File file = null;
+        if(hostname.substring(0,7).equals("DESKTOP")){
+            //local
+            file = new File("C:\\leejaein\\project-sub3\\s03p13b206\\frontend\\src\\assets\\file\\" + fileName);
+        }else{
+            //aws
+            file = new File("/home/ubuntu/ssafy6/s03p13b206/frontend/public/contents/" + fileName);
+        }
         if (!file.getParentFile().exists())
             file.getParentFile().mkdirs();
             ff.transferTo(file);
