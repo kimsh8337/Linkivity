@@ -120,7 +120,7 @@
                       style="border:none; font-size:1.2rem"
                       title="신고하기"
                     >
-                      <div class="d-flex">
+                      <div class="d-flex" v-if="this.$cookies.get('Auth-Token')">
                         <i
                           class="fas fa-bell-slash my-auto"
                           style="font-size:0.8rem; color:crimson"
@@ -220,7 +220,7 @@
         <hr />
         <!-- 지도 -->
         <p class="d-flex" style="font-size:1.5rem; font-weight:bold;">위치</p>
-        <div id="map" style="max-width: 100%; height:300px;"></div>
+        <div id="map" style="max-width: 100%; height:300px;z-index:0"></div>
         <small class="d-flex mt-2" style="font-weight:bold;">{{ post.location }}</small>
         <hr class="mt-2" />
         <!-- 후기 -->
@@ -382,7 +382,8 @@ export default {
         });
     },
     checklike() {
-      axios
+      if(this.$cookies.get("Auth-Token") != null) {
+        axios
         .get(`${baseURL}/like/checkpidlike/${this.email}/${this.post.pid}`)
         .then((res) => {
           if (res.data == 0) {
@@ -394,6 +395,7 @@ export default {
         .catch((err) => {
           alert(err);
         });
+      }
     },
     registlike(pid) {
       if (this.email != "") {
@@ -409,6 +411,7 @@ export default {
                 duration: 1000,
               });
               this.isheart = true;
+              this.getPost();
             } else {
               this.$toasted.show("좋아요 취소", {
                 theme: "bubble",
@@ -416,6 +419,7 @@ export default {
                 duration: 1000,
               });
               this.isheart = false;
+              this.getPost();
             }
           })
           .catch((err) => {
