@@ -209,7 +209,7 @@
         <hr />
         <!-- 업체 정보 -->
         <h4 id="corp" class="d-flex mb-3" style="font-weight:bold">업체정보</h4>
-        <p class="d-flex">{{ post.companyInfo }}</p>
+        <p class="d-flex" style="white-space:pre-wrap; text-align:justify">{{ post.companyInfo }}</p>
         <hr />
         <!-- 지도 -->
         <p class="d-flex" style="font-size:1.5rem; font-weight:bold;">위치</p>
@@ -264,7 +264,7 @@
         class="d-flex justify-content-end mt-3 mb-3"
         v-if="this.email == this.post.email | this.checkType == 'admin'"
       >
-        <button class="btn btn-success" v-if="this.email == this.post.email" @click="goModify">
+        <button class="btn btn-success mr-2" v-if="this.email == this.post.email" @click="goModify">
           <i class="far fa-edit mr-2"></i>수정하기
         </button>
         <button class="btn btn-danger" @click="goDelete">
