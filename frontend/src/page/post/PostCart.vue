@@ -17,7 +17,7 @@
     <!-- cart list가 있을때 -->
     <div class="row justify-content-left" v-if="cartPosts.length > 0">
       <div
-        class="col-12 col-sm-12 col-md-3 card-deck"
+        class="col-6 col-sm-6 col-md-4 col-lg-3 card-deck"
         style="margin:auto 0;"
         v-for="(cartPost, cindex) in cartPosts"
         :key="cindex"
