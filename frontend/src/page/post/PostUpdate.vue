@@ -32,7 +32,7 @@
                   />
                   <img
                     class="card-img mb-2"
-                    v-if="PostUpdate.imgurl && tempcheck"
+                    v-if="tempimg && tempcheck"
                     :src="tempimg"
                     style="height: 16rem; width:100%"
                   />
