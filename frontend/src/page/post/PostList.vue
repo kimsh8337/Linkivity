@@ -167,7 +167,7 @@ export default {
       return Math.round(star * 10) / 10.0;
     },
     makeimgurl(imgurl){
-      return require("@/assets/file/"+imgurl);
+      return require("/file/"+imgurl);
     },
     settype(typename) {
       this.key = "";
