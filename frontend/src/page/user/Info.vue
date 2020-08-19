@@ -510,17 +510,19 @@ export default {
     fileUpload: function () {
       var formData = new FormData();
       const file = this.$refs.file.files[0];
-      formData.append("file", file);
-      axios
-        .post(`${baseURL}/account/file/${this.email}`, formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        })
-        .then(function (response) {})
-        .catch(function (error) {
-          console.log(error);
-        });
+      if(file != null) {
+        formData.append("file", file);
+        axios
+          .post(`${baseURL}/account/file/${this.email}`, formData, {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          })
+          .then(function (response) {})
+          .catch(function (error) {
+            console.log(error);
+          });
+      }
     },
 
     onClickImageUpload() {
