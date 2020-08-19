@@ -2,6 +2,7 @@ package com.web.blog.controller.post;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.InetAddress;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.Calendar;
@@ -206,8 +207,17 @@ public class TempListController {
 		fileName += calendar.get(Calendar.SECOND);
 		fileName += calendar.get(Calendar.MILLISECOND);
         fileName += ".png";
-        File file = new File("frontend\\src\\assets\\file\\" + fileName);
-        // File file = new File("C:\\nhj\\project-sub3\\s03p13b206\\frontend\\src\\assets\\file\\" + fileName);
+
+        String hostname = InetAddress.getLocalHost().getHostName();
+
+        File file = null;
+        if(hostname.substring(0,7).equals("DESKTOP")){
+            //local
+            file = new File("C:\\leejaein\\project-sub3\\s03p13b206\\frontend\\src\\assets\\file\\" + fileName);
+        }else{
+            //aws
+            file = new File("/home/ubuntu/ssafy6/s03p13b206/frontend/public/contents/" + fileName);
+        }
         if (!file.getParentFile().exists())
             file.getParentFile().mkdirs();
             ff.transferTo(file);

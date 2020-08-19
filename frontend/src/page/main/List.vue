@@ -455,6 +455,10 @@ export default {
           console.log(err);
         });
     },
+    makeimgurl(imgurl) {
+      var url = "../../../contents/"+imgurl;
+      return url;
+    },
     goNews: function() {
       this.$router.push("/news/");
     },

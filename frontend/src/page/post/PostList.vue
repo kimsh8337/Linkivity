@@ -166,8 +166,9 @@ export default {
     round(star) {
       return Math.round(star * 10) / 10.0;
     },
-    makeimgurl(imgurl){
-      return require("@/assets/file/"+imgurl);
+    makeimgurl(imgurl) {
+      var url = "../../../contents/"+imgurl;
+      return url;
     },
     settype(typename) {
       this.key = "";

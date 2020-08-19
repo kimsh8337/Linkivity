@@ -164,7 +164,8 @@ export default {
       return tempdatecut.substring(0, 10);
     },
     makeimgurl(imgurl) {
-      return require("@/assets/file/" + imgurl);
+      var url = "../../../contents/"+imgurl;
+      return url;
     },
     update(slide) {
       this.reviewInfo = slide;

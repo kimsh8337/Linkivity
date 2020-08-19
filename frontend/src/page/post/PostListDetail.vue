@@ -361,8 +361,51 @@ export default {
           }
         });
     },
-     makeimgurl(imgurl){
-      return require("@/assets/file/"+imgurl);
+    registlike(pid) {
+      if (this.email != "") {
+        axios
+          .get(`${baseURL}/like/registDelete/${this.email}/${pid}`)
+          .then((res) => {
+            // this.checklike();
+            // this.reloading(this.page);
+            if (res.data == "regist") {
+              this.$toasted.show("좋아좋아요", {
+                theme: "bubble",
+                position: "top-right",
+                duration: 1000,
+              });
+              this.isheart = true;
+            } else {
+              this.$toasted.show("좋아요 취소", {
+                theme: "bubble",
+                position: "top-right",
+                duration: 1000,
+              });
+              this.isheart = false;
+            }
+          })
+          .catch((err) => {
+            alert(err);
+          });
+      } else {
+        Swal.fire({
+          icon: "error",
+          text: "로그인 후 이용해주세요...",
+          confirmButtonColor: "#fff",
+          width: 350,
+          confirmButtonText:
+            '<a data-toggle="modal" data-target="#LoginModal" style="font-size:1rem; color:black" >Login</a>',
+          showCancelButton: true,
+          cancelButtonText: '<a style="font-size:1rem; color:black">Cancel</a>',
+          cancelButtonColor: "#fff",
+        }).then((result) => {
+          Swal.close();
+        });
+      }
+    },
+    makeimgurl(imgurl) {
+      var url = "../../../contents/"+imgurl;
+      return url;
     },
     test() {
       Kakao.Link.createDefaultButton({

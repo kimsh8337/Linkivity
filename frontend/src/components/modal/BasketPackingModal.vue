@@ -80,7 +80,8 @@ export default {
         });
     },
     makeimgurl(imgurl) {
-      return require('@/assets/file/' + imgurl);
+      var url = "../../../contents/"+imgurl;
+      return url;
     },
     purchase() {
       for (var i = 0; i < this.prePosts.length; i++) {

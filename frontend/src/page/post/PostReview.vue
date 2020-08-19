@@ -125,8 +125,9 @@ export default {
           console.log(err.response);
         });
     },
-     makeimgurl(imgurl){
-      return require("@/assets/file/"+imgurl);
+     makeimgurl(imgurl) {
+      var url = "../../../contents/"+imgurl;
+      return url;
     },
     countReview() {
       axios
