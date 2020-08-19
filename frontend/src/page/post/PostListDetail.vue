@@ -117,11 +117,14 @@
                       style="border:none; font-size:1.2rem"
                       title="신고하기"
                     >
-                    <div class="row">
-                      <i class="fas fa-bell-slash my-auto" style="color:red"></i>
-                      <p class="my-auto" style="font-size:1rem; color:red">신고</p>
-                    </div>
-                    <!-- <i class="fas fa-bullhorn" style="color:red">신고</i> -->
+                      <div class="d-flex" v-if="this.$cookies.get('Auth-Token')">
+                        <i
+                          class="fas fa-bell-slash my-auto"
+                          style="font-size:0.8rem; color:crimson"
+                        ></i>
+                        <p class="my-auto" style="font-size:0.8rem; color:crimson">신고</p>
+                      </div>
+                      <!-- <i class="fas fa-bullhorn" style="color:red">신고</i> -->
                       <!-- <i class="fas fa-angry" style="color:red"></i> -->
                     </span>
                     <IndictPost :post="post" />
@@ -210,7 +213,7 @@
         <hr />
         <!-- 지도 -->
         <p class="d-flex" style="font-size:1.5rem; font-weight:bold;">위치</p>
-        <div id="map" style="max-width: 100%; height:300px;"></div>
+        <div id="map" style="max-width: 100%; height:300px;z-index:0"></div>
         <small class="d-flex mt-2" style="font-weight:bold;">{{ post.location }}</small>
         <hr class="mt-2" />
         <!-- 후기 -->
@@ -352,14 +355,25 @@ export default {
           this.fetchComment();
         })
         .catch((err) => {
-          if(err.response.status == 400) {
-            this.$router.push("/badRequest").catch(err => {
-            });
-          } else if(err.response.status == 500) {
-            this.$router.push("/serverError").catch(err => {
-            });
+          if (err.response.status == 400) {
+            this.$router.push("/badRequest").catch((err) => {});
+          } else if (err.response.status == 500) {
+            this.$router.push("/serverError").catch((err) => {});
           }
         });
+    },
+    checklike() {
+      if(this.$cookies.get("Auth-Token") != null) {
+        axios
+        .get(`${baseURL}/like/checkpidlike/${this.email}/${this.post.pid}`)
+        .then((res) => {
+          if (res.data == 0) {
+            this.isheart = false;
+          } else if (res.data == 1) {
+            this.isheart = true;
+          }
+        });
+      }
     },
     registlike(pid) {
       if (this.email != "") {
@@ -375,6 +389,7 @@ export default {
                 duration: 1000,
               });
               this.isheart = true;
+              this.getPost();
             } else {
               this.$toasted.show("좋아요 취소", {
                 theme: "bubble",
@@ -382,6 +397,7 @@ export default {
                 duration: 1000,
               });
               this.isheart = false;
+              this.getPost();
             }
           })
           .catch((err) => {
