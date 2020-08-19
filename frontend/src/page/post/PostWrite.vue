@@ -1,7 +1,27 @@
 <template>
   <div class="container p-0">
-    <table class="table">
-      <thead class="thead-dark">
+    
+    <!-- 쓴 글이 없을 때 -->
+    <div class="mt-5" v-if="wposts.length <= 0">
+      <i class="fas fa-surprise mt-5 mr-2"></i
+      ><span style="font-weight:bold">등록한 상품이 없습니다.</span
+      ><i class="fas fa-surprise ml-2"></i>
+      <br />
+      <button
+        @click="gocreate"
+        class="btn mt-2 mb-5"
+        style="font-weight:bold; color:white; background-color:RGB(134, 165, 212); border-radius:7px"
+      >
+        <i class="fas fa-heart mr-2"></i>상품 등록하러 가기
+      </button>
+    </div>
+
+    <!-- 쓴 글이 있을 때 -->
+
+    <!-- 웹버전 -->
+    <div class="Webtable d-none d-sm-block">
+    <table class="table" v-if="wposts.length > 0">
+      <thead class="thead" style="background:RGB(134, 165, 212); color:white;">
         <tr>
           <th style="width:10%; white-space: nowrap;">No</th>
           <th style="width:20%; white-space: nowrap;">이미지</th>
@@ -10,17 +30,64 @@
           <th style="width:15%; white-space: nowrap;">바로가기</th>
         </tr>
       </thead>
-      <tr id="tt" v-for="(post, index) in posts" :key="index">
-        <td v-if="email == post.email">{{index+1}}</td>
+      <tr id="tt" v-for="(post, index) in wposts" :key="index">
+        <td v-if="email == post.email">{{((wpage - 1) * 8 ) + index + 1}}</td>
         <td v-if="email == post.email">
-          <img :src="post.imgurl" style="width: 100px; height: 100px;" />
+          <img
+            :src="makeimgurl(post.imgurl)"
+            v-if="post.imgurl"
+            style="width: 100px; height: 100px;"
+          />
         </td>
-        <td v-if="email == post.email" style="text-overflow:ellipsis; overflow: hidden; white-space: nowrap;">{{ post.title }}</td>
-        <td v-if="email == post.email" style="text-overflow:ellipsis; overflow: hidden; white-space: nowrap;">{{ createdate(post.createDate) }}</td>
-        <td v-if="email == post.email"><button class="postwrite-button" @click="getdetail(post.pid)">바로가기</button></td>
+        <td
+          v-if="email == post.email"
+          style="text-overflow:ellipsis; overflow: hidden; white-space: nowrap;"
+        >{{ post.title }}</td>
+        <td
+          v-if="email == post.email"
+          style="text-overflow:ellipsis; overflow: hidden; white-space: nowrap;"
+        >{{ createdate(post.createDate) }}</td>
+        <td v-if="email == post.email">
+          <button class="postwrite-button" @click="getdetail(post.pid)">바로가기</button>
+        </td>
       </tr>
     </table>
+    <br />
+
+    <!-- paging -->
+    <b-pagination
+      class="mt-5 mb-0"
+      v-if="wtotalPage > 10"
+      v-model="wpage"
+      :total-rows="wtotalPage"
+      pills
+      :per-page="10"
+    ></b-pagination>
   </div>
+
+  <!-- 모바일버전 > 이미지 들어오면 img에 :src="makeimgurl(post.imgurl)" v-if="post.imgurl" 수정해야함 -->
+  <div class="MoblieCard d-block d-sm-none d-md-none">
+    <div class="col-12 col-sm-12 col-md-3 card-deck" style="margin:auto 0; padding:0 30px" v-for="(post, index) in wposts" :key="index">
+        <div class="card mb-3 profile-post mr-0 ml-0">
+          <div class="card-body" style="padding: 0;" @click="getdetail(post.pid)">
+            <img
+            src="../../assets/img/noimage.jpg"
+            style="width: 100%; height: 100%;"
+          />
+            <div class="col-md-12 p-0">
+              <div class="card-body" style="padding: 5px;">
+                <h5
+                  v-if="email == post.email"
+          style="text-overflow:ellipsis; overflow: hidden; white-space: nowrap;"
+        >{{ post.title }}
+                </h5>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>
+      </div>
 </template>
 
 <script>
@@ -29,64 +96,87 @@ import axios from "axios";
 const baseURL = process.env.VUE_APP_BACKURL;
 
 export default {
-    data(){
-        return{
-            posts:{},
-            type:'all',
-            page:0,
-            email:'',
-        }
+  data() {
+    return {
+      wposts: [],
+      type: "all",
+      wtotalPage: 0,
+      wpage: 1,
+      email: "",
+    };
+  },
+  created() {
+    this.authUser();
+  },
+  methods: {
+    postCount() {
+      axios
+        .get(`${baseURL}/post/count/mypost/${this.email}`)
+        .then((res) => {
+          this.wtotalPage = res.data;
+          this.checkPage();
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
-    created(){
-        this.authUser();
+    authUser() {
+      axios
+        .get(`${baseURL}/account/authuser/${this.$cookies.get("Auth-Token")}`)
+        .then((res) => {
+          this.email = res.data.email;
+          this.postCount();
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
-    methods:{
-        authUser(){
-            axios
-                .get(`${baseURL}/account/authuser/${this.$cookies.get('Auth-Token')}`)
-                .then((res)=>{
-                    this.email = res.data.email
-                    console.log(this.email)
-                    this.init()
-                }).catch((err)=>{
-                    console.log(err)
-                })
-        },
-        init(){
-            axios
-                .get(`${baseURL}/post/mypost/${this.email}`)
-                .then((res)=>{
-                    this.posts = res.data
-                }).catch((err)=>{
-                    console.log(err)
-                })
-              
-        },
-        createdate(date){
-            var cd = date+""
-            return cd.substring(0,10)
-        },
-        getdetail(pid){
-            scroll(0,0);
-            this.$router.push(`/posts/${pid}`)
-        }
+    makeimgurl(imgurl) {
+      return require("@/assets/file/" + imgurl);
     },
-
-}
+    checkPage() {
+      axios
+        .get(`${baseURL}/post/mypost/${this.email}/${this.wpage}`)
+        .then((res) => {
+          this.wposts = res.data;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    createdate(date) {
+      var cd = date + "";
+      return cd.substring(0, 10);
+    },
+    getdetail(pid) {
+      scroll(0, 0);
+      this.$router.push(`/posts/${pid}`);
+    },
+    gocreate(){
+      scroll(0,0);
+      this.$router.push('/postcreate')
+    },
+  },
+  watch: {
+    wpage: function (v) {
+      this.checkPage();
+    },
+  },
+};
 </script>
 
 <style scoped>
-.postwrite-button{
-    border: none;
-    background: none;
-    color: blue;
+.postwrite-button {
+  border: none;
+  background: none;
+  color: blue;
 }
 
-.postwrite-button:focus{
-    outline: none;
+.postwrite-button:focus {
+  outline: none;
 }
 
-.postwrite-button:hover{
-    color: red;
+.postwrite-button:hover {
+  color: red;
 }
 </style>

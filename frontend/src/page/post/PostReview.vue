@@ -27,13 +27,17 @@
           data-target="#postReviewModal"
           @click="bringReviewData(slide)"
           class="card-body"
-          style="padding: 0; cursor: pointer;"
+          style="padding: 0 30px; cursor: pointer;"
         >
+        <!-- 제목 -->
+          <div class="d-flex mt-1 justify-content-center">
+            <span style="font-weight:bold;">{{ slide.title }}</span>
+          </div>
           <!-- img 보여주기 -->
           <img
             v-if="slide.img"
             class="review-img"
-            :src="slide.img"
+            :src="makeimgurl(slide.img)"
             :alt="slide.title"
             style="height:8rem;"
           />
@@ -44,10 +48,11 @@
             style="height:8rem;"
           />
           <!-- 프로필 보여주기 -->
-          <div class="d-flex justify-content-between">
+          <div class="d-flex justify-content-start">
             <img
               class="user-img d-flex m-3"
-              :src="slide.proimg"
+              v-if="slide.proimg"
+              :src="makeimgurl(slide.proimg)"
               style="border-radius:70px;"
             />
             <div class="mt-2 mr-4">
@@ -67,23 +72,22 @@
                   :key="i.id"
                 ></i>
               </div>
-              <div class="d-flex align-items-end mt-1 mr-3">
+              <div class="d-flex align-items-end mt-1">
                 <small style="font-weight:bold">{{
                   datecut(slide.createDate)
                 }}</small>
               </div>
             </div>
           </div>
-          <!-- 제목 -->
-          <div class="d-flex mt-2 ml-2 p-2">
-            <span style="font-weight:bold;">{{ slide.title }}</span>
-          </div>
+          
         </div>
         <!-- </div> -->
       </div>
     </div>
       <PostReviewDetailModal :reviewDetail="reviewDetail" />
 
+    <!-- paging -->
+    <b-pagination class="mt-5 mb-0" v-if="rtotalPage > 8" v-model="rpage" :total-rows="rtotalPage" pills :per-page="8"></b-pagination>
   </div>
 </template>
 
@@ -103,6 +107,8 @@ export default {
       reviews: [],
       email: "",
       reviewDetail: [],
+      rpage: 1,
+      rtotalPage: 0,
     };
   },
   methods: {
@@ -111,15 +117,29 @@ export default {
         .get(`${baseURL}/account/authuser/${this.$cookies.get("Auth-Token")}`)
         .then((response) => {
           this.email = response.data.email;
-          this.fetchReview();
+          this.countReview();
         })
         .catch((err) => {
           console.log(err.response);
         });
     },
+     makeimgurl(imgurl){
+      return require("@/assets/file/"+imgurl);
+    },
+    countReview() {
+      axios
+        .get(`${baseURL}/review/count/listbyemail/${this.email}`)
+        .then((response) => {
+          this.rtotalPage = response.data;
+          this.fetchReview();
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
     fetchReview() {
       axios
-        .get(`${baseURL}/review/listbyemail/${this.email}`)
+        .get(`${baseURL}/review/listbyemail/${this.email}/${this.rpage}`)
         .then((response) => {
           this.reviews = response.data;
         })
@@ -141,6 +161,11 @@ export default {
   created() {
     this.authUser();
   },
+  watch: {
+    rpage: function(v) {
+      this.fetchReview();
+    }
+  }
 };
 </script>
 

@@ -31,7 +31,7 @@
           <img
             style="width:100%; height:40%"
             v-if="post.imgurl"
-            :src="post.imgurl"
+            :src="makeimgurl(post.imgurl)"
             :alt="post.title"
           />
           <img
@@ -119,8 +119,11 @@ export default {
           this.indictData.email = response.data.email;
         })
         .catch((err) => {
-          console.log(err.response);
+          console.log(err);
         });
+    },
+     makeimgurl(imgurl){
+      return require("@/assets/file/"+imgurl);
     },
     indictReceipt() {
       if (this.indictData.reason.length <= 0) {
@@ -177,7 +180,9 @@ export default {
   updated() {
     this.indictData.pid = this.post.pid;
     this.indictData.remail = this.post.email;
-    this.authUser();
+    if (this.$cookies.get("Auth-Token") != null) {
+      this.authUser();
+    }
   },
 };
 </script>

@@ -15,12 +15,31 @@
         style="text-shadow: 1px 1px 2px #333;"
       >
         <!-- Text slides with image -->
-        <b-carousel-slide v-for="slide in slides" :key="slide.rvid" :img-src="slide.img">
-          <div style="height:15rem; z-index:1000;">
+        <b-carousel-slide v-for="slide in slides" :key="slide.rvid">
+          <template v-slot:img>
+          <img
+            class="d-block img-fluid w-100"
+            width="1024"
+            height="480"
+            v-if="slide.img"
+            :src="makeimgurl(slide.img)"
+            alt="image slot"
+          >
+          <img
+            class="d-block img-fluid w-100"
+            width="1024"
+            height="480"
+            v-if="!slide.img"
+            src="../../assets/img/noimage.jpg"
+            alt="image slot"
+          >
+        </template>
+          <div class="d-flex justify-content-center align-items-center" style="height:15rem;">
+            <div class="mb-5" style="background-color:rgba( 0, 0, 0, 0.4 );">
             <!-- background-color:black; -->
-            <div class="d-flex justify-content-between" style="width:100%">
+            <div class="d-flex justify-content-center" style="width:100%">
               <!-- 프로필 보여주기 -->
-              <img class="profile-image d-flex my-2 ml-3" :src="slide.proimg" />
+              <img class="profile-image d-flex my-2 ml-3 mr-4 " style="width:9vw" v-if="slide.proimg" :src="makeimgurl(slide.proimg)"/>
               <div class="mt-2 mr-4 ml-0">
                 <div class="d-flex">
                   <small
@@ -61,13 +80,16 @@
                 <small style="font-weight:bold">{{datecut(slide.createDate)}}</small>
               </div>
             </div>
-            <!-- 제목 -->
-            <div class="d-flex mt-3">
-              <span style="font-weight:bold;">{{slide.title}}</span>
+            <div class="d-flex row" style="padding-left:5%">
+              <!-- 제목 -->
+              <div class="d-flex mt-3 col-12">
+                <span style="font-weight:bold; font-size:1.2rem; text-align:justify">[{{slide.title}}]</span>
+              </div>
+              <!-- 내용 -->
+              <div class="d-flex mt-3 col-12">
+                <small style="text-align:justify">{{slide.content}}</small>
+              </div>
             </div>
-            <!-- 내용 -->
-            <div class="d-flex mt-3">
-              <small>{{slide.content}}</small>
             </div>
           </div>
         </b-carousel-slide>
@@ -118,22 +140,31 @@ export default {
           this.slides = response.data;
           if (this.slides.length > 0) {
             this.flag = true;
-            for(var i=0;i<this.slides.length;i++){
-                if(!this.slides[i].img){
-                    this.slides[i].img = "https://picsum.photos/1024/480/?image=54";
-                }
-            }
+            // for(var i=0;i<this.slides.length;i++){
+            //     if(!this.slides[i].img){
+            //         this.slides[i].img = "https://picsum.photos/1024/480/?image=54";
+            //     }
+            // }
           } else {
             this.flag = false;
           }
         })
         .catch((error) => {
-          console.log(error);
+          if(err.response.status == 400) {
+            this.$router.push("/badRequest").catch(err => {
+            });
+          } else if(err.response.status == 500) {
+            this.$router.push("/serverError").catch(err => {
+            });
+          }
         });
     },
     datecut(date) {
       var tempdatecut = date + "";
       return tempdatecut.substring(0, 10);
+    },
+    makeimgurl(imgurl) {
+      return require("@/assets/file/" + imgurl);
     },
     update(slide) {
       this.reviewInfo = slide;
@@ -182,7 +213,13 @@ export default {
               // }, 1000);
             })
             .catch((error) => {
-              console.log(error);
+              if(err.response.status == 400) {
+                this.$router.push("/badRequest").catch(err => {
+                });
+              } else if(err.response.status == 500) {
+                this.$router.push("/serverError").catch(err => {
+                });
+              }
             });
         }
       });

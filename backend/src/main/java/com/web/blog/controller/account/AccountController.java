@@ -1,7 +1,9 @@
 package com.web.blog.controller.account;
 
+import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -20,6 +22,7 @@ import com.web.blog.model.user.Verification;
 import com.web.blog.service.FindUtil;
 
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -37,6 +40,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 
 @ApiResponses(value = { @ApiResponse(code = 401, message = "Unauthorized", response = BasicResponse.class),
         @ApiResponse(code = 403, message = "Forbidden", response = BasicResponse.class),
@@ -280,11 +285,27 @@ public class AccountController {
     @ApiOperation(value = "이메일확인")
     public String checkEmail(@PathVariable String email) {
         String result = "";
-        Optional<User> userOpt = userDao.findUserByEmail(email);
-        if (userOpt.isPresent()) {
-            result = "이미 존재하는 이메일입니다.";
+
+        ReportUser reuser = reportUserDao.findByEmail(email);
+    if(reuser != null){
+        if (reuser.getIsdrop() == 1) {
+            result = "사용할수없는 이메일입니다";
+            return result;
+        }else {
+            Optional<User> userOpt = userDao.findUserByEmail(email);
+            if (userOpt.isPresent()) {
+                result = "이미 존재하는 이메일입니다.";
+            }
+            return result;
         }
-        return result;
+        
+    } else {
+            Optional<User> userOpt = userDao.findUserByEmail(email);
+            if (userOpt.isPresent()) {
+                result = "이미 존재하는 이메일입니다.";
+            }
+            return result;
+        }
     }
 
     @GetMapping("/checkNickname/{nickname}")
@@ -324,7 +345,7 @@ public class AccountController {
                     newUser.setPassword(request.getPassword());
                 }
                 newUser.setNickname(request.getNickname());
-                newUser.setImgurl(request.getImgurl());
+                // newUser.setImgurl(request.getImgurl());
                 userDao.save(newUser);
                 return newUser;
             } else {
@@ -407,5 +428,36 @@ public class AccountController {
             System.out.println("다시 입력해주세요");
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
+    }
+
+    @PostMapping("/file/{email}")
+    @ApiOperation(value = "이미지 저장")
+    public String fileTest(@RequestPart("file") MultipartFile ff, @PathVariable String email) throws IllegalStateException, IOException {
+        // File file = new File("home\\ubuntu\\ssafy6\\s03p13b206\\frontend\\src\\assets\\file\\" + ff.getOriginalFilename());
+        
+        // String originFilename = ff.getOriginalFilename();
+        // String extName = "."+originFilename.substring(originFilename.lastIndexOf(".")+1, originFilename.length()).toLowerCase();
+        String fileName = "";
+		
+		Calendar calendar = Calendar.getInstance();
+		fileName += calendar.get(Calendar.YEAR);
+		fileName += calendar.get(Calendar.MONTH);
+		fileName += calendar.get(Calendar.DATE);
+		fileName += calendar.get(Calendar.HOUR);
+		fileName += calendar.get(Calendar.MINUTE);
+		fileName += calendar.get(Calendar.SECOND);
+		fileName += calendar.get(Calendar.MILLISECOND);
+		fileName += ".png";
+        File file = new File("C:\\nhj\\project-sub3\\s03p13b206\\frontend\\src\\assets\\file\\" + fileName);
+        if (!file.getParentFile().exists())
+            file.getParentFile().mkdirs();
+            ff.transferTo(file);
+        // System.out.println("file is " + file.getAbsolutePath());
+        // System.out.println("name is " + file.getName() );
+
+        User user = userDao.findUserByEmail(email).get();
+        user.setImgurl(file.getName());
+        userDao.save(user);
+        return file.getName();
     }
 }

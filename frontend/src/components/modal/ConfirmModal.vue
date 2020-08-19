@@ -19,13 +19,19 @@
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <div class="modal-body pb-0">
-          일련번호 입력
-          <br />
-          <input type="text" v-model="serialno" />
+        <!-- body -->
+        <div class="modal-body pb-0 d-flex justify-content-center align-items-center row">
+          <div class="col-12">
+            <span>일련번호 입력</span>
+            <div class="mt-3 input-group input-group-lg pl-5 pr-5">
+              <input type="text" class="form-control" aria-label="Large" aria-describedby="inputGroup-sizing-sm">
+            </div>
+          </div>
         </div>
+
+        <!-- footer -->
         <div class="modal-footer border-0 pt-0">
-            <button @click="makeuse(purid,serialno)" type="button" class="btn" data-dismiss="modal"><i class="fas fa-plus-circle">구매 확정</i></button>
+            <button @click="makeuse(purid,serialno)" type="button" class="btn" data-dismiss="modal"><i class="fas fa-plus-circle"><span class="ml-1">구매 확정</span></i></button>
  
         </div>
       </div>
@@ -42,6 +48,7 @@ export default {
   data() {
     return {
       serialno: "",
+      detailData: "",
     };
   },
   props: {

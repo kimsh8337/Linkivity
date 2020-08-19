@@ -8,7 +8,8 @@
           <div class="row no-gutters">
             <div class="col-md-5">
               <img
-                :src="post.imgurl"
+                :src="makeimgurl(post.imgurl)"
+                v-if="post.imgurl"
                 class="card-img"
                 style="height: 16rem; box-shadow:5px 5px 5px rgba(0,0,0,.15)"
                 alt
@@ -24,92 +25,47 @@
                       style="text-align:left; font-size:1rem; text-overflow:ellipsis; overflow: hidden; white-space: nowrap;"
                       v-for="hash in hashTag"
                       :key="hash.id"
-                    >#{{ hash }}</small>
-                    <div class="ml-auto">
-                    </div>
+                      >#{{ hash }}</small
+                    >
+                    <div class="ml-auto"></div>
                   </div>
                   <div class="d-flex justify-content-start">
                     <!-- 업체 위치 -->
                     <p
                       class="card-text"
                       style="font-size: 1rem; color: rgb(168, 168, 168); text-align: left; text-overflow:ellipsis; overflow: hidden; white-space: nowrap;"
-                    >[{{ post.location }}]</p>
+                    >
+                      [{{ post.location }}]
+                    </p>
                   </div>
                   <!-- 제목 -->
-                  <p
-                    class="card-text font-weight-bold"
-                    style="font-size: 1.2rem; text-align: left;"
-                  >[{{ post.activity }}]{{ post.title }}</p>
+                  <p class="card-text font-weight-bold" style="font-size: 1.2rem; text-align: left;">
+                    [{{ post.activity }}]{{ post.title }}
+                  </p>
                   <!-- season, place check badge -->
-                  <div
-                    style="text-align: left; text-overflow:ellipsis; overflow: hidden; white-space: nowrap;"
-                  >
-                    <b-badge
-                      v-if="this.springCheck == 1"
-                      pill
-                      variant
-                      style="background-color: #F699CD;"
-                    >Spring</b-badge>
-                    <b-badge
-                      v-if="this.summerCheck == 1"
-                      pill
-                      variant
-                      style="background-color: #32a852;"
-                    >Summer</b-badge>
-                    <b-badge
-                      v-if="this.autumnCheck == 1"
-                      pill
-                      variant
-                      style="background-color: #CCA38D"
-                    >Autumm</b-badge>
-                    <b-badge
-                      v-if="this.winterCheck == 1"
-                      pill
-                      variant
-                      style="background-color: #D3D3D3"
-                    >Winter</b-badge>
-                    <b-badge
-                      v-if="this.placeCheck == 'ground'"
-                      pill
-                      variant
-                      style="background-color: #501B00"
-                    >Ground</b-badge>
-                    <b-badge
-                      v-if="this.placeCheck == 'water'"
-                      pill
-                      variant
-                      style="background-color: #003399"
-                    >Water</b-badge>
-                    <b-badge
-                      v-if="this.placeCheck == 'sky'"
-                      pill
-                      variant
-                      style="background-color: #8DCCE7"
-                    >Sky</b-badge>
+                  <div style="text-align: left; text-overflow:ellipsis; overflow: hidden; white-space: nowrap;">
+                    <b-badge v-if="this.springCheck == 1" pill variant style="background-color: #F699CD;">Spring</b-badge>
+                    <b-badge v-if="this.summerCheck == 1" pill variant style="background-color: #32a852;">Summer</b-badge>
+                    <b-badge v-if="this.autumnCheck == 1" pill variant style="background-color: #CCA38D">Autumm</b-badge>
+                    <b-badge v-if="this.winterCheck == 1" pill variant style="background-color: #D3D3D3">Winter</b-badge>
+                    <b-badge v-if="this.placeCheck == 'ground'" pill variant style="background-color: #501B00">Ground</b-badge>
+                    <b-badge v-if="this.placeCheck == 'water'" pill variant style="background-color: #003399">Water</b-badge>
+                    <b-badge v-if="this.placeCheck == 'sky'" pill variant style="background-color: #8DCCE7">Sky</b-badge>
                   </div>
                   <!-- 사용 기간 -->
                   <div class="d-flex justify-content-between">
-                    <p
-                      class="card-text mt-3"
-                      style="font-size: 1rem; text-overflow:ellipsis; overflow: hidden; white-space:nowrap;"
-                    >유효기간 {{ post.sdate }}~{{ post.edate }}</p>
+                    <p class="card-text mt-3" style="font-size: 1rem; text-overflow:ellipsis; overflow: hidden; white-space:nowrap;">
+                      유효기간 {{ post.sdate }}~{{ post.edate }}
+                    </p>
                     <!-- 신고하기 버튼 -->
                   </div>
                   <!-- 이용 가격 -->
                   <div class="d-flex justify-content-end" style="margin-top:4rem;">
-                    <p
-                      class="card-text mt-2 mr-4 mb-0"
-                      style="font-size: 1rem; color: rgb(168, 168, 168); text-decoration:line-through;
-                  "
-                    >\{{ post.price }}</p>
-                    <p
-                      class="card-text font-weight-bold mb-0"
-                      style="font-size: 1.5rem; text-align: left; margin-bottom: 5px;
-                  "
-                    >{{ post.price * 0.95 }} 원</p>
+                    <p class="card-text font-weight-bold mb-0" style="font-size: 1.5rem; text-align: left; margin-bottom: 5px;">
+                      {{ post.price }} 원
+                    </p>
                   </div>
                   <hr class="mt-0" />
-                  
                 </div>
               </div>
             </div>
@@ -118,27 +74,13 @@
       </div>
 
       <!-- Scrollspy  -->
-      <nav
-        id="navbar-example2"
-        class="navbar nav-info"
-        style="position: sticky; top: 0; z-index:100;"
-      >
+      <nav id="navbar-example2" class="navbar nav-info" style="position: sticky; top: 0; z-index:100;">
         <ul class="nav justify-content-between" style="width:70%; margin:auto">
           <li class="nav-item">
-            <a
-              class="nav-link info-link"
-              href="#item"
-              @click="scroll"
-              style="font-size:0.9rem; width:100%;"
-            >상세정보</a>
+            <a class="nav-link info-link" href="#item" @click="scroll" style="font-size:0.9rem; width:100%;">상세정보</a>
           </li>
           <li class="nav-item">
-            <a
-              class="nav-link info-link"
-              href="#corp"
-              @click="scroll"
-              style="font-size:0.9rem; width:100%"
-            >업체정보</a>
+            <a class="nav-link info-link" href="#corp" @click="scroll" style="font-size:0.9rem; width:100%">업체정보</a>
           </li>
         </ul>
       </nav>
@@ -146,7 +88,7 @@
       <div data-spy="scroll" data-target="#navbar-example2" data-offset="0">
         <!-- 상세 정봉 -->
         <h4 id="item" class="d-flex mb-3" style="font-weight:bold">상세정보</h4>
-        <Viewer v-if="post.detail != null" :initialValue="post.detail"/>
+        <Viewer v-if="post.detail != null" :initialValue="post.detail" />
         <hr />
         <!-- 업체 정보 -->
         <h4 id="corp" class="d-flex mb-3" style="font-weight:bold">업체정보</h4>
@@ -157,28 +99,22 @@
         <div id="map" style="max-width: 100%; height:300px;"></div>
         <small class="d-flex mt-2" style="font-weight:bold;">{{ post.location }}</small>
         <hr class="mt-2" />
-        </div>
-      <!-- 거절 승인 -->
-                  <div class="d-flex justify-content-end mb-5">
-                    <button type="button" class="btn btn-danger mr-1" @click="postreject(post.pid)">
-                      <i class="fas fa-times mr-2" ></i>거절
-                    </button>
-                    <button class="btn btn-primary" @click="postpermit(post.pid)">
-                      <i class="far fa-hand-point-up mr-2" ></i>승인
-                    </button>
-                  </div>
       </div>
-
-
+      <!-- 거절 승인 -->
+      <div class="d-flex justify-content-end mb-5">
+        <button type="button" class="btn btn-danger mr-1" @click="postreject(post.pid)"><i class="fas fa-times mr-2"></i>거절</button>
+        <button class="btn btn-primary" @click="postpermit(post.pid)"><i class="far fa-hand-point-up mr-2"></i>승인</button>
+      </div>
     </div>
+  </div>
 </template>
 
 <script>
-import axios from "axios";
+import axios from 'axios';
 
-import "codemirror/lib/codemirror.css";
-import "@toast-ui/editor/dist/toastui-editor.css";
-import { Viewer } from "@toast-ui/vue-editor";
+import 'codemirror/lib/codemirror.css';
+import '@toast-ui/editor/dist/toastui-editor.css';
+import { Viewer } from '@toast-ui/vue-editor';
 
 const baseURL = process.env.VUE_APP_BACKURL;
 
@@ -189,15 +125,15 @@ export default {
   data() {
     return {
       post: [],
-      pid: "",
-      email: "",
+      pid: '',
+      email: '',
       hashTag: [],
-      checkType: "",
-      springCheck: "",
-      summerCheck: "",
-      autumnCheck: "",
-      winterCheck: "",
-      placeCheck: "",
+      checkType: '',
+      springCheck: '',
+      summerCheck: '',
+      autumnCheck: '',
+      winterCheck: '',
+      placeCheck: '',
     };
   },
   created() {
@@ -206,11 +142,14 @@ export default {
     this.fetchHashTag();
   },
   methods: {
-      scroll(evt) {
+    scroll(evt) {
       evt.preventDefault();
-      const href = evt.target.getAttribute("href");
+      const href = evt.target.getAttribute('href');
       var location = document.querySelector(href).offsetTop;
-      window.scrollTo({ top: location + 360, behavior: "smooth" });
+      window.scrollTo({ top: location + 360, behavior: 'smooth' });
+    },
+    makeimgurl(imgurl) {
+      return require('@/assets/file/' + imgurl);
     },
     getPost() {
       axios
@@ -229,7 +168,7 @@ export default {
         });
     },
     mapView(loc) {
-      var mapContainer = document.getElementById("map"), // 지도를 표시할 div
+      var mapContainer = document.getElementById('map'), // 지도를 표시할 div
         mapOption = {
           center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
           level: 5, // 지도의 확대 레벨
@@ -242,7 +181,7 @@ export default {
       var geocoder = new kakao.maps.services.Geocoder();
 
       // 주소로 좌표를 검색합니다
-      geocoder.addressSearch(loc, function (result, status) {
+      geocoder.addressSearch(loc, function(result, status) {
         // 정상적으로 검색이 완료됐으면
         if (status === kakao.maps.services.Status.OK) {
           var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
@@ -277,29 +216,86 @@ export default {
     },
 
     // 승인
-    postpermit(pid){
-      axios
-        .get(`${baseURL}/post/permit/${pid}`)
-        .then((res)=>{
-          this.$router.push('/admin')
-        }).catch((err)=>{
-          console.log(err)
-        })
+    postpermit(pid) {
+      Swal.fire({
+        width: 350,
+        text: '승인하시겠습니까?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: '<a style="font-size:1rem; color:white">승인</a>',
+        cancelButtonText: '<a style="font-size:1rem; color:white">취소</a>',
+      }).then((result) => {
+        if (result.value) {
+          const Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 1000,
+            timerProgressBar: true,
+            onOpen: (toast) => {
+              toast.addEventListener('mouseenter', Swal.stopTimer);
+              toast.addEventListener('mouseleave', Swal.resumeTimer);
+            },
+          });
+          Toast.fire({
+            icon: 'success',
+            title: '포스트가 승인되었습니다.',
+          });
+          axios
+            .get(`${baseURL}/post/permit/${pid}`)
+            .then((res) => {
+              this.$router.push('/admin');
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+        }
+      });
     },
 
     // 거절
-    postreject(pid){
-      axios
-        .delete(`${baseURL}/post/delete/${pid}`)
-        .then(()=>{
-          this.$router.push('/admin')
-      }).catch((err)=>{
-        console.log(err)
-      })
+    postreject(pid) {
+      Swal.fire({
+        width: 350,
+        text: '거절하시겠습니까?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: '<a style="font-size:1rem; color:white">거절</a>',
+        cancelButtonText: '<a style="font-size:1rem; color:white">취소</a>',
+      }).then((result) => {
+        if (result.value) {
+          const Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 1000,
+            timerProgressBar: true,
+            onOpen: (toast) => {
+              toast.addEventListener('mouseenter', Swal.stopTimer);
+              toast.addEventListener('mouseleave', Swal.resumeTimer);
+            },
+          });
+          Toast.fire({
+            icon: 'success',
+            title: '포스트가 거절되었습니다.',
+          });
+          axios
+            .delete(`${baseURL}/post/delete/${pid}`)
+            .then(() => {
+              this.$router.push('/admin');
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+        }
+      });
     },
   },
 };
 </script>
 
-<style>
-</style>
+<style></style>

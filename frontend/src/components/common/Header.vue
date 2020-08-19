@@ -1,7 +1,7 @@
 <template>
   <div id="header" class="p-0" v-if="isHeader">
     <nav class="navbar navbar-expand-lg navbar-light header-nav col-md-12">
-      <img src="../../assets/img/logo4.png" @click="rendering" class="logo m-3">
+      <img style="cursor: pointer;" src="../../assets/img/logo4.png" @click="rendering" class="logo m-3">
       <!-- <router-link class="nav-title m-0" v-bind:to="{name:constants.URL_TYPE.POST.MAIN}"> -->
         <!-- <h5 class="my-auto font-weight-bold nav-title" @click="rendering"></h5> -->
       <!-- </router-link> -->
@@ -10,9 +10,10 @@
         <b-button
           v-b-toggle.sidebar-1
           class="btn btn-light"
-          style="background-color:rgba(255,255,255,0.1); border: 1px solid rgb(134, 165, 212)"
+          style="background-color:rgba(255,255,255,0); border:none"
         >
-          <span class="navbar-toggler-icon"></span>
+          <i class="fas fa-2x fa-bars" style="color:rgb(134, 165, 212)"></i>
+          <!-- <span class="navbar-toggler-icon far fa-2x" style="font-size:1rem;"></span> -->
         </b-button>
         <b-sidebar id="sidebar-1" title="Menu" shadow width="250px">
           <div class="ml-4" style="text-align:left">
@@ -44,7 +45,7 @@
 
               <li class="nav-item">
                 <a v-if="this.$cookies.isKey('Auth-Token') && this.usertype != 'admin'" @click="info" class="nav-link mt-3  hamburger">
-                  <i class="far fa-user mr-2"></i>
+                  <i class="fas fa-user mr-2"></i>
                   마이페이지
                 </a>
               </li>
@@ -108,7 +109,7 @@
               @click="info"
               class="nav-link mt-3 mr-2"
             >
-              <i class="far fa-user mr-1"></i>마이페이지
+              <i class="fas fa-user mr-1"></i>마이페이지
             </a>
           </li>
           <li class="nav-item">
@@ -178,13 +179,16 @@ export default {
         });
     },
     goadmin() {
-      this.$router.push('/admin');
+      this.$router.push('/admin').catch((err) => {
+        this.$router.go();
+      });
     },
     gocreate() {
       this.$router.push({
         name: 'PostCreate',
+      }).catch((err) => {
+        this.$router.go();
       });
-      this.$router.go();
     },
     logout: function() {
       this.$cookies.remove('Auth-Token');
@@ -212,19 +216,24 @@ export default {
       }, 1000);
     },
     info: function() {
-      this.$router.push('/user/info/');
-      this.$router.go();
+      this.$router.push('/user/info/').catch((err) => {
+        this.$router.go();
+      });
     },
     goPost: function() {
-      this.$router.push('/posts/');
-      this.$router.go();
+      this.$router.push('/posts/').catch((err) => {
+        this.$router.go();
+      });
     },
     goBasket: function() {
-      this.$router.push('/user/basket/');
-      this.$router.go();
+      this.$router.push('/user/basket/').catch((err) => {
+        this.$router.go();
+      });
     },
     goNotice: function() {
-      this.$router.push('/notice/');
+      this.$router.push('/notice/').catch((err) => {
+        this.$router.go();
+      });
     },
   },
   data() {

@@ -75,7 +75,8 @@ export default {
 
 <style>
 #app {
-  font-family: 'Nanum Gothic', sans-serif;
+  font-family: 'CookieRunOTF-Bold';
+  /* font-family: 'Nanum Gothic', sans-serif; */
   /* font-family: 'Lexend Zetta', sans-serif; */
   /* font-family: Avenir, Helvetica, Arial, sans-serif; */
   -webkit-font-smoothing: antialiased;
@@ -83,5 +84,17 @@ export default {
   text-align: center;
   color: #2c3e50;
   /* margin-top: 7rem; */
+}
+
+            @font-face {
+    font-family: 'CookieRunOTF-Bold';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_twelve@1.0/CookieRunOTF-Bold00.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+            
+            
+html {
+  scroll-behavior: smooth;
 }
 </style>

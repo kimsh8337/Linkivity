@@ -8,7 +8,8 @@
           <div class="row no-gutters">
             <div class="col-md-5">
               <img
-                :src="post.imgurl"
+                :src="makeimgurl(post.imgurl)"
+                v-if="post.imgurl"
                 class="card-img"
                 style="height: 16rem; box-shadow:5px 5px 5px rgba(0,0,0,.15)"
                 alt
@@ -112,13 +113,13 @@
                     <span
                       data-toggle="modal"
                       data-target="#indict"
-                      class="mr-2 my-auto indict"
+                      class="mr-2 indict my-auto"
                       style="border:none; font-size:1.2rem"
                       title="신고하기"
                     >
                     <div class="row">
-                      <i class="fas fa-bell-slash" style="color:red"></i>
-                      <p style="font-size:1rem; color:red">신고</p>
+                      <i class="fas fa-bell-slash my-auto" style="color:red"></i>
+                      <p class="my-auto" style="font-size:1rem; color:red">신고</p>
                     </div>
                     <!-- <i class="fas fa-bullhorn" style="color:red">신고</i> -->
                       <!-- <i class="fas fa-angry" style="color:red"></i> -->
@@ -128,23 +129,26 @@
                   <!-- 이용 가격 -->
                   <div class="d-flex justify-content-end mt-3">
                     <p
-                      class="card-text mt-2 mr-4 mb-0"
-                      style="font-size: 1rem; color: rgb(168, 168, 168); text-decoration:line-through;
-                  "
-                    >\{{ post.price }}</p>
-                    <p
                       class="card-text font-weight-bold mb-0"
                       style="font-size: 1.5rem; text-align: left; margin-bottom: 5px;
                   "
-                    >{{ post.price * 0.95 }} 원</p>
+                    >{{ post.price }} 원</p>
                   </div>
                   <hr class="mt-0" />
                   <!-- like heart -->
                   <div class="d-flex justify-content-end mr-0 mt-3 mb-3">
                     <div class="d-flex justify-content-start">
                       <i
+                        v-if="isheart"
                         class="fas fa-heart select-button mr-2"
                         style="text-align: right; font-size: 20px; color:crimson"
+                        @click="registlike(post.pid)"
+                      ></i>
+                      <i
+                        v-if="!isheart"
+                        class="far fa-heart select-button mr-2"
+                        style="text-align: right; font-size: 20px; color:crimson"
+                        @click="registlike(post.pid)"
                       ></i>
                       {{ post.likecnt }}명이 좋아요를 눌렀습니다.
                     </div>
@@ -170,7 +174,7 @@
       <nav
         id="navbar-example2"
         class="navbar nav-info"
-        style="position: sticky; top: 0; z-index:100;"
+        style="position: sticky; top: 0; z-index:1;"
       >
         <ul class="nav justify-content-between" style="width:100%;">
           <li class="nav-item">
@@ -205,8 +209,8 @@
       <br />
       <div data-spy="scroll" data-target="#navbar-example2" data-offset="0">
         <!-- 상세 정봉 -->
-        <h4 id="item" class="d-flex mb-3" style="font-weight:bold">상세정보</h4>
-        <Viewer v-if="post.detail != null" :initialValue="post.detail"/>
+        <h4 id="item" class="d-flex mb-3" style="font-weight:bold;">상세정보</h4>
+        <Viewer v-if="post.detail != null" :initialValue="post.detail" style="text-align:justify"/>
         <hr />
         <!-- 업체 정보 -->
         <h4 id="corp" class="d-flex mb-3" style="font-weight:bold">업체정보</h4>
@@ -222,7 +226,7 @@
           <div>
             <h4 id="review" class style="font-weight:bold">후기</h4>
           </div>
-          <button data-toggle="modal" data-target="#reviewWrite" v-if="this.checkType == 'normal'" class="btn btn-default" style="background-color:#86a5d4; color:white;">
+          <button data-toggle="modal" data-target="#reviewWrite" v-if="this.checkType == 'normal'" class="btn btn-sm" style="background-color:#86a5d4; color:white; height:1.8rem">
             <i class="fas fa-pen"></i>
             작성
           </button>
@@ -265,10 +269,10 @@
         class="d-flex justify-content-end mt-3 mb-3"
         v-if="this.email == this.post.email | this.checkType == 'admin'"
       >
-        <button class="btn btn-success" v-if="this.email == this.post.email" @click="goModify">
+        <button class="btn btn-default mr-2" v-if="this.email == this.post.email" style="background-color:#86a5d4; color:white; font-weight:bold;" @click="goModify">
           <i class="far fa-edit mr-2"></i>수정하기
         </button>
-        <button class="btn btn-danger" @click="goDelete">
+        <button class="btn btn-danger" style="font-weight:bold;" @click="goDelete">
           <i class="far fa-trash-alt mr-2"></i>삭제하기
         </button>
       </div>
@@ -321,6 +325,7 @@ export default {
       autumnCheck: "",
       winterCheck: "",
       placeCheck: "",
+      isheart :false,
     };
   },
   created() {
@@ -344,7 +349,7 @@ export default {
       evt.preventDefault();
       const href = evt.target.getAttribute("href");
       var location = document.querySelector(href).offsetTop;
-      window.scrollTo({ top: location + 360, behavior: "smooth" });
+      window.scrollTo({ top: location + 340, behavior: "smooth" });
     },
     authUser() {
       axios
@@ -356,8 +361,72 @@ export default {
           this.fetchComment();
         })
         .catch((err) => {
-          console.log(err.response);
+          if(err.response.status == 400) {
+            this.$router.push("/badRequest").catch(err => {
+            });
+          } else if(err.response.status == 500) {
+            this.$router.push("/serverError").catch(err => {
+            });
+          }
         });
+    },
+    checklike(){
+      axios
+        .get(`${baseURL}/like/checkpidlike/${this.email}/${this.post.pid}`)
+        .then((res) => {
+          if(res.data==0){
+            this.isheart = false;
+          }else if(res.data==1){
+            this.isheart = true;
+          }
+        })
+        .catch((err) => {
+          alert(err);
+        });
+    },
+    registlike(pid) {
+      if (this.email != "") {
+        axios
+          .get(`${baseURL}/like/registDelete/${this.email}/${pid}`)
+          .then((res) => {
+            // this.checklike();
+            // this.reloading(this.page);
+            if (res.data == "regist") {
+              this.$toasted.show('좋아좋아요', {
+                theme: 'bubble',
+                position: 'top-right',
+                duration: 1000,
+              });
+              this.isheart=true;
+            } else {
+              this.$toasted.show('좋아요 취소', {
+                theme: 'bubble',
+                position: 'top-right',
+                duration: 1000,
+              });
+              this.isheart=false;
+            }
+          })
+          .catch((err) => {
+            alert(err);
+          });
+      } else {
+        Swal.fire({
+          icon: 'error',
+          text: '로그인 후 이용해주세요...',
+          confirmButtonColor: '#fff',
+          width: 350,
+          confirmButtonText: '<a data-toggle="modal" data-target="#LoginModal" style="font-size:1rem; color:black" >Login</a>',
+          showCancelButton: true,
+          cancelButtonText: '<a style="font-size:1rem; color:black">Cancel</a>',
+          cancelButtonColor: '#fff',
+        }).then((result) => {
+          Swal.close();
+        });
+      }
+    },
+     makeimgurl(imgurl){
+      return require("@/assets/file/"+imgurl);
     },
     test() {
       Kakao.Link.createDefaultButton({
@@ -402,9 +471,16 @@ export default {
           this.placeCheck = res.data.place;
           this.post = res.data;
           this.mapView(this.post.location);
+          this.checklike();
         })
         .catch((err) => {
-          console.log(err);
+          if(err.response.status == 400) {
+            this.$router.push("/badRequest").catch(err => {
+            });
+          } else if(err.response.status == 500) {
+            this.$router.push("/serverError").catch(err => {
+            });
+          }
         });
     },
     goModify() {
@@ -429,7 +505,7 @@ export default {
             toast: true,
             position: "top-end",
             showConfirmButton: false,
-            timer: 3000,
+            timer: 1000,
             timerProgressBar: true,
             onOpen: (toast) => {
               toast.addEventListener("mouseenter", Swal.stopTimer);
@@ -446,7 +522,13 @@ export default {
               this.$router.push(`/posts`);
             })
             .catch((error) => {
-              console.log(error.response.data);
+              if(err.response.status == 400) {
+                this.$router.push("/badRequest").catch(err => {
+                });
+              } else if(err.response.status == 500) {
+                this.$router.push("/serverError").catch(err => {
+                });
+              }
             });
         }
       });
@@ -474,7 +556,13 @@ export default {
           });
         })
         .catch((error) => {
-          console.log(error);
+          if(err.response.status == 400) {
+            this.$router.push("/badRequest").catch(err => {
+            });
+          } else if(err.response.status == 500) {
+            this.$router.push("/serverError").catch(err => {
+            });
+          }
         });
     },
     fetchComment() {
@@ -484,7 +572,13 @@ export default {
           this.receiveComment = response.data;
         })
         .catch((error) => {
-          console.log(error.response.data);
+          if(err.response.status == 400) {
+            this.$router.push("/badRequest").catch(err => {
+            });
+          } else if(err.response.status == 500) {
+            this.$router.push("/serverError").catch(err => {
+            });
+          }
         });
     },
     commentDelete(comment) {
@@ -521,7 +615,13 @@ export default {
               this.fetchComment();
             })
             .catch((error) => {
-              console.log(error.response.data);
+              if(err.response.status == 400) {
+                this.$router.push("/badRequest").catch(err => {
+                });
+              } else if(err.response.status == 500) {
+                this.$router.push("/serverError").catch(err => {
+                });
+              }
             });
         }
       });
@@ -548,7 +648,13 @@ export default {
                   this.posts = this.res;
                 })
                 .catch((err) => {
-                  console.log(err);
+                  if(err.response.status == 400) {
+                    this.$router.push("/badRequest").catch(err => {
+                    });
+                  } else if(err.response.status == 500) {
+                    this.$router.push("/serverError").catch(err => {
+                    });
+                  }
                 });
           }
         })
@@ -576,7 +682,7 @@ export default {
             toast: true,
             position: "top-end",
             showConfirmButton: false,
-            timer: 3000,
+            timer: 1000,
             timerProgressBar: true,
             onOpen: (toast) => {
               toast.addEventListener("mouseenter", Swal.stopTimer);
@@ -692,7 +798,13 @@ export default {
           this.hashTag = response.data;
         })
         .catch((error) => {
-          console.log(error);
+          if(err.response.status == 400) {
+            this.$router.push("/badRequest").catch(err => {
+            });
+          } else if(err.response.status == 500) {
+            this.$router.push("/serverError").catch(err => {
+            });
+          }
         });
     },
   },
