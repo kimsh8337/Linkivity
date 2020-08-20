@@ -21,7 +21,7 @@
             <span class="d-flex mb-3" style="font-weight:bold">[후기 정보]</span>
             <div class="row mb-3">
                 <!-- review에 남긴 img -->
-                <img class="col-6" v-if="reviewDetail.img" :src="reviewDetail.img" style="width:40%; height:40%"/>
+                <img class="col-6" v-if="reviewDetail.img" :src="makeimgurl(reviewDetail.img)" style="width:40%; height:40%"/>
                 <img class="col-6" v-if="!reviewDetail.img" src="../../assets/img/noimage.jpg" style="width:40%; height:40%"/>
                 <div class="col-6">
                     <!-- review 제목 -->
