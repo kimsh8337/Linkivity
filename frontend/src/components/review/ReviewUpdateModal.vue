@@ -131,7 +131,6 @@ export default {
     fileUpload(rvid) {
     var formData = new FormData();
     const file = this.$refs.file.files[0];
-    alert(file.size)
     if(file.size >= 1048576) {
       Swal.fire({
         width:350,

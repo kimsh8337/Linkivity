@@ -7,7 +7,7 @@
       ><i class="fas fa-surprise ml-2"></i>
     </div>
     <!-- 임시저장 List가 있을 때 -->
-    <div class="container p-0" v-if="temps.length > 0">
+    <div class=" p-0" v-if="temps.length > 0">
       <table class="table">
         <tr style="background:RGB(134, 165, 212); color:white;" v-if="temps.length > 0">
           <td style="width:10%; font-weight:bold">No</td>
@@ -16,24 +16,24 @@
           <td style="width:15%; font-weight:bold">수정/삭제</td>
         </tr>
         <tr v-for="(temp, index) in temps" :key="index">
-          <td>{{index+1}}</td>
+          <td style="font-weight:bold;">{{index+1}}</td>
           <td style="text-overflow:ellipsis; overflow: hidden; white-space: nowrap;">
             <router-link
               v-if="temp.pid"
-              style="color:black"
+              style="color:black;font-weight:bold;"
               v-bind:to="{ name: 'PostTempDetail', params: { ID: temp.pid } }"
               class="btn--text"
               >{{ temp.title }}</router-link
             >
           </td>
-          <td style="text-overflow:ellipsis; overflow: hidden; white-space: nowrap;">{{ tempDate(temp.createDate) }}</td>
+          <td style="font-weight:bold;text-overflow:ellipsis; overflow: hidden; white-space: nowrap;">{{ tempDate(temp.createDate) }}</td>
           <td>
-            <span class="badge" style="color:lightblue; cursor: pointer; font-size:0.9rem;" @click="tempUpdate(temp.pid)"
+            <span class="badge" style="color:#86a5d4; cursor: pointer; font-size:0.9rem;font-weight:bold;" @click="tempUpdate(temp.pid)"
               >수정</span
             >
             <span>/</span>
             <span
-              style="color:pink; cursor: pointer; font-size:0.9rem;"
+              style="color:red; cursor: pointer; font-size:0.9rem;font-weight:bold;"
               class="badge"
               @click="tempDelete(temp.pid)"
               >삭제</span

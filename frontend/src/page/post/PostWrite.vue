@@ -1,5 +1,5 @@
 <template>
-  <div class="container p-0">
+  <div class="p-0">
     
     <!-- 쓴 글이 없을 때 -->
     <div class="mt-5" v-if="wposts.length <= 0">
@@ -31,8 +31,8 @@
         </tr>
       </thead>
       <tr id="tt" v-for="(post, index) in wposts" :key="index">
-        <td v-if="email == post.email">{{((wpage - 1) * 8 ) + index + 1}}</td>
-        <td v-if="email == post.email">
+        <td>{{((wpage - 1) * 8 ) + index + 1}}</td>
+        <td>
           <img
             :src="makeimgurl(post.imgurl)"
             v-if="post.imgurl"
@@ -40,15 +40,15 @@
           />
         </td>
         <td
-          v-if="email == post.email"
-          style="text-overflow:ellipsis; overflow: hidden; white-space: nowrap;"
+          
+          style="font-weight:bold;text-overflow:ellipsis; overflow: hidden; white-space: nowrap;"
         >{{ post.title }}</td>
         <td
-          v-if="email == post.email"
-          style="text-overflow:ellipsis; overflow: hidden; white-space: nowrap;"
+          
+          style="font-weight:bold;text-overflow:ellipsis; overflow: hidden; white-space: nowrap;"
         >{{ createdate(post.createDate) }}</td>
-        <td v-if="email == post.email">
-          <button class="postwrite-button" @click="getdetail(post.pid)">바로가기</button>
+        <td>
+          <button class="postwrite-button" @click="getdetail(post.pid)" style="font-weight:bold;">바로가기</button>
         </td>
       </tr>
     </table>
