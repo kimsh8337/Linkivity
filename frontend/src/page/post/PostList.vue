@@ -4,8 +4,8 @@
     <div class="post-img" style="display:block;"></div>
 
     <div class="post mt-5">
-      <div class="container col-md-8">
-        <div class="input-group mb-5">
+      <div class="container col-md-11">
+        <div class="input-group mb-5 col-md-9 mx-auto">
           <div class="input-group-prepend">
             <select
               class="btn dropdown-toggle text-black"
@@ -26,7 +26,7 @@
 
         <div class="hello">
           <div>
-            <b-tabs content-class="mt-5" justified active-nav-item-class="font-weight-bold text-uppercase text-danger">
+            <b-tabs content-class="mt-5" justified active-nav-item-class="font-weight-bold text-uppercase text-primary">
               <b-tab title="All" active @click="settype('all')"></b-tab>
               <b-tab title="Spring" @click="settype('spring')"></b-tab>
               <b-tab title="Fall" @click="settype('autumn')"></b-tab>
@@ -52,7 +52,7 @@
         >
           <div class="card mb-3 profile-post mr-0 ml-0">
             <div class="card-body" style="padding: 0;">
-              <div class="postlist-img"  @click="getdetail(post.pid)">
+              <div class="box"  @click="getdetail(post.pid)">
 
               <img :src="makeimgurl(post.imgurl)" v-if="post.imgurl" class="card-img postlist-img" style="height:10rem; box-shadow:5px 5px 5px rgba(0,0,0,.15)" />
               <div
@@ -163,7 +163,7 @@ export default {
     };
   },
   methods: {
-    round(star) {
+    round(별) {
       return Math.round(star * 10) / 10.0;
     },
     makeimgurl(imgurl) {
@@ -190,14 +190,14 @@ export default {
                 this.posts = this.posts.concat(res.data);
                 $state.loaded();
                 this.page += 1;
-                if (this.posts.length / 5 < 1) {
+                if (this.posts.length / 8 < 1) {
                   $state.complete();
                 }
                 this.nextTag();
               } else {
                 $state.complete();
               }
-            }, 100);
+            }, 500);
           })
           .catch((err) => {
             console.log(err);
@@ -211,13 +211,13 @@ export default {
                 this.posts = this.posts.concat(res.data);
                 $state.loaded();
                 this.page += 1;
-                if (this.posts.length / 5 < 1) {
+                if (this.posts.length / 8 < 1) {
                   $state.complete();
                 }
               } else {
                 $state.complete();
               }
-            }, 1000);
+            }, 500);
           })
           .catch((err) => {
             console.log(err);
@@ -247,7 +247,7 @@ export default {
             .get(`${baseURL}/post/search/${this.type}/${this.key}/${this.word}/0`)
             .then((res) => {
               this.posts = res.data;
-              this.nextTag();
+              // this.nextTag();
             })
             .catch((err) => {
               console.log(err);
@@ -312,7 +312,7 @@ export default {
           )
           .then((res) => {
             this.posts = res.data;
-            this.nextTag();
+            // this.nextTag();
           })
           .catch((err) => {
             console.log(err);
@@ -322,7 +322,7 @@ export default {
           .get(`${baseURL}/post/getThatList/${this.type}/${pg - 1}`)
           .then((res) => {
             this.posts = res.data;
-            this.nextTag();
+            // this.nextTag();
           })
           .catch((err) => {
             console.log(err);
