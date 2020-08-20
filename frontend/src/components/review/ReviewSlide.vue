@@ -67,7 +67,7 @@
                 <small style="font-weight:bold;">{{datecut(slide.createDate)}}</small>
               </div>
             </div>
-            <div v-if="email != slide.email" class="d-flex align-items-center mt-4 mr-3">
+            <div v-if="email != slide.email" class="d-flex align-items-center mt-4 mr-3" style="white-space: nowrap;">
               <small style="font-weight:bold">{{datecut(slide.createDate)}}</small>
             </div>
           </div>

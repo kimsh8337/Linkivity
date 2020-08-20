@@ -105,6 +105,7 @@ export default {
       reviewUpdate: [],
       tempimg:'',
       tempcheck:false,
+      checkimgsize: false,
     };
   },
   props: {
@@ -130,16 +131,8 @@ export default {
     },
     fileUpload(rvid) {
     var formData = new FormData();
-    const file = this.$refs.file.files[0];
-    alert(file.size)
-    if(file.size >= 1048576) {
-      Swal.fire({
-        width:350,
-        icon: 'error',
-        text: '업로드 파일 크기를 초과하였습니다!',
-      })
-    }
-    if(file != null) {
+    const file = this.$refs.file.files[0]; 
+    if (file != null) {
       formData.append("file", file);
       axios.post(`${baseURL}/review/file/${rvid}`
           ,formData
@@ -149,8 +142,8 @@ export default {
               }
           }
           )
-        .then(function (response) {
-          
+        .then(function () {
+          this.checkimgsize = true
           })
         .catch(function (error) {
           console.log(error);
@@ -162,6 +155,28 @@ export default {
     },
     onChangeImages(e) {
       const file = e.target.files[0];
+      if(file == null) {
+        return;
+      }
+      if(file.size >= 1048576) {
+        const Toast = Swal.mixin({
+          toast: true,
+          position: 'top-end',
+          showConfirmButton: false,
+          timer: 2000,
+          timerProgressBar: true,
+          onOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer)
+            toast.addEventListener('mouseleave', Swal.resumeTimer)
+          }
+        })
+
+        Toast.fire({
+          icon: 'error',
+          title: '파일 업로드 크기를 초과하였습니다!'
+        })
+        return;
+      }
       this.tempimg = URL.createObjectURL(file);
       this.tempcheck = true;
     },
@@ -194,8 +209,8 @@ export default {
 
           axios
             .put(`${baseURL}/review/modify`, this.reviewUpdate)
-            .then((response) => {
-              this.fileUpload(response.data.rvid);
+            .then((res) => {
+              this.fileUpload(res.data.rvid)
               setTimeout(() => {
                 this.$router.go();
               }, 1000);

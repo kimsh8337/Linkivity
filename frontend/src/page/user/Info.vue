@@ -525,13 +525,6 @@ export default {
     fileUpload: function () {
       var formData = new FormData();
       const file = this.$refs.file.files[0];
-      if(file.size >= 1048576) {
-        Swal.fire({
-          width:350,
-          icon: 'error',
-          text: '업로드 파일 크기를 초과하였습니다!',
-        })
-      }
       if(file != null) {
         formData.append("file", file);
         axios
@@ -552,19 +545,34 @@ export default {
     },
     onChangeImages(e) {
       const file = e.target.files[0];
+      if(file == null) {
+        return;
+      }
+      if(file.size >= 1048576) {
+        const Toast = Swal.mixin({
+          toast: true,
+          position: 'top-end',
+          showConfirmButton: false,
+          timer: 2000,
+          timerProgressBar: true,
+          onOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer)
+            toast.addEventListener('mouseleave', Swal.resumeTimer)
+          }
+        })
+
+        Toast.fire({
+          icon: 'error',
+          title: '파일 업로드 크기를 초과하였습니다!'
+        })
+        return;
+      }
       this.tempimg = URL.createObjectURL(file);
       this.tempcheck = true;
       // var img = new Image(file);
       // img = e.target.files[0];
       // this.createImage(img);
     },
-    // createImage(file) {
-    //   this.imgurl = new Image();
-    //   var reader = new FileReader();
-    //   reader.onload = (e) => {
-    //     this.imgurl = e.target.result;
-    //   };
-    // },
     modifyCancel() {
       this.validated = !this.validated;
     },
