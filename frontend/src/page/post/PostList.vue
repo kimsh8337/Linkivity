@@ -52,7 +52,7 @@
         >
           <div class="card mb-3 profile-post mr-0 ml-0">
             <div class="card-body" style="padding: 0;">
-              <div class="postlist-img"  @click="getdetail(post.pid)">
+              <div class="box"  @click="getdetail(post.pid)">
 
               <img :src="makeimgurl(post.imgurl)" v-if="post.imgurl" class="card-img postlist-img" style="height:10rem; box-shadow:5px 5px 5px rgba(0,0,0,.15)" />
               <div
@@ -163,7 +163,7 @@ export default {
     };
   },
   methods: {
-    round(star) {
+    round(별) {
       return Math.round(star * 10) / 10.0;
     },
     makeimgurl(imgurl) {
@@ -247,7 +247,7 @@ export default {
             .get(`${baseURL}/post/search/${this.type}/${this.key}/${this.word}/0`)
             .then((res) => {
               this.posts = res.data;
-              this.nextTag();
+              // this.nextTag();
             })
             .catch((err) => {
               console.log(err);
