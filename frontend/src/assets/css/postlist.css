@@ -12,11 +12,13 @@
     font-size: 3.2rem;
     position: relative;
     padding-top: 18%;
+    font-family: 'Jua', sans-serif;
 }
 .postmentp{
     font-size:1.8rem;
     color:white;
     position: relative;
+    font-family: 'Jua', sans-serif;
 }
 .post {
     /* font-weight: bold; */
@@ -171,4 +173,10 @@
 
 .btn-sky:hover{
     transform: rotate(15deg);
+}
+
+.selectlist{
+    background-color:white !important; 
+    color: gray !important;
+    font-weight: bold;
 }

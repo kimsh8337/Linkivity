@@ -3,12 +3,12 @@
     <!-- background image -->
     <div class="notice-img" style="display:block;">
       <div class="basket-img-bg"></div>
-      <div class="postment d-flex ml-5">공지사항</div>
+      <div class="postment d-flex ml-5" style="font-weight:bold;">공지사항</div>
     <p class="postmentp d-flex ml-5">링키비티 소식을 알려드려요</p>
     </div>
 
     <!-- NoticeList -->
-    <div class="container col-md-8 mt-5">
+    <div class="container col-md-11 mt-5">
       <div class="d-flex justify-content-between notice-main">
         <p class="notice">
           <i class="fas fa-flag mr-2"></i>Notice

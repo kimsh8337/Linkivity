@@ -3,7 +3,7 @@
     <!-- background image -->
     <div class="post-img" style="display:block;"></div>
 
-    <div class="container col-md-8" style="margin-top: 100px">
+    <div class="container col-md-11" style="margin-top: 100px">
       <div class="column">
         <div class="card mt-5 mb-3" style="max-width: 100%;">
           <div class="row no-gutters">
@@ -51,7 +51,7 @@
                 <div class="text">
                   <!-- 제목 -->
                   <div class="form-group">
-                    <label class="d-flex">Title</label>
+                    <label class="d-flex" style="font-weight:bold;">Title</label>
                     <input type="text" class="form-control" id="title" v-model="PostTemp.title" />
                     <small class="form-text text-muted d-flex" v-if="!error.title">상품명을 입력하세요.</small>
                     <small
@@ -61,7 +61,7 @@
                     >{{ error.title }}</small>
                     <div class="d-flex justify-content-between mt-2 mb-2">
                       <div style="width:49%;">
-                        <label class="d-flex justify-content-start">Activity</label>
+                        <label class="d-flex justify-content-start" style="font-weight:bold;">Activity</label>
                         <input
                           type="text"
                           class="form-control"
@@ -80,7 +80,7 @@
                       </div>
                       <!-- 이용 가격 -->
                       <div style="width:49%;">
-                        <label class="d-flex justify-content-start">Price</label>
+                        <label class="d-flex justify-content-start" style="font-weight:bold;">Price</label>
                         <input type="text" class="form-control" id="price" v-model="PostTemp.price" />
                         <small
                           class="form-text text-muted d-flex"
@@ -99,11 +99,11 @@
                       </div>
                     </div>
                     <!-- 사용 기간 -->
-                    <label class="d-flex justify-content-start mb-0">Expiration-Date</label>
+                    <label class="d-flex justify-content-start mb-0" style="font-weight:bold;">Expiration-Date</label>
                     <div class="d-flex justify-content-between">
-                      <small class="form-text text-muted" style="margin-right:auto;">시작일</small>
+                      <small class="form-text text-muted" style="margin-right:auto;font-weight:bold;">시작일</small>
                       <br />
-                      <small class="form-text text-muted" style="margin-right:auto;">마감일</small>
+                      <small class="form-text text-muted" style="margin-right:auto;font-weight:bold;">마감일</small>
                     </div>
                     <div class="d-flex justify-content-between">
                       <b-form-datepicker id="sdate" v-model="PostTemp.sdate" class="col-md-6 mr-1"></b-form-datepicker>
@@ -126,7 +126,7 @@
       <!-- season, place check badge -->
       <div class="row">
         <div class="form-group col-sm-12 col-md-5" style="width:23rem; ">
-          <label class="d-flex justify-content-start">Field</label>
+          <label class="d-flex justify-content-start" style="font-weight:bold;">Field</label>
           <select class="form-control" id="place" v-model="PostTemp.place">
             <option value="ground">Ground</option>
             <option value="water">Water</option>
@@ -136,7 +136,7 @@
           <small class="form-text d-flex" style="color:red;" v-if="error.place">{{ error.place }}</small>
         </div>
         <div class="form-group col-sm-12 col-md-7">
-          <label class="d-flex justify-content-start">Seasons</label>
+          <label class="d-flex justify-content-start" style="font-weight:bold;">Seasons</label>
           <div class="d-flex justify-content-between">
             <div class="form-check form-check-inline">
               <input
@@ -191,7 +191,7 @@
         <!-- 업체 정보 -->
         <!-- <h4 class="d-flex mb-2" style="font-weight:bold">업체정보</h4> -->
         <div class="form-group">
-          <label class="d-flex justify-content-start">Corporation-Detail</label>
+          <label class="d-flex justify-content-start" style="font-weight:bold;">Corporation-Detail</label>
           <textarea class="form-control" id="company-information" v-model="PostTemp.companyInfo"></textarea>
           <small class="form-text text-muted d-flex" v-if="!error.companyInfo">업체 정보를 입력하세요.</small>
           <small
@@ -206,7 +206,7 @@
         <!-- 상세 정보 -->
         <!-- <h4 class="d-flex mb-2" style="font-weight:bold">상세정보</h4> -->
         <div class="form-group">
-          <label class="d-flex justify-content-start">Detail-Info</label>
+          <label class="d-flex justify-content-start" style="font-weight:bold;">Detail-Info</label>
           <Editor
             ref="toastuiEditor"
             v-if="PostTemp.detail != null"
@@ -221,7 +221,7 @@
         <div id="map" style="max-width: 100%; height:300px;"></div>-->
         <div>
           <!-- <h4 class="d-flex mb-2" style="font-weight:bold">위치</h4> -->
-          <label class="d-flex justify-content-start">Address</label>
+          <label class="d-flex justify-content-start" style="font-weight:bold;">Address</label>
           <div class="d-flex mb-1">
             <!-- <input
               type="text"
@@ -257,7 +257,7 @@
         <hr />
 
         <!-- HasTag -->
-        <label for="tags-basic" class="d-flex mt-3"># HASHTAG</label>
+        <label for="tags-basic" class="d-flex mt-3" style="font-weight:bold;"># HASHTAG</label>
         <b-form-tags
           input-id="tags-pills"
           v-model="hashTag"
@@ -277,13 +277,13 @@
         <button
           type="submit"
           class="btn btn-outline d-flex justify-content-start mr-1"
-          style="font-size:1rem; color: red;"
+          style="font-size:1rem; color: red; font-weight:bold;"
           @click="tempdelete"
         >삭제</button>
         <button
           type="submit"
           class="btn btn-outline d-flex justify-content-start mr-1"
-          style="font-size:1rem; color: gray;"
+          style="font-size:1rem; color: gray; font-weight:bold;"
           @click="tempSave"
         >임시저장</button>
         <button

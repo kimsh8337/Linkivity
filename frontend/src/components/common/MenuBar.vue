@@ -12,18 +12,19 @@
                   액티비티
                 </a>
               </li>
-              <li class="nav-item">
-                <a class="nav-link mt-3  hamburger2" @click="goNotice">
-                  <i class="fas fa-flag mr-2"></i>
-                  공지사항
-                </a>
-              </li>
               <li class="nav-item" v-if="this.$cookies.isKey('Auth-Token') && usertype == 'business'">
                 <a class="nav-link mt-3  hamburger2" @click="gocreate">
                   <i class="fas fa-pen mr-2"></i>
                   액티비티 등록
                 </a>
               </li>
+              <li class="nav-item">
+                <a class="nav-link mt-3  hamburger2" @click="goNotice">
+                  <i class="fas fa-flag mr-2"></i>
+                  공지사항
+                </a>
+              </li>
+              
               <li class="nav-item" v-if="this.$cookies.isKey('Auth-Token') && usertype == 'normal'">
                 <a class="nav-link mt-3 hamburger2" @click="goBasket">
                   <i class="fas fa-shopping-basket mr-2"></i>
