@@ -67,17 +67,17 @@
                 <small style="font-weight:bold;">{{datecut(slide.createDate)}}</small>
               </div>
             </div>
-            <div v-if="email != slide.email" class="d-flex align-items-center mt-4 mr-3" style="white-space: nowrap;">
+            <div v-if="email != slide.email" class="d-flex align-items-center mr-3" style="white-space: nowrap; margin-top:7%">
               <small style="font-weight:bold">{{datecut(slide.createDate)}}</small>
             </div>
           </div>
           <!-- 제목 -->
-          <div class="d-flex ml-2 mt-1">
-            <span style="font-weight:bold; font-size:1.2rem">[{{slide.title}}]</span>
+          <div class="d-flex ml-2 mr-2 mt-2">
+            <span style="font-weight:bold; font-size:1rem; text-align:justify; font-family: 'Jua', sans-serif;">[{{slide.title}}]</span>
           </div>
           <!-- 내용 -->
           <div class="d-flex ml-2 mr-2">
-            <small style="text-align:justify;">{{slide.content}}</small>
+            <small style="text-align:justify; font-family: 'Nanum Gothic', sans-serif;">{{slide.content}}</small>
           </div>
         </div>
       </div>

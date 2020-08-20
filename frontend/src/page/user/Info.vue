@@ -227,7 +227,7 @@
 
           <div class="mt-5">
             <b-tabs content-class="mt-3" fill>
-              <b-tab title="상품목록" active v-if="this.checkType=='business'">
+              <b-tab title="내 상품" active v-if="this.checkType=='business'">
                 <Mypost />
               </b-tab>
               <b-tab title="장바구니" active v-if="this.checkType=='normal'">
@@ -245,7 +245,7 @@
               <b-tab title="판매목록" v-if="this.checkType=='business'">
                 <Sell />
               </b-tab>
-              <b-tab title="임시저장" v-if="this.checkType=='business'">
+              <b-tab title="임시 글" v-if="this.checkType=='business'">
                 <Temp />
               </b-tab>
             </b-tabs>

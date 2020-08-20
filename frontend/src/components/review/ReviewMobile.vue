@@ -39,7 +39,7 @@
             <!-- background-color:black; -->
             <div class="d-flex justify-content-center" style="width:100%">
               <!-- 프로필 보여주기 -->
-              <img class="profile-image d-flex my-2 ml-3 mr-4 " style="width:9vw" v-if="slide.proimg" :src="makeimgurl(slide.proimg)"/>
+              <img class="profile-image d-flex my-2 ml-3 mr-4 " style="width:15%; height:3rem !important;" v-if="slide.proimg" :src="makeimgurl(slide.proimg)"/>
               <div class="mt-2 mr-4 ml-0">
                 <div class="d-flex">
                   <small
@@ -83,11 +83,11 @@
             <div class="d-flex row" style="padding-left:5%">
               <!-- 제목 -->
               <div class="d-flex mt-3 col-12">
-                <span style="font-weight:bold; font-size:1.2rem; text-align:justify">[{{slide.title}}]</span>
+                <span style="font-weight:bold; font-size:1.2rem; text-align:justify; font-family: 'Jua', sans-serif;">[{{slide.title}}]</span>
               </div>
               <!-- 내용 -->
-              <div class="d-flex mt-3 col-12">
-                <small style="text-align:justify">{{slide.content}}</small>
+              <div class="d-flex mt-3 col-12 mb-2">
+                <small style="text-align:justify" class="mr-2">{{slide.content}}</small>
               </div>
             </div>
             </div>
