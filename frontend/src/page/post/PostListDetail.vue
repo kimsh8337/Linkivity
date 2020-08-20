@@ -37,7 +37,7 @@
                       <!-- 카카오톡 공유하기 -->
                       <button
                         class="btn btn p-0"
-                        @click="test(post.imgurl)"
+                        @click="test()"
                         id="kakao-link-btn"
                         icon="share-fill"
                       >
@@ -441,14 +441,14 @@ export default {
       var url = "../../../contents/" + imgurl;
       return url;
     },
-    test(imgurl) {
+    test() {
       Kakao.Link.sendDefault({
         // container: "#kakao-link-btn",
         objectType: "feed",
         content: {
           title: this.post.title, // 콘텐츠의 타이틀
           description: this.post.activity, // 콘텐츠 상세설명
-          imageUrl: `${this.makeimgurl(imgurl)}`, // 썸네일 이미지
+          imageUrl: document.images[2].src, // 썸네일 이미지
           link: {
             webUrl: "http://i3b206.p.ssafy.io:3000/#/posts/" + this.pid,
             mobileWebUrl: "http://i3b206.p.ssafy.io:3000/#/posts/" + this.pid,
