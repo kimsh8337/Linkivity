@@ -54,7 +54,7 @@
 
 .postlist-img:hover{
     border-radius: 5px;
-    transform: scale(1.5);
+    transform: scale(1.2);
     transition: all .3s ease-in-out;
     cursor: pointer;
     
