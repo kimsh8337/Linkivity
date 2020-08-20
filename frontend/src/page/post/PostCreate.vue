@@ -477,7 +477,22 @@ export default {
         this.error.sedate = false;
       }
       if (flag == 1) {
-        alert("정보를 모두 입력해주세요.");
+        const Toast = Swal.mixin({
+          toast: true,
+          position: 'top-end',
+          showConfirmButton: false,
+          timer: 2000,
+          timerProgressBar: true,
+          onOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer)
+            toast.addEventListener('mouseleave', Swal.resumeTimer)
+          }
+        })
+
+        Toast.fire({
+          icon: 'error',
+          title: '정보를 모두 입력해주세요!'
+        })
         return;
       }
       this.PostCreate.location = this.addr2;
@@ -528,7 +543,22 @@ export default {
       this.PostCreate.locationdetail = this.addr3;
       if (this.PostCreate.title == "") {
         this.error.title = "상품명은 빈칸일 수 없습니다.";
-        alert("정보를 확인해주세요");
+        const Toast = Swal.mixin({
+          toast: true,
+          position: 'top-end',
+          showConfirmButton: false,
+          timer: 2000,
+          timerProgressBar: true,
+          onOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer)
+            toast.addEventListener('mouseleave', Swal.resumeTimer)
+          }
+        })
+
+        Toast.fire({
+          icon: 'error',
+          title: '정보를 확인해주세요!'
+        })
         return;
       }
       for (var i = 0; i < this.seasons.length; i++) {

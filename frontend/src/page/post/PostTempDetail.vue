@@ -410,8 +410,8 @@ export default {
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
         cancelButtonColor: "#d33",
-        confirmButtonText: '<a style="font-size:1rem; color:black">Delete</a>',
-        cancelButtonText: '<a style="font-size:1rem; color:black">Cancel</a>',
+        confirmButtonText: '<a style="font-size:1rem; color:black">삭제</a>',
+        cancelButtonText: '<a style="font-size:1rem; color:black">취소</a>',
       }).then((result) => {
         if (result.value) {
           const Toast = Swal.mixin({
@@ -469,8 +469,8 @@ export default {
           confirmButtonColor: "#3085d6",
           cancelButtonColor: "#d33",
           confirmButtonText:
-            '<a style="font-size:1rem; color:black">Update</a>',
-          cancelButtonText: '<a style="font-size:1rem; color:black">Cancel</a>',
+            '<a style="font-size:1rem; color:black">수정</a>',
+          cancelButtonText: '<a style="font-size:1rem; color:black">취소</a>',
         }).then((result) => {
           if (result.value) {
             const Toast = Swal.mixin({
@@ -508,8 +508,8 @@ export default {
           confirmButtonColor: "#3085d6",
           cancelButtonColor: "#d33",
           confirmButtonText:
-            '<a style="font-size:1rem; color:black">Update</a>',
-          cancelButtonText: '<a style="font-size:1rem; color:black">Cancel</a>',
+            '<a style="font-size:1rem; color:black">수정</a>',
+          cancelButtonText: '<a style="font-size:1rem; color:black">취소</a>',
         }).then((result) => {
           if (result.value) {
             const Toast = Swal.mixin({
@@ -599,7 +599,22 @@ export default {
         this.error.sedate = false;
       }
       if (flag == 1) {
-        alert("정보를 모두 입력해주세요.");
+        const Toast = Swal.mixin({
+          toast: true,
+          position: 'top-end',
+          showConfirmButton: false,
+          timer: 2000,
+          timerProgressBar: true,
+          onOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer)
+            toast.addEventListener('mouseleave', Swal.resumeTimer)
+          }
+        })
+
+        Toast.fire({
+          icon: 'error',
+          title: '정보를 모두 입력해주세요!'
+        })
         return;
       }
       // this.PostTemp.location = this.addr2 + " " + this.addr3;
@@ -632,7 +647,7 @@ export default {
       });
 
       axios
-        .post(`${baseURL}/post/regist/${this.hashTag}`, this.PostTemp)
+        .post(`${baseURL}/temp/temptopost/${this.hashTag}`, this.PostTemp)
         .then((response) => {
           this.fileUpload(response.data.pid);
           Toast.fire({
