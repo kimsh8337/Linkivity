@@ -19,7 +19,7 @@
       <div
         v-for="(slide, index) in reviews"
         :key="index"
-        class="col-6 col-sm-6 col-md-3 p-3"
+        class="col-12 col-sm-6 col-md-3 p-3"
       >
         <!-- <div class="card mb-3 profile-post mr-0 ml-0"> -->
         <div
@@ -36,7 +36,7 @@
             class="review-img"
             :src="makeimgurl(slide.img)"
             :alt="slide.title"
-            style="height:8rem;"
+            style="height:9rem; border-top-right-radius:5px; border-top-left-radius:5px;"
           />
           <img
             v-if="!slide.img"

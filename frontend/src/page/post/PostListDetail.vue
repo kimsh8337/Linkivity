@@ -1,7 +1,9 @@
 <template>
   <div class="container col-sm-12 col-md-12 col-lg-12 p-0">
     <!-- background image -->
-    <div class="postdetail-img" style="display:block;"></div>
+    <div class="postdetail-img" style="display:block;">
+      <div class="info-bg"></div>
+    </div>
 
     <div class="container col-md-10" style="margin-top: 100px">
       <div class="column">
@@ -35,7 +37,7 @@
                       <!-- 카카오톡 공유하기 -->
                       <button
                         class="btn btn p-0"
-                        @click="test"
+                        @click="test(post.imgurl)"
                         id="kakao-link-btn"
                         icon="share-fill"
                       >
@@ -111,6 +113,9 @@
                       class="card-text mt-3"
                       style="font-weight:bold;font-size: 1rem; text-overflow:ellipsis; overflow: hidden; white-space:nowrap;"
                     >유효기간 {{ post.sdate }}~{{ post.edate }}</p>
+                  </div>
+                  <!-- 이용 가격 -->
+                  <div class="d-flex justify-content-between mt-3">
                     <!-- 신고하기 버튼 -->
                     <span
                       data-toggle="modal"
@@ -130,9 +135,6 @@
                       <!-- <i class="fas fa-angry" style="color:red"></i> -->
                     </span>
                     <IndictPost :post="post" />
-                  </div>
-                  <!-- 이용 가격 -->
-                  <div class="d-flex justify-content-end mt-3">
                     <p
                       class="card-text font-weight-bold mb-0"
                       style="font-weight:bold;font-size: 1.5rem; text-align: left; margin-bottom: 5px;
@@ -224,7 +226,7 @@
         <!-- 지도 -->
         <p class="d-flex" style="font-size:1.5rem; font-weight:bold;">위치</p>
         <div id="map" style="max-width: 100%; height:300px;z-index:0"></div>
-        <small class="d-flex mt-2" style="font-weight:bold;">{{ post.location }}</small>
+        <small class="d-flex mt-2" style="font-weight:bold; font-size:1rem;">{{ post.location }}</small>
         <hr class="mt-2" />
         <!-- 후기 -->
         <div class="d-flex justify-content-between mb-2">
@@ -359,7 +361,7 @@ export default {
       evt.preventDefault();
       const href = evt.target.getAttribute("href");
       var location = document.querySelector(href).offsetTop;
-      window.scrollTo({ top: location + 340, behavior: "smooth" });
+      window.scrollTo({ top: location + 120, behavior: "smooth" });
     },
     authUser() {
       axios
@@ -439,14 +441,14 @@ export default {
       var url = "../../../contents/" + imgurl;
       return url;
     },
-    test() {
+    test(imgurl) {
       Kakao.Link.sendDefault({
         // container: "#kakao-link-btn",
         objectType: "feed",
         content: {
           title: this.post.title, // 콘텐츠의 타이틀
           description: this.post.activity, // 콘텐츠 상세설명
-          imageUrl: document.images[0].src, // 썸네일 이미지
+          imageUrl: `${this.makeimgurl(imgurl)}`, // 썸네일 이미지
           link: {
             webUrl: "http://i3b206.p.ssafy.io:3000/#/posts/" + this.pid,
             mobileWebUrl: "http://i3b206.p.ssafy.io:3000/#/posts/" + this.pid,
@@ -637,7 +639,7 @@ export default {
             Swal.fire({
               title: `${post.title}`,
               text: "장바구니에 담겼습니다.",
-              imageUrl: `${post.imgurl}`,
+              imageUrl: `${this.makeimgurl(post.imgurl)}`,
               imageWidth: 400,
               imageHeight: 200,
               imageAlt: "Custom image",
