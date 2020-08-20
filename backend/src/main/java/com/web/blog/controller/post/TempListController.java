@@ -215,11 +215,7 @@ public class TempListController {
         File file = null;
         if(hostname.substring(0,7).equals("DESKTOP")){
             //local
-<<<<<<< HEAD
             file = new File("C:\\Users\\multicampus\\Desktop\\s03p13b206 - sub3\\frontend\\public\\contents\\" + fileName);
-=======
-            file = new File("C:\\leejaein\\project-sub3\\s03p13b206\\frontend\\public\\contents\\" + fileName);
->>>>>>> 47b6aae45514a296b83826253c0b1bd540f0a919
         }else{
             //aws
             file = new File("/home/ubuntu/ssafy6/s03p13b206/frontend/public/contents/" + fileName);
