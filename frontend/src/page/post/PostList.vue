@@ -4,7 +4,7 @@
     <div class="post-img" style="display:block;"></div>
 
     <div class="post mt-5">
-      <div class="container col-md-8">
+      <div class="container col-md-11">
         <div class="input-group mb-5">
           <div class="input-group-prepend">
             <select
@@ -52,7 +52,7 @@
         >
           <div class="card mb-3 profile-post mr-0 ml-0">
             <div class="card-body" style="padding: 0;">
-              <div class="postlist-img"  @click="getdetail(post.pid)">
+              <div class="box"  @click="getdetail(post.pid)">
 
               <img :src="makeimgurl(post.imgurl)" v-if="post.imgurl" class="card-img postlist-img" style="height:10rem; box-shadow:5px 5px 5px rgba(0,0,0,.15)" />
               <div
