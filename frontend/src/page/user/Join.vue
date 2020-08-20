@@ -18,7 +18,7 @@
               v-model="checkType"
             />
             <i style="cursor: pointer;" class="fas fa-child mr-1"></i>
-            <label style="cursor: pointer;" for="normal">일반 사용자 &emsp;</label>
+            <label style="cursor: pointer;font-size:1.2rem;" for="normal">일반 사용자 &emsp;</label>
 
             <input
               style="cursor: pointer;"
