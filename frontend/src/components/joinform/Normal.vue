@@ -703,7 +703,7 @@ export default {
       this.$refs.file.click();
     },
     onChangeImages(e) {
-      this.file = e.target.files[0];
+      const file = this.$refs.file.files[0];
       if(file == null) {
         return;
       }
@@ -726,7 +726,7 @@ export default {
         })
         return;
       }
-      this.tempimg = URL.createObjectURL(this.file);
+      this.tempimg = URL.createObjectURL(file);
     },
   },
   data() {
