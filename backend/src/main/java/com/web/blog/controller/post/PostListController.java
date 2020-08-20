@@ -391,7 +391,7 @@ public class PostListController {
             temp.setAutumn(request.getAutumn());
             temp.setWinter(request.getWinter());
             temp.setPlace(request.getPlace());
-            temp.setLocationdetail(request.getLocationdetail()
+            temp.setLocationdetail(request.getLocationdetail());
             postDao.save(temp);
 
             int pid = temp.getPid();

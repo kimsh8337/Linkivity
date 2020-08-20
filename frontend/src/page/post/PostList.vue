@@ -5,7 +5,7 @@
 
     <div class="post mt-5">
       <div class="container col-md-11">
-        <div class="input-group mb-5">
+        <div class="input-group mb-5 col-md-9 mx-auto">
           <div class="input-group-prepend">
             <select
               class="btn dropdown-toggle text-black"
@@ -26,7 +26,7 @@
 
         <div class="hello">
           <div>
-            <b-tabs content-class="mt-5" justified active-nav-item-class="font-weight-bold text-uppercase text-danger">
+            <b-tabs content-class="mt-5" justified active-nav-item-class="font-weight-bold text-uppercase text-primary">
               <b-tab title="All" active @click="settype('all')"></b-tab>
               <b-tab title="Spring" @click="settype('spring')"></b-tab>
               <b-tab title="Fall" @click="settype('autumn')"></b-tab>
