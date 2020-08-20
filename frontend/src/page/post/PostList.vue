@@ -1,7 +1,10 @@
 <template>
   <div class="container col-sm-12 col-md-12 col-lg-12 p-0">
     <!-- background image -->
-    <div class="post-img" style="display:block;"></div>
+    <div class="post-img" style="display:block;">
+      <div class="basket-img-bg"></div>
+      <div class="postment d-flex ml-5">액티비티</div>
+    <p class="postmentp d-flex ml-5">다양한 액티비티를 한눈에!</p></div>
 
     <div class="post mt-5">
       <div class="container col-md-11">

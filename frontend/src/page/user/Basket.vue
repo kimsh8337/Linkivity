@@ -2,6 +2,9 @@
 <div class="container col-sm-12 col-md-12 col-lg-12 p-0">
   <!-- background image -->
   <div class="basket-img" style="display:block;">
+  <div class="basket-img-bg"></div>
+    <div class="postment d-flex ml-5">장바구니</div>
+    <p class="postmentp d-flex ml-5">액티비티를 패키징하여 저렴한 가격으로!</p>
   </div>
 
   <div class="container col-md-8">
