@@ -111,7 +111,7 @@
                         style="font-size: 1rem; font-weight:bold; text-align: left; text-overflow:ellipsis;overflow: hidden;white-space: nowrap;"
                       >{{ addComma(post.price) }}원</p>
                       <!-- heart like -->
-                      <div id="heart" @click="registlike(post.pid)">
+                      <div id="heart" @click="registlike(post.pid)" style="font-weight:bold;">
                         {{ post.likecnt }}
                         <i
                           v-if="check(post.pid)"
