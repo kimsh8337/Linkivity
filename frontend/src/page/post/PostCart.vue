@@ -46,7 +46,7 @@
                 <h5
                   class="card-title m-0"
                   @click="getdetail(cartPost.pid)"
-                  style="font-size: 1rem; text-align: left;  text-overflow:ellipsis;overflow: hidden;white-space: nowrap;"
+                  style="font-weight:bold;font-size: 1rem; text-align: left; cursor:pointer; text-overflow:ellipsis;overflow: hidden;white-space: nowrap;"
                 >
                   {{ cartPost.title }}
                 </h5>
@@ -54,7 +54,7 @@
                   class="card-text mb-3"
                   style="text-align: left; font-size: 0.8rem;"
                 >
-                  <span>
+                  <span style="font-weight:bold;">
                     <i
                       class="fas fa-star mr-1"
                       style="color:Salmon; font-size:0.7rem;"
@@ -65,14 +65,14 @@
                 <div class="text d-flex justify-content-between">
                   <p
                     class="card-text"
-                    style="font-size: 1rem; text-align: left; text-overflow:ellipsis;overflow: hidden;white-space: nowrap;"
+                    style="font-weight:bold;font-size: 1rem; text-align: left; text-overflow:ellipsis;overflow: hidden;white-space: nowrap;"
                   >
                     {{ cartPost.price }}원
                   </p>
                   <button
                     type="button"
                     class="btn btn-outline-danger btn-sm"
-                    style="height:30px;"
+                    style="font-weight:bold;height:30px;"
                     @click="deleteCart(cartPost.pid)"
                   >
                     삭제

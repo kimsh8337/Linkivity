@@ -27,7 +27,7 @@
                 <p class="mb-0">제목 : {{ post.title }}</p>
                 <p class="mb-0">기간 : {{ post.sdate }}~{{ post.edate }}</p>
                 <p class="mb-0">위치 : {{ post.location }}</p>
-                <p class="mb-0">가격 : {{ post.price }}</p>
+                <p class="mb-0">가격 : {{ post.price }}원</p>
               </div>
             </div>
             <hr>
@@ -35,17 +35,17 @@
           <!-- 가격 -->
           <!-- <p class="packaging-price mb-1">Singled Price : {{ Singleprice }}</p> -->
           <p class="packaging-price mb-1">
-            <span v-if="discount > 0" style="font-size:1.3rem;">{{this.discount}}% OFF </span>Packaging Price : {{ Packagingprice }}
+            <span v-if="discount > 0" style="font-size:1.3rem;">{{this.discount}}% OFF </span>Packaging Price : {{ Packagingprice }} 원
           </p>
         </div>
 
         <!-- footer -->
         <div class="modal-footer">
-          <button type="button" class="btn btn-outline" data-dismiss="modal">
+          <button type="button" class="btn btn-default" data-dismiss="modal" style="font-weight:bold; color:white; background-color:crimson;">
             <i class="fas fa-times mr-2"></i>
             취소
           </button>
-          <button type="button" class="btn btn-danger" @click="purchase"><i class="far fa-hand-point-up mr-2"></i>구매하기</button>
+          <button type="button" class="btn btn-default" @click="purchase" style="background-color:#86a5d4;color:white;font-weight:bold;"><i class="far fa-hand-point-up mr-2"></i>구매하기</button>
         </div>
       </div>
     </div>
@@ -123,7 +123,6 @@ export default {
             axios
               .get(`${baseURL}/purchase/regist/${th.packPost}/${th.email}/${th.sum}`)
               .then((response) => {
-                alert('구매 완료');
                 th.$router.push('/user/basket');
                 th.$router.go();
               })
