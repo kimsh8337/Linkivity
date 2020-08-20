@@ -53,7 +53,10 @@
 export default {
   methods: {
     goagreement() {
-      this.$router.push("/agreement");
+      scroll(0, 0);
+      this.$router.push("/agreement").catch(err => {
+        
+      });
     },
   },
 };
