@@ -53,17 +53,17 @@ public class PostListController {
 
         List<PostList> temp = new LinkedList<>();
         if (type.equals("all")) {
-            temp = postDao.findByFlagOrderByCreateDateDesc(1, PageRequest.of(page, 5));
+            temp = postDao.findByFlagOrderByCreateDateDesc(1, PageRequest.of(page, 8));
         } else if (type.equals("spring")) {
-            temp = postDao.findBySpringAndFlagOrderByCreateDateDesc(1, 1, PageRequest.of(page, 5));
+            temp = postDao.findBySpringAndFlagOrderByCreateDateDesc(1, 1, PageRequest.of(page, 8));
         } else if (type.equals("summer")) {
-            temp = postDao.findBySummerAndFlagOrderByCreateDateDesc(1, 1, PageRequest.of(page, 5));
+            temp = postDao.findBySummerAndFlagOrderByCreateDateDesc(1, 1, PageRequest.of(page, 8));
         } else if (type.equals("autumn")) {
-            temp = postDao.findByAutumnAndFlagOrderByCreateDateDesc(1, 1, PageRequest.of(page, 5));
+            temp = postDao.findByAutumnAndFlagOrderByCreateDateDesc(1, 1, PageRequest.of(page, 8));
         } else if (type.equals("winter")) {
-            temp = postDao.findByWinterAndFlagOrderByCreateDateDesc(1, 1, PageRequest.of(page, 5));
+            temp = postDao.findByWinterAndFlagOrderByCreateDateDesc(1, 1, PageRequest.of(page, 8));
         } else {
-            temp = postDao.findByPlaceAndFlagOrderByCreateDateDesc(type, 1, PageRequest.of(page, 5));
+            temp = postDao.findByPlaceAndFlagOrderByCreateDateDesc(type, 1, PageRequest.of(page, 8));
         }
 
         return temp;
@@ -72,8 +72,8 @@ public class PostListController {
     @GetMapping("/getThatList/{type}/{page}")
     @ApiOperation(value = "페이지 리로딩")
     public List<PostList> getThatList(@PathVariable String type, @PathVariable int page) throws SQLException, IOException{
-        int start = page * 5;
-        int end = start + 5;
+        int start = page * 8;
+        int end = start + 8;
 
         List<PostList> temp = new LinkedList<>();
         if (type.equals("all")) {
@@ -108,12 +108,12 @@ public class PostListController {
             @PathVariable int page) throws SQLException, IOException {
         List<PostList> searchpost = new LinkedList<>();
         if (key.equals("title")) {
-            searchpost = postDao.findByFlagAndTitleLikeOrderByCreateDateDesc(1, "%" + word + "%", PageRequest.of(page, 5));
+            searchpost = postDao.findByFlagAndTitleLikeOrderByCreateDateDesc(1, "%" + word + "%", PageRequest.of(page, 8));
         } else if (key.equals("activity")) {
-            searchpost = postDao.findByFlagAndActivityLikeOrderByCreateDateDesc(1, "%" + word + "%", PageRequest.of(page, 5));
+            searchpost = postDao.findByFlagAndActivityLikeOrderByCreateDateDesc(1, "%" + word + "%", PageRequest.of(page, 8));
         } else if (key.equals("price")) {
             int price = Integer.parseInt(word);
-            searchpost = postDao.findByFlagAndPriceLessThanEqualOrderByCreateDateDesc(1, price, PageRequest.of(page, 5));
+            searchpost = postDao.findByFlagAndPriceLessThanEqualOrderByCreateDateDesc(1, price, PageRequest.of(page, 8));
         }
         List<PostList> post = new LinkedList<>();
         if (type.equals("all")) {
@@ -191,8 +191,8 @@ public class PostListController {
             }
         }
 
-        int start = page * 5;
-        int end = start + 5;
+        int start = page * 8;
+        int end = start + 8;
 
         if (end > post.size()) {
             end = post.size();
@@ -391,7 +391,7 @@ public class PostListController {
             temp.setAutumn(request.getAutumn());
             temp.setWinter(request.getWinter());
             temp.setPlace(request.getPlace());
-            temp.setLocationdetail(request.getLocationdetail()
+            temp.setLocationdetail(request.getLocationdetail());
             postDao.save(temp);
 
             int pid = temp.getPid();

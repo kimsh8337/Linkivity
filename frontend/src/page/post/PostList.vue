@@ -190,14 +190,14 @@ export default {
                 this.posts = this.posts.concat(res.data);
                 $state.loaded();
                 this.page += 1;
-                if (this.posts.length / 5 < 1) {
+                if (this.posts.length / 8 < 1) {
                   $state.complete();
                 }
                 this.nextTag();
               } else {
                 $state.complete();
               }
-            }, 100);
+            }, 500);
           })
           .catch((err) => {
             console.log(err);
@@ -211,13 +211,13 @@ export default {
                 this.posts = this.posts.concat(res.data);
                 $state.loaded();
                 this.page += 1;
-                if (this.posts.length / 5 < 1) {
+                if (this.posts.length / 8 < 1) {
                   $state.complete();
                 }
               } else {
                 $state.complete();
               }
-            }, 1000);
+            }, 500);
           })
           .catch((err) => {
             console.log(err);
