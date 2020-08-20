@@ -146,8 +146,16 @@
                   <div class="d-flex justify-content-end mr-0 mt-3 mb-3">
                     <div class="d-flex justify-content-start">
                       <i
+                        v-if="isheart"
                         class="fas fa-heart select-button mr-2"
                         style="text-align: right; font-size: 20px; color:crimson"
+                        @click="registlike(post.pid)"
+                      ></i>
+                      <i
+                        v-if="!isheart"
+                        class="far fa-heart select-button mr-2"
+                        style="text-align: right; font-size: 20px; color:crimson"
+                        @click="registlike(post.pid)"
                       ></i>
                       <span style="font-weight:bold;">{{ post.likecnt }}명이 좋아요를 눌렀습니다.</span>
                     </div>
@@ -282,7 +290,12 @@
         class="d-flex justify-content-end mt-3 mb-3"
         v-if="this.email == this.post.email | this.checkType == 'admin'"
       >
-        <button class="btn btn-default mr-2" style="background-color:#86a5d4; color:white;font-weight:bold;" v-if="this.email == this.post.email" @click="goModify">
+        <button
+          class="btn btn-default mr-2"
+          style="background-color:#86a5d4; color:white;font-weight:bold;"
+          v-if="this.email == this.post.email"
+          @click="goModify"
+        >
           <i class="far fa-edit mr-2"></i>수정하기
         </button>
         <button class="btn btn-danger" @click="goDelete" style="font-weight:bold;">

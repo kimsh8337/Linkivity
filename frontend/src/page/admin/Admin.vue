@@ -1,7 +1,11 @@
 <template>
   <div class="container col-sm-12 col-md-12 col-lg-12 p-0">
     <!-- background image -->
-    <div class="admin-img" style="display:block;"></div>
+    <div class="admin-img" style="display:block;">
+      <div class="basket-img-bg"></div>
+      <div class="postment d-flex ml-5">관리페이지</div>
+    <p class="postmentp d-flex ml-5">모든 회원들의 정보를 관리할 수 있습니다</p>
+    </div>
     <div class="container col-md-8 mt-5">
       <b-tabs content-class="mt-3" fill>
         <!-- 포스트 관리 -->
@@ -164,7 +168,7 @@
                 <td class="admin-data">{{ blacklist.email }}</td>
                 <td class="admin-data">{{ blacklist.remail }}</td>
                 <td class="admin-data">{{ blacklist.reason }}</td>
-                <td class="pl-1">
+                <td class="">
                   <button
                     class="admin-black-view btn-sm"
                     style="color:white; background-color:RGB(134, 165, 212); border-radius:7px;"

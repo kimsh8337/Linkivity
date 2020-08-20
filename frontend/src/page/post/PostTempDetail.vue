@@ -632,7 +632,7 @@ export default {
       });
 
       axios
-        .post(`${baseURL}/post/regist/${this.hashTag}`, this.PostTemp)
+        .post(`${baseURL}/temp/temptopost/${this.hashTag}`, this.PostTemp)
         .then((response) => {
           this.fileUpload(response.data.pid);
           Toast.fire({

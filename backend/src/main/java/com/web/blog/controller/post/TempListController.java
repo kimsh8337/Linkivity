@@ -215,7 +215,7 @@ public class TempListController {
         File file = null;
         if(hostname.substring(0,7).equals("DESKTOP")){
             //local
-            file = new File("C:\\Users\\multicampus\\Desktop\\janerun\\s03p13b206\\frontend\\public\\contents\\" + fileName);
+            file = new File("C:\\leejaein\\project-sub3\\s03p13b206\\frontend\\public\\contents\\" + fileName);
         }else{
             //aws
             file = new File("/home/ubuntu/ssafy6/s03p13b206/frontend/public/contents/" + fileName);
@@ -225,8 +225,53 @@ public class TempListController {
             ff.transferTo(file);
 
         PostList post = postDao.findByPid(pid);
+        System.out.println(post);
         post.setImgurl(file.getName());
         postDao.save(post);
+        System.out.println(post);
         return file.getName();
+    }
+
+    @PostMapping("/temptopost/{tagValue}")
+    @ApiOperation("임시저장 했던 글 포스트에 등록")
+    public Object temptopost(@RequestBody PostList request, @PathVariable List<String> tagValue) throws SQLException, IOException {
+        try {
+            PostList temp = postDao.findByPid(request.getPid());
+            temp.setEmail(request.getEmail());
+            temp.setTitle(request.getTitle());
+            temp.setLocation(request.getLocation());
+            // temp.setImgurl(request.getImgurl());
+            temp.setPrice(request.getPrice());
+            temp.setSdate(request.getSdate());
+            temp.setEdate(request.getEdate());
+            temp.setCompanyInfo(request.getCompanyInfo());
+            temp.setDetail(request.getDetail());
+            temp.setFlag(2);
+            temp.setActivity(request.getActivity());
+            temp.setSpring(request.getSpring());
+            temp.setSummer(request.getSummer());
+            temp.setAutumn(request.getAutumn());
+            temp.setWinter(request.getWinter());
+            temp.setPlace(request.getPlace());
+            LocalDateTime time = LocalDateTime.now();
+            temp.setCreateDate(time);
+            temp.setLocationdetail(request.getLocationdetail());
+            postDao.save(temp);
+
+            if(!tagValue.get(0).equals("nononotag")) {
+                int pid = temp.getPid();
+                List<String> tags = new LinkedList<>();
+                tags = tagValue;
+                for (String tagname : tags) {
+                    Tag newTag = new Tag();
+                    newTag.setPid(pid);
+                    newTag.setTagname(tagname);
+                    tagDao.save(newTag);
+                }
+            }
+            return new ResponseEntity<>(temp, HttpStatus.OK);    
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 }
