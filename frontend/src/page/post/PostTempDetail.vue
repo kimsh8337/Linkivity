@@ -599,7 +599,22 @@ export default {
         this.error.sedate = false;
       }
       if (flag == 1) {
-        alert("정보를 모두 입력해주세요.");
+        const Toast = Swal.mixin({
+          toast: true,
+          position: 'top-end',
+          showConfirmButton: false,
+          timer: 2000,
+          timerProgressBar: true,
+          onOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer)
+            toast.addEventListener('mouseleave', Swal.resumeTimer)
+          }
+        })
+
+        Toast.fire({
+          icon: 'error',
+          title: '정보를 모두 입력해주세요!'
+        })
         return;
       }
       // this.PostTemp.location = this.addr2 + " " + this.addr3;

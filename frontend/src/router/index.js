@@ -8,7 +8,6 @@ import Admin from '../page/admin/Admin.vue'
 import AdminPostDetail from '../page/admin/AdminPostDetail.vue'
 
 // user
-import Login from '../page/user/Login.vue'
 import Join from '../page/user/Join.vue'
 import Info from '../page/user/Info.vue'
 import Basket from '../page/user/Basket.vue'
@@ -50,11 +49,6 @@ export default new Router({
             path: '/user/login',
             name: constants.URL_TYPE.USER.LOGIN,
             component: Login
-        },
-        {
-            path: '/user/join',
-            name: constants.URL_TYPE.USER.JOIN,
-            component: Join
         },
         //회원정보
         {
