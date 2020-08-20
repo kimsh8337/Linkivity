@@ -34,7 +34,7 @@
           <!-- 프로필 보여주기 -->
           <div class="d-flex justify-content-between" style="border-bottom : 1px solid lightgray;">
             <img class="profile-img d-flex m-2" v-if="slide.proimg" :src="makeimgurl(slide.proimg)" />
-            <div class="mt-2 mr-4">
+            <div class="mt-2 mr-3">
               <div class="d-flex">
                 <small class="d-flex align-items-center" style="font-weight:bold">{{slide.nickname}}</small>
                 <br />
@@ -76,7 +76,7 @@
             <span style="font-weight:bold; font-size:1.2rem">[{{slide.title}}]</span>
           </div>
           <!-- 내용 -->
-          <div class="d-flex ml-2">
+          <div class="d-flex ml-2 mr-2">
             <small style="text-align:justify;">{{slide.content}}</small>
           </div>
         </div>

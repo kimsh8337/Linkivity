@@ -392,7 +392,7 @@
                     ></i>
                   </div>
                   <div class="d-flex align-items-end mt-1">
-                    <small style="font-weight:bold">{{
+                    <small style="font-weight:bold; white-space:nowrap">{{
                       datecut(slide.createDate)
                     }}</small>
                   </div>
@@ -400,7 +400,7 @@
               </div>
               <!-- 제목 -->
               <div class="d-flex p-2" style="justify-content:start; ">
-                <span style="font-weight:bold;">{{ slide.title }}</span>
+                <span style="font-weight:bold; text-align:justify">{{ slide.title }}</span>
               </div>
             </div>
             <!-- </div> -->

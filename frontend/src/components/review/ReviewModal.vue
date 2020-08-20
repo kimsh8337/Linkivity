@@ -39,7 +39,7 @@
               />
             </div>
             <input ref="file" type="file" hidden @change="onChangeImages" />
-            <small v-if="!this.reviewCreate.img" class="form-text text-muted d-flex">원하는 사진을 업로드하세요.</small>
+            <small v-if="!this.reviewCreate.img" class="form-text text-muted d-flex">원하는 사진을 업로드하세요. (1MB 이하)</small>
             <!-- <small
             v-if="this.reviewCreate.img"
             class="form-text text-muted d-flex"
@@ -215,6 +215,13 @@ export default {
     fileUpload(rvid) {
     var formData = new FormData();
     const file = this.$refs.file.files[0];
+    if(file.size >= 1048576) {
+      Swal.fire({
+        width:350,
+        icon: 'error',
+        text: '업로드 파일 크기를 초과하였습니다!',
+      })
+    }
     if(file != null) {
       formData.append("file", file);
       axios.post(`${baseURL}/review/file/${rvid}`
