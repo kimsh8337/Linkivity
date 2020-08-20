@@ -22,16 +22,16 @@
         <!-- body -->
         <div class="modal-body pb-0 d-flex justify-content-center align-items-center row">
           <div class="col-12">
-            <span>일련번호 입력</span>
+            <span style="font-weight:bold;">일련번호 입력</span>
             <div class="mt-3 input-group input-group-lg pl-5 pr-5">
-              <input type="text" class="form-control" aria-label="Large" aria-describedby="inputGroup-sizing-sm">
+              <input type="text" class="form-control" v-model="serialno" aria-label="Large" aria-describedby="inputGroup-sizing-sm">
             </div>
           </div>
         </div>
 
         <!-- footer -->
         <div class="modal-footer border-0 pt-0">
-            <button @click="makeuse(purid,serialno)" type="button" class="btn" data-dismiss="modal"><i class="fas fa-plus-circle"><span class="ml-1">구매 확정</span></i></button>
+            <button @click="makeuse(purid,serialno)" type="button" class="btn btn-default" data-dismiss="modal" style="background-color:#86a5d4; color:white;"><i class="fas fa-plus-circle"></i><span class="ml-1" style="font-weight:bold;">구매 확정</span></button>
  
         </div>
       </div>

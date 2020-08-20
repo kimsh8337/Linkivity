@@ -1,7 +1,9 @@
 <template>
   <div class="container col-sm-12 col-md-12 col-lg-12 p-0">
     <!-- background image -->
-    <div class="info-img" style="display:block;"></div>
+    <div class="info-img" style="display:block;">
+      <div class="info-bg"></div>
+    </div>
     <div class="user my-5" id="join">
       <div class="wrapC table">
         <div class="middle">
@@ -18,7 +20,7 @@
               v-model="checkType"
             />
             <i style="cursor: pointer;" class="fas fa-child mr-1"></i>
-            <label style="cursor: pointer;font-size:1.2rem;" for="normal">일반 사용자 &emsp;</label>
+            <label style="cursor: pointer;font-size:1.2rem;font-weight:bold;" for="normal">일반 사용자 &emsp;</label>
 
             <input
               style="cursor: pointer;"
@@ -30,12 +32,12 @@
               v-model="checkType"
             />
             <i style="cursor: pointer;" class="fas fa-user-tie mr-1"></i>
-            <label style="cursor: pointer;" for="business">사업자</label>
+            <label style="cursor: pointer;font-size:1.2rem;font-weight:bold;" for="business">사업자</label>
             <br />
             <div
               class="error-text my-4"
               v-if="error.checkType"
-              style="color:crimson;"
+              style="color:crimson;font-size:1rem;font-weight:bold;"
             >{{ error.checkType }}</div>
 
             <Business
@@ -52,6 +54,11 @@
         </div>
       </div>
     </div>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
   </div>
 </template>
 
