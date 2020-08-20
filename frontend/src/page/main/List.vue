@@ -66,6 +66,7 @@
                     <div class="box" @click="getdetail(post.pid)">
                       <img
                         :src="makeimgurl(post.imgurl)"
+                        v-if="post.imgurl"
                         class="card-img postlist-img"
                         style="height:10rem; box-shadow:5px 5px 5px rgba(0,0,0,.15)"
                       />
@@ -287,6 +288,7 @@
           >
             <img
               :src="makeimgurl(post.imgurl)"
+              v-if="post.imgurl"
               class="card-img-top postlist-img"
               style="height:12rem; cursor: pointer; box-shadow:5px 5px 5px rgba(0,0,0,.15);"
               @click="getdetail(post.pid)"
@@ -341,6 +343,7 @@
                 <img
                   class="user-img d-flex m-2"
                   :src="makeimgurl(slide.proimg)"
+                  v-if="slide.proimg"
                   style="border-radius:70px; width:50px; height:50px;"
                 />
                 <div class="mt-2 mr-4">
@@ -427,10 +430,8 @@ export default {
         });
     },
     makeimgurl(imgurl) {
-      if (imgurl != "") {
         var url = "../../../contents/" + imgurl;
         return url;
-      }
     },
     goNews: function () {
       this.$router.push("/news/");
