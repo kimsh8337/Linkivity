@@ -546,6 +546,7 @@ export default {
         axios
           .post(`${baseURL}/temp/regist/nononotag`, this.PostCreate)
           .then((response) => {
+            this.fileUpload(response.data.pid);
             const Toast = Swal.mixin({
               toast: true,
               position: "top-end",
@@ -571,6 +572,7 @@ export default {
         axios
           .post(`${baseURL}/temp/regist/${this.tagValue}`, this.PostCreate)
           .then((response) => {
+            this.fileUpload(response.data.pid);
             const Toast = Swal.mixin({
               toast: true,
               position: "top-end",
@@ -605,8 +607,7 @@ export default {
               "Content-Type": "multipart/form-data",
             },
           })
-          .then(function (response) {
-            alert("업로드 완료");
+          .then(function () {
           })
           .catch(function (error) {
             console.log(error);
