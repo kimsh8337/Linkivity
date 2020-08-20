@@ -163,7 +163,7 @@ export default {
     };
   },
   methods: {
-    round(별) {
+    round(star) {
       return Math.round(star * 10) / 10.0;
     },
     makeimgurl(imgurl) {
