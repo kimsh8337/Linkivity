@@ -34,6 +34,7 @@
           <!-- 프로필 보여주기 -->
           <div class="d-flex justify-content-between" style="border-bottom : 1px solid lightgray;">
             <img class="profile-img d-flex m-2" v-if="slide.proimg" :src="makeimgurl(slide.proimg)" />
+            <img class="profile-img d-flex m-2" v-if="!slide.proimg" src="../../assets/img/noimage.jpg" />
             <div class="mt-2 mr-3">
               <div class="d-flex">
                 <small class="d-flex align-items-center" style="font-weight:bold">{{slide.nickname}}</small>

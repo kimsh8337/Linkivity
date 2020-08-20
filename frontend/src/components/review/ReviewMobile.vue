@@ -40,6 +40,7 @@
             <div class="d-flex justify-content-center" style="width:100%">
               <!-- 프로필 보여주기 -->
               <img class="profile-image d-flex my-2 ml-3 mr-4 " style="width:15%; height:3rem !important;" v-if="slide.proimg" :src="makeimgurl(slide.proimg)"/>
+              <img class="profile-image d-flex my-2 ml-3 mr-4 " style="width:15%; height:3rem !important;" v-if="!slide.proimg" src="../../assets/img/noimage.jpg"/>
               <div class="mt-2 mr-4 ml-0">
                 <div class="d-flex">
                   <small
