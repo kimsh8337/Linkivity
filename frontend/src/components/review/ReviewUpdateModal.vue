@@ -131,21 +131,23 @@ export default {
     fileUpload(rvid) {
     var formData = new FormData();
     const file = this.$refs.file.files[0];
-    formData.append("file", file);
-    axios.post(`${baseURL}/review/file/${rvid}`
-        ,formData
-        , {
+    if(file != null) {
+      formData.append("file", file);
+      axios.post(`${baseURL}/review/file/${rvid}`
+          ,formData
+          , {
             headers: {
-                'Content-Type': 'multipart/form-data'
-            }
-        }
-        )
-      .then(function (response) {
-
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+              'Content-Type': 'multipart/form-data'
+              }
+          }
+          )
+        .then(function (response) {
+          
+          })
+        .catch(function (error) {
+          console.log(error);
+        });
+      }
     },
     onClickImageUpload() {
       this.$refs.file.click();

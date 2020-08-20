@@ -250,20 +250,13 @@
             </button>
           </div>
           <input
-            hidden
             type="text"
             class="form-control mb-1"
             v-model="addr2"
             placeholder="주소"
             readonly
           />
-          <input hidden type="text" class="form-control mb-1" v-model="addr3" placeholder="상세주소" />
-          <input
-            type="text"
-            class="form-control mb-1"
-            v-model="PostCreate.location"
-            placeholder="상세주소"
-          />
+          <input type="text" class="form-control mb-1" v-model="addr3" placeholder="상세주소" />
         </div>
 
         <small class="form-text text-muted d-flex">주소를 입력하세요.</small>
@@ -332,6 +325,7 @@ export default {
         email: "",
         title: "",
         location: "",
+        locationdetail:"",
         imgurl: "",
         price: "",
         sdate: "",
@@ -409,11 +403,12 @@ export default {
           x.addr1 = data.zonecode;
           x.addr2 = data.address;
           x.addr3 = data.buildingName;
-          x.PostCreate.location = x.addr2 + " " + x.addr3;
+          x.PostCreate.location = x.addr2;
         },
       }).open();
     },
     regist: function () {
+      this.PostCreate.locationdetail = this.addr3;
       var content = this.$refs.toastuiEditor.invoke("getMarkdown");
       this.PostCreate.detail = content;
       var flag = 0;
@@ -481,7 +476,7 @@ export default {
         alert("정보를 모두 입력해주세요.");
         return;
       }
-      this.PostCreate.location = this.addr2 + " " + this.addr3;
+      this.PostCreate.location = this.addr2;
 
       for (var i = 0; i < this.seasons.length; i++) {
         if (this.seasons[i] == "spring") {
@@ -526,6 +521,7 @@ export default {
     },
     tempSave() {
       //임시저장 메소드
+      this.PostCreate.locationdetail = this.addr3;
       if (this.PostCreate.title == "") {
         this.error.title = "상품명은 빈칸일 수 없습니다.";
         alert("정보를 확인해주세요");
@@ -597,19 +593,21 @@ export default {
     fileUpload(pid) {
       var formData = new FormData();
       const file = this.$refs.file.files[0];
-      formData.append("file", file);
-      axios
-        .post(`${baseURL}/post/file/${pid}`, formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        })
-        .then(function (response) {
-          alert("업로드 완료");
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
+      if(file != null) {
+        formData.append("file", file);
+        axios
+          .post(`${baseURL}/post/file/${pid}`, formData, {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          })
+          .then(function (response) {
+            alert("업로드 완료");
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+      }
     },
     onClickImageUpload() {
       this.$refs.file.click();

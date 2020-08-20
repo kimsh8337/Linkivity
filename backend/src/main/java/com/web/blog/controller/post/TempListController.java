@@ -107,6 +107,7 @@ public class TempListController {
             temp.setPlace(request.getPlace());
             LocalDateTime time = LocalDateTime.now();
             temp.setCreateDate(time);
+            temp.setLocationdetail(request.getLocationdetail());
             postDao.save(temp);
 
             if(!tagValue.get(0).equals("nononotag")) {
@@ -151,6 +152,7 @@ public class TempListController {
                 newTemp.setPlace(request.getPlace());
                 LocalDateTime time = LocalDateTime.now();
                 newTemp.setCreateDate(time);
+                newTemp.setLocationdetail(request.getLocationdetail());
                 
                 postDao.save(newTemp);
 
