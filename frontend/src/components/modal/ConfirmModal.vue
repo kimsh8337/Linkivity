@@ -69,7 +69,22 @@ export default {
         })
         .catch((err) => {
           console.log(err.response);
-          alert("아이디 및 비밀번호를 확인해주세요.");
+          const Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 2000,
+            timerProgressBar: true,
+            onOpen: (toast) => {
+              toast.addEventListener('mouseenter', Swal.stopTimer)
+              toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+          })
+
+          Toast.fire({
+            icon: 'error',
+            title: '아이디 및 비밀번호를 확인해주세요.'
+          })
           this.email = "";
           this.password = "";
         });
