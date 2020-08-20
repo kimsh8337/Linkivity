@@ -240,36 +240,53 @@
               <img
                 src="../../assets/img/emotion.jpg"
                 class="d-block w-100"
-                style="height:18rem;"
+                style="height:18rem;filter:brightness(80%);"
                 alt="paragliding"
               />
-              <div class="carousel-caption" style="text-align:right; width:80%; height:90%">
-                  <h3>다 같이 놀아요!</h3>
+              <div class="carousel-caption" style="text-align:right; width:80%; height:90%; ">
+                  <h1 style="font-weight:bold; font-size:50px">액티비티는 역시</h1>
+                  <h1 style="font-weight:bold; font-size:50px">링키비티</h1>
+                  <p style="font-weight:bold;">"링키비티 가입 후 집 나간 여자친구가 안돌아와요"</p>
             </div>
             </div>
             <div class="carousel-item">
               <img
                 src="../../assets/img/mountain.jpg"
                 class="d-block w-100"
-                style="height:18rem;"
+                style="height:18rem;filter:brightness(80%);"
                 alt="snowboarding"
               />
+              <div class="carousel-caption" style="text-align:right; width:80%; height:90%; ">
+                  <h1 style="font-weight:bold; font-size:50px">링키비티와 함께</h1>
+                  <h1 style="font-weight:bold; font-size:50px">매년 꿀잼 라이프 시작!</h1>
+                  <p style="font-weight:bold;">액티비티 입문자는 추천서비스를 이용해보세요!</p>
+            </div>
             </div>
             <div class="carousel-item">
               <img
                 src="../../assets/img/sailing.jpg"
                 class="d-block w-100"
-                style="height:18rem;"
+                style="height:18rem;filter:brightness(80%);"
                 alt="wingsuit"
               />
+              <div class="carousel-caption" style="text-align:right; width:80%; height:90%; ">
+                  <h1 style="font-weight:bold; font-size:50px;">한번의 예약으로</h1>
+                  <h1 style="font-weight:bold; font-size:50px;">최대 15%까지 할인!</h1>
+                  <p style="font-weight:bold;">원하는 상품 패키징으로 저렴하게 즐기세요!</p>
+            </div>
             </div>
             <div class="carousel-item">
               <img
                 src="../../assets/img/snow.jpg"
                 class="d-block w-100"
-                style="height:18rem;"
+                style="height:18rem;filter:brightness(80%);"
                 alt="wingsuit"
               />
+              <div class="carousel-caption" style="text-align:right; width:80%; height:90%; ">
+                  <h1 style="font-weight:bold; font-size:50px">봄 여름 가을 겨울</h1>
+                  <h1 style="font-weight:bold; font-size:50px">구애받지 말고!</h1>
+                  <p style="font-weight:bold;">사계절 상관없이 언제든지 예약 가능!</p>
+            </div>
             </div>
           </div>
           <!-- <a
