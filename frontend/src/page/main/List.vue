@@ -29,6 +29,7 @@
                   >
                     <i
                       class="fas fa-2x fa-search searchIcon"
+                      style="cursor:pointer;"
                       @click="tagSearch(tName)"
                     ></i>
                   </div>
@@ -70,7 +71,7 @@
               >
                 <div class="card mb-3 profile-post mr-0 ml-0">
                   <div class="card-body" style="padding: 0;">
-                    <div class="postlist-img" @click="getdetail(post.pid)">
+                    <div class="box" @click="getdetail(post.pid)">
                       <img
                         :src="makeimgurl(post.imgurl)"
                         class="card-img postlist-img"
@@ -310,7 +311,7 @@
           >
             <img
               :src="makeimgurl(post.imgurl)"
-              class="card-img-top"
+              class="card-img-top postlist-img"
               style="height:12rem; cursor: pointer; box-shadow:5px 5px 5px rgba(0,0,0,.15);"
               @click="getdetail(post.pid)"
             />
