@@ -7,9 +7,7 @@
 
         <div>
           <div style="height:20rem"></div>
-          <span class="main-title"
-            >원하는 국내 액티비티를 패키지로 즐기자!</span
-          >
+          <span class="main-title">원하는 국내 액티비티를 패키지로 즐기자!</span>
           <div class="col-md-12 mt-5">
             <div class="row">
               <div class="col-md-3"></div>
@@ -24,9 +22,7 @@
                     class="container tagText"
                   ></b-form-tags>
                   <!-- <div class="col-sm-1 bg-white"></div> -->
-                  <div
-                    class="d-flex justify-content-end bg-white align-items-center pr-3 sicon"
-                  >
+                  <div class="d-flex justify-content-end bg-white align-items-center pr-3 sicon">
                     <i
                       class="fas fa-2x fa-search searchIcon"
                       style="cursor:pointer;"
@@ -47,16 +43,12 @@
           <div class="container resultTitle">
             <div v-if="this.pids.length > 0">
               [
-              <span v-for="(t, index) in this.resultTitle" :key="index"
-                >#{{ t }}</span
-              >
+              <span v-for="(t, index) in this.resultTitle" :key="index">#{{ t }}</span>
               ]의 액티비티 :)
             </div>
             <div v-if="this.pids.length == 0">
               [
-              <span v-for="(t, index) in this.resultTitle" :key="index"
-                >#{{ t }}</span
-              >
+              <span v-for="(t, index) in this.resultTitle" :key="index">#{{ t }}</span>
               ]을(를) 찾지 못했어요 :(
             </div>
           </div>
@@ -85,19 +77,13 @@
                           class="pr-2 pl-2 pb-1"
                           style="background-color:rgba(0,0,0,0.3);z-index:34;"
                         >
-                          <i
-                            class="fa fa-map-marker"
-                            style="font-size:0.7rem;"
-                          ></i>
+                          <i class="fa fa-map-marker" style="font-size:0.7rem;"></i>
                           {{ localarea(post.location) }}
                         </span>
                       </div>
                     </div>
                     <div class="col-md-12 p-0">
-                      <div
-                        class="card-body"
-                        style="padding: 5px; height:10rem;"
-                      >
+                      <div class="card-body" style="padding: 5px; height:10rem;">
                         <div
                           v-for="tagg in tag"
                           :key="tagg.pid"
@@ -109,26 +95,17 @@
                               v-for="tagname in tagg.tag"
                               :key="tagname"
                               style="font-size: 0.8rem; font-weight:bold;"
-                              >#{{ tagname }}</span
-                            >
+                            >#{{ tagname }}</span>
                           </div>
                         </div>
                         <h5
                           class="card-title-post m-0"
                           @click="getdetail(post.pid)"
                           style="font-size: 1rem; text-align: left; text-overflow:ellipsis;overflow: hidden;white-space: nowrap;"
-                        >
-                          {{ post.title }}
-                        </h5>
-                        <div
-                          class="card-text mb-2"
-                          style="text-align: left; font-size: 0.8rem;"
-                        >
+                        >{{ post.title }}</h5>
+                        <div class="card-text mb-2" style="text-align: left; font-size: 0.8rem;">
                           <span>
-                            <i
-                              class="fas fa-star mr-1"
-                              style="color:Salmon; font-size:0.7rem;"
-                            ></i>
+                            <i class="fas fa-star mr-1" style="color:Salmon; font-size:0.7rem;"></i>
                             {{ round(post.star) }}
                           </span>
                         </div>
@@ -137,9 +114,7 @@
                           <p
                             class="card-text"
                             style="font-size: 1rem; font-weight:bold; text-align: left; text-overflow:ellipsis;overflow: hidden;white-space: nowrap;"
-                          >
-                            {{ addComma(post.price) }}원
-                          </p>
+                          >{{ addComma(post.price) }}원</p>
                           <!-- heart like -->
                           <div id="heart" @click="registlike(post.pid)">
                             {{ post.likecnt }}
@@ -175,11 +150,7 @@
       </div>
 
       <!-- 일반 메인리스트 -->
-      <div
-        class="col-md-11"
-        style="margin: 3rem auto;"
-        v-if="this.tagFlag == false"
-      >
+      <div class="col-md-11" style="margin: 3rem auto;" v-if="this.tagFlag == false">
         <!-- main3button -->
         <div class="col-12 container row mb-5 m-0 p-0">
           <div
@@ -188,33 +159,27 @@
             data-toggle="modal"
             data-target="#surveymodal"
           >
-            <i class="far fa-handshake mr-2"></i
-            ><span style="font-weight:bold">액티비티 추천</span>
+            <i class="far fa-handshake mr-2"></i>
+            <span style="font-weight:bold">액티비티 추천</span>
           </div>
           <SurveyModal />
-          <div
-            class="col-sm-0 col-md-1"
-            style="margin-right:2.1%; margin-left:2.1%;"
-          ></div>
+          <div class="col-sm-0 col-md-1" style="margin-right:2.1%; margin-left:2.1%;"></div>
           <div
             class="col-sm-12 col-md-3 main-btn-item mt-1 mb-1 d-flex justify-content-center align-items-center"
             style="cursor:pointer; border:1px solid black; border-radius:10px; height:5rem; border:none; box-shadow: 0 0 8px rgba(0, 0, 0, .15); font-size:1.2rem;"
             @click="goPost"
           >
-            <i class="fas fa-gift mr-2"></i
-            ><span style="font-weight:bold">상품 둘러보기</span>
+            <i class="fas fa-gift mr-2"></i>
+            <span style="font-weight:bold">상품 둘러보기</span>
           </div>
-          <div
-            class="col-sm-0 col-md-1"
-            style="margin-right:2%; margin-left:2.1%;"
-          ></div>
+          <div class="col-sm-0 col-md-1" style="margin-right:2%; margin-left:2.1%;"></div>
           <div
             class="col-sm-12 col-md-3 main-btn-notice mt-1 mb-1 d-flex justify-content-center align-items-center"
             style="cursor:pointer; border:1px solid black; border-radius:10px; height:5rem; border:none; box-shadow: 0 0 8px rgba(0, 0, 0, .15); font-size:1.2rem;"
             @click="goNews"
           >
-            <i class="far fa-newspaper mr-2"></i
-            ><span style="font-weight:bold">액티비티 소식</span>
+            <i class="far fa-newspaper mr-2"></i>
+            <span style="font-weight:bold">액티비티 소식</span>
           </div>
         </div>
 
@@ -226,11 +191,7 @@
           data-ride="carousel"
         >
           <ul class="carousel-indicators">
-            <li
-              data-target="#carouselExampleControls"
-              data-slide-to="0"
-              class="active"
-            ></li>
+            <li data-target="#carouselExampleControls" data-slide-to="0" class="active"></li>
             <li data-target="#carouselExampleControls" data-slide-to="1"></li>
             <li data-target="#carouselExampleControls" data-slide-to="2"></li>
             <li data-target="#carouselExampleControls" data-slide-to="3"></li>
@@ -244,10 +205,10 @@
                 alt="paragliding"
               />
               <div class="carousel-caption" style="text-align:right; width:80%; height:90%; ">
-                  <h1 style="font-weight:bold; font-size:50px">액티비티는 역시</h1>
-                  <h1 style="font-weight:bold; font-size:50px">링키비티</h1>
-                  <p style="font-weight:bold;">"링키비티 가입 후 집 나간 여자친구가 안돌아와요"</p>
-            </div>
+                <h1 style="font-weight:bold; font-size:50px">액티비티는 역시</h1>
+                <h1 style="font-weight:bold; font-size:50px">링키비티</h1>
+                <p style="font-weight:bold;">"링키비티 가입 후 집 나간 여자친구가 안돌아와요"</p>
+              </div>
             </div>
             <div class="carousel-item">
               <img
@@ -257,10 +218,10 @@
                 alt="snowboarding"
               />
               <div class="carousel-caption" style="text-align:right; width:80%; height:90%; ">
-                  <h1 style="font-weight:bold; font-size:50px">링키비티와 함께</h1>
-                  <h1 style="font-weight:bold; font-size:50px">매년 꿀잼 라이프 시작!</h1>
-                  <p style="font-weight:bold;">액티비티 입문자는 추천서비스를 이용해보세요!</p>
-            </div>
+                <h1 style="font-weight:bold; font-size:50px">링키비티와 함께</h1>
+                <h1 style="font-weight:bold; font-size:50px">매년 꿀잼 라이프 시작!</h1>
+                <p style="font-weight:bold;">액티비티 입문자는 추천서비스를 이용해보세요!</p>
+              </div>
             </div>
             <div class="carousel-item">
               <img
@@ -270,10 +231,10 @@
                 alt="wingsuit"
               />
               <div class="carousel-caption" style="text-align:right; width:80%; height:90%; ">
-                  <h1 style="font-weight:bold; font-size:50px;">한번의 예약으로</h1>
-                  <h1 style="font-weight:bold; font-size:50px;">최대 15%까지 할인!</h1>
-                  <p style="font-weight:bold;">원하는 상품 패키징으로 저렴하게 즐기세요!</p>
-            </div>
+                <h1 style="font-weight:bold; font-size:50px;">한번의 예약으로</h1>
+                <h1 style="font-weight:bold; font-size:50px;">최대 15%까지 할인!</h1>
+                <p style="font-weight:bold;">원하는 상품 패키징으로 저렴하게 즐기세요!</p>
+              </div>
             </div>
             <div class="carousel-item">
               <img
@@ -283,10 +244,10 @@
                 alt="wingsuit"
               />
               <div class="carousel-caption" style="text-align:right; width:80%; height:90%; ">
-                  <h1 style="font-weight:bold; font-size:50px">봄 여름 가을 겨울</h1>
-                  <h1 style="font-weight:bold; font-size:50px">구애받지 말고!</h1>
-                  <p style="font-weight:bold;">사계절 상관없이 언제든지 예약 가능!</p>
-            </div>
+                <h1 style="font-weight:bold; font-size:50px">봄 여름 가을 겨울</h1>
+                <h1 style="font-weight:bold; font-size:50px">구애받지 말고!</h1>
+                <p style="font-weight:bold;">사계절 상관없이 언제든지 예약 가능!</p>
+              </div>
             </div>
           </div>
           <!-- <a
@@ -308,15 +269,13 @@
           >
             <span class="carousel-control-next-icon" aria-hidden="true"></span>
             <span class="sr-only">Next</span>
-          </a> -->
+          </a>-->
         </div>
 
         <!-- HOt item -->
         <div class="d-flex justify-content-between">
           <p class="hot-item mb-0" @click="goPost">HOT ITEM</p>
-          <span class="more" @click="goPost" style="font-weight:bold;"
-            >+ more</span
-          >
+          <span class="more" @click="goPost" style="font-weight:bold;">+ more</span>
         </div>
 
         <div class="input-group-pretend row">
@@ -336,9 +295,7 @@
               <p
                 class="card-text mt-2 mb-0"
                 style="text-overflow:ellipsis;overflow: hidden;white-space: nowrap; font-weight: bold; color: black; text-align:left;"
-              >
-                {{ post.title }}
-              </p>
+              >{{ post.title }}</p>
               <p
                 class="card-text d-flex justify-content-start"
                 style="text-overflow:ellipsis; overflow: hidden; white-space: nowrap;"
@@ -353,18 +310,13 @@
           </div>
         </div>
 
-
         <!-- RECENT REVIEW -->
         <div class="d-flex justify-content-between">
           <p class="recent-review mb-0">RECENT REVIEW</p>
           <!-- <span class="more">+ more</span> -->
         </div>
         <div class="row" v-if="reviews.length > 0">
-          <div
-            v-for="(slide, index) in reviews"
-            :key="index"
-            class="col-6 col-sm-4 col-md-2 p-3"
-          >
+          <div v-for="(slide, index) in reviews" :key="index" class="col-6 col-sm-4 col-md-2 p-3">
             <!-- <div class="card mb-3 profile-post mr-0 ml-0"> -->
             <div
               class="card-body list-profile"
@@ -388,7 +340,7 @@
               <div class="d-flex justify-content-between">
                 <img
                   class="user-img d-flex m-2"
-                  :src="makeimgurl(slide.proimg)" 
+                  :src="makeimgurl(slide.proimg)"
                   style="border-radius:70px; width:50px; height:50px;"
                 />
                 <div class="mt-2 mr-4">
@@ -396,8 +348,7 @@
                     <small
                       class="d-flex align-items-center"
                       style="font-weight:bold"
-                      >{{ slide.nickname }}</small
-                    >
+                    >{{ slide.nickname }}</small>
                     <br />
                   </div>
                   <div class="d-flex">
@@ -409,9 +360,11 @@
                     ></i>
                   </div>
                   <div class="d-flex align-items-end mt-1">
-                    <small style="font-weight:bold; white-space:nowrap">{{
+                    <small style="font-weight:bold; white-space:nowrap">
+                      {{
                       datecut(slide.createDate)
-                    }}</small>
+                      }}
+                    </small>
                   </div>
                 </div>
               </div>
@@ -474,13 +427,15 @@ export default {
         });
     },
     makeimgurl(imgurl) {
-      var url = "../../../contents/"+imgurl;
-      return url;
+      if (imgurl != "") {
+        var url = "../../../contents/" + imgurl;
+        return url;
+      }
     },
-    goNews: function() {
+    goNews: function () {
       this.$router.push("/news/");
     },
-    goPost: function() {
+    goPost: function () {
       this.$router.push("/posts/");
       this.$router.go();
     },
