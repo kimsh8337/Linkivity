@@ -312,7 +312,7 @@ export default {
           )
           .then((res) => {
             this.posts = res.data;
-            this.nextTag();
+            // this.nextTag();
           })
           .catch((err) => {
             console.log(err);
