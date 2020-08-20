@@ -46,9 +46,9 @@ export default new Router({
     routes: [
         // 로그인/가입
         {
-            path: '/user/login',
-            name: constants.URL_TYPE.USER.LOGIN,
-            component: Login
+            path: '/user/join',
+            name: constants.URL_TYPE.USER.JOIN,
+            component: Join
         },
         //회원정보
         {
