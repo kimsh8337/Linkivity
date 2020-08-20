@@ -25,12 +25,6 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link mt-3  hamburger" @click="goNotice">
-                  <i class="fas fa-flag mr-2"></i>
-                  공지사항
-                </a>
-              </li>
-              <li class="nav-item">
                 <a v-if="this.$cookies.isKey('Auth-Token') && this.usertype == 'business'" class="nav-link mt-3  hamburger" @click="gocreate">
                   <i class="fas fa-pen mr-2"></i>
                   액티비티 등록
@@ -42,17 +36,22 @@
                   장바구니
                 </a>
               </li>
-
+              <li class="nav-item">
+                <a v-if="this.$cookies.isKey('Auth-Token') && this.usertype == 'admin'" @click="goadmin" class="nav-link mt-3  hamburger">
+                  <i class="fas fa-users-cog mr-2"></i>
+                  관리페이지
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link mt-3  hamburger" @click="goNotice">
+                  <i class="fas fa-flag mr-2"></i>
+                  공지사항
+                </a>
+              </li>
               <li class="nav-item">
                 <a v-if="this.$cookies.isKey('Auth-Token') && this.usertype != 'admin'" @click="info" class="nav-link mt-3  hamburger">
                   <i class="fas fa-user mr-2"></i>
                   마이페이지
-                </a>
-              </li>
-              <li class="nav-item">
-                <a v-if="this.$cookies.isKey('Auth-Token') && this.usertype == 'admin'" @click="goadmin" class="nav-link mt-3  hamburger">
-                  <i class="fas fa-users-cog mr-2"></i>
-                  관리 페이지
                 </a>
               </li>
               <li class="nav-item">
@@ -80,17 +79,12 @@
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link mt-3 mr-2" @click="goNotice">
-              <i class="fas fa-flag mr-1"></i>공지사항
-            </a>
-          </li>
-          <li class="nav-item">
             <a
               v-if="this.$cookies.isKey('Auth-Token') && this.usertype == 'business'"
               class="nav-link mt-3 mr-2"
               @click="gocreate"
             >
-              <i class="fas fa-pen mr-1"></i>상품등록
+              <i class="fas fa-pen mr-1"></i>액티비티 등록
             </a>
           </li>
           <li class="nav-item">
@@ -102,16 +96,6 @@
               <i class="fas fa-shopping-basket mr-1"></i>장바구니
             </a>
           </li>
-
-          <li class="nav-item">
-            <a
-              v-if="this.$cookies.isKey('Auth-Token') && this.usertype != 'admin'"
-              @click="info"
-              class="nav-link mt-3 mr-2"
-            >
-              <i class="fas fa-user mr-1"></i>마이페이지
-            </a>
-          </li>
           <li class="nav-item">
             <a
               v-if="this.$cookies.isKey('Auth-Token') && this.usertype == 'admin'"
@@ -119,6 +103,20 @@
               class="nav-link mt-3 mr-2"
             >
               <i class="fas fa-users-cog mr-1"></i>관리페이지
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link mt-3 mr-2" @click="goNotice">
+              <i class="fas fa-flag mr-1"></i>공지사항
+            </a>
+          </li>
+          <li class="nav-item">
+            <a
+              v-if="this.$cookies.isKey('Auth-Token') && this.usertype != 'admin'"
+              @click="info"
+              class="nav-link mt-3 mr-2"
+            >
+              <i class="fas fa-user mr-1"></i>마이페이지
             </a>
           </li>
           <li class="nav-item">

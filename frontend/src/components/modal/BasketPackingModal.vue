@@ -9,15 +9,17 @@
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
+        <!-- modal body -->
         <div class="modal-body">
+          <!-- 웹 -->
           <div class="mb-4" v-for="(post, index) in prePosts" :key="index">
             <div class="row">
-              <div class="col-md-4">
+              <div class="col-4 col-sm-4 col-md-4">
                 <img :src="makeimgurl(post.imgurl)" v-if="post.imgurl" alt @click="getdetail(post.pid)" data-dismiss="modal" />
               </div>
               <div
                 type="text"
-                class="basket-list col-md-8"
+                class="basket-list col-8 col-sm-8 col-md-8"
                 aria-label="Text input with checkbox"
                 data-dismiss="modal"
                 @click="getdetail(post.pid)"
@@ -25,22 +27,25 @@
                 <p class="mb-0">제목 : {{ post.title }}</p>
                 <p class="mb-0">기간 : {{ post.sdate }}~{{ post.edate }}</p>
                 <p class="mb-0">위치 : {{ post.location }}</p>
-                <p class="mb-0">가격 : {{ post.price }}</p>
+                <p class="mb-0">가격 : {{ post.price }}원</p>
               </div>
             </div>
             <hr>
           </div>
+          <!-- 가격 -->
           <!-- <p class="packaging-price mb-1">Singled Price : {{ Singleprice }}</p> -->
           <p class="packaging-price mb-1">
-            <span v-if="discount > 0" style="font-size:1.3rem;">{{this.discount}}% OFF </span>Packaging Price : {{ Packagingprice }}
+            <span v-if="discount > 0" style="font-size:1.3rem;">{{this.discount}}% OFF </span>Packaging Price : {{ Packagingprice }} 원
           </p>
         </div>
+
+        <!-- footer -->
         <div class="modal-footer">
-          <button type="button" class="btn btn-outline" data-dismiss="modal">
+          <button type="button" class="btn btn-default" data-dismiss="modal" style="font-weight:bold; color:white; background-color:crimson;">
             <i class="fas fa-times mr-2"></i>
             취소
           </button>
-          <button type="button" class="btn btn-danger" @click="purchase"><i class="far fa-hand-point-up mr-2"></i>구매하기</button>
+          <button type="button" class="btn btn-default" @click="purchase" style="background-color:#86a5d4;color:white;font-weight:bold;"><i class="far fa-hand-point-up mr-2"></i>구매하기</button>
         </div>
       </div>
     </div>
@@ -118,7 +123,6 @@ export default {
             axios
               .get(`${baseURL}/purchase/regist/${th.packPost}/${th.email}/${th.sum}`)
               .then((response) => {
-                alert('구매 완료');
                 th.$router.push('/user/basket');
                 th.$router.go();
               })

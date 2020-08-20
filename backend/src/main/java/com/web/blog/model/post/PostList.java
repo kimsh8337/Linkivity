@@ -46,4 +46,5 @@ public class PostList {
     @Column(insertable = false, updatable = false)
     private LocalDateTime createDate;
     private float star;
+    private String locationdetail;
 }

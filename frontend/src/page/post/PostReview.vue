@@ -19,7 +19,7 @@
       <div
         v-for="(slide, index) in reviews"
         :key="index"
-        class="col-6 col-sm-6 col-md-3 p-3"
+        class="col-12 col-sm-6 col-md-3 p-3"
       >
         <!-- <div class="card mb-3 profile-post mr-0 ml-0"> -->
         <div
@@ -27,7 +27,7 @@
           data-target="#postReviewModal"
           @click="bringReviewData(slide)"
           class="card-body"
-          style="padding: 0 30px; cursor: pointer;"
+          style="padding: 0 20px; cursor: pointer;"
         >
           
           <!-- img 보여주기 -->
@@ -36,7 +36,7 @@
             class="review-img"
             :src="makeimgurl(slide.img)"
             :alt="slide.title"
-            style="height:8rem;"
+            style="height:9rem; border-top-right-radius:5px; border-top-left-radius:5px;"
           />
           <img
             v-if="!slide.img"
@@ -70,7 +70,7 @@
                 ></i>
               </div>
               <div class="d-flex align-items-end mt-1">
-                <small style="font-weight:bold">{{
+                <small style="font-weight:bold; white-space:nowrap">{{
                   datecut(slide.createDate)
                 }}</small>
               </div>
@@ -188,4 +188,5 @@ export default {
   transition: all 0.3s ease-in-out;
   cursor: pointer;
 }
+           
 </style>

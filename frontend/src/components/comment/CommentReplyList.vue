@@ -40,7 +40,7 @@
             <!-- content 칸 -->
             <div class="mt-1 mb-2">
               <CommentReplyUpdate v-if="isUpdate" :reply="reply" />
-              <span v-else class="comment d-flex" style="color:#7D7E80">{{reply.content}}</span>
+              <span v-else class="comment d-flex" style="color:#7D7E80; text-align:justify;">{{reply.content}}</span>
             </div>
             <!-- 날짜와 대댓버튼 -->
             <div

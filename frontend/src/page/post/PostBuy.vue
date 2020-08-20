@@ -46,11 +46,11 @@
                 />
               </td>
               <td>
-                <div @click="goDetail(itm.pid)" style="cursor:pointer;">{{ itm.title }}</div>
+                <div @click="goDetail(itm.pid)" style="cursor:pointer;font-weight:bold;">{{ itm.title }}</div>
               </td>
-              <td>{{ itm.sdate }} ~ {{ itm.edate }}</td>
-              <td>{{ itm.price }}</td>
-              <td>{{ itm.serialno }}</td>
+              <td style="font-weight:bold;">{{ itm.sdate }} ~ {{ itm.edate }}</td>
+              <td style="font-weight:bold;">{{ itm.price }}</td>
+              <td style="font-weight:bold;">{{ itm.serialno }}</td>
               <td>
                 <b-badge v-if="itm.puse == 0" pill variant style="background-color: #003399">미사용</b-badge>
                 <b-badge v-if="itm.puse == 1" pill variant style="background-color: #C4302B">사용완료</b-badge>
@@ -82,7 +82,8 @@
         </thead>
         <div class="container row p-2" @click="goDetail(itm.pid)" style="width:210%" v-for="(itm, idx) in item" :key="idx">
           <div class="col-6 p-2 d-flex align-items-center">
-            <img src="../../assets/img/noimage.jpg" style="width:100%; heigh:100%;">
+            <img v-if="itm.img" :src="makeimgurl(itm.img)" style="width:100%; heigh:100%;">
+            <img v-if="!itm.img" src="../../assets/img/noimage.jpg" style="width:100%; heigh:100%;">
           </div>
           <div class="col-6 p-2 d-flex align-items-center">
             <div class="" style="text-align:left">
@@ -90,19 +91,19 @@
               <b-badge v-if="itm.puse == 1" pill variant style="background-color: #C4302B">사용완료</b-badge>
               <br>
               <div class="mt-1 mb-1">
-                <span style="font-size:1rem" class="white-space:pre;">상품명 : [{{ itm.title }}]</span>
+                <span style="font-size:1rem; font-weight:bold;" class="white-space:pre;">상품명 : [{{ itm.title }}]</span>
               </div>
               <div class="mt-1 mb-1">
-                <span>가격 : {{itm.price}}원</span>
+                <span style="font-weight:bold;">가격 : {{itm.price}}원</span>
               </div>
               <div class="mt-1 mb-1">
-                <span>일련번호 : {{itm.serialno}}</span>
+                <span style="font-weight:bold;">일련번호 : {{itm.serialno}}</span>
               </div>
               <div class="mt-1 mb-1">
-                <small>시작일 : {{itm.sdate}}</small>
+                <small style="font-weight:bold;">시작일 : {{itm.sdate}}</small>
               </div>
               <div class="mt-1 mb-1">
-                <small>종료일 : {{itm.edate}}</small>
+                <small style="font-weight:bold;">종료일 : {{itm.edate}}</small>
               </div>
             </div>
           </div>

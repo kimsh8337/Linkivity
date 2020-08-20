@@ -1,8 +1,10 @@
 <template>
   <div class="container col-sm-12 col-md-12 col-lg-12 p-0">
     <!-- background image -->
-    <div class="info-img" style="display:block;"></div>
-    <div class="container col-md-8 col-sm-12 mt-5 p-0" id="join">
+    <div class="info-img" style="display:block;">
+      <div class="info-bg"></div>
+    </div>
+    <div class="container col-md-11 col-sm-11 mt-5" id="join">
       <div class="wrapC table">
         <div class="middle">
           <!-- <h1 v-if="validated == 1">회원정보 조회</h1> -->
@@ -13,34 +15,37 @@
               <!-- <input ref="imageInput" type="file" hidden @change="onChangeImages" />
               <img class="infoimg" v-if="this.imgurl" :src="this.imgurl" style="box-shadow:5px 5px 5px rgba(0,0,0,.15)" />
               <button type="button" class="btn btn-outline" @click="onClickImageUpload" v-if="validated == 0">-->
-              <div class="container d-flex justify-content-between row">
+              <div class="col-12 d-flex justify-content-between row">
                 <div class="inputimg col-12 col-md-6">
-                  <input ref="file" type="file" hidden @change="onChangeImages" />
-                  <img
-                    class="infoimg"
-                    v-if="imgurl && !tempcheck"
-                    :src="makeimgurl(imgurl)"
-                    style="box-shadow:5px 5px 5px rgba(0,0,0,.15)"
-                  />
-                  <img
-                    class="infoimg"
-                    v-if="tempimg && tempcheck"
-                    :src="tempimg"
-                    style="box-shadow:5px 5px 5px rgba(0,0,0,.15)"
-                  />
-                  <img
-                    v-if="!imgurl"
-                    class="infoimg"
-                    src="../../assets/img/noimage.jpg"
-                    style="box-shadow:5px 5px 5px rgba(0,0,0,.15)"
-                  />
+                  <div>
+                    <input ref="file" type="file" hidden @change="onChangeImages" />
+                    <img
+                      class="infoimg"
+                      v-if="imgurl && !tempcheck"
+                      :src="makeimgurl(imgurl)"
+                      style="box-shadow:5px 5px 5px rgba(0,0,0,.15)"
+                    />
+                    <img
+                      class="infoimg"
+                      v-if="tempimg && tempcheck"
+                      :src="tempimg"
+                      style="box-shadow:5px 5px 5px rgba(0,0,0,.15)"
+                    />
+                    <img
+                      v-if="!imgurl && !tempimg"
+                      class="infoimg"
+                      src="../../assets/img/noimage.jpg"
+                      style="box-shadow:5px 5px 5px rgba(0,0,0,.15)"
+                    />
+                  </div>
                   <button
                     type="button"
-                    class="btn btn-outline"
+                    class="btn btn-default btn-sm col-md-5 mt-2"
+                    style="border-radius:12px; font-size:13px; border:1.5px solid"
                     @click="onClickImageUpload"
                     v-if="validated == 0"
                   >
-                    <i class="fas fa-image mr-2"></i>이미지 업로드
+                    <i class="fas fa-image mr-2"></i>프로필사진 수정
                   </button>
                 </div>
 
@@ -50,26 +55,51 @@
                 <!-- <img v-bind:src="path" width="200"/> -->
 
                 <div class="col-12 col-md-5 pr-0">
-                  <div class="form-group-info">
+                  <div class="form-group-info d-flex justify-content-between">
                     <!-- <label for="nickname">닉네임</label> -->
                     <input
-                      class="form-control mb-1"
-                      :disabled="validated == 1"
+                      v-if="validated==1"
+                      class="form-control mb-1 infofont"
+                      disabled
                       v-model="nickname"
                       id="nickname"
                       type="text"
                       style="font-size: 30px; font-weight:bold;"
                     />
-                    <span class="nickname-edit" v-if="validated == 0">
-                      <!-- <i class="fas fa-arrow-up mr-2"></i> -->
-                      닉네임 클릭하여 변경
-                      <!-- <i class="fas fa-arrow-up"></i> -->
-                    </span>
+                    <input
+                      class="form-control mb-1"
+                      v-if="validated == 0"
+                      v-model="nickname"
+                      id="nickname"
+                      type="text"
+                      style="font-size: 30px; font-weight:bold; border:1px solid lightgray !important"
+                    />
+                    <button v-if="validated == 1" @click="gomodify" class="btn">
+                      <i class="fas fa-wrench my-auto" style="font-size:1.5rem; color:gray;"></i>
+                    </button>
+                    <button v-if="validated == 0" @click="modify" class="btn p-0">
+                      <div class="row mx-auto d-flex">
+                        <i class="fas fa-save my-auto mx-auto" style="font-size:1.5rem;"></i>
+                        <small class="mx-auto">완료</small>
+                      </div>
+                    </button>
+                    <button v-if="validated == 0" @click="modifyCancel" class="btn p-0">
+                      <div class="row mx-auto d-flex">
+                        <i class="fas fa-cut my-auto mx-auto" style="font-size:1.5rem;"></i>
+                        <small class="mx-auto">취소</small>
+                      </div>
+                    </button>
+
+                    <!-- <span class="nickname-edit" v-if="validated == 0"> -->
+                    <!-- <i class="fas fa-arrow-up mr-2"></i> -->
+                    <!-- 닉네임 클릭하여 변경 -->
+                    <!-- <i class="fas fa-arrow-up"></i> -->
+                    <!-- </span> -->
                   </div>
-                  <div class="form-group-info">
+                  <div class="form-group-info infofont">
                     <!-- <label for="email">이메일</label> -->
                     <input
-                      class="form-control mt-2 mb-3"
+                      class="form-control mt-2"
                       v-if="pwvalidated == 0"
                       disabled="false"
                       v-model="email"
@@ -77,7 +107,7 @@
                       style="font-size: 20px; "
                     />
                   </div>
-                  <div class="form-group-info">
+                  <div class="form-group-info infofont">
                     <!-- <label for="name">이름</label> -->
                     <input
                       class="form-control mb-3"
@@ -89,50 +119,52 @@
                       style="font-size: 20px;"
                     />
                   </div>
-
+                  <div class="d-flex p-0">
+                  <button
+                    @click="passwordModify"
+                    v-if="pwvalidated == 0 && validated == 1"
+                    class="btn btn-sm p-0"
+                    style="color:#86a5d4; font-size:1rem; font-weight:bold;"
+                  >비밀번호 변경</button>
+                  </div>
                   <div
                     class="d-flex justify-content-between"
-                    style="margin-top:2.3rem;"
+                    style="margin-top:0.6rem;"
                     v-if="pwvalidated == 0"
                   >
                     <div class="d-flex justify-content-start" v-if="this.checkType=='business'">
                       <i class="fas fa-clipboard mr-2" style="font-size:2rem;"></i>
-                      <span style="font-size:1.5rem;">{{this.myposts}}</span>
+                      <span style="font-size:1.5rem;font-weight:bold;">{{this.myposts}}</span>
                     </div>
                     <div class="d-flex justify-content-start" v-if="this.checkType=='normal'">
                       <i class="fas fa-shopping-basket mr-2" style="font-size:2rem;"></i>
-                      <span style="font-size:1.5rem;">{{this.mycarts}}</span>
+                      <span style="font-size:1.5rem;font-weight:bold;">{{this.mycarts}}</span>
                     </div>
                     <div class="d-flex justify-content-start">
                       <i class="fas fa-heart mr-2" style="font-size:2rem;"></i>
-                      <span style="font-size:1.5rem;">{{this.mylikes}}</span>
+                      <span style="font-size:1.5rem;font-weight:bold;">{{this.mylikes}}</span>
                     </div>
                     <div class="d-flex justify-content-start" v-if="this.checkType=='normal'">
                       <i class="fas fa-money-check mr-2" style="font-size:2rem;"></i>
-                      <span style="font-size:1.5rem;">{{this.buycounts}}</span>
+                      <span style="font-size:1.5rem;font-weight:bold;">{{this.buycounts}}</span>
                     </div>
                     <div class="d-flex justify-content-start" v-if="this.checkType=='normal'">
                       <i class="fas fa-comments mr-2" style="font-size:2rem;"></i>
-                      <span style="font-size:1.5rem;">{{this.myreviews}}</span>
+                      <span style="font-size:1.5rem;font-weight:bold;">{{this.myreviews}}</span>
                     </div>
                     <div class="d-flex justify-content-start" v-if="this.checkType=='business'">
                       <i class="fas fa-money-check mr-2" style="font-size:2rem;"></i>
-                      <span style="font-size:1.5rem;">{{this.sellcounts}}</span>
+                      <span style="font-size:1.5rem;font-weight:bold;">{{this.sellcounts}}</span>
                     </div>
                     <div class="d-flex justify-content-start" v-if="this.checkType=='business'">
                       <i class="fas fa-save mr-2" style="font-size:2rem;"></i>
-                      <span style="font-size:1.5rem;">{{this.tempcounts}}</span>
+                      <span style="font-size:1.5rem;font-weight:bold;">{{this.tempcounts}}</span>
                     </div>
                   </div>
 
-                  <button
-                    @click="passwordModify"
-                    v-if="pwvalidated == 0 && validated == 0"
-                    class="btn btn-link btn-sm"
-                    style="font-size:1rem;"
-                  >비밀번호 변경</button>
+                
 
-                  <div class="form-group-pw mb-2 mt-1" align="left" v-if="pwvalidated == 1">
+                  <div class="form-group-pw mt-1" align="left" v-if="pwvalidated == 1" style="width:70%;">
                     <label class="mt-2" for="pw">비밀번호</label>
                     <input
                       class="form-control mb-1"
@@ -149,7 +181,7 @@
                     </div>
                   </div>
 
-                  <div class="form-group-pw" align="left" v-if="pwvalidated == 1">
+                  <div class="form-group-pw" align="left" v-if="pwvalidated == 1" style="width:70%;">
                     <label for="name">비밀번호 확인</label>
                     <input
                       class="form-control mb-1"
@@ -195,7 +227,7 @@
 
           <div class="mt-5">
             <b-tabs content-class="mt-3" fill>
-              <b-tab title="상품목록" active v-if="this.checkType=='business'">
+              <b-tab title="내 상품" active v-if="this.checkType=='business'">
                 <Mypost />
               </b-tab>
               <b-tab title="장바구니" active v-if="this.checkType=='normal'">
@@ -213,7 +245,7 @@
               <b-tab title="판매목록" v-if="this.checkType=='business'">
                 <Sell />
               </b-tab>
-              <b-tab title="임시저장" v-if="this.checkType=='business'">
+              <b-tab title="임시 글" v-if="this.checkType=='business'">
                 <Temp />
               </b-tab>
             </b-tabs>
@@ -221,27 +253,12 @@
 
           <!-- <hr class="border-bottom-1 border-black mt-1" />
           <div class="card col-sm-12 mt-1"></div>-->
-          <hr />
-          <button @click="deluser" class="btn">
-            <i class="fas fa-user-slash">
-              <span class="ml-1">탈퇴하기</span>
-            </i>
+          <!-- <hr /> -->
+          <div class="d-flex justify-content-end">
+          <button @click="deluser" class="btn btn-default btn-sm" style="border-radius:7px; font-weight:bold; border:1.2px solid #86a5d4;">
+            탈퇴하기
           </button>
-          <button v-if="validated == 1" @click="gomodify" class="btn">
-            <i class="fas fa-user-edit">
-              <span class="ml-1">수정하기</span>
-            </i>
-          </button>
-          <button v-if="validated == 0" @click="modify" class="btn">
-            <i class="fas fa-save">
-              <span class="ml-1">완료</span>
-            </i>
-          </button>
-          <button v-if="validated == 0" @click="modifyCancel" class="btn">
-            <i class="fas fa-cut">
-              <span class="ml-1">취소</span>
-            </i>
-          </button>
+          </div>
         </div>
       </div>
     </div>
@@ -387,7 +404,7 @@ export default {
         });
     },
     makeimgurl(imgurl) {
-      var url = "../../../contents/"+imgurl;
+      var url = "../../../contents/" + imgurl;
       return url;
     },
     getuser() {
@@ -510,17 +527,19 @@ export default {
     fileUpload: function () {
       var formData = new FormData();
       const file = this.$refs.file.files[0];
-      formData.append("file", file);
-      axios
-        .post(`${baseURL}/account/file/${this.email}`, formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        })
-        .then(function (response) {})
-        .catch(function (error) {
-          console.log(error);
-        });
+      if(file != null) {
+        formData.append("file", file);
+        axios
+          .post(`${baseURL}/account/file/${this.email}`, formData, {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          })
+          .then(function (response) {})
+          .catch(function (error) {
+            console.log(error);
+          });
+      }
     },
 
     onClickImageUpload() {
@@ -528,19 +547,34 @@ export default {
     },
     onChangeImages(e) {
       const file = e.target.files[0];
+      if(file == null) {
+        return;
+      }
+      if(file.size >= 1048576) {
+        const Toast = Swal.mixin({
+          toast: true,
+          position: 'top-end',
+          showConfirmButton: false,
+          timer: 2000,
+          timerProgressBar: true,
+          onOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer)
+            toast.addEventListener('mouseleave', Swal.resumeTimer)
+          }
+        })
+
+        Toast.fire({
+          icon: 'error',
+          title: '파일 업로드 크기를 초과하였습니다!'
+        })
+        return;
+      }
       this.tempimg = URL.createObjectURL(file);
       this.tempcheck = true;
       // var img = new Image(file);
       // img = e.target.files[0];
       // this.createImage(img);
     },
-    // createImage(file) {
-    //   this.imgurl = new Image();
-    //   var reader = new FileReader();
-    //   reader.onload = (e) => {
-    //     this.imgurl = e.target.result;
-    //   };
-    // },
     modifyCancel() {
       this.validated = !this.validated;
     },

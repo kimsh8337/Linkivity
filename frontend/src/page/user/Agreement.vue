@@ -7,10 +7,10 @@
     <div class="justify-content-center p-5">
       <span class="d-flex m-5" style="font-size:1.5rem; font-weight:bold" >이용약관</span>
       <small v-if="this.checkType == 'normal'" class="d-flex m-5" style="font-weight:bold">일반 사용자 전용</small>
-      <small v-if="this.checkType == 'business'" class="d-flex m-5" style="font-weight:bold">사업자 전용</small>
+      <small v-if="this.checkType == 'business' || this.checkType == 'admin'" class="d-flex m-5" style="font-weight:bold">사업자 전용</small>
       <div class="m-5">
         <AgreeNormal v-if="this.checkType == 'normal'"/>
-        <AgreeBusiness v-if="this.checkType == 'business'"/>
+        <AgreeBusiness v-if="this.checkType == 'business' || this.checkType == 'admin'"/>
       </div>
     </div>
   </div>

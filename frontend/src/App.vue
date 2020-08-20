@@ -75,8 +75,10 @@ export default {
 
 <style>
 #app {
-  font-family: 'CookieRunOTF-Bold';
-  /* font-family: 'Nanum Gothic', sans-serif; */
+  /* font-family: 'IBMPlexSansKR-Text'; */
+  /* font-family: 'CookieRunOTF-Bold'; */
+  font-family: 'Nanum Gothic', sans-serif;
+  /* font-family: 'Jua', sans-serif; */
   /* font-family: 'Lexend Zetta', sans-serif; */
   /* font-family: Avenir, Helvetica, Arial, sans-serif; */
   -webkit-font-smoothing: antialiased;
@@ -86,7 +88,14 @@ export default {
   /* margin-top: 7rem; */
 }
 
-            @font-face {
+/* @font-face {
+    font-family: 'IBMPlexSansKR-Text';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-07@1.0/IBMPlexSansKR-Text.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+} */
+
+@font-face {
     font-family: 'CookieRunOTF-Bold';
     src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_twelve@1.0/CookieRunOTF-Bold00.woff') format('woff');
     font-weight: normal;

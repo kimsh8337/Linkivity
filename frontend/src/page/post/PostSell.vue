@@ -22,7 +22,7 @@
           </tr>
         </thead>
         <tr id="tt" v-for="(itm, index) in sitems" :key="index">
-          <td>{{ itm.email }}</td>
+          <td style="font-weight:bold;">{{ itm.email }}</td>
           <td>
             <img
               :src="makeimgurl(itm.img)"
@@ -32,16 +32,16 @@
             />
           </td>
           <td>
-            <div style="cursor:pointer;" @click="getdetail(itm.pid)">
+            <div style="cursor:pointer;font-weight:bold;" @click="getdetail(itm.pid)">
               {{ itm.title }}
             </div>
           </td>
-          <td>{{ itm.sdate }} ~ {{ itm.edate }}</td>
-          <td>{{ itm.price }}원</td>
+          <td style="font-weight:bold;">{{ itm.sdate }} ~ {{ itm.edate }}</td>
+          <td style="font-weight:bold;">{{ itm.price }}원</td>
           <td>
             <button
               class="btn btn-outline-danger btn-sm pt-0 pb-0"
-              style="height:20px; font-size:12px; white-space: nowrap;"
+              style="height:20px; font-size:12px; font-weight:bold;white-space: nowrap;"
               v-if="itm.puse == 0"
               data-toggle="modal"
               data-target="#confirmmodal"
@@ -53,7 +53,7 @@
               v-if="itm.puse == 1"
               pill
               variant
-              style="background-color: #C4302B"
+              style="background-color: #C4302B;"
               >사용완료</b-badge
             >
           </td>

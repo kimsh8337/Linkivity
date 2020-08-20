@@ -17,7 +17,7 @@
             class="modal-title font-weight-bold my-auto ml-2"
             style="width:60%;"
           >
-            <i class="fas fa-file-signature ml-5">ＬＯＧＩＮ</i>
+            <i class="fas fa-file-signature ml-5" style="white-space:nowrap">ＬＯＧＩＮ</i>
           </h4>
           <button
             type="button"
@@ -81,7 +81,7 @@
           >
             <i class="fas fa-sign-in-alt"
               ></i
-            ><span class="my-auto ml-2">로그인</span>
+            ><span class="my-auto ml-2" style="font-weight:bold">로그인</span>
           </div>
         </div>
 
@@ -118,7 +118,7 @@
           >
             <i class="fas fa-unlock">
             </i>
-            <span class="my-auto ml-2">비밀번호 찾기</span>
+            <span class="my-auto ml-2" style="font-weight:bold">비밀번호 찾기</span>
           </div>
         </div>
 

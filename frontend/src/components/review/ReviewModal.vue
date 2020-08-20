@@ -39,7 +39,7 @@
               />
             </div>
             <input ref="file" type="file" hidden @change="onChangeImages" />
-            <small v-if="!this.reviewCreate.img" class="form-text text-muted d-flex">원하는 사진을 업로드하세요.</small>
+            <small v-if="!this.reviewCreate.img" class="form-text text-muted d-flex">원하는 사진을 업로드하세요. (1MB 이하)</small>
             <!-- <small
             v-if="this.reviewCreate.img"
             class="form-text text-muted d-flex"
@@ -215,26 +215,50 @@ export default {
     fileUpload(rvid) {
     var formData = new FormData();
     const file = this.$refs.file.files[0];
-    formData.append("file", file);
-    axios.post(`${baseURL}/review/file/${rvid}`
-        ,formData
-        , {
+    if(file != null) {
+      formData.append("file", file);
+      axios.post(`${baseURL}/review/file/${rvid}`
+          ,formData
+          , {
             headers: {
-                'Content-Type': 'multipart/form-data'
-            }
-        }
-        )
-      .then(function (response) {
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+              'Content-Type': 'multipart/form-data'
+              }
+          }
+          )
+        .then(function (response) {
+          })
+        .catch(function (error) {
+          console.log(error);
+        });
+      }
     },
     onClickImageUpload() {
       this.$refs.file.click();
     },
     onChangeImages(e) {
       const file = e.target.files[0];
+      if(file == null) {
+        return;
+      }
+      if(file.size >= 1048576) {
+        const Toast = Swal.mixin({
+          toast: true,
+          position: 'top-end',
+          showConfirmButton: false,
+          timer: 2000,
+          timerProgressBar: true,
+          onOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer)
+            toast.addEventListener('mouseleave', Swal.resumeTimer)
+          }
+        })
+
+        Toast.fire({
+          icon: 'error',
+          title: '파일 업로드 크기를 초과하였습니다!'
+        })
+        return;
+      }
       this.tempimg = URL.createObjectURL(file);
     },
   },

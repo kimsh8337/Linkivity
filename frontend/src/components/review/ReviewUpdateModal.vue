@@ -39,7 +39,7 @@
               />
               <img
                 class="card-img mb-2"
-                v-if="this.reviewUpdate.img && tempcheck"
+                v-if="tempimg && tempcheck"
                 :src="tempimg"
                 style="height: 16rem; width:100%;"
               />
@@ -53,11 +53,11 @@
             <small
               v-if="!this.reviewUpdate.img"
               class="form-text text-muted d-flex"
-            >원하는 사진을 업로드해주세요.</small>
+            >원하는 사진을 업로드해주세요. (1MB 이하)</small>
             <small
               v-if="this.reviewUpdate.img"
               class="form-text text-muted d-flex"
-            >이미지 수정을 원하시면 업로드 버튼을 눌러주세요.</small>
+            >이미지 수정을 원하시면 업로드 버튼을 눌러주세요. (1MB 이하)</small>
           </div>
 
           <!-- 제목 -->
@@ -105,6 +105,7 @@ export default {
       reviewUpdate: [],
       tempimg:'',
       tempcheck:false,
+      checkimgsize: false,
     };
   },
   props: {
@@ -130,28 +131,52 @@ export default {
     },
     fileUpload(rvid) {
     var formData = new FormData();
-    const file = this.$refs.file.files[0];
-    formData.append("file", file);
-    axios.post(`${baseURL}/review/file/${rvid}`
-        ,formData
-        , {
+    const file = this.$refs.file.files[0]; 
+    if (file != null) {
+      formData.append("file", file);
+      axios.post(`${baseURL}/review/file/${rvid}`
+          ,formData
+          , {
             headers: {
-                'Content-Type': 'multipart/form-data'
-            }
-        }
-        )
-      .then(function (response) {
-
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+              'Content-Type': 'multipart/form-data'
+              }
+          }
+          )
+        .then(function () {
+          this.checkimgsize = true
+          })
+        .catch(function (error) {
+          console.log(error);
+        });
+      }
     },
     onClickImageUpload() {
       this.$refs.file.click();
     },
     onChangeImages(e) {
       const file = e.target.files[0];
+      if(file == null) {
+        return;
+      }
+      if(file.size >= 1048576) {
+        const Toast = Swal.mixin({
+          toast: true,
+          position: 'top-end',
+          showConfirmButton: false,
+          timer: 2000,
+          timerProgressBar: true,
+          onOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer)
+            toast.addEventListener('mouseleave', Swal.resumeTimer)
+          }
+        })
+
+        Toast.fire({
+          icon: 'error',
+          title: '파일 업로드 크기를 초과하였습니다!'
+        })
+        return;
+      }
       this.tempimg = URL.createObjectURL(file);
       this.tempcheck = true;
     },
@@ -184,9 +209,8 @@ export default {
 
           axios
             .put(`${baseURL}/review/modify`, this.reviewUpdate)
-            .then((response) => {
-              this.fileUpload(response.data.rvid);
-
+            .then((res) => {
+              this.fileUpload(res.data.rvid)
               setTimeout(() => {
                 this.$router.go();
               }, 1000);

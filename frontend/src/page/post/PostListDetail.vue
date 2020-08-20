@@ -1,12 +1,15 @@
 <template>
   <div class="container col-sm-12 col-md-12 col-lg-12 p-0">
     <!-- background image -->
-    <div class="post-img" style="display:block;"></div>
-    <div class="container col-md-7" style="margin-top: 100px">
+    <div class="postdetail-img" style="display:block;">
+      <div class="info-bg"></div>
+    </div>
+
+    <div class="container col-md-10" style="margin-top: 100px">
       <div class="column">
         <div class="card mt-5 mb-3" style="max-width: 100%;">
           <div class="row no-gutters">
-            <div class="col-md-5">
+            <div class="col-md-4">
               <img
                 :src="makeimgurl(post.imgurl)"
                 v-if="post.imgurl"
@@ -15,6 +18,7 @@
                 alt
               />
             </div>
+            <div class="col-md-1"></div>
             <div class="col-md-7">
               <div class="card-body" style="padding: 0 0 0 20px">
                 <div class="text">
@@ -26,14 +30,14 @@
                       v-for="hash in hashTag"
                       :key="hash.id"
                     >
-                      <p @click="goTag(hash)">#{{ hash }}</p>
+                      <p @click="goTag(hash)" style="font-weight:bold;">#{{ hash }}</p>
                     </small>
 
                     <div class="ml-auto">
                       <!-- 카카오톡 공유하기 -->
                       <button
                         class="btn btn p-0"
-                        @click="test"
+                        @click="test(post.imgurl)"
                         id="kakao-link-btn"
                         icon="share-fill"
                       >
@@ -48,13 +52,13 @@
                     <!-- 업체 위치 -->
                     <p
                       class="card-text"
-                      style="font-size: 1rem; color: rgb(168, 168, 168); text-align: left; text-overflow:ellipsis; overflow: hidden; white-space: nowrap;"
+                      style="font-weight:bold;font-size: 1rem; color: rgb(168, 168, 168); text-align: left; text-overflow:ellipsis; overflow: hidden; white-space: nowrap;"
                     >[{{ post.location }}]</p>
                   </div>
                   <!-- 제목 -->
                   <p
                     class="card-text font-weight-bold"
-                    style="font-size: 1.2rem; text-align: left;"
+                    style="font-weight:bold;font-size: 1.2rem; text-align: left;"
                   >[{{ post.activity }}]{{ post.title }}</p>
                   <!-- season, place check badge -->
                   <div
@@ -107,12 +111,12 @@
                   <div class="d-flex justify-content-between">
                     <p
                       class="card-text mt-3"
-                      style="font-size: 1rem; text-overflow:ellipsis; overflow: hidden; white-space:nowrap;"
+                      style="font-weight:bold;font-size: 1rem; text-overflow:ellipsis; overflow: hidden; white-space:nowrap;"
                     >유효기간 {{ post.sdate }}~{{ post.edate }}</p>
-                    <!-- 신고하기 버튼 -->
                   </div>
                   <!-- 이용 가격 -->
                   <div class="d-flex justify-content-between mt-3">
+                    <!-- 신고하기 버튼 -->
                     <span
                       data-toggle="modal"
                       data-target="#indict"
@@ -120,12 +124,12 @@
                       style="border:none; font-size:1.2rem"
                       title="신고하기"
                     >
-                      <div class="d-flex">
+                      <div class="d-flex" v-if="this.$cookies.get('Auth-Token')">
                         <i
                           class="fas fa-bell-slash my-auto"
                           style="font-size:0.8rem; color:crimson"
                         ></i>
-                        <p class="my-auto" style="font-size:0.8rem; color:crimson">신고</p>
+                        <p class="my-auto" style="font-weight:bold;font-size:1rem; color:crimson">신고</p>
                       </div>
                       <!-- <i class="fas fa-bullhorn" style="color:red">신고</i> -->
                       <!-- <i class="fas fa-angry" style="color:red"></i> -->
@@ -133,7 +137,7 @@
                     <IndictPost :post="post" />
                     <p
                       class="card-text font-weight-bold mb-0"
-                      style="font-size: 1.5rem; text-align: left; margin-bottom: 5px;
+                      style="font-weight:bold;font-size: 1.5rem; text-align: left; margin-bottom: 5px;
                   "
                     >{{ post.price }} 원</p>
                   </div>
@@ -142,26 +146,27 @@
                   <div class="d-flex justify-content-end mr-0 mt-3 mb-3">
                     <div class="d-flex justify-content-start">
                       <i
-                        v-if="isheart"
-                        class="fas fa-heart mr-1 my-auto"
+                        class="fas fa-heart select-button mr-2"
                         style="text-align: right; font-size: 20px; color:crimson"
-                        @click="registlike(post.pid)"
                       ></i>
-                      <i
-                        v-if="!isheart"
-                        class="far fa-heart mr-1 my-auto"
-                        style="text-align: right; font-size: 20px; color:crimson"
-                        @click="registlike(post.pid)"
-                      ></i>
-                      {{ post.likecnt }}명이 좋아요를 눌렀습니다.
+                      <span style="font-weight:bold;">{{ post.likecnt }}명이 좋아요를 눌렀습니다.</span>
                     </div>
                   </div>
                   <!-- 장바구니, 구매 -->
                   <div class="d-flex justify-content-end" v-if="this.checkType == 'normal'">
-                    <button type="button" class="btn btn-primary mr-1" @click="alertbasket(post)">
+                    <button
+                      type="button"
+                      class="btn btn-default mr-1"
+                      @click="alertbasket(post)"
+                      style="color:white; background-color:#86a5d4;font-weight:bold;"
+                    >
                       <i class="fas fa-shopping-basket mr-2"></i>장바구니
                     </button>
-                    <button class="btn btn-danger" @click="alertbuy(post)">
+                    <button
+                      class="btn btn-danger"
+                      @click="alertbuy(post)"
+                      style="font-weight:bold;"
+                    >
                       <i class="far fa-hand-point-up mr-2"></i>바로구매
                     </button>
                   </div>
@@ -176,7 +181,7 @@
       <nav
         id="navbar-example2"
         class="navbar nav-info"
-        style="position: sticky; top: 0; z-index:1;"
+        style="position: sticky; top: 0; z-index:100;"
       >
         <ul class="nav justify-content-between" style="width:100%;">
           <li class="nav-item">
@@ -211,17 +216,17 @@
       <br />
       <div data-spy="scroll" data-target="#navbar-example2" data-offset="0">
         <!-- 상세 정봉 -->
-        <h4 id="item" class="d-flex mb-3" style="font-weight:bold;">상세정보</h4>
-        <Viewer v-if="post.detail != null" :initialValue="post.detail" style="text-align:justify" />
+        <h4 id="item" class="d-flex mb-3" style="font-weight:bold">상세정보</h4>
+        <Viewer v-if="post.detail != null" :initialValue="post.detail" style="text-align:justify;" />
         <hr />
         <!-- 업체 정보 -->
         <h4 id="corp" class="d-flex mb-3" style="font-weight:bold">업체정보</h4>
-        <p class="d-flex">{{ post.companyInfo }}</p>
+        <p class="d-flex" style="white-space:pre-wrap; text-align:justify">{{ post.companyInfo }}</p>
         <hr />
         <!-- 지도 -->
         <p class="d-flex" style="font-size:1.5rem; font-weight:bold;">위치</p>
-        <div id="map" style="max-width: 100%; height:300px;"></div>
-        <small class="d-flex mt-2" style="font-weight:bold;">{{ post.location }}</small>
+        <div id="map" style="max-width: 100%; height:300px;z-index:0"></div>
+        <small class="d-flex mt-2" style="font-weight:bold; font-size:1rem;">{{ post.location }}</small>
         <hr class="mt-2" />
         <!-- 후기 -->
         <div class="d-flex justify-content-between mb-2">
@@ -233,7 +238,7 @@
             data-target="#reviewWrite"
             v-if="this.checkType == 'normal'"
             class="btn btn-sm"
-            style="background-color:#86a5d4; color:white; height:1.8rem"
+            style="background-color:#86a5d4; color:white; height:1.8rem;font-weight:bold;"
           >
             <i class="fas fa-pen"></i>
             작성
@@ -277,15 +282,10 @@
         class="d-flex justify-content-end mt-3 mb-3"
         v-if="this.email == this.post.email | this.checkType == 'admin'"
       >
-        <button
-          class="btn btn-default mr-2"
-          v-if="this.email == this.post.email"
-          style="background-color:#86a5d4; color:white; font-weight:bold;"
-          @click="goModify"
-        >
+        <button class="btn btn-default mr-2" style="background-color:#86a5d4; color:white;font-weight:bold;" v-if="this.email == this.post.email" @click="goModify">
           <i class="far fa-edit mr-2"></i>수정하기
         </button>
-        <button class="btn btn-danger" style="font-weight:bold;" @click="goDelete">
+        <button class="btn btn-danger" @click="goDelete" style="font-weight:bold;">
           <i class="far fa-trash-alt mr-2"></i>삭제하기
         </button>
       </div>
@@ -338,7 +338,6 @@ export default {
       autumnCheck: "",
       winterCheck: "",
       placeCheck: "",
-      isheart: false,
     };
   },
   created() {
@@ -362,7 +361,7 @@ export default {
       evt.preventDefault();
       const href = evt.target.getAttribute("href");
       var location = document.querySelector(href).offsetTop;
-      window.scrollTo({ top: location + 340, behavior: "smooth" });
+      window.scrollTo({ top: location + 120, behavior: "smooth" });
     },
     authUser() {
       axios
@@ -382,18 +381,17 @@ export default {
         });
     },
     checklike() {
-      axios
-        .get(`${baseURL}/like/checkpidlike/${this.email}/${this.post.pid}`)
-        .then((res) => {
-          if (res.data == 0) {
-            this.isheart = false;
-          } else if (res.data == 1) {
-            this.isheart = true;
-          }
-        })
-        .catch((err) => {
-          alert(err);
-        });
+      if (this.$cookies.get("Auth-Token") != null) {
+        axios
+          .get(`${baseURL}/like/checkpidlike/${this.email}/${this.post.pid}`)
+          .then((res) => {
+            if (res.data == 0) {
+              this.isheart = false;
+            } else if (res.data == 1) {
+              this.isheart = true;
+            }
+          });
+      }
     },
     registlike(pid) {
       if (this.email != "") {
@@ -409,6 +407,7 @@ export default {
                 duration: 1000,
               });
               this.isheart = true;
+              this.getPost();
             } else {
               this.$toasted.show("좋아요 취소", {
                 theme: "bubble",
@@ -416,6 +415,7 @@ export default {
                 duration: 1000,
               });
               this.isheart = false;
+              this.getPost();
             }
           })
           .catch((err) => {
@@ -438,17 +438,17 @@ export default {
       }
     },
     makeimgurl(imgurl) {
-      var url = "../../../contents/"+imgurl;
+      var url = "../../../contents/" + imgurl;
       return url;
     },
-    test() {
-      Kakao.Link.createDefaultButton({
-        container: "#kakao-link-btn",
+    test(imgurl) {
+      Kakao.Link.sendDefault({
+        // container: "#kakao-link-btn",
         objectType: "feed",
         content: {
           title: this.post.title, // 콘텐츠의 타이틀
           description: this.post.activity, // 콘텐츠 상세설명
-          imageUrl: document.images[0].src, // 썸네일 이미지
+          imageUrl: `${this.makeimgurl(imgurl)}`, // 썸네일 이미지
           link: {
             webUrl: "http://i3b206.p.ssafy.io:3000/#/posts/" + this.pid,
             mobileWebUrl: "http://i3b206.p.ssafy.io:3000/#/posts/" + this.pid,
@@ -484,7 +484,6 @@ export default {
           this.placeCheck = res.data.place;
           this.post = res.data;
           this.mapView(this.post.location);
-          this.checklike();
         })
         .catch((err) => {
           if (err.response.status == 400) {
@@ -635,17 +634,12 @@ export default {
         .get(`${baseURL}/cart/check/${this.email}/${this.pid}`)
         .then((res) => {
           if (res.data) {
-            Swal.fire({
-              width: 350,
-              icon: "error",
-              text: "동일한 상품이 장바구니에 있습니다.!",
-              confirmButtonText: "<span>확인</span>",
-            });
+            alert("동일한 상품이 장바구니에 있습니다.");
           } else {
             Swal.fire({
-              title: `게시글 : [${post.title}]`,
+              title: `${post.title}`,
               text: "장바구니에 담겼습니다.",
-              imageUrl: `${post.imgurl}`,
+              imageUrl: `${this.makeimgurl(post.imgurl)}`,
               imageWidth: 400,
               imageHeight: 200,
               imageAlt: "Custom image",
@@ -741,7 +735,7 @@ export default {
 
                     Toast.fire({
                       icon: "success",
-                      title: "구매완료!",
+                      title: "구매 완료",
                     });
                     setTimeout(() => {
                       th.$router.go();
@@ -753,27 +747,8 @@ export default {
               } else {
                 var msg = "결제에 실패하였습니다.";
                 msg += "에러내용 : " + rsp.error_msg;
-                const Toast = Swal.mixin({
-                  toast: true,
-                  position: "top-end",
-                  showConfirmButton: false,
-                  timer: 1000,
-                  timerProgressBar: true,
-                  onOpen: (toast) => {
-                    toast.addEventListener("mouseenter", Swal.stopTimer);
-                    toast.addEventListener("mouseleave", Swal.resumeTimer);
-                  },
-                });
-
-                Toast.fire({
-                  icon: "error",
-                  title: msg,
-                });
-                setTimeout(() => {
-                  th.$router.go();
-                }, 1000);
               }
-              // alert(msg);
+              alert(msg);
             }
           );
         }
@@ -783,7 +758,7 @@ export default {
       var mapContainer = document.getElementById("map"), // 지도를 표시할 div
         mapOption = {
           center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
-          level: 5, // 지도의 확대 레벨
+          level: 3, // 지도의 확대 레벨
         };
 
       // 지도를 생성합니다
@@ -803,13 +778,13 @@ export default {
             map: map,
             position: coords,
           });
-          var test = loc;
+          // var test = '<div class="row" style="height:50px;text-align:center;"><div class="col-md-12">'+loc+'</div></div>';
 
           // 인포윈도우로 장소에 대한 설명을 표시합니다
           var infowindow = new kakao.maps.InfoWindow({
-            content: test,
+            // content: test,
           });
-          infowindow.open(map, marker);
+          // infowindow.open(map, marker);
 
           // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
           map.setCenter(coords);

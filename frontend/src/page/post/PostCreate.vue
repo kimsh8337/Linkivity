@@ -1,9 +1,13 @@
 <template>
   <div class="container col-sm-12 col-md-12 col-lg-12 p-0">
     <!-- background image -->
-    <div class="post-img" style="display:block;"></div>
+    <div class="postcreate-img" style="display:block;">
+      <div class="basket-img-bg"></div>
+      <div class="postment d-flex ml-5" style="font-weight:bold;">액티비티 등록</div>
+    <p class="postmentp d-flex ml-5">다양한 액티비티를 등록해보세요</p>
+    </div>
 
-    <div class="container col-md-8" style="margin-top: 100px">
+    <div class="container col-md-11 mt-3">
       <div class="column">
         <div class="card mt-5 mb-3" style="max-width: 100%">
           <div class="row no-gutters">
@@ -42,7 +46,7 @@
               <small
                 v-if="!this.PostCreate.imgurl"
                 class="form-text text-muted d-flex"
-              >사진을 업로드하세요.</small>
+              >사진을 업로드하세요. (1MB 이하)</small>
               <!-- <small
                 v-if="this.PostCreate.imgurl"
                 class="form-text text-muted d-flex"
@@ -54,7 +58,7 @@
                 <div class="text">
                   <!-- 제목 -->
                   <div class="form-group">
-                    <label class="d-flex">Title</label>
+                    <label class="d-flex" style="font-weight:bold;">Title</label>
                     <input type="text" class="form-control" id="title" v-model="PostCreate.title" />
                     <small class="form-text text-muted d-flex" v-if="!error.title">상품명을 입력하세요.</small>
                     <small
@@ -64,7 +68,7 @@
                     >{{ error.title }}</small>
                     <div class="d-flex justify-content-between mt-2 mb-2">
                       <div style="width:49%;">
-                        <label class="d-flex justify-content-start">Activity</label>
+                        <label class="d-flex justify-content-start" style="font-weight:bold;">Activity</label>
                         <input
                           type="text"
                           class="form-control"
@@ -84,7 +88,7 @@
                       <!-- 이용 가격 -->
                       <!-- <div class="form-group mb-0"> -->
                       <div style="width:49%;">
-                        <label class="d-flex justify-content-start">Price</label>
+                        <label class="d-flex justify-content-start" style="font-weight:bold;">Price</label>
                         <input
                           type="text"
                           class="form-control"
@@ -111,11 +115,11 @@
                   <!-- </div> -->
                   <!-- 사용 기간 -->
                   <!-- <div class="form-group"> -->
-                  <label class="d-flex justify-content-start mb-0 mt-0">Expiration-Date</label>
+                  <label class="d-flex justify-content-start mb-0 mt-0" style="font-weight:bold;">Expiration-Date</label>
                   <div class="d-flex justify-content-between">
-                    <small class="form-text text-muted" style="margin-right:auto;">시작일</small>
+                    <small class="form-text text-muted" style="margin-right:auto;font-weight:bold;">시작일</small>
                     <br />
-                    <small class="form-text text-muted" style="margin-right:auto;">마감일</small>
+                    <small class="form-text text-muted" style="margin-right:auto;font-weight:bold;">마감일</small>
                   </div>
                   <div class="d-flex justify-content-between">
                     <b-form-datepicker
@@ -149,7 +153,7 @@
       <div class="row">
         <!-- field 선택 -->
         <div class="form-group col-sm-12 col-md-5" style="width:23rem;">
-          <label class="d-flex justify-content-start">Field</label>
+          <label class="d-flex justify-content-start" style="font-weight:bold;">Field</label>
           <select class="form-control" id="place" v-model="PostCreate.place">
             <option value="ground">Ground</option>
             <option value="water">Water</option>
@@ -160,7 +164,7 @@
         </div>
         <!-- Season 선택 -->
         <div class="form-group col-sm-12 col-md-7">
-          <label class="d-flex justify-content-start">Seasons</label>
+          <label class="d-flex justify-content-start" style="font-weight:bold;">Seasons</label>
           <div class="d-flex justify-content-between">
             <div class="form-check form-check-inline">
               <input
@@ -170,7 +174,7 @@
                 value="spring"
                 v-model="seasons"
               />
-              <label class="form-check-label" for="spring">Spring</label>
+              <label class="form-check-label" for="spring" >Spring</label>
             </div>
             <div class="form-check form-check-inline">
               <input
@@ -215,7 +219,7 @@
         <!-- 업체 정보 -->
         <!-- <h4 class="d-flex mb-2" style="font-weight:bold">업체정보</h4> -->
         <div class="form-group">
-          <label class="d-flex justify-content-start">Corporation-Detail</label>
+          <label class="d-flex justify-content-start" style="font-weight:bold;">Corporation-Detail</label>
           <textarea class="form-control" id="company-information" v-model="PostCreate.companyInfo"></textarea>
           <small class="form-text text-muted d-flex" v-if="!error.companyInfo">업체 정보를 입력하세요.</small>
           <small
@@ -230,7 +234,7 @@
         <!-- 상세 정보 -->
         <!-- <h4 class="d-flex mb-2" style="font-weight:bold">상세정보</h4> -->
         <div class="form-group">
-          <label class="d-flex justify-content-start">Detail-Info</label>
+          <label class="d-flex justify-content-start" style="font-weight:bold;">Detail-Info</label>
           <Editor ref="toastuiEditor" />
           <small class="form-text text-muted d-flex" v-if="!error.detail">상품 상세정보를 입력하세요.</small>
           <small class="form-text d-flex" style="color:red;" v-if="error.detail">{{ error.detail }}</small>
@@ -238,7 +242,7 @@
         <hr />
         <!-- 지도 -->
         <div>
-          <label class="d-flex justify-content-start">Address</label>
+          <label class="d-flex justify-content-start" style="font-weight:bold;">Address</label>
           <div class="d-flex mb-1">
             <button
               type="button"
@@ -250,20 +254,13 @@
             </button>
           </div>
           <input
-            hidden
             type="text"
             class="form-control mb-1"
             v-model="addr2"
             placeholder="주소"
             readonly
           />
-          <input hidden type="text" class="form-control mb-1" v-model="addr3" placeholder="상세주소" />
-          <input
-            type="text"
-            class="form-control mb-1"
-            v-model="PostCreate.location"
-            placeholder="상세주소"
-          />
+          <input type="text" class="form-control mb-1" v-model="addr3" placeholder="상세주소" />
         </div>
 
         <small class="form-text text-muted d-flex">주소를 입력하세요.</small>
@@ -271,7 +268,7 @@
         <hr />
 
         <!-- HasTag -->
-        <label for="tags-basic" class="d-flex mt-3"># HASHTAG</label>
+        <label for="tags-basic" class="d-flex mt-3" style="font-weight:bold;">#HASHTAG</label>
         <b-form-tags
           input-id="tags-pills"
           v-model="tagValue"
@@ -291,7 +288,7 @@
         <button
           type="submit"
           class="btn btn-outline mr-1"
-          style="font-size: 1rem; color: gray;"
+          style="font-size: 1rem; color: gray;font-weight:bold;"
           @click="tempSave"
         >임시저장</button>
         <button
@@ -332,6 +329,7 @@ export default {
         email: "",
         title: "",
         location: "",
+        locationdetail:"",
         imgurl: "",
         price: "",
         sdate: "",
@@ -409,11 +407,12 @@ export default {
           x.addr1 = data.zonecode;
           x.addr2 = data.address;
           x.addr3 = data.buildingName;
-          x.PostCreate.location = x.addr2 + " " + x.addr3;
+          x.PostCreate.location = x.addr2;
         },
       }).open();
     },
     regist: function () {
+      this.PostCreate.locationdetail = this.addr3;
       var content = this.$refs.toastuiEditor.invoke("getMarkdown");
       this.PostCreate.detail = content;
       var flag = 0;
@@ -481,7 +480,7 @@ export default {
         alert("정보를 모두 입력해주세요.");
         return;
       }
-      this.PostCreate.location = this.addr2 + " " + this.addr3;
+      this.PostCreate.location = this.addr2;
 
       for (var i = 0; i < this.seasons.length; i++) {
         if (this.seasons[i] == "spring") {
@@ -526,6 +525,7 @@ export default {
     },
     tempSave() {
       //임시저장 메소드
+      this.PostCreate.locationdetail = this.addr3;
       if (this.PostCreate.title == "") {
         this.error.title = "상품명은 빈칸일 수 없습니다.";
         alert("정보를 확인해주세요");
@@ -597,25 +597,49 @@ export default {
     fileUpload(pid) {
       var formData = new FormData();
       const file = this.$refs.file.files[0];
-      formData.append("file", file);
-      axios
-        .post(`${baseURL}/post/file/${pid}`, formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        })
-        .then(function (response) {
-          alert("업로드 완료");
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
+      if(file != null) {
+        formData.append("file", file);
+        axios
+          .post(`${baseURL}/post/file/${pid}`, formData, {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          })
+          .then(function (response) {
+            alert("업로드 완료");
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+      }
     },
     onClickImageUpload() {
       this.$refs.file.click();
     },
     onChangeImages(e) {
       const file = e.target.files[0];
+      if(file == null) {
+        return;
+      }
+      if(file.size >= 1048576) {
+        const Toast = Swal.mixin({
+          toast: true,
+          position: 'top-end',
+          showConfirmButton: false,
+          timer: 2000,
+          timerProgressBar: true,
+          onOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer)
+            toast.addEventListener('mouseleave', Swal.resumeTimer)
+          }
+        })
+
+        Toast.fire({
+          icon: 'error',
+          title: '파일 업로드 크기를 초과하였습니다!'
+        })
+        return;
+      }
       this.tempimg = URL.createObjectURL(file);
       this.tempcheck = true;
     },
