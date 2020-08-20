@@ -202,7 +202,7 @@ export default {
                   title: "일련번호가 일치하지 않습니다.",
                 });
               }
-              this.init();
+              this.countPage();
             })
             .catch((error) => {
               console.log(error);
