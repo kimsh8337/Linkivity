@@ -35,7 +35,7 @@
         <div class="mt-2 mb-2">
           <!-- 댓글 수정 -->
           <CommentUpdate v-if="isUpdated" :comment="comment" />
-          <span v-else class="comment d-flex" style="color:#7D7E80">{{comment.content}}</span>
+          <span v-else class="comment d-flex" style="color:#7D7E80; text-align:justify;">{{comment.content}}</span>
         </div>
         <div class="d-flex justify-content-between mb-2" style="cursor:pointer;">
           <small @click="replyInputCheck" class="d-flex text-muted" style="font-weight:bold;">댓글보기</small>

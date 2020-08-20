@@ -27,7 +27,7 @@
           data-target="#postReviewModal"
           @click="bringReviewData(slide)"
           class="card-body"
-          style="padding: 0 30px; cursor: pointer;"
+          style="padding: 0 20px; cursor: pointer;"
         >
           
           <!-- img 보여주기 -->
@@ -70,7 +70,7 @@
                 ></i>
               </div>
               <div class="d-flex align-items-end mt-1">
-                <small style="font-weight:bold">{{
+                <small style="font-weight:bold; white-space:nowrap">{{
                   datecut(slide.createDate)
                 }}</small>
               </div>
@@ -188,4 +188,5 @@ export default {
   transition: all 0.3s ease-in-out;
   cursor: pointer;
 }
+           
 </style>

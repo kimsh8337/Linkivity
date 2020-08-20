@@ -2,13 +2,16 @@
 <div class="container col-sm-12 col-md-12 col-lg-12 p-0">
   <!-- background image -->
   <div class="basket-img" style="display:block;">
+  <div class="basket-img-bg"></div>
+    <div class="postment d-flex ml-5">장바구니</div>
+    <p class="postmentp d-flex ml-5">액티비티를 패키징하여 저렴한 가격으로!</p>
   </div>
 
-  <div class="container col-md-8">
+  <div class="container col-md-11">
     <!-- shooping list  -->
     <div class="d-flex justify-content-between mt-5 mb-3">
-      <p class="shopping-list"><i class="fas fa-shopping-basket mr-2"></i>Shopping List</p>
-      <button class="btn btn-delete" @click="checkdelete"><i class="fas fa-trash-alt mr-2"></i>선택항목 삭제하기</button>
+      <p class="shopping-list" style="font-weight:bold;"><i class="fas fa-shopping-basket mr-2"></i>Shopping List</p>
+      <button class="btn btn-delete" @click="checkdelete" style="font-weight:bold;"><i class="fas fa-trash-alt mr-2"></i>선택항목 삭제하기</button>
     </div>
     <div v-if="carts.length > 0">
       <div class="input-group mb-5" v-for="(post, index) in carts" :key="index">
@@ -53,10 +56,10 @@
 
     <!-- 장바구니가 비어있을 때 -->
     <div class="col" v-if="carts.length <= 0">
-      <div class="mt-5 mb-3">
+      <div class="mt-5 mb-3" style="font-weight:bold;">
         장바구니가 비어있습니다.
       </div>
-      <button type="button" class="btn mb-5" @click="goPost()" style="background-color: rgb(134, 165, 212); color: white;">상품보러 가기</button>
+      <button type="button" class="btn mb-5" @click="goPost()" style="background-color: rgb(134, 165, 212); color: white; font-weight:bold;">상품보러 가기</button>
     </div>
   </div>
 </div>

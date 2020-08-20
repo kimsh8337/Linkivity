@@ -1,7 +1,10 @@
 <template>
   <div class="container col-sm-12 col-md-12 col-lg-12 p-0">
     <!-- background image -->
-    <div class="post-img" style="display:block;"></div>
+    <div class="post-img" style="display:block;">
+      <div class="basket-img-bg"></div>
+      <div class="postment d-flex ml-5">액티비티</div>
+    <p class="postmentp d-flex ml-5">다양한 액티비티를 한눈에!</p></div>
 
     <div class="post mt-5">
       <div class="container col-md-11">
@@ -9,19 +12,19 @@
           <div class="input-group-prepend">
             <select
               class="btn dropdown-toggle text-black"
-              style="border: 1px solid gray; z-index: 1;"
+              style="height:50px; border: 1px solid #86a5d4; z-index: 1; background-color:#86a5d4; color:white; font-weight:bold;"
               aria-haspopup="true"
               aria-expanded="false"
               v-model="key"
             >
-              <div role="separator" class="dropdown-divider"></div>
-              <option value disabled>검색조건</option>
-              <option value="title">Title</option>
-              <option value="activity">Activity</option>
-              <option value="price">Price</option>
+              <div role="separator" class="dropdown-divider" ></div>
+              <option value disabled class = "selectlist">검색조건</option>
+              <option value="title" class = "selectlist">Title</option>
+              <option value="activity" class = "selectlist">Activity</option>
+              <option value="price" class = "selectlist">Price</option>
             </select>
           </div>
-          <input type="text" class="form-control" placeholder="Search" v-model="word" @keypress.enter="search" />
+          <input type="text" class="form-control" placeholder="Search" style="height:50px; border: 1.5px solid #86a5d4 !important;" v-model="word" @keypress.enter="search" />
         </div>
 
         <div class="hello">
@@ -98,7 +101,7 @@
                       {{ post.title }}
                     </h5>
                     <div class="card-text mb-2" style="text-align: left; font-size: 0.8rem;">
-                      <span><i class="fas fa-star mr-1" style="color:Salmon; font-size:0.7rem;"></i>{{ round(post.star) }}</span>
+                      <span style="font-weight:bold;"><i class="fas fa-star mr-1" style="color:Salmon; font-size:0.7rem;"></i>{{ round(post.star) }}</span>
                     </div>
                     <!-- pre-line; -->
 
@@ -236,10 +239,41 @@ export default {
       this.infiniteId += 1;
 
       if (this.key == '') {
+        const Toast = Swal.mixin({
+          toast: true,
+          position: 'top-end',
+          showConfirmButton: false,
+          timer: 3000,
+          timerProgressBar: true,
+          onOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer)
+            toast.addEventListener('mouseleave', Swal.resumeTimer)
+          }
+        })
+
+        Toast.fire({
+          icon: 'error',
+          title: '검색 조건을 선택해주세요!'
+        })
         this.word = '';
       } else {
         if (this.word == '') {
-          alert('검색어를 입력하세요.');
+          const Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            onOpen: (toast) => {
+              toast.addEventListener('mouseenter', Swal.stopTimer)
+              toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+          })
+
+          Toast.fire({
+            icon: 'error',
+            title: '검색어를 입력해주세요!'
+          })
         } else {
           this.searchCK = true;
           this.page = 1;

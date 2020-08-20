@@ -1,8 +1,10 @@
 <template>
   <div class="container col-sm-12 col-md-12 col-lg-12 p-0">
     <!-- background image -->
-    <div class="info-img" style="display:block;"></div>
-    <div class="container col-md-8 col-sm-12 mt-5 p-0" id="join">
+    <div class="info-img" style="display:block;">
+      <div class="info-bg"></div>
+    </div>
+    <div class="container col-md-11 col-sm-11 mt-5" id="join">
       <div class="wrapC table">
         <div class="middle">
           <!-- <h1 v-if="validated == 1">회원정보 조회</h1> -->
@@ -13,7 +15,7 @@
               <!-- <input ref="imageInput" type="file" hidden @change="onChangeImages" />
               <img class="infoimg" v-if="this.imgurl" :src="this.imgurl" style="box-shadow:5px 5px 5px rgba(0,0,0,.15)" />
               <button type="button" class="btn btn-outline" @click="onClickImageUpload" v-if="validated == 0">-->
-              <div class="container d-flex justify-content-between row">
+              <div class="col-12 d-flex justify-content-between row">
                 <div class="inputimg col-12 col-md-6">
                   <div>
                     <input ref="file" type="file" hidden @change="onChangeImages" />
@@ -57,7 +59,7 @@
                     <!-- <label for="nickname">닉네임</label> -->
                     <input
                       v-if="validated==1"
-                      class="form-control mb-1"
+                      class="form-control mb-1 infofont"
                       disabled
                       v-model="nickname"
                       id="nickname"
@@ -94,7 +96,7 @@
                     <!-- <i class="fas fa-arrow-up"></i> -->
                     <!-- </span> -->
                   </div>
-                  <div class="form-group-info">
+                  <div class="form-group-info infofont">
                     <!-- <label for="email">이메일</label> -->
                     <input
                       class="form-control mt-2"
@@ -105,7 +107,7 @@
                       style="font-size: 20px; "
                     />
                   </div>
-                  <div class="form-group-info">
+                  <div class="form-group-info infofont">
                     <!-- <label for="name">이름</label> -->
                     <input
                       class="form-control mb-3"
@@ -122,7 +124,7 @@
                     @click="passwordModify"
                     v-if="pwvalidated == 0 && validated == 1"
                     class="btn btn-sm p-0"
-                    style="color:#86a5d4; font-size:1rem;"
+                    style="color:#86a5d4; font-size:1rem; font-weight:bold;"
                   >비밀번호 변경</button>
                   </div>
                   <div
@@ -132,37 +134,37 @@
                   >
                     <div class="d-flex justify-content-start" v-if="this.checkType=='business'">
                       <i class="fas fa-clipboard mr-2" style="font-size:2rem;"></i>
-                      <span style="font-size:1.5rem;">{{this.myposts}}</span>
+                      <span style="font-size:1.5rem;font-weight:bold;">{{this.myposts}}</span>
                     </div>
                     <div class="d-flex justify-content-start" v-if="this.checkType=='normal'">
                       <i class="fas fa-shopping-basket mr-2" style="font-size:2rem;"></i>
-                      <span style="font-size:1.5rem;">{{this.mycarts}}</span>
+                      <span style="font-size:1.5rem;font-weight:bold;">{{this.mycarts}}</span>
                     </div>
                     <div class="d-flex justify-content-start">
                       <i class="fas fa-heart mr-2" style="font-size:2rem;"></i>
-                      <span style="font-size:1.5rem;">{{this.mylikes}}</span>
+                      <span style="font-size:1.5rem;font-weight:bold;">{{this.mylikes}}</span>
                     </div>
                     <div class="d-flex justify-content-start" v-if="this.checkType=='normal'">
                       <i class="fas fa-money-check mr-2" style="font-size:2rem;"></i>
-                      <span style="font-size:1.5rem;">{{this.buycounts}}</span>
+                      <span style="font-size:1.5rem;font-weight:bold;">{{this.buycounts}}</span>
                     </div>
                     <div class="d-flex justify-content-start" v-if="this.checkType=='normal'">
                       <i class="fas fa-comments mr-2" style="font-size:2rem;"></i>
-                      <span style="font-size:1.5rem;">{{this.myreviews}}</span>
+                      <span style="font-size:1.5rem;font-weight:bold;">{{this.myreviews}}</span>
                     </div>
                     <div class="d-flex justify-content-start" v-if="this.checkType=='business'">
                       <i class="fas fa-money-check mr-2" style="font-size:2rem;"></i>
-                      <span style="font-size:1.5rem;">{{this.sellcounts}}</span>
+                      <span style="font-size:1.5rem;font-weight:bold;">{{this.sellcounts}}</span>
                     </div>
                     <div class="d-flex justify-content-start" v-if="this.checkType=='business'">
                       <i class="fas fa-save mr-2" style="font-size:2rem;"></i>
-                      <span style="font-size:1.5rem;">{{this.tempcounts}}</span>
+                      <span style="font-size:1.5rem;font-weight:bold;">{{this.tempcounts}}</span>
                     </div>
                   </div>
 
-                  
+                
 
-                  <div class="form-group-pw mb-2 mt-1" align="left" v-if="pwvalidated == 1">
+                  <div class="form-group-pw mt-1" align="left" v-if="pwvalidated == 1" style="width:70%;">
                     <label class="mt-2" for="pw">비밀번호</label>
                     <input
                       class="form-control mb-1"
@@ -179,7 +181,7 @@
                     </div>
                   </div>
 
-                  <div class="form-group-pw" align="left" v-if="pwvalidated == 1">
+                  <div class="form-group-pw" align="left" v-if="pwvalidated == 1" style="width:70%;">
                     <label for="name">비밀번호 확인</label>
                     <input
                       class="form-control mb-1"
@@ -253,7 +255,7 @@
           <div class="card col-sm-12 mt-1"></div>-->
           <!-- <hr /> -->
           <div class="d-flex justify-content-end">
-          <button @click="deluser" class="btn btn-default btn-sm" style="border-radius:7px; border:1.2px solid #86a5d4;">
+          <button @click="deluser" class="btn btn-default btn-sm" style="border-radius:7px; font-weight:bold; border:1.2px solid #86a5d4;">
             탈퇴하기
           </button>
           </div>
@@ -545,19 +547,34 @@ export default {
     },
     onChangeImages(e) {
       const file = e.target.files[0];
+      if(file == null) {
+        return;
+      }
+      if(file.size >= 1048576) {
+        const Toast = Swal.mixin({
+          toast: true,
+          position: 'top-end',
+          showConfirmButton: false,
+          timer: 2000,
+          timerProgressBar: true,
+          onOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer)
+            toast.addEventListener('mouseleave', Swal.resumeTimer)
+          }
+        })
+
+        Toast.fire({
+          icon: 'error',
+          title: '파일 업로드 크기를 초과하였습니다!'
+        })
+        return;
+      }
       this.tempimg = URL.createObjectURL(file);
       this.tempcheck = true;
       // var img = new Image(file);
       // img = e.target.files[0];
       // this.createImage(img);
     },
-    // createImage(file) {
-    //   this.imgurl = new Image();
-    //   var reader = new FileReader();
-    //   reader.onload = (e) => {
-    //     this.imgurl = e.target.result;
-    //   };
-    // },
     modifyCancel() {
       this.validated = !this.validated;
     },

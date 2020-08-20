@@ -1,5 +1,5 @@
 <template>
-  <div class="container p-0">
+  <div class="p-0">
     
     <!-- 쓴 글이 없을 때 -->
     <div class="mt-5" v-if="wposts.length <= 0">
@@ -31,8 +31,8 @@
         </tr>
       </thead>
       <tr id="tt" v-for="(post, index) in wposts" :key="index">
-        <td v-if="email == post.email">{{((wpage - 1) * 8 ) + index + 1}}</td>
-        <td v-if="email == post.email">
+        <td>{{((wpage - 1) * 8 ) + index + 1}}</td>
+        <td>
           <img
             :src="makeimgurl(post.imgurl)"
             v-if="post.imgurl"
@@ -40,15 +40,15 @@
           />
         </td>
         <td
-          v-if="email == post.email"
-          style="text-overflow:ellipsis; overflow: hidden; white-space: nowrap;"
+          
+          style="font-weight:bold;text-overflow:ellipsis; overflow: hidden; white-space: nowrap;"
         >{{ post.title }}</td>
         <td
-          v-if="email == post.email"
-          style="text-overflow:ellipsis; overflow: hidden; white-space: nowrap;"
+          
+          style="font-weight:bold;text-overflow:ellipsis; overflow: hidden; white-space: nowrap;"
         >{{ createdate(post.createDate) }}</td>
-        <td v-if="email == post.email">
-          <button class="postwrite-button" @click="getdetail(post.pid)">바로가기</button>
+        <td>
+          <button class="postwrite-button" @click="getdetail(post.pid)" style="font-weight:bold;">바로가기</button>
         </td>
       </tr>
     </table>
@@ -67,11 +67,12 @@
 
   <!-- 모바일버전 > 이미지 들어오면 img에 :src="makeimgurl(post.imgurl)" v-if="post.imgurl" 수정해야함 -->
   <div class="MoblieCard d-block d-sm-none d-md-none">
-    <div class="col-12 col-sm-12 col-md-3 card-deck" style="margin:auto 0; padding:0 30px" v-for="(post, index) in wposts" :key="index">
-        <div class="card mb-3 profile-post mr-0 ml-0">
+    <div class="col-12 col-sm-12 col-md-3 card-deck" style="margin:auto 0; padding:0 30px;" v-for="(post, index) in wposts" :key="index">
+        <div class="card mb-3 profile-post mr-0 ml-0" style="cursor:pointer;">
           <div class="card-body" style="padding: 0;" @click="getdetail(post.pid)">
             <img
-            src="../../assets/img/noimage.jpg"
+            v-if="post.imgurl"
+            :src="makeimgurl(post.imgurl)"
             style="width: 100%; height: 100%;"
           />
             <div class="col-md-12 p-0">
