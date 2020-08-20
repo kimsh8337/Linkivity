@@ -39,7 +39,11 @@
                 </div>
               </div>
               <input ref="file" type="file" hidden @change="onChangeImages" />
-              <small v-if="!this.PostUpdate.imgurl" class="form-text text-muted d-flex">사진을 업로드하세요. (1MB 이하)</small>
+              <small
+                v-if="!this.PostUpdate.imgurl"
+                class="form-text text-muted d-flex"
+                >사진을 업로드하세요. (1MB 이하)</small
+              >
               <!-- <small
                 v-if="this.PostUpdate.imgurl"
                 class="form-text text-muted d-flex"
@@ -51,17 +55,33 @@
                 <div class="text">
                   <!-- 제목 -->
                   <div class="form-group">
-                    <label class="d-flex" style="font-weight:bold;">Title</label>
-                    <input type="text" class="form-control" id="title" v-model="PostUpdate.title" />
-                    <small class="form-text text-muted d-flex" v-if="!error.title">상품명을 입력하세요.</small>
+                    <label class="d-flex" style="font-weight:bold;"
+                      >Title</label
+                    >
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="title"
+                      v-model="PostUpdate.title"
+                    />
+                    <small
+                      class="form-text text-muted d-flex"
+                      v-if="!error.title"
+                      >상품명을 입력하세요.</small
+                    >
                     <small
                       class="form-text d-flex"
                       style="color:red;"
                       v-if="error.title"
-                    >{{ error.title }}</small>
+                      >{{ error.title }}</small
+                    >
                     <div class="d-flex justify-content-between mt-2 mb-2">
                       <div style="width:49%;">
-                        <label class="d-flex justify-content-start" style="font-weight:bold;">Activity</label>
+                        <label
+                          class="d-flex justify-content-start"
+                          style="font-weight:bold;"
+                          >Activity</label
+                        >
                         <input
                           type="text"
                           class="form-control"
@@ -71,16 +91,22 @@
                         <small
                           class="form-text text-muted d-flex"
                           v-if="!error.activity"
-                        >활동명을 입력하세요.</small>
+                          >활동명을 입력하세요.</small
+                        >
                         <small
                           class="form-text d-flex"
                           style="color:red;"
                           v-if="error.activity"
-                        >{{ error.activity }}</small>
+                          >{{ error.activity }}</small
+                        >
                       </div>
                       <!-- 이용 가격 -->
                       <div style="width:49%;">
-                        <label class="d-flex justify-content-start" style="font-weight:bold;">Price</label>
+                        <label
+                          class="d-flex justify-content-start"
+                          style="font-weight:bold;"
+                          >Price</label
+                        >
                         <input
                           type="text"
                           class="form-control"
@@ -90,41 +116,68 @@
                         <small
                           class="form-text text-muted d-flex"
                           v-if="!error.price && !error.priceint"
-                        >가격을 입력하세요.</small>
+                          >가격을 입력하세요.</small
+                        >
                         <small
                           class="form-text d-flex"
                           style="color:red;"
                           v-if="error.price"
-                        >{{ error.price }}</small>
+                          >{{ error.price }}</small
+                        >
                         <small
                           class="form-text d-flex"
                           style="color:red;"
                           v-if="error.priceint"
-                        >{{ error.priceint }}</small>
+                          >{{ error.priceint }}</small
+                        >
                       </div>
                     </div>
 
                     <!-- 사용 기간 -->
-                    <label class="d-flex justify-content-start mb-0" style="font-weight:bold;">Expiration-Date</label>
+                    <label
+                      class="d-flex justify-content-start mb-0"
+                      style="font-weight:bold;"
+                      >Expiration-Date</label
+                    >
                     <div class="d-flex justify-content-between">
-                      <small class="form-text text-muted" style="margin-right:auto; font-weight:bold;">시작일</small>
+                      <small
+                        class="form-text text-muted"
+                        style="margin-right:auto; font-weight:bold;"
+                        >시작일</small
+                      >
                       <br />
-                      <small class="form-text text-muted" style="margin-right:auto; font-weight:bold;">마감일</small>
+                      <small
+                        class="form-text text-muted"
+                        style="margin-right:auto; font-weight:bold;"
+                        >마감일</small
+                      >
                     </div>
                     <div class="d-flex justify-content-between">
                       <b-form-datepicker
                         id="sdate"
                         v-model="PostUpdate.sdate"
+                        :min="min"
                         class="col-md-6 mr-1"
                       ></b-form-datepicker>
-                      <b-form-datepicker id="edate" v-model="PostUpdate.edate" class="col-md-6"></b-form-datepicker>
+                      {{ PostUpdate.edate }}
+                      <b-form-datepicker
+                        id="edate"
+                        v-model="PostUpdate.edate"
+                        :min="PostUpdate.sdate"
+                        class="col-md-6"
+                      ></b-form-datepicker>
                     </div>
-                    <small class="form-text text-muted d-flex" v-if="!error.sedate">상품 유효기간을 지정하세요.</small>
+                    <small
+                      class="form-text text-muted d-flex"
+                      v-if="!error.sedate"
+                      >상품 유효기간을 지정하세요.</small
+                    >
                     <small
                       class="form-text d-flex"
                       style="color:red;"
                       v-if="error.sedate"
-                    >{{error.sedate}}</small>
+                      >{{ error.sedate }}</small
+                    >
                   </div>
                 </div>
               </div>
@@ -136,17 +189,28 @@
       <!-- season, place check badge -->
       <div class="row">
         <div class="form-group col-sm-12 col-md-5" style="width:23rem; ">
-          <label class="d-flex justify-content-start" style="font-weight:bold;">Field</label>
+          <label class="d-flex justify-content-start" style="font-weight:bold;"
+            >Field</label
+          >
           <select class="form-control" id="place" v-model="PostUpdate.place">
             <option value="ground">Ground</option>
             <option value="water">Water</option>
             <option value="sky">Sky</option>
           </select>
-          <small class="form-text text-muted d-flex" v-if="!error.place">필드를 선택하세요.</small>
-          <small class="form-text d-flex" style="color:red;" v-if="error.place">{{ error.place }}</small>
+          <small class="form-text text-muted d-flex" v-if="!error.place"
+            >필드를 선택하세요.</small
+          >
+          <small
+            class="form-text d-flex"
+            style="color:red;"
+            v-if="error.place"
+            >{{ error.place }}</small
+          >
         </div>
         <div class="form-group col-sm-12 col-md-7">
-          <label class="d-flex justify-content-start" style="font-weight:bold;">Seasons</label>
+          <label class="d-flex justify-content-start" style="font-weight:bold;"
+            >Seasons</label
+          >
           <div class="d-flex justify-content-between">
             <div class="form-check form-check-inline">
               <input
@@ -189,26 +253,38 @@
               <label class="form-check-label" for="winter">Winter</label>
             </div>
           </div>
-          <small class="form-text text-muted d-flex" v-if="!error.seasons">상품 이용 계절을 선택하세요.(중복가능)</small>
+          <small class="form-text text-muted d-flex" v-if="!error.seasons"
+            >상품 이용 계절을 선택하세요.(중복가능)</small
+          >
           <small
             class="form-text d-flex"
             style="color:red;"
             v-if="error.seasons"
-          >{{ error.seasons }}</small>
+            >{{ error.seasons }}</small
+          >
         </div>
       </div>
       <div>
         <!-- 업체 정보 -->
         <!-- <h4 class="d-flex mb-2" style="font-weight:bold">업체정보</h4> -->
         <div class="form-group">
-          <label class="d-flex justify-content-start" style="font-weight:bold;">Corporation-Detail</label>
-          <textarea class="form-control" id="company-information" v-model="PostUpdate.companyInfo"></textarea>
-          <small class="form-text text-muted d-flex" v-if="!error.companyInfo">업체 정보를 입력하세요.</small>
+          <label class="d-flex justify-content-start" style="font-weight:bold;"
+            >Corporation-Detail</label
+          >
+          <textarea
+            class="form-control"
+            id="company-information"
+            v-model="PostUpdate.companyInfo"
+          ></textarea>
+          <small class="form-text text-muted d-flex" v-if="!error.companyInfo"
+            >업체 정보를 입력하세요.</small
+          >
           <small
             class="form-text d-flex"
             style="color:red;"
             v-if="error.companyInfo"
-          >{{ error.companyInfo }}</small>
+            >{{ error.companyInfo }}</small
+          >
         </div>
 
         <hr />
@@ -216,19 +292,30 @@
         <!-- 상세 정보 -->
         <!-- <h4 class="d-flex mb-2" style="font-weight:bold">상세정보</h4> -->
         <div class="form-group">
-          <label class="d-flex justify-content-start" style="font-weight:bold;">Detail-Info</label>
+          <label class="d-flex justify-content-start" style="font-weight:bold;"
+            >Detail-Info</label
+          >
           <Editor
             ref="toastuiEditor"
             v-if="PostUpdate.detail != null"
             :initialValue="PostUpdate.detail"
           />
-          <small class="form-text text-muted d-flex" v-if="!error.detail">상품 상세정보를 입력하세요.</small>
-          <small class="form-text d-flex" style="color:red;" v-if="error.detail">{{ error.detail }}</small>
+          <small class="form-text text-muted d-flex" v-if="!error.detail"
+            >상품 상세정보를 입력하세요.</small
+          >
+          <small
+            class="form-text d-flex"
+            style="color:red;"
+            v-if="error.detail"
+            >{{ error.detail }}</small
+          >
         </div>
         <hr />
 
         <div>
-          <label class="d-flex justify-content-start" style="font-weight:bold;">Address</label>
+          <label class="d-flex justify-content-start" style="font-weight:bold;"
+            >Address</label
+          >
           <div class="d-flex mb-1">
             <!-- <input
               type="text"
@@ -242,7 +329,9 @@
               class="btn btn-default btn-sm ml-1"
               style="border-radius:10px; font-size:13px; border:1.5px solid"
               @click="Search"
-            >우편번호 찾기</button>
+            >
+              우편번호 찾기
+            </button>
           </div>
           <input
             type="text"
@@ -251,7 +340,12 @@
             placeholder="주소"
             readonly
           />
-          <input type="text" class="form-control mb-1" v-model="PostUpdate.locationdetail" placeholder="상세주소" />
+          <input
+            type="text"
+            class="form-control mb-1"
+            v-model="PostUpdate.locationdetail"
+            placeholder="상세주소"
+          />
           <!-- <input
             type="text"
             class="form-control mb-1"
@@ -265,7 +359,9 @@
         <hr />
 
         <!-- HasTag -->
-        <label for="tags-basic" class="d-flex mt-3" style="font-weight:bold;"># HASHTAG</label>
+        <label for="tags-basic" class="d-flex mt-3" style="font-weight:bold;"
+          ># HASHTAG</label
+        >
         <b-form-tags
           input-id="tags-pills"
           v-model="tagValue"
@@ -276,7 +372,9 @@
           placeholder="원하는 태그를 입력해주세요."
           class="mb-2"
         ></b-form-tags>
-        <small class="form-text text-muted d-flex">해시태그를 입력해주세요.</small>
+        <small class="form-text text-muted d-flex"
+          >해시태그를 입력해주세요.</small
+        >
       </div>
 
       <hr class="mt-2" />
@@ -308,6 +406,10 @@ export default {
     Editor,
   },
   data() {
+    const now = new Date();
+    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const minDate = new Date(today);
+
     return {
       PostUpdate: [],
       pid: "",
@@ -332,15 +434,26 @@ export default {
         sedate: false,
         tagValue: false,
       },
+      min: minDate,
     };
   },
   watch: {
     PostUpdate: {
-      handler: function (val) {
+      handler: function(val) {
         if (!/^[0-9]+$/g.test(val.price) && val.price.length > 0) {
           this.error.priceint = "가격은 숫자만 입력 가능합니다.";
         } else {
           this.error.priceint = false;
+        }
+        if (val.sdate != "" && val.edate != "" && val.sdate > val.edate) {
+          const now = new Date();
+          const today = new Date(
+            now.getFullYear(),
+            now.getMonth(),
+            now.getDate()
+          );
+
+          val.edate = this.$refs.edate;
         }
       },
       deep: true,
@@ -350,7 +463,7 @@ export default {
     Search() {
       let x = this;
       new daum.Postcode({
-        oncomplete: function (data) {
+        oncomplete: function(data) {
           x.addr1 = data.zonecode;
           x.addr2 = data.address;
 
@@ -360,7 +473,7 @@ export default {
         },
       }).open();
     },
-    fetchDetail: function () {
+    fetchDetail: function() {
       axios
         .get(`${baseURL}/post/detail/${this.pid}`)
         .then((response) => {
@@ -387,7 +500,7 @@ export default {
       }
     },
     makeimgurl(imgurl) {
-      var url = "../../../contents/"+imgurl;
+      var url = "../../../contents/" + imgurl;
       return url;
     },
     taglist() {
@@ -401,7 +514,7 @@ export default {
           console.log(err);
         });
     },
-    modify: function () {
+    modify: function() {
       var content = this.$refs.toastuiEditor.invoke("getMarkdown");
       this.PostUpdate.detail = content;
       var flag = 0;
@@ -535,7 +648,7 @@ export default {
     fileUpload(pid) {
       var formData = new FormData();
       const file = this.$refs.file.files[0];
-      if(file != null) {
+      if (file != null) {
         formData.append("file", file);
         axios
           .post(`${baseURL}/post/file/${pid}`, formData, {
@@ -543,8 +656,8 @@ export default {
               "Content-Type": "multipart/form-data",
             },
           })
-          .then(function (response) {})
-          .catch(function (error) {
+          .then(function(response) {})
+          .catch(function(error) {
             console.log(error);
           });
       }
@@ -554,26 +667,26 @@ export default {
     },
     onChangeImages(e) {
       const file = e.target.files[0];
-      if(file == null) {
+      if (file == null) {
         return;
       }
-      if(file.size >= 1048576) {
+      if (file.size >= 1048576) {
         const Toast = Swal.mixin({
           toast: true,
-          position: 'top-end',
+          position: "top-end",
           showConfirmButton: false,
           timer: 2000,
           timerProgressBar: true,
           onOpen: (toast) => {
-            toast.addEventListener('mouseenter', Swal.stopTimer)
-            toast.addEventListener('mouseleave', Swal.resumeTimer)
-          }
-        })
+            toast.addEventListener("mouseenter", Swal.stopTimer);
+            toast.addEventListener("mouseleave", Swal.resumeTimer);
+          },
+        });
 
         Toast.fire({
-          icon: 'error',
-          title: '파일 업로드 크기를 초과하였습니다!'
-        })
+          icon: "error",
+          title: "파일 업로드 크기를 초과하였습니다!",
+        });
         return;
       }
       this.tempimg = URL.createObjectURL(file);
@@ -588,5 +701,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style></style>

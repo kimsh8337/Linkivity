@@ -701,7 +701,7 @@ export default {
               pay_method: "card",
               merchant_uid: "merchant_" + new Date().getTime(),
               name: "링키비티",
-              amount: 1000,
+              amount: this.post.price,
               buyer_email: "iamport@siot.do",
               buyer_name: "구매자이름",
               buyer_tel: "010-1234-5678",

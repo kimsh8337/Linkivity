@@ -106,8 +106,19 @@
                       <small class="form-text text-muted" style="margin-right:auto;font-weight:bold;">마감일</small>
                     </div>
                     <div class="d-flex justify-content-between">
-                      <b-form-datepicker id="sdate" v-model="PostTemp.sdate" class="col-md-6 mr-1"></b-form-datepicker>
-                      <b-form-datepicker id="edate" v-model="PostTemp.edate" class="col-md-6"></b-form-datepicker>
+                      <b-form-datepicker
+                      id="sdate"
+                      v-model="PostTemp.sdate"
+                      :min="min"
+                      class="col-md-6 mr-1"
+                    ></b-form-datepicker>
+
+                    <b-form-datepicker
+                      id="edate"
+                      v-model="PostTemp.edate"
+                      :min="PostTemp.sdate"
+                      class="col-md-6"
+                    ></b-form-datepicker>
                     </div>
                     <small class="form-text text-muted d-flex" v-if="!error.sedate">상품 유효기간을 지정하세요.</small>
                     <small
@@ -313,6 +324,10 @@ export default {
     Editor,
   },
   data() {
+    const now = new Date();
+    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const minDate = new Date(today);
+
     return {
       PostTemp: [],
       pid: "",
@@ -336,6 +351,7 @@ export default {
       },
       tempimg: "",
       tempcheck: false,
+      min: minDate,
       // Instance_Date: []
     };
   },
@@ -347,6 +363,17 @@ export default {
         } else {
           this.error.priceint = false;
         }
+         if (val.sdate != "" && val.edate != "" && val.sdate > val.edate) {
+          const now = new Date();
+          const today = new Date(
+            now.getFullYear(),
+            now.getMonth(),
+            now.getDate()
+          );
+
+          val.edate = this.$refs.edate;
+        }
+
       },
       deep: true,
     },
