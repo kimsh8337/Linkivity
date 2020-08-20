@@ -410,8 +410,8 @@ export default {
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
         cancelButtonColor: "#d33",
-        confirmButtonText: '<a style="font-size:1rem; color:black">Delete</a>',
-        cancelButtonText: '<a style="font-size:1rem; color:black">Cancel</a>',
+        confirmButtonText: '<a style="font-size:1rem; color:black">삭제</a>',
+        cancelButtonText: '<a style="font-size:1rem; color:black">취소</a>',
       }).then((result) => {
         if (result.value) {
           const Toast = Swal.mixin({
@@ -469,8 +469,8 @@ export default {
           confirmButtonColor: "#3085d6",
           cancelButtonColor: "#d33",
           confirmButtonText:
-            '<a style="font-size:1rem; color:black">Update</a>',
-          cancelButtonText: '<a style="font-size:1rem; color:black">Cancel</a>',
+            '<a style="font-size:1rem; color:black">수정</a>',
+          cancelButtonText: '<a style="font-size:1rem; color:black">취소</a>',
         }).then((result) => {
           if (result.value) {
             const Toast = Swal.mixin({
@@ -508,8 +508,8 @@ export default {
           confirmButtonColor: "#3085d6",
           cancelButtonColor: "#d33",
           confirmButtonText:
-            '<a style="font-size:1rem; color:black">Update</a>',
-          cancelButtonText: '<a style="font-size:1rem; color:black">Cancel</a>',
+            '<a style="font-size:1rem; color:black">수정</a>',
+          cancelButtonText: '<a style="font-size:1rem; color:black">취소</a>',
         }).then((result) => {
           if (result.value) {
             const Toast = Swal.mixin({
