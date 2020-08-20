@@ -351,6 +351,7 @@ export default {
       autumnCheck: "",
       winterCheck: "",
       placeCheck: "",
+      isheart : false,
     };
   },
   created() {
@@ -382,8 +383,10 @@ export default {
         .then((response) => {
           this.checkType = response.data.checkType;
           this.email = response.data.email;
+          this.pid = this.$route.params.ID;
           this.getPost();
           this.fetchComment();
+          this.checklike();
         })
         .catch((err) => {
           if (err.response.status == 400) {
@@ -396,7 +399,7 @@ export default {
     checklike() {
       if (this.$cookies.get("Auth-Token") != null) {
         axios
-          .get(`${baseURL}/like/checkpidlike/${this.email}/${this.post.pid}`)
+          .get(`${baseURL}/like/checkpidlike/${this.email}/${this.pid}`)
           .then((res) => {
             if (res.data == 0) {
               this.isheart = false;
