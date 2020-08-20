@@ -48,7 +48,7 @@
       </div>-->
       <div class="row justify-content-left" v-if="posts.length > 0">
         <div
-          class="col-6 col-sm-6 col-md-3 card-deck"
+          class="col-12 col-sm-6 col-md-3 card-deck"
           style="margin:auto 0; padding:0 20px ;"
           v-for="(post, index) in posts"
           :key="index"
