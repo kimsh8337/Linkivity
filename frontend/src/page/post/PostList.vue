@@ -247,7 +247,7 @@ export default {
             .get(`${baseURL}/post/search/${this.type}/${this.key}/${this.word}/0`)
             .then((res) => {
               this.posts = res.data;
-              this.nextTag();
+              // this.nextTag();
             })
             .catch((err) => {
               console.log(err);
@@ -322,7 +322,7 @@ export default {
           .get(`${baseURL}/post/getThatList/${this.type}/${pg - 1}`)
           .then((res) => {
             this.posts = res.data;
-            this.nextTag();
+            // this.nextTag();
           })
           .catch((err) => {
             console.log(err);
