@@ -18,7 +18,7 @@
     <div class="row justify-content-left" v-if="likePosts.length > 0">
       <div class="col-6 col-sm-6 col-md-4 col-lg-3 card-deck" style="margin:auto 0;" v-for="(likePost, lindex) in likePosts" :key="lindex">
         <div class="card mb-3 profile-post mr-0 ml-0">
-          <div class="card-body" style="padding: 0 30px;">
+          <div class="card-body" style="padding: 0 20px;">
             <img :src="makeimgurl(likePost.imgurl)" v-if="likePost.imgurl" @click="getdetail(likePost.pid)" class="card-img" style="height:10rem; box-shadow:5px 5px 5px rgba(0,0,0,.15)" />
             <!-- <div
               class="card-img-overlay"
@@ -35,11 +35,11 @@
                 <h5
                   class="card-title m-0"
                   @click="getdetail(likePost.pid)"
-                  style="font-size: 1rem; text-align: left; text-overflow:ellipsis;overflow: hidden;white-space: nowrap;"
+                  style="font-size: 1rem; font-weight:bold;text-align: left; text-overflow:ellipsis;overflow: hidden;white-space: nowrap;"
                 >
                   {{ likePost.title }}
                 </h5>
-                <div class="card-text mb-3" style="text-align: left; font-size: 0.8rem;">
+                <div class="card-text mb-3" style="text-align: left; font-size: 0.8rem;font-weight:bold;">
                       <span>
                         <i class="fas fa-star mr-1" style="color:Salmon; font-size:0.7rem;"></i>
                         {{round(likePost.star)}}
@@ -48,11 +48,11 @@
                 <div class="text d-flex justify-content-between">
                   <p
                     class="card-text"
-                    style="font-size: 1rem; text-align: left; text-overflow:ellipsis;overflow: hidden;white-space: nowrap;"
+                    style="font-size: 1rem; font-weight:bold;text-align: left; text-overflow:ellipsis;overflow: hidden;white-space: nowrap;"
                   >
                     {{ likePost.price }}원
                   </p>
-                  <button type="button" class="btn btn-outline-danger btn-sm" style="height:30px;" @click="deleteLike(likePost.pid)">삭제</button>
+                  <button type="button" class="btn btn-outline-danger btn-sm" style="height:30px;font-weight:bold;" @click="deleteLike(likePost.pid)">삭제</button>
                 </div>
               </div>
             </div>

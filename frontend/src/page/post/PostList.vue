@@ -12,19 +12,19 @@
           <div class="input-group-prepend">
             <select
               class="btn dropdown-toggle text-black"
-              style="border: 1px solid gray; z-index: 1;"
+              style="height:50px; border: 1px solid #86a5d4; z-index: 1; background-color:#86a5d4; color:white; font-weight:bold;"
               aria-haspopup="true"
               aria-expanded="false"
               v-model="key"
             >
-              <div role="separator" class="dropdown-divider"></div>
-              <option value disabled>검색조건</option>
-              <option value="title">Title</option>
-              <option value="activity">Activity</option>
-              <option value="price">Price</option>
+              <div role="separator" class="dropdown-divider" ></div>
+              <option value disabled class = "selectlist">검색조건</option>
+              <option value="title" class = "selectlist">Title</option>
+              <option value="activity" class = "selectlist">Activity</option>
+              <option value="price" class = "selectlist">Price</option>
             </select>
           </div>
-          <input type="text" class="form-control" placeholder="Search" v-model="word" @keypress.enter="search" />
+          <input type="text" class="form-control" placeholder="Search" style="height:50px; border: 1.5px solid #86a5d4 !important;" v-model="word" @keypress.enter="search" />
         </div>
 
         <div class="hello">
@@ -101,7 +101,7 @@
                       {{ post.title }}
                     </h5>
                     <div class="card-text mb-2" style="text-align: left; font-size: 0.8rem;">
-                      <span><i class="fas fa-star mr-1" style="color:Salmon; font-size:0.7rem;"></i>{{ round(post.star) }}</span>
+                      <span style="font-weight:bold;"><i class="fas fa-star mr-1" style="color:Salmon; font-size:0.7rem;"></i>{{ round(post.star) }}</span>
                     </div>
                     <!-- pre-line; -->
 
