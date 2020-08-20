@@ -7,7 +7,17 @@
     background-position: center;
     box-shadow: 0px 5px 5px rgba(0,0,0,.15);
 }
-
+.postment{
+    color:white;
+    font-size: 3.2rem;
+    position: relative;
+    padding-top: 18%;
+}
+.postmentp{
+    font-size:1.8rem;
+    color:white;
+    position: relative;
+}
 .post {
     /* font-weight: bold; */
     text-decoration: none !important;
