@@ -39,7 +39,7 @@
               />
               <img
                 class="card-img mb-2"
-                v-if="this.reviewUpdate.img && tempcheck"
+                v-if="tempimg && tempcheck"
                 :src="tempimg"
                 style="height: 16rem; width:100%;"
               />
@@ -53,11 +53,11 @@
             <small
               v-if="!this.reviewUpdate.img"
               class="form-text text-muted d-flex"
-            >원하는 사진을 업로드해주세요.</small>
+            >원하는 사진을 업로드해주세요. (1MB 이하)</small>
             <small
               v-if="this.reviewUpdate.img"
               class="form-text text-muted d-flex"
-            >이미지 수정을 원하시면 업로드 버튼을 눌러주세요.</small>
+            >이미지 수정을 원하시면 업로드 버튼을 눌러주세요. (1MB 이하)</small>
           </div>
 
           <!-- 제목 -->
@@ -131,6 +131,14 @@ export default {
     fileUpload(rvid) {
     var formData = new FormData();
     const file = this.$refs.file.files[0];
+    alert(file.size)
+    if(file.size >= 1048576) {
+      Swal.fire({
+        width:350,
+        icon: 'error',
+        text: '업로드 파일 크기를 초과하였습니다!',
+      })
+    }
     if(file != null) {
       formData.append("file", file);
       axios.post(`${baseURL}/review/file/${rvid}`
@@ -188,7 +196,6 @@ export default {
             .put(`${baseURL}/review/modify`, this.reviewUpdate)
             .then((response) => {
               this.fileUpload(response.data.rvid);
-
               setTimeout(() => {
                 this.$router.go();
               }, 1000);

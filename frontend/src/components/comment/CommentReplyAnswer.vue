@@ -7,7 +7,7 @@
       <CommentReplyList v-for="reply in receiveReply" :key="reply.rrid" :reply="reply" @reply-delete="replyDelete"/>
     </div>
     <div v-if="!flag">
-      <small><i class="far fa-surprise mr-1 mb-3"></i>등록된 답변이 없습니다. 처음으로 답변을 등록하세요!<i class="far fa-surprise ml-1"></i></small>
+      <small><i class="far fa-surprise mr-1 mb-3"></i>등록된 답변이 없습니다.<i class="far fa-surprise ml-1"></i></small>
     </div>
   </div>
 </template>

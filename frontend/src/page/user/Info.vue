@@ -525,6 +525,13 @@ export default {
     fileUpload: function () {
       var formData = new FormData();
       const file = this.$refs.file.files[0];
+      if(file.size >= 1048576) {
+        Swal.fire({
+          width:350,
+          icon: 'error',
+          text: '업로드 파일 크기를 초과하였습니다!',
+        })
+      }
       if(file != null) {
         formData.append("file", file);
         axios
