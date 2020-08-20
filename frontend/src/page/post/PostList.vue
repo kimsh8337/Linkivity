@@ -163,7 +163,7 @@ export default {
     };
   },
   methods: {
-    round(별) {
+    round(star) {
       return Math.round(star * 10) / 10.0;
     },
     makeimgurl(imgurl) {
@@ -236,10 +236,41 @@ export default {
       this.infiniteId += 1;
 
       if (this.key == '') {
+        const Toast = Swal.mixin({
+          toast: true,
+          position: 'top-end',
+          showConfirmButton: false,
+          timer: 3000,
+          timerProgressBar: true,
+          onOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer)
+            toast.addEventListener('mouseleave', Swal.resumeTimer)
+          }
+        })
+
+        Toast.fire({
+          icon: 'error',
+          title: '검색 조건을 선택해주세요!'
+        })
         this.word = '';
       } else {
         if (this.word == '') {
-          alert('검색어를 입력하세요.');
+          const Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            onOpen: (toast) => {
+              toast.addEventListener('mouseenter', Swal.stopTimer)
+              toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+          })
+
+          Toast.fire({
+            icon: 'error',
+            title: '검색어를 입력해주세요!'
+          })
         } else {
           this.searchCK = true;
           this.page = 1;
