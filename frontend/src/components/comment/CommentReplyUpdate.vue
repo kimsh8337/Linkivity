@@ -55,18 +55,28 @@ export default {
                       toast.addEventListener('mouseleave', Swal.resumeTimer)
                     }
                   })
-                axios.put(`${baseURL}/reply/reModify`,this.replyUpdateData)
-                  .then(() => {
-                    Toast.fire({
-                      icon: 'success',
-                      title: '답글 수정 완료!'
-                    })
-                    setTimeout(() => {
-                      this.$router.go()
-                    },1000)
-                  }).catch((error) => {
-                    console.log(error.response.data)
-                  })
+                  if (this.replyUpdateData.content == "") {
+                    Swal.fire({
+                      width: 250,
+                      icon: "warning",
+                      text: "내용을 입력해주세요!",
+                      confirmButtonText:
+                        '<a style="font-size:1rem; color:black; width:0.5rem">확인</a>',
+                    });
+                  } else {
+                    axios.put(`${baseURL}/reply/reModify`,this.replyUpdateData)
+                      .then(() => {
+                        Toast.fire({
+                          icon: 'success',
+                          title: '답글 수정 완료!'
+                        })
+                        setTimeout(() => {
+                          this.$router.go()
+                        },1000)
+                      }).catch((error) => {
+                        console.log(error.response.data)
+                      })
+                  }
                 }
               })
         },
