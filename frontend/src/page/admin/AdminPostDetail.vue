@@ -102,8 +102,8 @@
       </div>
       <!-- 거절 승인 -->
       <div class="d-flex justify-content-end mb-5">
-        <button type="button" class="btn btn-danger mr-1" @click="postreject(post.pid)"><i class="fas fa-times mr-2"></i>거절</button>
-        <button class="btn btn-primary" @click="postpermit(post.pid)"><i class="far fa-hand-point-up mr-2"></i>승인</button>
+        <button type="button" class="btn btn-danger mr-1" @click="postreject(post.pid)" style="font-weight:bold;"><i class="fas fa-times mr-2"></i>거절</button>
+        <button class="btn btn-default" @click="postpermit(post.pid)" style="background-color:#86a5d4; color:white; font-weight:bold;"><i class="far fa-hand-point-up mr-2"></i>승인</button>
       </div>
     </div>
   </div>
