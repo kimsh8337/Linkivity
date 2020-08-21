@@ -25,100 +25,100 @@
           <div class="form-check-survey">
             <span class="survey-title mr-4">1. 계절 :</span>
             <span class="mr-4">
-              <input class="form-check-input-survey mr-1" type="radio" name="seasonRadios" id="seasonRadios1" value="spring" v-model="season" />
-              <label class="form-check-label" for="seasonRadios1">봄</label>
+              <input class="form-check-input-survey mr-1" style="cursor:pointer;" type="radio" name="seasonRadios" id="seasonRadios1" value="spring" v-model="season" />
+              <label class="form-check-label" style="cursor:pointer;" for="seasonRadios1">봄</label>
             </span>
             <span class="mr-4">
-              <input class="form-check-input-survey mr-1" type="radio" name="seasonRadios" id="seasonRadios2" value="summer" v-model="season" />
-              <label class="form-check-label" for="seasonRadios2">여름</label>
+              <input class="form-check-input-survey mr-1" style="cursor:pointer;" type="radio" name="seasonRadios" id="seasonRadios2" value="summer" v-model="season" />
+              <label class="form-check-label" style="cursor:pointer;" for="seasonRadios2">여름</label>
             </span>
             <span class="mr-4">
-              <input class="form-check-input-survey mr-1" type="radio" name="seasonRadios" id="seasonRadios3" value="fall" v-model="season" />
-              <label class="form-check-label" for="seasonRadios3">가을</label>
+              <input class="form-check-input-survey mr-1" style="cursor:pointer;" type="radio" name="seasonRadios" id="seasonRadios3" value="fall" v-model="season" />
+              <label class="form-check-label" style="cursor:pointer;" for="seasonRadios3">가을</label>
             </span>
             <span>
-              <input class="form-check-input-survey mr-1" type="radio" name="seasonRadios" id="seasonRadios4" value="winter" v-model="season" />
-              <label class="form-check-label" for="seasonRadios4">겨울</label>
+              <input class="form-check-input-survey mr-1" style="cursor:pointer;" type="radio" name="seasonRadios" id="seasonRadios4" value="winter" v-model="season" />
+              <label class="form-check-label" style="cursor:pointer;" for="seasonRadios4">겨울</label>
             </span>
           </div>
           
           <div class="form-check-survey">
             <span class="survey-title mr-4">2. 필드 :</span>
             <span class="mr-4">
-              <input class="form-check-input-survey mr-1" type="radio" name="fieldRadios" id="fieldRadios1" value="sky" v-model="field" />
-              <label class="form-check-label" for="fieldRadios1">하늘</label>
+              <input class="form-check-input-survey mr-1" style="cursor:pointer;" type="radio" name="fieldRadios" id="fieldRadios1" value="sky" v-model="field" />
+              <label class="form-check-label" style="cursor:pointer;" for="fieldRadios1">하늘</label>
             </span>
             <span class="mr-4">
-              <input class="form-check-input-survey mr-1" type="radio" name="fieldRadios" id="fieldRadios2" value="ground" v-model="field" />
-              <label class="form-check-label" for="fieldRadios2">땅</label>
+              <input class="form-check-input-survey mr-1" style="cursor:pointer;" type="radio" name="fieldRadios" id="fieldRadios2" value="ground" v-model="field" />
+              <label class="form-check-label" style="cursor:pointer;" for="fieldRadios2">땅</label>
             </span>
             <span class="mr-4">
-              <input class="form-check-input-survey mr-1" type="radio" name="fieldRadios" id="fieldRadios3" value="water" v-model="field" />
-              <label class="form-check-label" for="fieldRadios3">바다</label>
+              <input class="form-check-input-survey mr-1" style="cursor:pointer;" type="radio" name="fieldRadios" id="fieldRadios3" value="water" v-model="field" />
+              <label class="form-check-label" style="cursor:pointer;" for="fieldRadios3">바다</label>
             </span>
           </div>
 
           <div class="form-check-survey">
             <span class="survey-title mr-4">3. 인원 :</span>
             <span class="mr-4">
-              <input class="form-check-input-survey mr-1" type="radio" name="peopleRadios" id="peopleRadios1" value="solo" v-model="people" />
-              <label class="form-check-label" for="peopleRadios1">솔로</label>
+              <input class="form-check-input-survey mr-1" style="cursor:pointer;" type="radio" name="peopleRadios" id="peopleRadios1" value="solo" v-model="people" />
+              <label class="form-check-label" style="cursor:pointer;" for="peopleRadios1">솔로</label>
             </span>
             <span class="mr-4">
-              <input class="form-check-input-survey mr-1" type="radio" name="peopleRadios" id="peopleRadios2" value="couple" v-model="people" />
-              <label class="form-check-label" for="peopleRadios2">커플</label>
+              <input class="form-check-input-survey mr-1" style="cursor:pointer;" type="radio" name="peopleRadios" id="peopleRadios2" value="couple" v-model="people" />
+              <label class="form-check-label" style="cursor:pointer;" for="peopleRadios2">커플</label>
             </span>
             <span class="mr-4">
-              <input class="form-check-input-survey mr-1" type="radio" name="peopleRadios" id="peopleRadios3" value="family" v-model="people" />
-              <label class="form-check-label" for="peopleRadios3">가족</label>
+              <input class="form-check-input-survey mr-1" style="cursor:pointer;" type="radio" name="peopleRadios" id="peopleRadios3" value="family" v-model="people" />
+              <label class="form-check-label" style="cursor:pointer;" for="peopleRadios3">가족</label>
             </span>
             <span>
-              <input class="form-check-input-survey mr-1" type="radio" name="peopleRadios" id="peopleRadios4" value="group" v-model="people" />
-              <label class="form-check-label" for="peopleRadios4">단체</label>
+              <input class="form-check-input-survey mr-1" style="cursor:pointer;" type="radio" name="peopleRadios" id="peopleRadios4" value="group" v-model="people" />
+              <label class="form-check-label" style="cursor:pointer;" for="peopleRadios4">단체</label>
             </span>
           </div>
 
           <div class="form-check-survey">
             <span class="survey-title mr-4">4. 가격 :</span>
             <span class="mr-4">
-              <input class="form-check-input-survey mr-1" type="radio" name="priceRadios" id="priceRadios1" value="50000" v-model="price" />
-              <label class="form-check-label" for="priceRadios1">5만원 이하</label>
+              <input class="form-check-input-survey mr-1" style="cursor:pointer;" type="radio" name="priceRadios" id="priceRadios1" value="50000" v-model="price" />
+              <label class="form-check-label" style="cursor:pointer;" for="priceRadios1">5만원 이하</label>
             </span>
             <span class="mr-4">
-              <input class="form-check-input-survey mr-1" type="radio" name="priceRadios" id="priceRadios2" value="100000" v-model="price" />
-              <label class="form-check-label" for="priceRadios2">10만원 이하</label>
+              <input class="form-check-input-survey mr-1" style="cursor:pointer;" type="radio" name="priceRadios" id="priceRadios2" value="100000" v-model="price" />
+              <label class="form-check-label" style="cursor:pointer;" for="priceRadios2">10만원 이하</label>
             </span>
             <span class="mr-4">
-              <input class="form-check-input-survey mr-1" type="radio" name="priceRadios" id="priceRadios3" value="200000" v-model="price" />
-              <label class="form-check-label" for="priceRadios3">20만원 이하</label>
+              <input class="form-check-input-survey mr-1" style="cursor:pointer;" type="radio" name="priceRadios" id="priceRadios3" value="200000" v-model="price" />
+              <label class="form-check-label" style="cursor:pointer;" for="priceRadios3">20만원 이하</label>
             </span>
           </div>
 
           <div class="form-check-survey">
             <span class="survey-title mr-4">5. 지역 :</span>
             <span class="mr-4">
-              <input class="form-check-input-survey mr-1" type="radio" name="regionRadios" id="regionRadios1" value="서울" v-model="region" />
-              <label class="form-check-label" for="regionRadios1">서울</label>
+              <input class="form-check-input-survey mr-1" style="cursor:pointer;" type="radio" name="regionRadios" id="regionRadios1" value="서울" v-model="region" />
+              <label class="form-check-label" style="cursor:pointer;" for="regionRadios1">서울</label>
             </span>
             <span class="mr-4">
-              <input class="form-check-input-survey mr-1" type="radio" name="regionRadios" id="regionRadios2" value="경기" v-model="region" />
-              <label class="form-check-label" for="regionRadios2">경기</label>
+              <input class="form-check-input-survey mr-1" style="cursor:pointer;" type="radio" name="regionRadios" id="regionRadios2" value="경기" v-model="region" />
+              <label class="form-check-label" style="cursor:pointer;" for="regionRadios2">경기</label>
             </span>
             <span class="mr-4">
-              <input class="form-check-input-survey mr-1" type="radio" name="regionRadios" id="regionRadios3" value="충청" v-model="region" />
-              <label class="form-check-label" for="regionRadios3">충청</label>
+              <input class="form-check-input-survey mr-1" style="cursor:pointer;" type="radio" name="regionRadios" id="regionRadios3" value="충청" v-model="region" />
+              <label class="form-check-label" style="cursor:pointer;" for="regionRadios3">충청</label>
             </span>
             <span class="mr-4">
-              <input class="form-check-input-survey mr-1" type="radio" name="regionRadios" id="regionRadios4" value="강원" v-model="region" />
-              <label class="form-check-label" for="regionRadios4">강원</label>
+              <input class="form-check-input-survey mr-1" style="cursor:pointer;" type="radio" name="regionRadios" id="regionRadios4" value="강원" v-model="region" />
+              <label class="form-check-label" style="cursor:pointer;" for="regionRadios4">강원</label>
             </span>
             <span class="mr-4">
-              <input class="form-check-input-survey mr-1" type="radio" name="regionRadios" id="regionRadios5" value="전라" v-model="region" />
-              <label class="form-check-label" for="regionRadios5">전라</label>
+              <input class="form-check-input-survey mr-1" style="cursor:pointer;" type="radio" name="regionRadios" id="regionRadios5" value="전라" v-model="region" />
+              <label class="form-check-label" style="cursor:pointer;" for="regionRadios5">전라</label>
             </span>
             <span>
-              <input class="form-check-input-survey mr-1" type="radio" name="regionRadios" id="regionRadios6" value="경상" v-model="region" />
-              <label class="form-check-label" for="regionRadios6">경상</label>
+              <input class="form-check-input-survey mr-1" style="cursor:pointer;" type="radio" name="regionRadios" id="regionRadios6" value="경상" v-model="region" />
+              <label class="form-check-label" style="cursor:pointer;" for="regionRadios6">경상</label>
             </span>
           </div>
 
@@ -268,7 +268,7 @@ export default {
           toast: true,
           position: 'top-end',
           showConfirmButton: false,
-          timer: 3000,
+          timer: 1000,
           timerProgressBar: true,
         })
 

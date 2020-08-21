@@ -1,12 +1,14 @@
 <template>
   <div class="container col-sm-12 col-md-12 col-lg-12 p-0">
     <!-- background image -->
-    <div class="admin-img" style="display:block;"></div>
-    <div class="container col-md-7" style="margin-top: 100px">
+    <div class="admindetail-img" style="display:block;">
+      <div class="info-bg"></div>
+    </div>
+    <div class="container col-md-10" style="margin-top: 100px">
       <div class="column">
         <div class="card mt-5 mb-3" style="max-width: 100%;">
           <div class="row no-gutters">
-            <div class="col-md-5">
+            <div class="col-md-4">
               <img
                 :src="makeimgurl(post.imgurl)"
                 v-if="post.imgurl"
@@ -15,6 +17,7 @@
                 alt
               />
             </div>
+            <div class="col-md-1"></div>
             <div class="col-md-7">
               <div class="card-body" style="padding: 0 0 0 20px">
                 <div class="text">
@@ -223,10 +226,10 @@ export default {
         text: '승인하시겠습니까?',
         icon: 'warning',
         showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: '<a style="font-size:1rem; color:white">승인</a>',
-        cancelButtonText: '<a style="font-size:1rem; color:white">취소</a>',
+        confirmButtonColor: '#fff',
+        cancelButtonColor: '#fff',
+        confirmButtonText: '<a style="font-size:1rem; color:black;">승인</a>',
+        cancelButtonText: '<a style="font-size:1rem; color:black;">취소</a>',
       }).then((result) => {
         if (result.value) {
           const Toast = Swal.mixin({
@@ -263,10 +266,10 @@ export default {
         text: '거절하시겠습니까?',
         icon: 'warning',
         showCancelButton: true,
-        confirmButtonColor: '#d33',
-        cancelButtonColor: '#3085d6',
-        confirmButtonText: '<a style="font-size:1rem; color:white">거절</a>',
-        cancelButtonText: '<a style="font-size:1rem; color:white">취소</a>',
+        confirmButtonColor: '#fff',
+        cancelButtonColor: '#fff',
+        confirmButtonText: '<a style="font-size:1rem; color:black;">거절</a>',
+        cancelButtonText: '<a style="font-size:1rem; color:black;">취소</a>',
       }).then((result) => {
         if (result.value) {
           const Toast = Swal.mixin({

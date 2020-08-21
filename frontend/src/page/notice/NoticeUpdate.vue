@@ -76,8 +76,8 @@ export default {
                 text: '수정하시겠습니까?',
                 icon: 'question',
                 showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
+                confirmButtonColor: '#fff',
+                cancelButtonColor: '#fff',
                 confirmButtonText: '<a style="font-size:1rem; color:black">Update</a>',
                 cancelButtonText: '<a style="font-size:1rem; color:black">Cancel</a>',
             }).then((result) => {

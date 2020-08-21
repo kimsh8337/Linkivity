@@ -5,7 +5,7 @@
 
     <div class="container col-md-11" style="margin-top: 100px">
       <div class="column">
-        <div class="card mt-5 mb-3" style="max-width: 100%;">
+        <div class="card mt-3 mb-3" style="max-width: 100%;">
           <div class="row no-gutters">
             <!-- 이미지 삽입 -->
             <div class="col-md-5">
@@ -623,8 +623,8 @@ export default {
         text: "수정하시겠습니까?",
         icon: "question",
         showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
+        confirmButtonColor: "#fff",
+        cancelButtonColor: "#fff",
         confirmButtonText: '<a style="font-size:1rem; color:black">Update</a>',
         cancelButtonText: '<a style="font-size:1rem; color:black">Cancel</a>',
       }).then((result) => {

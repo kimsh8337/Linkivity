@@ -36,8 +36,8 @@ export default {
         text: "댓글을 수정하시겠습니까?",
         icon: "warning",
         showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
+        confirmButtonColor: "#fff",
+        cancelButtonColor: "#fff",
         confirmButtonText: '<a style="font-size:1rem; color:black">Update</a>',
         cancelButtonText: '<a style="font-size:1rem; color:black">Cancel</a>',
       }).then((result) => {
@@ -53,20 +53,28 @@ export default {
               toast.addEventListener("mouseleave", Swal.resumeTimer);
             },
           });
-          axios
-            .put(`${baseURL}/reply/modify`, this.updateComment)
-            .then(() => {
-              Toast.fire({
-                icon: "success",
-                title: "댓글 수정 완료!",
-              });
-              setTimeout(() => {
-                this.$router.go();
-              }, 1000);
-            })
-            .catch((error) => {
-              console.log(error.response.data);
+          if (this.updateComment.content == "") {
+            Swal.fire({
+              width: 350,
+              text: '내용을 입력해주세요!',
+              icon: 'warning',
             });
+          } else {
+            axios
+              .put(`${baseURL}/reply/modify`, this.updateComment)
+              .then(() => {
+                Toast.fire({
+                  icon: "success",
+                  title: "댓글 수정 완료!",
+                });
+                setTimeout(() => {
+                  this.$router.go();
+                }, 1000);
+              })
+              .catch((error) => {
+                console.log(error.response.data);
+              });
+          }
         }
       });
     },

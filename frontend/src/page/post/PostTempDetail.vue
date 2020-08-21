@@ -435,8 +435,8 @@ export default {
         text: "삭제하시겠습니까?",
         icon: "question",
         showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
+        confirmButtonColor: "#fff",
+        cancelButtonColor: "#fff",
         confirmButtonText: '<a style="font-size:1rem; color:black">삭제</a>',
         cancelButtonText: '<a style="font-size:1rem; color:black">취소</a>',
       }).then((result) => {
@@ -493,8 +493,8 @@ export default {
           text: "수정하시겠습니까?",
           icon: "question",
           showCancelButton: true,
-          confirmButtonColor: "#3085d6",
-          cancelButtonColor: "#d33",
+          confirmButtonColor: "#fff",
+          cancelButtonColor: "#fff",
           confirmButtonText:
             '<a style="font-size:1rem; color:black">수정</a>',
           cancelButtonText: '<a style="font-size:1rem; color:black">취소</a>',
@@ -532,8 +532,8 @@ export default {
           text: "수정하시겠습니까?",
           icon: "question",
           showCancelButton: true,
-          confirmButtonColor: "#3085d6",
-          cancelButtonColor: "#d33",
+          confirmButtonColor: "#fff",
+          cancelButtonColor: "#fff",
           confirmButtonText:
             '<a style="font-size:1rem; color:black">수정</a>',
           cancelButtonText: '<a style="font-size:1rem; color:black">취소</a>',

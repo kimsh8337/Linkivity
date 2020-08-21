@@ -45,9 +45,10 @@
               />
               <button
                 type="button"
-                class="btn btn-primary btn-sm"
+                class="btn btn-default btn-sm"
+                style="border-radius:35px; font-size:13px; border:1.5px solid"
                 @click="onClickImageUpload"
-              >이미지 업로드</button>
+              >사진 업로드</button>
             </div>
             <input ref="file" type="file" hidden @change="onChangeImages" />
             <small
@@ -64,20 +65,23 @@
           <div class="form-group">
             <label for="title" class="d-flex">제목을 입력해주세요.</label>
             <input type="text" class="form-control" id="title" v-model="reviewUpdate.title" />
-            <small id="titlehelp" class="form-text text-muted d-flex">수정하실 제목을 입력해주세요.</small>
+            <small id="titlehelp" class="form-text text-muted d-flex" v-if="!error.title">수정하실 제목을 입력해주세요.</small>
+            <small id="titlehelp" class="form-text d-flex" v-if="error.title" style="color:crimson;">{{error.title}}</small>
           </div>
 
           <!-- content -->
           <div class="form-group">
             <label for="content" class="d-flex">내용을 입력해주세요.</label>
             <textarea type="email" class="form-control" id="content" v-model="reviewUpdate.content"></textarea>
-            <small id="titlehelp" class="form-text text-muted d-flex">수정하실 내용을 남겨주세요.</small>
+            <small id="titlehelp" class="form-text text-muted d-flex" v-if="!error.content">수정하실 내용을 남겨주세요.</small>
+            <small id="titlehelp" class="form-text d-flex" v-if="error.content" style="color:crimson;">{{error.content}}</small>
           </div>
 
           <!-- rating -->
           <div>
             <b-form-rating v-model="reviewUpdate.star" variant="primary"></b-form-rating>
-            <small class="d-flex">수정하실 별점을 남겨주세요.</small>
+            <small v-if="!error.star" class="d-flex">수정하실 평점을 남겨주세요.</small>
+            <small class="d-flex" v-if="error.star" style="color:crimson;">{{error.star}}</small>
           </div>
         </div>
         <div class="modal-footer">
@@ -106,6 +110,11 @@ export default {
       tempimg:'',
       tempcheck:false,
       checkimgsize: false,
+      error: {
+        title: false,
+        content: false,
+        star: false,
+      },
     };
   },
   props: {
@@ -184,13 +193,29 @@ export default {
       this.$emit("review-close");
     },
     reviewModify() {
+      let check = 0;
+      if (this.reviewUpdate.title == "") {
+        this.error.title = "제목은 빈칸일 수 없습니다.";
+        check = 1;
+      } else this.error.title = false;
+      if (this.reviewUpdate.content == "") {
+        this.error.content = "후기는 빈칸일 수 없습니다.";
+        check = 1;
+      } else this.error.content = false;
+      if (this.reviewUpdate.star == 0) {
+        this.error.star = "평점은 1점 이상이어야 합니다.";
+        check = 1;
+      } else this.error.star = false;
+      if (check == 1) {
+        return;
+      }
       Swal.fire({
         width: 300,
         text: "후기를 수정하시겠습니까?",
         icon: "warning",
         showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
+        confirmButtonColor: "#fff",
+        cancelButtonColor: "#fff",
         confirmButtonText: '<a style="font-size:1rem; color:black">Modify</a>',
         cancelButtonText: '<a style="font-size:1rem; color:black">Cancel</a>',
       }).then((result) => {
