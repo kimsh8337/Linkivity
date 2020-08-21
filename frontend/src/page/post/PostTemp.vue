@@ -125,8 +125,8 @@ export default {
         text: "삭제하시겠습니까?",
         icon: "warning",
         showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
+        confirmButtonColor: "#fff",
+        cancelButtonColor: "#fff",
         confirmButtonText: '<a style="font-size:1rem; color:black">Delete</a>',
         cancelButtonText: '<a style="font-size:1rem; color:black">Cancel</a>',
       }).then((result) => {

@@ -45,7 +45,8 @@
                     @click="onClickImageUpload"
                     v-if="validated == 0"
                   >
-                    <i class="fas fa-image mr-2"></i>프로필사진 수정 <small style="font-weight:bold">(1MB 이하)</small>
+                    <i class="fas fa-image mr-2"></i>프로필사진 수정
+                    <small style="font-weight:bold">(1MB 이하)</small>
                   </button>
                 </div>
 
@@ -80,13 +81,13 @@
                     <button v-if="validated == 0" @click="modify" class="btn p-0">
                       <div class="row mx-auto d-flex">
                         <i class="fas fa-save my-auto mx-auto" style="font-size:1.5rem;"></i>
-                        <small class="mx-auto">완료</small>
+                        <div class="mx-auto" style="font-weight:bold;">완료</div>
                       </div>
                     </button>
                     <button v-if="validated == 0" @click="modifyCancel" class="btn p-0">
                       <div class="row mx-auto d-flex">
                         <i class="fas fa-cut my-auto mx-auto" style="font-size:1.5rem;"></i>
-                        <small class="mx-auto">취소</small>
+                        <div class="mx-auto" style="font-weight:bold;">취소</div>
                       </div>
                     </button>
 
@@ -177,9 +178,12 @@
                       :type="passwordType"
                     />
                     <div class="d-flex justify-contetn-between">
-                      <span v-if="error.password" :class="{ active: passwordType === 'text' }">
-                      </span>
-                      <div class="error-text mt-1" v-if="error.password" style="color:red;">{{ error.password }}</div>
+                      <span v-if="error.password" :class="{ active: passwordType === 'text' }"></span>
+                      <div
+                        class="error-text mt-1"
+                        v-if="error.password"
+                        style="color:red;"
+                      >{{ error.password }}</div>
                     </div>
                   </div>
 
@@ -201,8 +205,7 @@
                       <span
                         v-if="error.passwordconfirm"
                         :class="{ active: passwordConfirmType === 'text' }"
-                      >
-                      </span>
+                      ></span>
                       <div
                         class="error-text mt-1"
                         v-if="error.passwordconfirm"
@@ -210,18 +213,20 @@
                       >{{ error.passwordconfirm }}</div>
                     </div>
                   </div>
-                  <div class="d-flex justify-content-end">
+                  <div class="d-flex" style="width:70%;">
                     <button
                       v-if="pwvalidated == 1"
                       @click="modify"
-                      class="btn btn-link btn-sm mb-2"
+                      class="btn btn-default btn-sm mb-2 ml-auto"
+                      style="font-weight:bold; background-color:#86a5d4;color:white;"
                     >
                       <i class="fas fa-check mr-2"></i>완료
                     </button>
                     <button
                       @click="cancel"
                       v-if="pwvalidated == 1"
-                      class="btn btn-link btn-sm mb-2 ml-2 p-0"
+                      class="btn btn-danger btn-sm mb-2 ml-2"
+                      style="font-weight:bold;"
                     >
                       <i class="fas fa-times mr-2"></i>취소
                     </button>
@@ -328,6 +333,7 @@ export default {
         .then((response) => {
           this.email = response.data.email;
           this.checkType = response.data.checkType;
+          this.temppass = response.data.password;
           this.getuser();
           this.postCount();
           this.likeCount();
@@ -436,9 +442,9 @@ export default {
     },
     cancel() {
       this.pwvalidated = 0;
-      this.password="";
-      this.passwordconfirm="";
-      // this.nickname = 
+      this.password = "";
+      this.passwordconfirm = "";
+      // this.nickname =
     },
     checkForm() {
       if (
@@ -451,7 +457,7 @@ export default {
         this.passwordconfirm.length > 0 &&
         this.passwordconfirm != this.password
       )
-        this.error.passwordconfirm = "비밀번호를 다시 확인해주세요.";
+        this.error.passwordconfirm = "비밀번호를 확인해주세요.";
       else this.error.passwordconfirm = false;
     },
     gomodify() {
@@ -464,8 +470,8 @@ export default {
         text: "삭제하시겠습니까?",
         icon: "warning",
         showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
+        confirmButtonColor: "#fff",
+        cancelButtonColor: "#fff",
         confirmButtonText: '<a style="font-size:1rem; color:black">Delete</a>',
         cancelButtonText: '<a style="font-size:1rem; color:black">Cancel</a>',
       }).then((result) => {
@@ -499,23 +505,45 @@ export default {
       });
     },
     modify() {
-      if (this.error.password || this.error.passwordconfirm ||this.nickname=="") {
+      if (
+        this.error.password ||
+        this.error.passwordconfirm ||
+        this.nickname == ""
+      ) {
         const Toast = Swal.mixin({
-              toast: true,
-              position: "top-end",
-              showConfirmButton: false,
-              timer: 1000,
-              timerProgressBar: true,
-              onOpen: (toast) => {
-                toast.addEventListener("mouseenter", Swal.stopTimer);
-                toast.addEventListener("mouseleave", Swal.resumeTimer);
-              },
-            });
-            Toast.fire({
-              icon: "error",
-              title: "정보를 다시 입력해주세요.",
-            });
+          toast: true,
+          position: "top-end",
+          showConfirmButton: false,
+          timer: 1000,
+          timerProgressBar: true,
+          onOpen: (toast) => {
+            toast.addEventListener("mouseenter", Swal.stopTimer);
+            toast.addEventListener("mouseleave", Swal.resumeTimer);
+          },
+        });
+        Toast.fire({
+          icon: "error",
+          title: "정보를 다시 입력해주세요.",
+        });
         return;
+      } else if (this.password == "" && this.passwordconfirm == "") {
+        this.password = this.temppass;
+      } else if (this.password != "" && this.passwordconfirm == "") {
+        const Toast = Swal.mixin({
+          toast: true,
+          position: "top-end",
+          showConfirmButton: false,
+          timer: 1000,
+          timerProgressBar: true,
+          onOpen: (toast) => {
+            toast.addEventListener("mouseenter", Swal.stopTimer);
+            toast.addEventListener("mouseleave", Swal.resumeTimer);
+          },
+        });
+        Toast.fire({
+          icon: "error",
+          title: "정보를 다시 입력해주세요.",
+        });
       } else {
         let { email, nickname, password, name, imgurl } = this;
         let data = {
@@ -625,6 +653,7 @@ export default {
     },
     modifyCancel() {
       this.validated = !this.validated;
+      this.getuser();
     },
   },
   data: () => {
@@ -655,6 +684,7 @@ export default {
       buycounts: "",
       sellcounts: "",
       tempcounts: "",
+      temppass: "",
     };
   },
 };

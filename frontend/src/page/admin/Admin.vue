@@ -6,10 +6,10 @@
       <div class="postment d-flex ml-5">관리페이지</div>
     <p class="postmentp d-flex ml-5">모든 회원들의 정보를 관리할 수 있습니다</p>
     </div>
-    <div class="container col-md-8 mt-5">
-      <b-tabs content-class="mt-3" fill>
+    <div class="container col-md-11 mt-5">
+      <b-tabs content-class="mt-3" fill justified active-nav-item-class="font-weight-bold text-primary">
         <!-- 포스트 관리 -->
-        <b-tab class="container admin-post" title="포스트 관리" active>
+        <b-tab class=" admin-post" title="포스트 관리" active>
           <!-- 포스트관리 웹버전 -->
           <div class="Webtable d-none d-sm-block">
           <table class="table my-5">
@@ -25,17 +25,17 @@
             </thead>
             <tbody>
               <tr id="tt" v-for="(post, index) in postlists" :key="index">
-                <td>{{ (ppage - 1) * 10 + index + 1 }}</td>
-                <td class="admin-data" style="padding:10px">{{ post.title }}</td>
-                <td class="admin-data">{{ post.companyInfo }}</td>
-                <td class="admin-data">{{ post.email }}</td>
-                <td class="admin-data">{{ permitdate(post.createDate) }}</td>
+                <td style="font-weight:bold;">{{ (ppage - 1) * 10 + index + 1 }}</td>
+                <td class="admin-data" style="padding:10px;font-weight:bold;">{{ post.title }}</td>
+                <td class="admin-data" style="font-weight:bold;">{{ post.companyInfo }}</td>
+                <td class="admin-data" style="font-weight:bold;">{{ post.email }}</td>
+                <td class="admin-data" style="font-weight:bold;">{{ permitdate(post.createDate) }}</td>
                 <td>
                   <button
                     @click="gopostdetail(post.pid)"
                     type="button"
                     class="btn btn-sm ml-0"
-                    style="color:white; background-color:RGB(134, 165, 212); border-radius:7px;"
+                    style="color:white; background-color:RGB(134, 165, 212); border-radius:7px;font-weight:bold;"
                   >
                     상세보기
                   </button>
@@ -104,11 +104,11 @@
             </thead>
             <tbody>
               <tr id="tt" v-for="(user, index) in users" :key="index">
-                <td>{{ (upage - 1) * 10 + index + 1 }}</td>
-                <td class="admin-data">{{ user.email }}</td>
-                <td class="admin-data">{{ user.nickname }}</td>
-                <td class="admin-data">{{ user.name }}</td>
-                <td class="admin-data">{{ user.checkType }}</td>
+                <td style="font-weight:bold;">{{ (upage - 1) * 10 + index + 1 }}</td>
+                <td class="admin-data" style="font-weight:bold;">{{ user.email }}</td>
+                <td class="admin-data" style="font-weight:bold;">{{ user.nickname }}</td>
+                <td class="admin-data" style="font-weight:bold;">{{ user.name }}</td>
+                <td class="admin-data" style="font-weight:bold;">{{ user.checkType }}</td>
                 <td class="pl-1" v-if="user.uid != 1">
                   <button class="admin-info-button btn btn-sm btn-outline-danger" @click="dropuser(user.uid)">탈퇴처리</button>
                 </td>
@@ -164,10 +164,10 @@
             </thead>
             <tbody>
               <tr id="tt" v-for="(blacklist, index) in blacklists" :key="index">
-                <td>{{ (bpage - 1) * 10 + index + 1 }}</td>
-                <td class="admin-data">{{ blacklist.email }}</td>
-                <td class="admin-data">{{ blacklist.remail }}</td>
-                <td class="admin-data">{{ blacklist.reason }}</td>
+                <td style="font-weight:bold;">{{ (bpage - 1) * 10 + index + 1 }}</td>
+                <td class="admin-data" style="font-weight:bold;">{{ blacklist.email }}</td>
+                <td class="admin-data" style="font-weight:bold;">{{ blacklist.remail }}</td>
+                <td class="admin-data" style="font-weight:bold;">{{ blacklist.reason }}</td>
                 <td class="">
                   <button
                     class="admin-black-view btn-sm"
@@ -233,7 +233,7 @@
                 </td>
                 <td class="pl-1">
                   <div class="btn-group btn-group-sm">
-                    <button type="button" class="btn btn-danger">처리</button>
+                    <button type="button" class="btn btn-danger" style="font-weight:bold">처리</button>
                     <button type="button" class="btn btn-danger dropdown-toggle dropdown-toggle-split" data-toggle="dropdown">
                       <span class="caret"></span>
                     </button>
@@ -385,10 +385,10 @@ export default {
         text: '탈퇴시키겠습니까?',
         icon: 'warning',
         showCancelButton: true,
-        confirmButtonColor: '#d33',
-        cancelButtonColor: '#3085d6',
-        confirmButtonText: '<a style="font-size:1rem; color:white">탈퇴</a>',
-        cancelButtonText: '<a style="font-size:1rem; color:white">취소</a>',
+        confirmButtonColor: '#fff',
+        cancelButtonColor: '#fff',
+        confirmButtonText: '<a style="font-size:1rem; color:black;">탈퇴</a>',
+        cancelButtonText: '<a style="font-size:1rem; color:black;">취소</a>',
       }).then((result) => {
         if (result.value) {
           const Toast = Swal.mixin({

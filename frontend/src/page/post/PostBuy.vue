@@ -19,7 +19,7 @@
 
     <!-- 웹버전 -->
     <div class="Webtable d-none d-sm-block">
-      <div class="container" v-if="bitems.length > 0">
+      <div class="" v-if="bitems.length > 0">
         <table class="table" v-for="(item, index) in bitems" :key="index">
           <thead class="thead" style="background:RGB(134, 165, 212); color:white;">
             <tr>

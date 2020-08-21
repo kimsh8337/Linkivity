@@ -521,8 +521,8 @@ export default {
         text: "삭제하시겠습니까?",
         icon: "warning",
         showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
+        confirmButtonColor: "#fff",
+        cancelButtonColor: "#fff",
         confirmButtonText: '<a style="font-size:1rem; color:black">Delete</a>',
         cancelButtonText: '<a style="font-size:1rem; color:black">Cancel</a>',
       }).then((result) => {
@@ -607,8 +607,8 @@ export default {
         text: "댓글을 삭제하시겠습니까?",
         icon: "warning",
         showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
+        confirmButtonColor: "#fff",
+        cancelButtonColor: "#fff",
         confirmButtonText: '<a style="font-size:1rem; color:black">Delete</a>',
         cancelButtonText: '<a style="font-size:1rem; color:black">Cancel</a>',
       }).then((result) => {
@@ -702,8 +702,8 @@ export default {
         text: "단일상품은 구매 할인적용 불가합니다. 계속하시겠습니까?",
         icon: "warning",
         showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
+        confirmButtonColor: "#fff",
+        cancelButtonColor: "#fff",
         confirmButtonText:
           '<a style="font-size:1rem; color:black">구매하기</a>',
         cancelButtonText: '<a style="font-size:1rem; color:black">취소하기</a>',

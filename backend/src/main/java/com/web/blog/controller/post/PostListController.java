@@ -482,7 +482,7 @@ public class PostListController {
         File file = null;
         if(hostname.substring(0,7).equals("DESKTOP")){
             //local
-            file = new File("C:\\Users\\multicampus\\Desktop\\janerun\\s03p13b206\\frontend\\public\\contents\\" + fileName);
+            file = new File("C:\\leejaein\\project-sub3\\s03p13b206\\frontend\\public\\contents\\" + fileName);
         }else{
             //aws
             file = new File("/home/ubuntu/ssafy6/s03p13b206/frontend/public/contents/" + fileName);

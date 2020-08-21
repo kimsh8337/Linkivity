@@ -34,23 +34,23 @@
             src="../../assets/img/noimage.jpg"
             :alt="post.title"
           />
-          <p class="mt-2 d-flex" style="font-weight:bold">
-            상품명 
-            <span class="ml-2" style="color:gray">[{{ post.title }}]</span>
-          </p>
-          <p class="mt-2 d-flex" style="font-weight:bold">
-            활동명 
-            <span class="ml-2" style="color:gray">[{{ post.activity }}]</span>
-          </p>
-          <p class="mt-2 d-flex" style="font-weight:bold">
-            업체명 
-            <span class="ml-2" style="color:gray">[{{ post.companyInfo }}]</span>
-          </p>
+          <p class="mt-2 d-flex mb-1" style="font-weight:bold">
+            상품명 </p>
+            <p class="d-flex" style="color:gray">{{ post.title }}</p>
+          
+          <p class="mt-2 d-flex mb-1" style="font-weight:bold">
+            활동명 </p>
+            <p class="d-flex" style="color:gray">{{ post.activity }}</p>
+          
+          <p class="mt-2 d-flex mb-1" style="font-weight:bold">
+            업체명 </p>
+            <p class="d-flex" style="color:gray">{{ post.companyInfo }}</p>
+          
           <hr />
           <div class="form-group">
             <label for="exampleInputEmail1" class="d-flex mt-2">
-              <i class="far fa-comment my-auto" style="font-weight:bold"></i>
-                <span class="ml-1">신고 사유를 작성하세요.</span>
+              <i class="far fa-comment my-auto" ></i>
+                <span class="ml-1" style="font-weight:bold">신고 사유를 작성하세요.</span>
               
             </label>
             <textarea
@@ -65,12 +65,12 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-default" style="background-color:lightgray; color:white;" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-default" style="background-color:lightgray; color:white;font-weight:bold;" data-dismiss="modal">Close</button>
           <button
             type="button"
             class="btn btn-default"
             data-dismiss="modal"
-            style="background-color:#86a5d4; color:white;"
+            style="background-color:#86a5d4; color:white;font-weight:bold;"
             @click="indictReceipt"
           >신고 접수</button>
         </div>
@@ -126,12 +126,12 @@ export default {
           text: "접수를 진행하시겠습니까?",
           icon: "question",
           showCancelButton: true,
-          confirmButtonColor: "#3085d6",
-          cancelButtonColor: "#d33",
+          confirmButtonColor: "#fff",
+          cancelButtonColor: "#fff",
           confirmButtonText:
-            '<small style="font-weight:bold; font-size:1rem;">접수</small>',
+            '<small style="font-weight:bold; font-size:1rem;color:black;">접수</small>',
           cancelButtonText:
-            '<small style="font-weight:bold; font-size:1rem;">취소</small>',
+            '<small style="font-weight:bold; font-size:1rem;color:black;">취소</small>',
         }).then((result) => {
           if (result.value) {
             axios

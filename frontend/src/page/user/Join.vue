@@ -173,7 +173,8 @@ export default {
             width: 300,
             icon: "error",
             text: "회원 정보를 모두 입력해주세요.",
-            confirmButtonText: '<small style:"font-size:0.8rem;">확인</small>',
+            confirmButtonColor: "#fff",
+            confirmButtonText: '<small style:"font-size:0.8rem;color:black;">확인</small>',
           });
         });
     },
@@ -242,7 +243,8 @@ export default {
             width: 300,
             icon: "error",
             text: "회원 정보를 모두 입력해주세요.",
-            confirmButtonText: '<small style:"font-size:0.8rem;">확인</small>',
+            confirmButtonColor: "#fff",
+            confirmButtonText: '<small style:"font-size:0.8rem;color:black;">확인</small>',
           });
         });
     },
