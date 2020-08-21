@@ -59,6 +59,7 @@ export default {
           width: 250,
           icon: "warning",
           text: "답글을 남겨주세요!",
+          confirmButtonColor: "#fff",
           confirmButtonText:
             '<a style="font-size:1rem; color:black; width:0.5rem">확인</a>',
         });

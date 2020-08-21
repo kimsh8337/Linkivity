@@ -9,7 +9,7 @@
     <!-- 판매된 상품이 있을때 -->
     <!-- 웹버전 -->
     <div class="Webtable d-none d-sm-block">
-    <div class="container" v-if="sitems.length > 0">
+    <div class="" v-if="sitems.length > 0">
       <table class="table">
         <thead class="thead" style="background:RGB(134, 165, 212); color:white;">
           <tr>
@@ -159,10 +159,10 @@ export default {
         text: "사용확정 처리하시겠습니까?",
         icon: "warning",
         showCancelButton: true,
-        confirmButtonColor: "black",
-        cancelButtonColor: "black",
-        confirmButtonText: '<a style="font-size:1rem; color:white;">확정</a>',
-        cancelButtonText: '<a style="font-size:1rem; color:white;">취소</a>',
+        confirmButtonColor: "#fff",
+        cancelButtonColor: "#fff",
+        confirmButtonText: '<a style="font-size:1rem; color:black;">확정</a>',
+        cancelButtonText: '<a style="font-size:1rem; color:black;">취소</a>',
       }).then((result) => {
         if (result.value) {
           axios

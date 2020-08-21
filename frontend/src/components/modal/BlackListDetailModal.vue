@@ -51,16 +51,16 @@
           <button
             type="button"
             class="btn btn-sm"
-            style="background-color:rgb(134, 165, 212);color:white;"
+            style="background-color:rgb(134, 165, 212);color:white;font-weight:bold; "
             data-dismiss="modal"
             @click="cancelblack"
           >
             거절
           </button>
-          <button type="button" class="btn btn-sm" style="background-color:darkorange;color:white;" data-dismiss="modal" @click="warnblack">
+          <button type="button" class="btn btn-sm" style="background-color:darkorange;color:white;font-weight:bold;" data-dismiss="modal" @click="warnblack">
             경고
           </button>
-          <button type="button" class="btn btn-sm btn-danger" data-dismiss="modal" @click="dropblack">
+          <button type="button" class="btn btn-sm btn-danger" data-dismiss="modal" @click="dropblack" style="font-weight:bold;">
             탈퇴
           </button>
         </div>
@@ -81,10 +81,10 @@ export default {
         text: '회원을 경고처리 하시겠습니까?',
         icon: 'warning',
         showCancelButton: true,
-        confirmButtonColor: '#d33',
-        cancelButtonColor: '#3085d6',
-        confirmButtonText: '<a style="font-size:1rem; color:white">경고</a>',
-        cancelButtonText: '<a style="font-size:1rem; color:white">취소</a>',
+        confirmButtonColor: '#fff',
+        cancelButtonColor: '#fff',
+        confirmButtonText: '<a style="font-size:1rem; color:black;">경고</a>',
+        cancelButtonText: '<a style="font-size:1rem; color:black;">취소</a>',
       }).then((result) => {
         if (result.value) {
           const Toast = Swal.mixin({
@@ -112,10 +112,10 @@ export default {
         text: '회원을 탈퇴시키겠습니까?',
         icon: 'warning',
         showCancelButton: true,
-        confirmButtonColor: '#d33',
-        cancelButtonColor: '#3085d6',
-        confirmButtonText: '<a style="font-size:1rem; color:white">탈퇴</a>',
-        cancelButtonText: '<a style="font-size:1rem; color:white">취소</a>',
+        confirmButtonColor: '#fff',
+        cancelButtonColor: '#fff',
+        confirmButtonText: '<a style="font-size:1rem; color:black;">탈퇴</a>',
+        cancelButtonText: '<a style="font-size:1rem; color:black;">취소</a>',
       }).then((result) => {
         if (result.value) {
           const Toast = Swal.mixin({
@@ -143,10 +143,10 @@ export default {
         text: '신고를 거절 하시겠습니까?',
         icon: 'warning',
         showCancelButton: true,
-        confirmButtonColor: '#d33',
-        cancelButtonColor: '#3085d6',
-        confirmButtonText: '<a style="font-size:1rem; color:white">거절</a>',
-        cancelButtonText: '<a style="font-size:1rem; color:white">취소</a>',
+        confirmButtonColor: '#fff',
+        cancelButtonColor: '#fff',
+        confirmButtonText: '<a style="font-size:1rem; color:black;">거절</a>',
+        cancelButtonText: '<a style="font-size:1rem; color:black;">취소</a>',
       }).then((result) => {
         if (result.value) {
           const Toast = Swal.mixin({
