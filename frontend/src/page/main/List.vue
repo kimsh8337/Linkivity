@@ -606,7 +606,7 @@ export default {
             this.pids = res.data;
             this.tPosts = [];
             this.tagFlag = true;
-            scroll(0, 350);
+            scroll(0, 100);
           })
           .catch((err) => {
             console.log(err);
