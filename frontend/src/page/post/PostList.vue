@@ -180,7 +180,7 @@ export default {
       this.type = typename;
       this.infiniteId += 1;
       this.page = 1;
-      this.reloading(this.page);
+      this.changeType(this.page);
     },
 
     infiniteHandler($state) {
@@ -336,6 +336,33 @@ export default {
       }
       return false;
     },
+    changeType(pg) {
+      if (this.searchCK) {
+        axios
+          .get(
+            `${baseURL}/post/searchReloading/${this.type}/${this.key}/${
+              this.word
+            }/${pg - 1}`
+          )
+          .then((res) => {
+            this.posts = res.data;
+            this.nextTag();
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      } else {
+        axios
+          .get(`${baseURL}/post/getThatList/${this.type}/${pg - 1}`)
+          .then((res) => {
+            this.posts = res.data;
+            this.nextTag();
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
+    },
     reloading(pg) {
       if (this.searchCK) {
         axios
@@ -346,7 +373,6 @@ export default {
           )
           .then((res) => {
             this.posts = res.data;
-            // this.nextTag();
           })
           .catch((err) => {
             console.log(err);
@@ -356,7 +382,6 @@ export default {
           .get(`${baseURL}/post/getThatList/${this.type}/${pg - 1}`)
           .then((res) => {
             this.posts = res.data;
-            // this.nextTag();
           })
           .catch((err) => {
             console.log(err);
