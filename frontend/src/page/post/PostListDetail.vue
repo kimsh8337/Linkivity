@@ -161,22 +161,42 @@
                     </div>
                   </div>
                   <!-- 장바구니, 구매 -->
-                  <div class="d-flex justify-content-end" v-if="this.checkType == 'normal'">
-                    <button
-                      type="button"
-                      class="btn btn-default mr-1"
-                      @click="alertbasket(post)"
-                      style="color:white; background-color:#86a5d4;font-weight:bold;"
-                    >
-                      <i class="fas fa-shopping-basket mr-2"></i>장바구니
-                    </button>
-                    <button
-                      class="btn btn-danger"
-                      @click="alertbuy(post)"
-                      style="font-weight:bold;"
-                    >
-                      <i class="far fa-hand-point-up mr-2"></i>바로구매
-                    </button>
+                  <div class="d-flex justify-content-between">
+                    <div class="d-flex justify-content-between">
+                      <span class="d-flex my-auto mr-3" style="font-weight:bold;">수량</span>
+                      <form class="d-flex" name="Form">
+                        <button
+                        class="btn btn-deault"
+                        style="border:1px solid;background-color:#86a5d4;color:white;"
+                          @click="changenum(-1)"
+                        ><i class="fas fa-caret-down"></i>
+                        </button>
+                        <input type="text" v-model="sizecnt" class="text-center" style="border-radius:3px;border:1px solid lightgray;width:20%;"/>
+                        <button
+                        class="btn btn-deault"
+                        style="border:1px solid;background-color:#86a5d4;color:white;"
+                          @click="changenum(1)"
+                        ><i class="fas fa-caret-up"></i>
+                        </button>
+                      </form>
+                    </div>
+                    <div class="d-flex justify-content-end" v-if="this.checkType == 'normal'">
+                      <button
+                        type="button"
+                        class="btn btn-default mr-1"
+                        @click="alertbasket(post)"
+                        style="color:white; background-color:#86a5d4;font-weight:bold;"
+                      >
+                        <i class="fas fa-shopping-basket mr-2"></i>장바구니
+                      </button>
+                      <button
+                        class="btn btn-danger"
+                        @click="alertbuy(post)"
+                        style="font-weight:bold;"
+                      >
+                        <i class="far fa-hand-point-up mr-2"></i>바로구매
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -189,7 +209,7 @@
       <nav
         id="navbar-example2"
         class="navbar nav-info"
-        style="position: sticky; top: 0; z-index:100;"
+        style="position: sticky; top: 0; z-index:5; border-bottom:1px solid lightgray;"
       >
         <ul class="nav justify-content-between" style="width:100%;">
           <li class="nav-item">
@@ -351,7 +371,8 @@ export default {
       autumnCheck: "",
       winterCheck: "",
       placeCheck: "",
-      isheart : false,
+      isheart: false,
+      sizecnt:1,
     };
   },
   created() {
@@ -365,6 +386,12 @@ export default {
     this.fetchHashTag();
   },
   methods: {
+    changenum(num){
+      if(this.sizecnt+num != 0){
+        this.sizecnt += num;
+      }
+
+    },
     goTag(tag) {
       this.$router.push({
         name: "TagList",
@@ -651,21 +678,21 @@ export default {
         .then((res) => {
           if (res.data) {
             const Toast = Swal.mixin({
-          toast: true,
-          position: 'top-end',
-          showConfirmButton: false,
-          timer: 2000,
-          timerProgressBar: true,
-          onOpen: (toast) => {
-            toast.addEventListener('mouseenter', Swal.stopTimer)
-            toast.addEventListener('mouseleave', Swal.resumeTimer)
-          }
-        })
+              toast: true,
+              position: "top-end",
+              showConfirmButton: false,
+              timer: 2000,
+              timerProgressBar: true,
+              onOpen: (toast) => {
+                toast.addEventListener("mouseenter", Swal.stopTimer);
+                toast.addEventListener("mouseleave", Swal.resumeTimer);
+              },
+            });
 
-        Toast.fire({
-          icon: 'error',
-          title: '동일한 상품이 장바구니에 담겨있습니다!'
-        })
+            Toast.fire({
+              icon: "error",
+              title: "동일한 상품이 장바구니에 담겨있습니다!",
+            });
           } else {
             Swal.fire({
               title: `${post.title}`,
@@ -705,8 +732,9 @@ export default {
         confirmButtonColor: "#fff",
         cancelButtonColor: "#fff",
         confirmButtonText:
-          '<a style="font-size:1rem; color:black">구매하기</a>',
-        cancelButtonText: '<a style="font-size:1rem; color:black">취소하기</a>',
+          '<a style="font-size:1rem; color:black;font-weight:bold;">구매하기</a>',
+        cancelButtonText:
+          '<a style="font-size:1rem; color:black;font-weight:bold;">취소하기</a>',
       }).then((result) => {
         if (result.value) {
           const Toast = Swal.mixin({
@@ -732,7 +760,7 @@ export default {
               pay_method: "card",
               merchant_uid: "merchant_" + new Date().getTime(),
               name: "링키비티",
-              amount: this.post.price,
+              amount: this.post.price * this.sizecnt,
               buyer_email: "iamport@siot.do",
               buyer_name: "구매자이름",
               buyer_tel: "010-1234-5678",
@@ -749,7 +777,7 @@ export default {
 
                 axios
                   .get(
-                    `${baseURL}/purchase/registOne/${th.pid}/${th.email}/${th.post.price}`
+                    `${baseURL}/purchase/registOne/${th.pid}/${th.email}/${th.post.price*th.sizecnt}`
                   )
                   .then((response) => {
                     const Toast = Swal.mixin({
@@ -780,20 +808,20 @@ export default {
                 msg += "에러내용 : " + rsp.error_msg;
                 const Toast = Swal.mixin({
                   toast: true,
-                  position: 'top-end',
+                  position: "top-end",
                   showConfirmButton: false,
                   timer: 2000,
                   timerProgressBar: true,
                   onOpen: (toast) => {
-                    toast.addEventListener('mouseenter', Swal.stopTimer)
-                    toast.addEventListener('mouseleave', Swal.resumeTimer)
-                  }
-                })
+                    toast.addEventListener("mouseenter", Swal.stopTimer);
+                    toast.addEventListener("mouseleave", Swal.resumeTimer);
+                  },
+                });
 
                 Toast.fire({
-                  icon: 'error',
-                  title: `${msg}`
-                })
+                  icon: "error",
+                  title: `${msg}`,
+                });
               }
               // alert(msg);
             }
