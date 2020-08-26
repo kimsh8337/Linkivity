@@ -1,10 +1,10 @@
 <template>
-  <div v-if="this.scrollposition > 200" class="side-menu">
+  <div v-if="this.scrollposition > 200" class="side-menu" >
     <i class="fas fa-2x fa-angle-double-up upBtn" @click="toTop" style="cursor:pointer;"></i>
     <b-button v-b-toggle.sidebar-2 class="side-main-button btn btn-light" style="background-color:rgba(255,255,255,0); border:none;">
       <i class="fas fa-2x fa-bars" style="color:rgb(134, 165, 212)"></i>
-      <b-sidebar id="sidebar-2" no-header-close title="Menu" shadow width="250px">
-          <div class="ml-4" style="text-align:left">
+      <b-sidebar id="sidebar-2" no-header-close title="Menu" shadow width="250px" style="z-index:200; !important">
+          <div class="ml-4" style="text-align:left; ">
             <ul class="navbar-nav nav-sub ml-auto">
               <li class="nav-item">
                 <a class="nav-link mt-3 hamburger2" @click="goPost">
