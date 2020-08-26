@@ -35,7 +35,9 @@
           <!-- 가격 -->
           <!-- <p class="packaging-price mb-1">Singled Price : {{ Singleprice }}</p> -->
           <p class="packaging-price mb-1">
-            <span v-if="discount > 0" style="font-size:1.3rem;">{{this.discount}}% OFF </span>Packaging Price : {{ Packagingprice }} 원
+            수량
+            <input type="number" value="1" v-model="amount" class="col-2 mr-3 pr-0" style="border:2px solid rgb(134, 165, 212); border-radius:5px;">
+            <span v-if="discount > 0" style="font-size:1.3rem;">{{this.discount}}% OFF </span>Packaging Price : {{ Packagingprice * this.amount }} 원
           </p>
         </div>
 
@@ -105,7 +107,7 @@ export default {
           pay_method: 'card',
           merchant_uid: 'merchant_' + new Date().getTime(),
           name: '링키비티',
-          amount: this.sum,
+          amount: (this.sum * this.amount),
           buyer_email: 'iamport@siot.do',
           buyer_name: '구매자이름',
           buyer_tel: '010-1234-5678',
@@ -121,7 +123,7 @@ export default {
             msg += '카드 승인번호 : ' + rsp.apply_num;
 
             axios
-              .get(`${baseURL}/purchase/regist/${th.packPost}/${th.email}/${th.sum}`)
+              .get(`${baseURL}/purchase/regist/${th.packPost}/${th.email}/${th.sum}/${th.amount}`)
               .then((response) => {
                 th.$router.push('/user/basket');
                 th.$router.go();
@@ -208,6 +210,7 @@ export default {
   },
   data() {
     return {
+      amount: 1,
       sum: 0,
       discount: 0,
       packPost: [],

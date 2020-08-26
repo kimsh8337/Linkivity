@@ -43,15 +43,16 @@ public class PurchaseController {
     @Autowired
     LikeListDao likeDao;
 
-    @GetMapping("/regist/{packPost}/{email}/{sum}")
+    @GetMapping("/regist/{packPost}/{email}/{sum}/{amount}")
     @ApiOperation("패키징 상품 구매")
-    public Object regist(@PathVariable List<String> packPost, @PathVariable String email, @PathVariable int sum)
+    public Object regist(@PathVariable List<String> packPost, @PathVariable String email, @PathVariable int sum, @PathVariable int amount)
             throws SQLException, IOException {
         try {
 
             Pack pack = new Pack();
             pack.setEmail(email);
             pack.setPrice(sum);
+            pack.setCnt(amount);
             packDao.save(pack);
             ///// 패키지테이블에 저장/////
 
@@ -82,6 +83,7 @@ public class PurchaseController {
                 purchase.setLocation(post.getLocation());
                 purchase.setPrice(post.getPrice());
                 purchase.setImg(post.getImgurl());
+                purchase.setAmount(amount);
                 purchaseDao.save(purchase);
                 ///// 구매테이블에 저장/////
 
@@ -221,5 +223,4 @@ public class PurchaseController {
             return new ResponseEntity<>(null, HttpStatus.ACCEPTED);
         }
     }
-
 }
