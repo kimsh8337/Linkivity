@@ -23,8 +23,9 @@
         <table class="table" v-for="(item, index) in bitems" :key="index">
           <thead class="thead" style="background:RGB(134, 165, 212); color:white;">
             <tr>
-              <th>No</th>
-              <td>{{ (bpage - 1) * 5 + index + 1 }}</td>
+              <td>No. {{ (bpage - 1) * 5 + index + 1 }}</td>
+              <td>{{item[0].amount}} SET</td>
+              <td><button class="btn btn-danger btn-sm" @click="packDelete">구매 취소</button></td>
             </tr>
             <tr>
               <th>사진</th>
@@ -76,8 +77,9 @@
       <table class="table" v-for="(item, index) in bitems" :key="index">
         <thead class="thead" style="background:RGB(134, 165, 212); color:white;">
           <tr>
-            <th>No</th>
-            <td>{{ (bpage - 1) * 5 + index + 1 }}</td>
+            <th>No. {{ (bpage - 1) * 5 + index + 1 }}</th>
+            <td>{{item[0].amount}} SET</td>
+            <td><button class="btn btn-danger btn-sm" @click="packDelete">구매 취소</button></td>
           </tr>
         </thead>
         <div class="container row p-2" @click="goDetail(itm.pid)" style="width:210%" v-for="(itm, idx) in item" :key="idx">
@@ -141,6 +143,8 @@ export default {
     makeimgurl(imgurl) {
       var url = "../../../contents/"+imgurl;
       return url;
+    },
+    packDelete() {
     },
     pageCount() {
       axios
