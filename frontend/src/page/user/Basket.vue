@@ -42,14 +42,14 @@
             <p class="mb-0">제목 : {{ post.title }}</p>
             <p class="mb-0">기간 : {{ post.sdate }}~{{ post.edate }}</p>
             <p class="mb-0">위치 : {{ post.location }}</p>
-            <p class="mb-0">가격 : {{ post.price }}</p>
+            <p class="mb-0">가격 : {{ addComma(post.price) }}원</p>
             <!-- <p>{{checked}}</p> -->
           </div>
         </div>
 
         <!-- price -->
         <div>
-          <p class="checked-price">Total : {{ checkedprice }} 원</p>
+          <p class="checked-price">Total : {{ addComma(checkedprice) }} 원</p>
         </div>
 
         <!-- 구매하기 button -->
@@ -134,6 +134,10 @@ export default {
     };
   },
   methods: {
+    addComma(num) {
+      var regexp = /\B(?=(\d{3})+(?!\d))/g;
+      return num.toString().replace(regexp, ',');
+    },
     makeimgurl(imgurl) {
       var url = "../../../contents/" + imgurl;
       return url;

@@ -139,7 +139,7 @@
                       class="card-text font-weight-bold mb-0"
                       style="font-weight:bold;font-size: 1.5rem; text-align: left; margin-bottom: 5px;
                   "
-                    >{{ post.price }} 원</p>
+                    >{{ addComma(post.price) }} 원</p>
                   </div>
                   <hr class="mt-0" />
                   <!-- like heart -->
@@ -396,6 +396,10 @@ export default {
     }
   },
   methods: {
+    addComma(num) {
+      var regexp = /\B(?=(\d{3})+(?!\d))/g;
+      return num.toString().replace(regexp, ',');
+    },
     changenum(num){
       if(this.sizecnt+num != 0){
         this.sizecnt += num;
