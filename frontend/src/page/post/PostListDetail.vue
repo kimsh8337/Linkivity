@@ -171,7 +171,7 @@
                           @click="changenum(-1)"
                         ><i class="fas fa-caret-down"></i>
                         </button>
-                        <input type="text" v-model="sizecnt" class="text-center" style="border-radius:3px;border:1px solid lightgray;width:20%;"/>
+                        <input type="number" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" v-model="sizecnt" class="text-center" style="border-radius:3px;border:1px solid lightgray;width:20%;"/>
                         <button
                         class="btn btn-deault"
                         style="border:1px solid;background-color:#86a5d4;color:white;"
@@ -384,6 +384,16 @@ export default {
       this.fetchComment();
     }
     this.fetchHashTag();
+  },
+  watch:{
+    sizecnt: function(v){
+      if(v>=100){
+        this.sizecnt = 99;
+      }
+      if(v<=0){
+        this.sizecnt = 1;
+      }
+    }
   },
   methods: {
     changenum(num){
@@ -885,6 +895,11 @@ export default {
 </script>
 
 <style>
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
 .indict {
   cursor: pointer;
 }
