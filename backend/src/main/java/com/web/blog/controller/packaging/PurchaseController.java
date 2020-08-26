@@ -19,6 +19,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -223,4 +224,20 @@ public class PurchaseController {
             return new ResponseEntity<>(null, HttpStatus.ACCEPTED);
         }
     }
+    
+    @DeleteMapping("/delete/{packno}")
+    @ApiOperation("구매 패키지 삭제")
+    public Object delete(@PathVariable int packno) throws SQLException, IOException {
+        try {
+            List<Purchase> list = purchaseDao.findByPackno(packno);
+            purchaseDao.deleteAll(list);
+
+            List<Pack> plist = packDao.findByPackno(packno);
+            packDao.deleteAll(plist);
+            return new ResponseEntity<>(null, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 }
