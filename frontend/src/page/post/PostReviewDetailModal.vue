@@ -44,7 +44,7 @@
             <!-- 후기 남긴 Post 정보 -->
             <span class="d-flex mb-3" style="font-weight:bold">[후기를 남긴 게시글 정보]</span>
             <div class="row mb-3">
-                <img v-if="this.postDetail.imgurl" class="col-6" :src="this.postDetail.imgurl" style="width:40%; height:40%">
+                <img v-if="this.postDetail.imgurl" class="col-6" :src="makeimgurl(this.postDetail.imgurl)" style="width:40%; height:40%">
                 <img v-if="!this.postDetail.imgurl" class="col-6" src="../../assets/img/noimage.jpg" style="width:40%; height:40%">
                 <div class="col-6">
                     <small class="d-flex mb-2" style="font-weight:bold">[게시글 제목]</small>
@@ -73,6 +73,7 @@ const baseURL = process.env.VUE_APP_BACKURL;
 export default {
     data() {
         return {
+            cnt: 0,
             pid: "",
             postDetail: [],
         }
@@ -102,12 +103,17 @@ export default {
     },
     },
     created() {
-
     },
     updated() {
-        this.pid = this.reviewDetail.pid
-        this.bringPostDetail()
-    },
+        this.cnt += 1
+        console.log(this.cnt)
+        if(this.cnt < 2) {
+            this.pid = this.reviewDetail.pid
+            this.bringPostDetail()
+        } else if(this.cnt == 2) {
+            this.cnt = 0;
+        }
+    }
 }
 </script>
 

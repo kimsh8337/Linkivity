@@ -209,7 +209,7 @@
       <nav
         id="navbar-example2"
         class="navbar nav-info"
-        style="position: sticky; top: 0; z-index:5; border-bottom:1px solid lightgray;"
+        style="position: sticky; top: 0; z-index:1; border-bottom:1px solid lightgray;"
       >
         <ul class="nav justify-content-between" style="width:100%;">
           <li class="nav-item">
@@ -397,6 +397,7 @@ export default {
   },
   methods: {
     addComma(num) {
+      num = num + "";
       var regexp = /\B(?=(\d{3})+(?!\d))/g;
       return num.toString().replace(regexp, ',');
     },
