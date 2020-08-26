@@ -154,11 +154,11 @@ export default {
         .get(`${baseURL}/account/authuser/${this.$cookies.get("Auth-Token")}`)
         .then((response) => {
           this.email = response.data.email;
-          this.Singleprice();
+          // this.Singleprice();
           this.Packagingprice();
         })
         .catch((err) => {
-          console.log(err);
+          // console.log(err);
         });
     },
     makeimgurl(imgurl) {
@@ -255,7 +255,7 @@ export default {
     //   this.sum = this.prePosts.price;
     //   return this.sum;
     // },
-    Packagingprice(price) {
+    Packagingprice() {
       this.sum = 0;
       this.subsum = 0;
       this.discount = 0;

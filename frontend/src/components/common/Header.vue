@@ -15,7 +15,7 @@
           <i class="fas fa-2x fa-bars" style="color:rgb(134, 165, 212)"></i>
           <!-- <span class="navbar-toggler-icon far fa-2x" style="font-size:1rem;"></span> -->
         </b-button>
-        <b-sidebar id="sidebar-1" title="Menu" shadow width="250px">
+        <b-sidebar id="sidebar-1" title="Menu" backdrop right shadow width="250px">
           <div class="ml-4" style="text-align:left">
             <ul class="navbar-nav nav-sub ml-auto">
               <li class="nav-item">
