@@ -67,7 +67,7 @@
                     class="card-text"
                     style="font-weight:bold;font-size: 1rem; text-align: left; text-overflow:ellipsis;overflow: hidden;white-space: nowrap;"
                   >
-                    {{ cartPost.price }}원
+                    {{ addComma(cartPost.price) }}원
                   </p>
                   <button
                     type="button"
@@ -130,6 +130,11 @@ export default {
     };
   },
   methods: {
+    addComma(num) {
+      num = num + "";
+      var regexp = /\B(?=(\d{3})+(?!\d))/g;
+      return num.toString().replace(regexp, ',');
+    },
     authUser() {
       axios
         .get(`${baseURL}/account/authuser/${this.$cookies.get("Auth-Token")}`)

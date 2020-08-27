@@ -692,7 +692,7 @@ export default {
         })
         return;
       }
-
+      
       this.$emit(
         "join-create-normal",
         this.email,
@@ -707,11 +707,11 @@ export default {
       this.$refs.file.click();
     },
     onChangeImages(e) {
-      const file = this.$refs.file.files[0];
-      if(file == null) {
+      this.file = this.$refs.file.files[0];
+      if(this.file == null) {
         return;
       }
-      if(file.size >= 1048576) {
+      if(this.file.size >= 1048576) {
         const Toast = Swal.mixin({
           toast: true,
           position: 'top-end',
@@ -730,7 +730,7 @@ export default {
         })
         return;
       }
-      this.tempimg = URL.createObjectURL(file);
+      this.tempimg = URL.createObjectURL(this.file);
     },
   },
   data() {

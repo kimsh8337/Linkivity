@@ -21,11 +21,11 @@
     <div class="Webtable d-none d-sm-block">
       <div class="" v-if="bitems.length > 0">
         <table class="table" v-for="(item, index) in bitems" :key="index">
-          <thead class="thead" style="background:RGB(134, 165, 212); color:white;">
+          <thead class="thead" style="background:RGB(134, 165, 212); color:white; font-weight:bold;">
             <tr>
-              <td>No. {{ (bpage - 1) * 5 + index + 1 }}</td>
-              <td>{{ item[0].amount }} SET</td>
-              <td><button class="btn btn-danger btn-sm" @click="packDelete(item[0].packno)">구매 취소</button></td>
+              <td>No {{ (bpage - 1) * 5 + index + 1 }}</td>
+              <td>수량 : {{ item[0].amount }}</td>
+              <td><button class="btn btn-danger btn-sm pt-0 pb-0" @click="packDelete(item[0].packno)" style="height:25px;font-weight:bold;">구매 취소</button></td>
             </tr>
             <tr>
               <th>사진</th>
@@ -50,7 +50,7 @@
                 <div @click="goDetail(itm.pid)" style="cursor:pointer;font-weight:bold;">{{ itm.title }}</div>
               </td>
               <td style="font-weight:bold;">{{ itm.sdate }} ~ {{ itm.edate }}</td>
-              <td style="font-weight:bold;">{{ itm.price }}</td>
+              <td style="font-weight:bold;">{{ addComma(itm.price) }}</td>
               <td style="font-weight:bold;">{{ itm.serialno }}</td>
               <td>
                 <b-badge v-if="itm.puse == 0" pill variant style="background-color: #003399">미사용</b-badge>
@@ -89,7 +89,7 @@
                 <span style="font-size:1rem; font-weight:bold;" class="white-space:pre;">상품명 : [{{ itm.title }}]</span>
               </div>
               <div class="mt-1 mb-1">
-                <span style="font-weight:bold;">가격 : {{ itm.price }}원</span>
+                <span style="font-weight:bold;">가격 : {{ addComma(itm.price) }}원</span>
               </div>
               <div class="mt-1 mb-1">
                 <span style="font-weight:bold;">일련번호 : {{ itm.serialno }}</span>
@@ -122,6 +122,11 @@ export default {
     };
   },
   methods: {
+    addComma(num) {
+      num = num + "";
+      var regexp = /\B(?=(\d{3})+(?!\d))/g;
+      return num.toString().replace(regexp, ',');
+    },
     authUser() {
       axios
         .get(`${baseURL}/account/authuser/${this.$cookies.get('Auth-Token')}`)
