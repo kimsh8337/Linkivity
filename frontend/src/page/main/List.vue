@@ -153,9 +153,10 @@
       <!-- 일반 메인리스트 -->
       <div class="col-md-11" style="margin: 3rem auto;" v-if="this.tagFlag == false">
         <!-- main3button -->
-        <div class="col-12 container row mb-5 m-0 p-0">
+        <div class="col-12 container row mb-5 m-0 p-0 d-flex justify-content-between">
+          <div class="col-sm-12 col-md-4 p-0 d-flex justify-content-start">
           <div
-            class="col-sm-12 col-md-3 main-btn-intro mt-1 mb-1 d-flex justify-content-center align-items-center"
+            class="col-sm-12 col-md-11 main-btn-intro mt-1 mb-1 d-flex justify-content-center align-items-center"
             style="cursor:pointer; border:1px solid black; border-radius:10px; height:5rem; border:none; box-shadow: 0 0 8px rgba(0, 0, 0, .15); font-size:1.2rem;"
             data-toggle="modal"
             data-target="#surveymodal"
@@ -163,25 +164,30 @@
             <i class="far fa-handshake mr-2"></i>
             <span style="font-weight:bold">액티비티 추천</span>
           </div>
+          </div>
           <SurveyModal />
-          <div class="col-sm-0 col-md-1" style="margin-right:2.1%; margin-left:2.1%;"></div>
+          <!-- <div class="col-sm-0 col-md-1" style="margin-right:2.1%; margin-left:2.1%;"></div> -->
+          <div class="col-sm-12 col-md-4 p-0 d-flex justify-content-center">
           <div
-            class="col-sm-12 col-md-3 main-btn-item mt-1 mb-1 d-flex justify-content-center align-items-center"
+            class="col-sm-12 col-md-11 main-btn-item mt-1 mb-1 d-flex justify-content-center align-items-center"
             style="cursor:pointer; border:1px solid black; border-radius:10px; height:5rem; border:none; box-shadow: 0 0 8px rgba(0, 0, 0, .15); font-size:1.2rem;"
             @click="goPost"
           >
             <i class="fas fa-gift mr-2"></i>
             <span style="font-weight:bold">상품 둘러보기</span>
           </div>
-          <div class="col-sm-0 col-md-1" style="margin-right:2%; margin-left:2.1%;"></div>
+          </div>
+          <!-- <div class="col-sm-0 col-md-1" style="margin-right:2%; margin-left:2.1%;"></div> -->
+          <div class="col-sm-12 col-md-4 p-0 d-flex justify-content-end">
           <div
-            class="col-sm-12 col-md-3 main-btn-notice mt-1 mb-1 d-flex justify-content-center align-items-center"
+            class="col-sm-12 col-md-11 main-btn-notice mt-1 mb-1 d-flex justify-content-center align-items-center"
             style="cursor:pointer; border:1px solid black; border-radius:10px; height:5rem; border:none; box-shadow: 0 0 8px rgba(0, 0, 0, .15); font-size:1.2rem;"
             @click="goNews"
           >
             <i class="far fa-newspaper mr-2"></i>
             <span style="font-weight:bold">액티비티 소식</span>
           </div>
+        </div>
         </div>
 
         <!-- carousel -->
@@ -546,7 +552,7 @@ export default {
         .get(`${baseURL}/post/getTagReloading/${this.pids}/${pg - 1}`)
         .then((res) => {
           this.tPosts = res.data;
-          // this.nextTag();
+          this.nextTag();
         })
         .catch((err) => {
           console.log(err);
@@ -597,18 +603,6 @@ export default {
           });
       }
     },
-    initTagPosts() {
-      if(this.pids.length != 0) {
-        axios.get(`${baseURL}/post/getTagList/${this.pids}/0`)
-        .then((res) => {
-          this.tPosts = res.data;
-          this.nextTag();
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-      }
-    },
     tagSearch(tags) {
       this.userCheck();
       this.infiniteId += 1;
@@ -617,15 +611,14 @@ export default {
         this.$router.go();
       } else {
         this.resultTitle = tags;
-        this.page = 1;
+        this.page = 0;
         axios
           .get(`${baseURL}/tag/search/` + tags)
           .then((res) => {
             this.pids = res.data;
-            // this.tPosts = [];
-            this.initTagPosts();
+            this.tPosts = [];
             this.tagFlag = true;
-            scroll(0, 100);
+            scroll(0, 350);
           })
           .catch((err) => {
             console.log(err);

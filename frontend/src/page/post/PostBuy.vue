@@ -72,7 +72,6 @@
           <tr>
             <th>No. {{ (bpage - 1) * 5 + index + 1 }}</th>
             <td>{{ item[0].amount }} SET</td>
-            <td><button class="btn btn-danger btn-sm" @click="packDelete(item[0].packno)">구매 취소</button></td>
           </tr>
         </thead>
         <div class="container row p-2" @click="goDetail(itm.pid)" style="width:210%" v-for="(itm, idx) in item" :key="idx">
@@ -102,8 +101,13 @@
               </div>
             </div>
           </div>
+        <div class="col-12 d-flex justify-content-end p-0">
+          <button class="btn btn-danger btn-sm ml-2" @click="packDelete(item[0].packno)" v-if="checkpuse(item)">구매 취소</button>
+        </div>
         </div>
       </table>
+      <!-- paging -->
+        <b-pagination class="mt-5 mb-0" v-if="btotalPage > 5" v-model="bpage" :total-rows="btotalPage" pills :per-page="5"></b-pagination>
     </div>
   </div>
 </template>
@@ -236,6 +240,15 @@ export default {
     goPost() {
       this.$router.push('/posts');
     },
+    checkpuse(item){
+      var i = 0;
+      for(i=0;i<item.length;i++){
+        if(item[i].puse == 1){
+          return false
+        }
+    }
+      return true
+  },
   },
   created() {
     this.authUser();
