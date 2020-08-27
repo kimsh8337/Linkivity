@@ -211,10 +211,10 @@
                 style="height:18rem;filter:brightness(80%);"
                 alt="paragliding"
               />
-              <div class="carousel-caption" style="text-align:right; width:80%; height:90%; ">
-                <h1 style="font-weight:bold; font-size:50px">액티비티는 역시</h1>
-                <h1 style="font-weight:bold; font-size:50px">링키비티</h1>
-                <p style="font-weight:bold;">"링키비티 가입 후 집 나간 여자친구가 안돌아와요"</p>
+              <div class="carousel-caption" style="text-align:right; width:80%; height:90%; z-index:1;">
+                <h1 style="font-weight:bold; font-size:4vmax;">액티비티는 역시</h1>
+                <h1 style="font-weight:bold; font-size:4vmax;">링키비티</h1>
+                <p style="font-weight:bold; font-size:1.5vmax;">"링키비티 가입 후 집 나간 여자친구가 안돌아와요"</p>
               </div>
             </div>
             <div class="carousel-item">
@@ -224,10 +224,10 @@
                 style="height:18rem;filter:brightness(80%);"
                 alt="snowboarding"
               />
-              <div class="carousel-caption" style="text-align:right; width:80%; height:90%; ">
-                <h1 style="font-weight:bold; font-size:50px">링키비티와 함께</h1>
-                <h1 style="font-weight:bold; font-size:50px">매년 꿀잼 라이프 시작!</h1>
-                <p style="font-weight:bold;">액티비티 입문자는 추천서비스를 이용해보세요!</p>
+              <div class="carousel-caption" style="text-align:right; width:80%; height:90%; z-index:1;">
+                <h1 style="font-weight:bold; font-size:4vmax;">링키비티와 함께</h1>
+                <h1 style="font-weight:bold; font-size:4vmax;">매년 꿀잼 라이프 시작!</h1>
+                <p style="font-weight:bold; font-size:1.5vmax;">액티비티 입문자는 추천서비스를 이용해보세요!</p>
               </div>
             </div>
             <div class="carousel-item">
@@ -237,10 +237,10 @@
                 style="height:18rem;filter:brightness(80%);"
                 alt="wingsuit"
               />
-              <div class="carousel-caption" style="text-align:right; width:80%; height:90%; ">
-                <h1 style="font-weight:bold; font-size:50px;">한번의 예약으로</h1>
-                <h1 style="font-weight:bold; font-size:50px;">최대 15%까지 할인!</h1>
-                <p style="font-weight:bold;">원하는 상품 패키징으로 저렴하게 즐기세요!</p>
+              <div class="carousel-caption" style="text-align:right; width:80%; height:90%; z-index:1; ">
+                <h1 style="font-weight:bold; font-size:4vmax;">한번의 예약으로</h1>
+                <h1 style="font-weight:bold; font-size:4vmax;">최대 15%까지 할인!</h1>
+                <p style="font-weight:bold; font-size:1.5vmax;">원하는 상품 패키징으로 저렴하게 즐기세요!</p>
               </div>
             </div>
             <div class="carousel-item">
@@ -250,10 +250,10 @@
                 style="height:18rem;filter:brightness(80%);"
                 alt="wingsuit"
               />
-              <div class="carousel-caption" style="text-align:right; width:80%; height:90%; ">
-                <h1 style="font-weight:bold; font-size:50px">봄 여름 가을 겨울</h1>
-                <h1 style="font-weight:bold; font-size:50px">구애받지 말고!</h1>
-                <p style="font-weight:bold;">사계절 상관없이 언제든지 예약 가능!</p>
+              <div class="carousel-caption" style="text-align:right; width:80%; height:90%; z-index:1;">
+                <h1 style="font-weight:bold; font-size:4vmax;">봄 여름 가을 겨울</h1>
+                <h1 style="font-weight:bold; font-size:4vmax;">구애받지 말고!</h1>
+                <p style="font-weight:bold; font-size:1.5vmax;">사계절 상관없이 언제든지 예약 가능!</p>
               </div>
             </div>
           </div>
@@ -324,7 +324,7 @@
           <!-- <span class="more">+ more</span> -->
         </div>
         <div class="row" v-if="reviews.length > 0">
-          <div v-for="(slide, index) in reviews" :key="index" class="col-6 col-sm-4 col-md-2 p-3">
+          <div v-for="(slide, index) in reviews" :key="index" class="col-6 col-sm-4 col-md-4 col-lg-2 p-3">
             <!-- <div class="card mb-3 profile-post mr-0 ml-0"> -->
             <div
               class="card-body list-profile"
@@ -350,6 +350,12 @@
                   class="user-img d-flex m-2"
                   :src="makeimgurl(slide.proimg)"
                   v-if="slide.proimg"
+                  style="border-radius:70px; width:50px; height:50px;"
+                />
+                <img
+                  class="user-img d-flex m-2"
+                  v-if="!slide.proimg"
+                  src="../../assets/img/noimage.jpg"
                   style="border-radius:70px; width:50px; height:50px;"
                 />
                 <div class="mt-2 mr-4">

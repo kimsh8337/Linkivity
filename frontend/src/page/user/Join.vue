@@ -111,31 +111,30 @@ export default {
         email,
         password,
         checkType,
-        file,
         clocation,
         cphone,
       };
       axios
         .post(`${baseURL}/account/signup`, data)
         .then((response) => {
-          if (response.data == 1) {
-            const Toast = Swal.mixin({
-              toast: true,
-              position: "top-end",
-              showConfirmButton: false,
-              timer: 2000,
-              timerProgressBar: true,
-              onOpen: (toast) => {
-                toast.addEventListener("mouseenter", Swal.stopTimer);
-                toast.addEventListener("mouseleave", Swal.resumeTimer);
-              },
-            });
+          // if (response.data == 1) {
+          //   const Toast = Swal.mixin({
+          //     toast: true,
+          //     position: "top-end",
+          //     showConfirmButton: false,
+          //     timer: 2000,
+          //     timerProgressBar: true,
+          //     onOpen: (toast) => {
+          //       toast.addEventListener("mouseenter", Swal.stopTimer);
+          //       toast.addEventListener("mouseleave", Swal.resumeTimer);
+          //     },
+          //   });
 
-            Toast.fire({
-              icon: "error",
-              title: "사용이 제한된 회원입니다.",
-            });
-          }
+          //   Toast.fire({
+          //     icon: "error",
+          //     title: "사용이 제한된 회원입니다.",
+          //   });
+          // }
           var formData = new FormData();
           formData.append("file", file);
           axios
@@ -145,6 +144,7 @@ export default {
               },
             })
             .then(function (response) {
+              alert("성공");
             })
             .catch(function (error) {
               console.log(error);
@@ -179,35 +179,35 @@ export default {
         });
     },
     joinNormal(email, name, nickname, password, checkType, file) {
+      alert(file);
       let data = {
         name,
         nickname,
         email,
         password,
         checkType,
-        file,
       };
       axios
         .post(`${baseURL}/account/signup`, data)
         .then((response) => {
-          if (response.data == 1) {
-            const Toast = Swal.mixin({
-              toast: true,
-              position: "top-end",
-              showConfirmButton: false,
-              timer: 2000,
-              timerProgressBar: true,
-              onOpen: (toast) => {
-                toast.addEventListener("mouseenter", Swal.stopTimer);
-                toast.addEventListener("mouseleave", Swal.resumeTimer);
-              },
-            });
+          // if (response.data == 1) {
+          //   const Toast = Swal.mixin({
+          //     toast: true,
+          //     position: "top-end",
+          //     showConfirmButton: false,
+          //     timer: 2000,
+          //     timerProgressBar: true,
+          //     onOpen: (toast) => {
+          //       toast.addEventListener("mouseenter", Swal.stopTimer);
+          //       toast.addEventListener("mouseleave", Swal.resumeTimer);
+          //     },
+          //   });
 
-            Toast.fire({
-              icon: "error",
-              title: "사용이 제한된 회원입니다.",
-            });
-          }
+          //   Toast.fire({
+          //     icon: "error",
+          //     title: "사용이 제한된 회원입니다.",
+          //   });
+          // }
           const Toast = Swal.mixin({
             toast: true,
             position: "top-end",
@@ -221,6 +221,7 @@ export default {
           });
           var formData = new FormData();
           formData.append("file", file);
+          alert(file)
           axios
             .post(`${baseURL}/account/file/${email}`, formData, {
               headers: {

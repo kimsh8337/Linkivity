@@ -43,7 +43,7 @@
                 <p class="mb-0">제목 : {{ post.title }}</p>
                 <p class="mb-0">기간 : {{ post.sdate }}~{{ post.edate }}</p>
                 <p class="mb-0">위치 : {{ post.location }}</p>
-                <p class="mb-0">가격 : {{ post.price }}원</p>
+                <p class="mb-0">가격 : {{ addComma(post.price) }}원</p>
               </div>
             </div>
             <hr />
@@ -192,10 +192,10 @@ export default {
         function (rsp) {
           if (rsp.success) {
             var msg = "결제가 완료되었습니다.";
-            msg += "고유ID : " + rsp.imp_uid;
-            msg += "상점 거래ID : " + rsp.merchant_uid;
-            msg += "결제 금액 : " + rsp.paid_amount;
-            msg += "카드 승인번호 : " + rsp.apply_num;
+            msg += "\n고유ID : " + rsp.imp_uid;
+            msg += "\n상점 거래ID : " + rsp.merchant_uid;
+            msg += "\n결제 금액 : " + th.addComma(rsp.paid_amount)+"원";
+            // msg += "카드 승인번호 : " + rsp.apply_num;
 
             axios
               .get(
@@ -208,7 +208,7 @@ export default {
                   toast: true,
                   position: "top-end",
                   showConfirmButton: false,
-                  timer: 2000,
+                  timer: 3000,
                   timerProgressBar: true,
                   onOpen: (toast) => {
                     toast.addEventListener("mouseenter", Swal.stopTimer);
@@ -218,8 +218,11 @@ export default {
 
                 Toast.fire({
                   icon: "success",
-                  title: `${rsp.paid_amount}원 결제 완료!`,
+                  title: `${msg}`,
                 });
+                setTimeout(() => {
+                      th.$router.go();
+                    }, 3000);
               })
               .catch((err) => {
                 console.log(err);

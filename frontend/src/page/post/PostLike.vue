@@ -50,7 +50,7 @@
                     class="card-text"
                     style="font-size: 1rem; font-weight:bold;text-align: left; text-overflow:ellipsis;overflow: hidden;white-space: nowrap;"
                   >
-                    {{ likePost.price }}원
+                    {{ addComma(likePost.price) }}원
                   </p>
                   <button type="button" class="btn btn-outline-danger btn-sm" style="height:30px;font-weight:bold;" @click="deleteLike(likePost.pid)">삭제</button>
                 </div>
@@ -99,6 +99,11 @@ export default {
     };
   },
   methods: {
+    addComma(num) {
+      num = num + "";
+      var regexp = /\B(?=(\d{3})+(?!\d))/g;
+      return num.toString().replace(regexp, ',');
+    },
     authUser() {
       axios
         .get(`${baseURL}/account/authuser/${this.$cookies.get('Auth-Token')}`)

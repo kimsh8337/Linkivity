@@ -162,8 +162,8 @@
                   </div>
                   <!-- 장바구니, 구매 -->
                   <div class="d-flex justify-content-between">
-                    <div class="d-flex justify-content-between" v-if="this.checkType == 'normal'">
-                      <span class="d-flex my-auto mr-3" style="font-weight:bold;">수량</span>
+                    <div class="d-flex justify-content-between">
+                      <span class="d-flex my-auto mr-1" style="font-weight:bold; white-space:nowrap;">수량</span>
                       <form class="d-flex" name="Form">
                         <button
                         class="btn btn-deault"
@@ -171,7 +171,7 @@
                           @click="changenum(-1)"
                         ><i class="fas fa-caret-down"></i>
                         </button>
-                        <input type="number" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" v-model="sizecnt" class="text-center" style="border-radius:3px;border:1px solid lightgray;width:20%;"/>
+                        <input type="number" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" v-model="sizecnt" class="text-center" style="border-radius:3px;border:1px solid lightgray;width:3rem;"/>
                         <button
                         class="btn btn-deault"
                         style="border:1px solid;background-color:#86a5d4;color:white;"
@@ -187,14 +187,14 @@
                         @click="alertbasket(post)"
                         style="color:white; background-color:#86a5d4;font-weight:bold;"
                       >
-                        <i class="fas fa-shopping-basket mr-2"></i>장바구니
+                        <span><i class="fas fa-shopping-basket mr-2"></i>장바구니</span>
                       </button>
                       <button
                         class="btn btn-danger"
                         @click="alertbuy(post)"
                         style="font-weight:bold;"
                       >
-                        <i class="far fa-hand-point-up mr-2"></i>바로구매
+                        <span><i class="far fa-hand-point-up mr-2"></i>바로구매</span>
                       </button>
                     </div>
                   </div>
@@ -397,6 +397,7 @@ export default {
   },
   methods: {
     addComma(num) {
+      num = this.sizecnt * num
       num = num + "";
       var regexp = /\B(?=(\d{3})+(?!\d))/g;
       return num.toString().replace(regexp, ',');
@@ -785,10 +786,10 @@ export default {
             function (rsp) {
               if (rsp.success) {
                 var msg = "결제가 완료되었습니다.";
-                msg += "고유ID : " + rsp.imp_uid;
-                msg += "상점 거래ID : " + rsp.merchant_uid;
-                msg += "결제 금액 : " + rsp.paid_amount;
-                msg += "카드 승인번호 : " + rsp.apply_num;
+                msg += "\n고유ID : " + rsp.imp_uid;
+                msg += "\n상점 거래ID : " + rsp.merchant_uid;
+                msg += "\n결제 금액 : " + th.addComma(rsp.paid_amount)+"원";
+                // msg += "\n카드 승인번호 : " + rsp.apply_num;
 
                 axios
                   .get(
@@ -799,7 +800,7 @@ export default {
                       toast: true,
                       position: "top-end",
                       showConfirmButton: false,
-                      timer: 1000,
+                      timer: 3000,
                       timerProgressBar: true,
                       onOpen: (toast) => {
                         toast.addEventListener("mouseenter", Swal.stopTimer);
@@ -809,18 +810,18 @@ export default {
 
                     Toast.fire({
                       icon: "success",
-                      title: `${rsp.paid_amount}원 결제 완료!`,
+                      title: `${msg}`,
                     });
                     setTimeout(() => {
                       th.$router.go();
-                    }, 1000);
+                    }, 3000);
                   })
                   .catch((err) => {
                     console.log(err);
                   });
               } else {
                 var msg = "결제에 실패하였습니다.";
-                msg += "에러내용 : " + rsp.error_msg;
+                msg += "내용 : " + rsp.error_msg;
                 const Toast = Swal.mixin({
                   toast: true,
                   position: "top-end",

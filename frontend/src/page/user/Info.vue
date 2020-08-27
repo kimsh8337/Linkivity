@@ -207,10 +207,11 @@
                   <div class="d-flex justify-content-end">
                     <button
                       v-if="pwvalidated == 1"
-                      @click="modify"
-                      class="btn btn-link btn-sm mb-2"
+                      @click="modifypw"
+                      class="btn btn-default btn-sm mb-2 ml-auto"
+                      style="font-weight:bold; background-color:#86a5d4;color:white;"
                     >
-                      <i class="fas fa-check mr-2"></i>완료
+                      <i class="fas fa-check mr-2"></i>변경
                     </button>
                     <button
                       @click="cancel"
@@ -488,57 +489,113 @@ export default {
       });
     },
     modify() {
-      let { email, nickname, password, name, imgurl } = this;
-      let data = {
-        email,
-        nickname,
-        password,
-        name,
-        imgurl,
-      };
-      this.fileUpload();
-      axios
-        .put(`${baseURL}/account/modify/${this.pwvalidated}`, data)
-        .then((response) => {
-          const Toast = Swal.mixin({
-            toast: true,
-            position: "top-end",
-            showConfirmButton: false,
-            timer: 1000,
-            timerProgressBar: true,
-            onOpen: (toast) => {
-              toast.addEventListener("mouseenter", Swal.stopTimer);
-              toast.addEventListener("mouseleave", Swal.resumeTimer);
-            },
-          });
-          Toast.fire({
-            icon: "success",
-            title: "수정되었습니다.",
-          });
-
-
-          this.$router.push("/user/info");
-          this.$router.go();
-        })
-        .catch(() => {
-          const Toast = Swal.mixin({
+      if (this.nickname == "") {
+        const Toast = Swal.mixin({
           toast: true,
-          position: 'top-end',
+          position: "top-end",
           showConfirmButton: false,
-          timer: 2000,
+          timer: 1000,
           timerProgressBar: true,
           onOpen: (toast) => {
-            toast.addEventListener('mouseenter', Swal.stopTimer)
-            toast.addEventListener('mouseleave', Swal.resumeTimer)
-          }
-        })
-
-        Toast.fire({
-          icon: 'error',
-          title: '정보를 모두 입력해주세요!'
-        })
-          // this.$router.push({name: 'Params', params: {name: err.response.status}});
+            toast.addEventListener("mouseenter", Swal.stopTimer);
+            toast.addEventListener("mouseleave", Swal.resumeTimer);
+          },
         });
+        Toast.fire({
+          icon: "error",
+          title: "변경할 닉네임을 입력해주세요.",
+        });
+        return;
+      }  else {
+        let { email, nickname, imgurl } = this;
+        let data = {
+          email,
+          nickname,
+          imgurl,
+        };
+        this.fileUpload();
+        axios
+          .put(`${baseURL}/account/modify/${this.pwvalidated}`, data)
+          .then((response) => {
+            const Toast = Swal.mixin({
+              toast: true,
+              position: "top-end",
+              showConfirmButton: false,
+              timer: 1000,
+              timerProgressBar: true,
+              onOpen: (toast) => {
+                toast.addEventListener("mouseenter", Swal.stopTimer);
+                toast.addEventListener("mouseleave", Swal.resumeTimer);
+              },
+            });
+            Toast.fire({
+              icon: "success",
+              title: "수정되었습니다.",
+            });
+
+            this.$router.push("/user/info").catch((err) => {
+              console.log(err);
+            });
+            this.$router.go();
+          })
+          .catch((err) => {
+            console.log(err)
+// this.$router.push({name: 'Params', params: {name: err.response.status}});
+          });
+      }
+    },
+    modifypw() {
+      if (this.password == "" || this.passwordconfirm=="" || this.error.password || this.error.passwordconfirm) {
+        const Toast = Swal.mixin({
+          toast: true,
+          position: "top-end",
+          showConfirmButton: false,
+          timer: 1000,
+          timerProgressBar: true,
+          onOpen: (toast) => {
+            toast.addEventListener("mouseenter", Swal.stopTimer);
+            toast.addEventListener("mouseleave", Swal.resumeTimer);
+          },
+        });
+        Toast.fire({
+          icon: "error",
+          title: "비밀번호를 다시 입력해주세요.",
+        });
+        return;
+      }  else {
+        let { email, password } = this;
+        let data = {
+          email,
+          password
+        };
+        axios
+          .put(`${baseURL}/account/modify/${this.pwvalidated}`, data)
+          .then((response) => {
+            const Toast = Swal.mixin({
+              toast: true,
+              position: "top-end",
+              showConfirmButton: false,
+              timer: 1000,
+              timerProgressBar: true,
+              onOpen: (toast) => {
+                toast.addEventListener("mouseenter", Swal.stopTimer);
+                toast.addEventListener("mouseleave", Swal.resumeTimer);
+              },
+            });
+            Toast.fire({
+              icon: "success",
+              title: "수정되었습니다.",
+            });
+
+            this.$router.push("/user/info").catch((err) => {
+              console.log(err);
+            });
+            this.$router.go();
+          })
+          .catch(() => {
+            // this.$router.push({name: 'Params', params: {name: err.response.status}});
+          });
+      }
     },
 
     fileUpload: function () {

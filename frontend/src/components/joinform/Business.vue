@@ -248,6 +248,7 @@
       <input
         v-model="cphone"
         type="text"
+        onKeyup="this.value=this.value.replace(/[^0-9]/g,'');"
         class="form-control"
         id="phone"
         aria-describedby="emailHelp"
@@ -257,7 +258,7 @@
         id="emailHelp"
         class="form-text text-muted d-flex"
         v-if="!error.cphone"
-        >연락처를 입력하세요.</small
+        >연락처를 입력하세요.(-없이 숫자만 입력)</small
       >
       <span
         class="error-text d-flex mt-1"
@@ -820,6 +821,7 @@ export default {
         })
         return;
       }
+      
       this.$emit(
         "join-create-business",
         this.email,
@@ -836,11 +838,11 @@ export default {
       this.$refs.file.click();
     },
     onChangeImages(e) {
-      const file = this.$refs.file.files[0];
-      if(file == null) {
+      this.file = this.$refs.file.files[0];
+      if(this.file == null) {
         return;
       }
-      if(file.size >= 1048576) {
+      if(this.file.size >= 1048576) {
         const Toast = Swal.mixin({
           toast: true,
           position: 'top-end',
@@ -859,7 +861,7 @@ export default {
         })
         return;
       }
-      this.tempimg = URL.createObjectURL(file);
+      this.tempimg = URL.createObjectURL(this.file);
     },
     Search() {
       let x = this;

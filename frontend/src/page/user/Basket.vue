@@ -33,13 +33,14 @@
             </div>
           </div>
           <img :src="makeimgurl(post.imgurl)" v-if="post.imgurl" alt @click="getdetail(post.pid)" />
+          <img src="../../assets/img/noimage.jpg" v-if="!post.imgurl" alt @click="getdetail(post.pid)" />
           <div
             type="text"
             class="basket-list col-md-8"
             aria-label="Text input with checkbox"
             @click="getdetail(post.pid)"
           >
-            <p class="mb-0">제목 : {{ post.title }}</p>
+            <p class="mb-0">상품명 : {{ post.title }}</p>
             <p class="mb-0">기간 : {{ post.sdate }}~{{ post.edate }}</p>
             <p class="mb-0">위치 : {{ post.location }}</p>
             <p class="mb-0">가격 : {{ addComma(post.price) }}원</p>
