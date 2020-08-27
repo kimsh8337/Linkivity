@@ -421,6 +421,18 @@ export default {
   watch: {},
 
   methods: {
+    initTagPosts() {
+      if(this.pids.length != 0) {
+        axios.get(`${baseURL}/post/getTagList/${this.pids}/0`)
+        .then((res) => {
+          this.tPosts = res.data;
+          this.nextTag();
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+      }
+    },
     init() {
       axios
         .get(`${baseURL}/post/listbylike/`)
@@ -552,7 +564,7 @@ export default {
         .get(`${baseURL}/post/getTagReloading/${this.pids}/${pg - 1}`)
         .then((res) => {
           this.tPosts = res.data;
-          this.nextTag();
+          // this.nextTag();
         })
         .catch((err) => {
           console.log(err);
@@ -616,9 +628,10 @@ export default {
           .get(`${baseURL}/tag/search/` + tags)
           .then((res) => {
             this.pids = res.data;
-            this.tPosts = [];
+            // this.tPosts = [];
+            this.initTagPosts();
             this.tagFlag = true;
-            scroll(0, 350);
+            scroll(0, 100);
           })
           .catch((err) => {
             console.log(err);

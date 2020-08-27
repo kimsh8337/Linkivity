@@ -162,7 +162,7 @@
                   </div>
                   <!-- 장바구니, 구매 -->
                   <div class="d-flex justify-content-between">
-                    <div class="d-flex justify-content-between">
+                    <div class="d-flex justify-content-between" v-if="this.checkType == 'normal'">
                       <span class="d-flex my-auto mr-1" style="font-weight:bold; white-space:nowrap;">수량</span>
                       <form class="d-flex" name="Form">
                         <button
