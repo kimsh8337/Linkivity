@@ -144,7 +144,6 @@ export default {
               },
             })
             .then(function (response) {
-              alert("성공");
             })
             .catch(function (error) {
               console.log(error);
@@ -179,7 +178,6 @@ export default {
         });
     },
     joinNormal(email, name, nickname, password, checkType, file) {
-      alert(file);
       let data = {
         name,
         nickname,
@@ -221,7 +219,6 @@ export default {
           });
           var formData = new FormData();
           formData.append("file", file);
-          alert(file)
           axios
             .post(`${baseURL}/account/file/${email}`, formData, {
               headers: {

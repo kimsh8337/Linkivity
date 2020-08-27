@@ -466,7 +466,7 @@ export default {
     deluser() {
       Swal.fire({
         width: 350,
-        text: "삭제하시겠습니까?",
+        text: "탈퇴하시겠습니까?",
         icon: "warning",
         showCancelButton: true,
         confirmButtonColor: "#fff",
@@ -496,6 +496,7 @@ export default {
               this.$cookies.remove("Auth-Token");
               this.$router.push("/");
               this.$router.go();
+              scroll(0,0);
             })
             .catch((err) => {
               console.log(err);
@@ -666,6 +667,8 @@ export default {
     },
     modifyCancel() {
       this.validated = !this.validated;
+      this.tempcheck = false;
+      
       this.getuser();
     },
   },
