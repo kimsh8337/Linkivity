@@ -25,7 +25,7 @@
             <tr>
               <td>No {{ (bpage - 1) * 5 + index + 1 }}</td>
               <td>수량 : {{ item[0].amount }}</td>
-              <td><button class="btn btn-danger btn-sm pt-0 pb-0" @click="packDelete(item[0].packno)" style="height:25px;font-weight:bold;">구매 취소</button></td>
+              <td><button class="btn btn-danger btn-sm pt-0 pb-0" @click="packDelete(item[0].packno)" v-if="checkpuse(item)" style="height:25px;font-weight:bold;">구매 취소</button></td>
             </tr>
             <tr>
               <th>사진</th>
@@ -70,8 +70,8 @@
       <table class="table" v-for="(item, index) in bitems" :key="index">
         <thead class="thead" style="background:RGB(134, 165, 212); color:white;">
           <tr>
-            <th>No. {{ (bpage - 1) * 5 + index + 1 }}</th>
-            <td>{{ item[0].amount }} SET</td>
+            <th>No {{ (bpage - 1) * 5 + index + 1 }}</th>
+            <td>수량 : {{ item[0].amount }}</td>
           </tr>
         </thead>
         <div class="container row p-2" @click="goDetail(itm.pid)" style="width:210%" v-for="(itm, idx) in item" :key="idx">
@@ -102,7 +102,7 @@
             </div>
           </div>
         <div class="col-12 d-flex justify-content-end p-0">
-          <button class="btn btn-danger btn-sm ml-2" @click="packDelete(item[0].packno)" v-if="checkpuse(item)">구매 취소</button>
+          <button class="btn btn-danger btn-sm ml-2" @click="packDelete(item[0].packno)" v-if="checkpuse(item)" style="height:25px;font-weight:bold;">구매 취소</button>
         </div>
         </div>
       </table>
