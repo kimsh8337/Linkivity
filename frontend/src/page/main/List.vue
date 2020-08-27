@@ -623,7 +623,7 @@ export default {
         this.$router.go();
       } else {
         this.resultTitle = tags;
-        this.page = 0;
+        this.page = 1;
         axios
           .get(`${baseURL}/tag/search/` + tags)
           .then((res) => {
