@@ -34,7 +34,8 @@
             alt="image slot"
           >
         </template>
-          <div class="d-flex justify-content-center align-items-center" style="height:15rem;">
+          
+          <div class="d-flex justify-content-center align-items-center" style="height:15rem; position:relative; z-index:0 !important;">
             <div class="mb-5" style="background-color:rgba( 0, 0, 0, 0.4 );">
             <!-- background-color:black; -->
             <div class="d-flex justify-content-center" style="width:100%">

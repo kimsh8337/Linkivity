@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- 대댓글 Input -->
-    <CommentReplyInput v-if="this.checkType == 'business' | this.nickname == comment.nickname | this.checkType == 'admin'" :comment="comment" @creply-create="CommentReplyCreate"/>
+    <CommentReplyInput v-if="this.email == post.email | this.nickname == post.nickname | this.nickname == comment.nickname | this.checkType == 'admin'" :comment="comment" @creply-create="CommentReplyCreate"/>
     <!-- 대댓글 List -->
     <div v-if="flag">
       <CommentReplyList v-for="reply in receiveReply" :key="reply.rrid" :reply="reply" @reply-delete="replyDelete"/>
@@ -26,11 +26,13 @@ export default {
         commentrid: "",
         checkType: "",
         receiveReply: [],
+        email: "",
         flag: true,
       }
     },
     props: {
         comment: Object,
+        post: [Object,Array],
     },
     components: {
       CommentReplyInput,
@@ -42,6 +44,7 @@ export default {
           .get(`${baseURL}/account/authuser/${this.$cookies.get("Auth-Token")}`)
           .then((response) => {
             this.fetchCommentReply()
+            this.email = response.data.email
             this.nickname = response.data.nickname
             this.checkType = response.data.checkType
           })

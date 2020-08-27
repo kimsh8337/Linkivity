@@ -267,7 +267,7 @@ export default {
   position: relative;
   display: inline-flex;
   margin: 20px;
-  z-index: 1;
+  /* z-index: 1; */
 }
 .slider-card {
   display: inline-block;
