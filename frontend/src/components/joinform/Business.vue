@@ -248,6 +248,7 @@
       <input
         v-model="cphone"
         type="text"
+        onKeyup="this.value=this.value.replace(/[^0-9]/g,'');"
         class="form-control"
         id="phone"
         aria-describedby="emailHelp"
@@ -257,7 +258,7 @@
         id="emailHelp"
         class="form-text text-muted d-flex"
         v-if="!error.cphone"
-        >연락처를 입력하세요.</small
+        >연락처를 입력하세요.(-없이 숫자만 입력)</small
       >
       <span
         class="error-text d-flex mt-1"
