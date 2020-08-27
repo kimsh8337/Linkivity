@@ -41,7 +41,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 
 @ApiResponses(value = { @ApiResponse(code = 401, message = "Unauthorized", response = BasicResponse.class),
@@ -187,7 +186,7 @@ public class AccountController {
         user.setPassword(request.getPassword());
         user.setNickname(request.getNickname());
         user.setCheckType(request.getCheckType());
-        user.setImgurl(request.getImgurl());
+        // user.setImgurl(request.getImgurl());
         if (request.getCheckType().equals("business")) {
             user.setClocation(request.getClocation());
             user.setCphone(request.getCphone());
@@ -251,7 +250,7 @@ public class AccountController {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    
+
     @GetMapping("/viewAllUser/{page}")
     @ApiOperation(value = "모든 회원정보")
     public Object viewAllUser(@PathVariable int page) throws SQLException, IOException {
@@ -288,19 +287,19 @@ public class AccountController {
         String result = "";
 
         ReportUser reuser = reportUserDao.findByEmail(email);
-    if(reuser != null){
-        if (reuser.getIsdrop() == 1) {
-            result = "사용할수없는 이메일입니다";
-            return result;
-        }else {
-            Optional<User> userOpt = userDao.findUserByEmail(email);
-            if (userOpt.isPresent()) {
-                result = "이미 존재하는 이메일입니다.";
+        if (reuser != null) {
+            if (reuser.getIsdrop() == 1) {
+                result = "사용할수없는 이메일입니다";
+                return result;
+            } else {
+                Optional<User> userOpt = userDao.findUserByEmail(email);
+                if (userOpt.isPresent()) {
+                    result = "이미 존재하는 이메일입니다.";
+                }
+                return result;
             }
-            return result;
-        }
-        
-    } else {
+
+        } else {
             Optional<User> userOpt = userDao.findUserByEmail(email);
             if (userOpt.isPresent()) {
                 result = "이미 존재하는 이메일입니다.";
@@ -344,9 +343,10 @@ public class AccountController {
                 User newUser = userOpt.get();
                 if (pwvalidated == 1) {
                     newUser.setPassword(request.getPassword());
+                } else {
+                    newUser.setNickname(request.getNickname());
+                    // newUser.setImgurl(request.getImgurl());
                 }
-                newUser.setNickname(request.getNickname());
-                // newUser.setImgurl(request.getImgurl());
                 userDao.save(newUser);
                 return newUser;
             } else {
@@ -418,7 +418,7 @@ public class AccountController {
                 mail.setFrom(fromEmail, fromName, charSet);
                 mail.setSubject(subject);
                 // 내용
-                mail.setHtmlMsg("회원님의 임시 비밀번호는 [ " + newPwd +" ] 입니다.");
+                mail.setHtmlMsg("회원님의 임시 비밀번호는 [ " + newPwd + " ] 입니다.");
                 mail.send();
                 System.out.println("성공");
                 return "메일 전송 성공";
@@ -433,20 +433,23 @@ public class AccountController {
 
     @PostMapping("/file/{email}")
     @ApiOperation(value = "이미지 저장")
-    public String fileTest(@RequestPart("file") MultipartFile ff, @PathVariable String email) throws IllegalStateException, IOException {
-        
+    public String fileTest(@RequestPart("file") MultipartFile ff, @PathVariable String email)
+            throws IllegalStateException, IOException {
+
         // String originFilename = ff.getOriginalFilename();
-        // String extName = "."+originFilename.substring(originFilename.lastIndexOf(".")+1, originFilename.length()).toLowerCase();
+        // String extName =
+        // "."+originFilename.substring(originFilename.lastIndexOf(".")+1,
+        // originFilename.length()).toLowerCase();
         String fileName = "";
-		
-		Calendar calendar = Calendar.getInstance();
-		fileName += calendar.get(Calendar.YEAR);
-		fileName += calendar.get(Calendar.MONTH);
-		fileName += calendar.get(Calendar.DATE);
-		fileName += calendar.get(Calendar.HOUR);
-		fileName += calendar.get(Calendar.MINUTE);
-		fileName += calendar.get(Calendar.SECOND);
-		fileName += calendar.get(Calendar.MILLISECOND);
+
+        Calendar calendar = Calendar.getInstance();
+        fileName += calendar.get(Calendar.YEAR);
+        fileName += calendar.get(Calendar.MONTH);
+        fileName += calendar.get(Calendar.DATE);
+        fileName += calendar.get(Calendar.HOUR);
+        fileName += calendar.get(Calendar.MINUTE);
+        fileName += calendar.get(Calendar.SECOND);
+        fileName += calendar.get(Calendar.MILLISECOND);
         fileName += ".png";
 
         // String root = System.getProperty("user.dir");
@@ -454,11 +457,11 @@ public class AccountController {
         String hostname = InetAddress.getLocalHost().getHostName();
         System.out.println(hostname);
         File file = null;
-        if(hostname.substring(0,7).equals("DESKTOP")){
-            //local
+        if (hostname.substring(0, 7).equals("DESKTOP")) {
+            // local
             file = new File("C:\\leejaein\\project-sub3\\s03p13b206\\frontend\\public\\contents\\" + fileName);
-        }else{
-            //aws
+        } else {
+            // aws
             file = new File("/home/ubuntu/ssafy6/s03p13b206/frontend/public/contents/" + fileName);
         }
         // File file = new File(url + fileName);

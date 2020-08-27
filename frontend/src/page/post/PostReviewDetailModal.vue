@@ -8,7 +8,7 @@
                     <!-- profile img 보여주기 -->
                     <img v-if="reviewDetail.proimg" class="user-img d-flex m-1 mr-2" :src="makeimgurl(reviewDetail.proimg)" style="border-radius:70px;" />
                     <img v-if="!reviewDetail.proimg" class="user-img d-flex m-1 mr-2" src="../../assets/img/noimage.jpg" style="border-radius:70px;" />
-                    <span class="my-auto mr-1" style="font-weight:bold">[{{this.reviewDetail.nickname}}]</span>
+                    <span class="my-auto mr-1" style="font-weight:bold">{{this.reviewDetail.nickname}}</span>
                     <small style="margin-top:6%">님이 남긴 후기 상세 정보</small>
                  </div>
             </h5>
@@ -18,15 +18,15 @@
         </div>
         <!-- modal body -->
         <div class="modal-body">
-            <span class="d-flex mb-3" style="font-weight:bold">[후기 정보]</span>
+            <span class="d-flex mb-3" style="font-weight:bold">후기 정보</span>
             <div class="row mb-3">
                 <!-- review에 남긴 img -->
-                <img class="col-6" v-if="reviewDetail.img" :src="makeimgurl(reviewDetail.img)" style="width:40%; height:40%"/>
-                <img class="col-6" v-if="!reviewDetail.img" src="../../assets/img/noimage.jpg" style="width:40%; height:40%"/>
+                <img class="col-6" v-if="reviewDetail.img" :src="makeimgurl(reviewDetail.img)" style="width:40%; height:200px;"/>
+                <img class="col-6" v-if="!reviewDetail.img" src="../../assets/img/noimage.jpg" style="width:40%; height:200px;"/>
                 <div class="col-6">
                     <!-- review 제목 -->
                     <small class="d-flex mb-2" style="font-weight:bold">[후기 제목]</small>
-                    <p class="d-flex mb-4" style="height:25%">{{this.reviewDetail.title}}</p>
+                    <small class="d-flex mb-4" style="height:25%">{{this.reviewDetail.title}}</small>
                     <small class="d-flex mb-2" style="font-weight:bold">[{{this.reviewDetail.nickname}}님이 준 평점]</small>
                     <div class="d-flex">
                         <i class="fas fa-star" style="color:Salmon;" v-for="i in this.reviewDetail.star" :key="i.id"></i>
@@ -34,18 +34,18 @@
                 </div>
             </div>
             <!-- 후기 내용 -->
-            <small class="d-flex mb-2" style="font-weight:bold">[후기 내용]</small>
-            <small class="d-flex">{{this.reviewDetail.content}}</small>
+            <small class="d-flex mb-2" style="font-weight:bold;">[후기 내용]</small>
+            <small class="d-flex" style="text-align:left;">{{this.reviewDetail.content}}</small>
 
             <div class="width:80%">
                 <hr>
             </div>
 
             <!-- 후기 남긴 Post 정보 -->
-            <span class="d-flex mb-3" style="font-weight:bold">[후기를 남긴 게시글 정보]</span>
+            <span class="d-flex mb-3" style="font-weight:bold">후기를 남긴 게시글 정보</span>
             <div class="row mb-3">
-                <img v-if="this.postDetail.imgurl" class="col-6" :src="makeimgurl(this.postDetail.imgurl)" style="width:40%; height:40%">
-                <img v-if="!this.postDetail.imgurl" class="col-6" src="../../assets/img/noimage.jpg" style="width:40%; height:40%">
+                <img v-if="this.postDetail.imgurl" class="col-6" :src="makeimgurl(this.postDetail.imgurl)" style="width:40%; height:200px;">
+                <img v-if="!this.postDetail.imgurl" class="col-6" src="../../assets/img/noimage.jpg" style="width:40%; height:200px;">
                 <div class="col-6">
                     <small class="d-flex mb-2" style="font-weight:bold">[게시글 제목]</small>
                     <small class="d-flex mb-2" style="height:25%; text-overflow:ellipsis; overflow: hidden; white-space: nowrap;">{{this.postDetail.title}}</small>
@@ -57,8 +57,8 @@
 
         </div>
         <div class="modal-footer d-flex justify-content-between">
-            <p @click="godetail(pid)" data-dismiss="modal" style="cursor:pointer"><i class="fas fa-location-arrow mr-1 my-auto"></i>게시글 상세정보 보러가기</p>
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <p @click="godetail(pid)" data-dismiss="modal" style="cursor:pointer; font-weight:bold;"><i class="fas fa-location-arrow mr-1 my-auto"></i>게시글 상세정보 보러가기</p>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal" style="font-weight:bold;">Close</button>
         </div>
         </div>
     </div>
