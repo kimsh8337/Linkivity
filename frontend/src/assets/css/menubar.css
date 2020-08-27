@@ -14,8 +14,8 @@
     color: lightblue;
     background: none;
     position: fixed;
-    top: 8%;
-    right: 2%;
+    top: 3%;
+    right: 1%;
     border: none;
     width: 52px;
     height:45px;
@@ -29,7 +29,7 @@
 .upBtn {
     position: fixed;
     bottom: 5%;
-    right: 3%;
+    right: 2%;
     color: lightcoral;
 }
 

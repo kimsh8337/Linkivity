@@ -81,13 +81,13 @@
                     <button v-if="validated == 0" @click="modify" class="btn p-0">
                       <div class="row mx-auto d-flex">
                         <i class="fas fa-save my-auto mx-auto" style="font-size:1.5rem;"></i>
-                        <div class="mx-auto" style="font-weight:bold;">완료</div>
+                        <small class="mx-auto">완료</small>
                       </div>
                     </button>
                     <button v-if="validated == 0" @click="modifyCancel" class="btn p-0">
                       <div class="row mx-auto d-flex">
                         <i class="fas fa-cut my-auto mx-auto" style="font-size:1.5rem;"></i>
-                        <div class="mx-auto" style="font-weight:bold;">취소</div>
+                        <small class="mx-auto">취소</small>
                       </div>
                     </button>
 
@@ -121,12 +121,12 @@
                     />
                   </div>
                   <div class="d-flex p-0">
-                    <button
-                      @click="passwordModify"
-                      v-if="pwvalidated == 0"
-                      class="btn btn-sm p-0"
-                      style="color:#86a5d4; font-size:1rem; font-weight:bold;"
-                    >비밀번호 변경</button>
+                  <button
+                    @click="passwordModify"
+                    v-if="pwvalidated == 0 && validated == 1"
+                    class="btn btn-sm p-0"
+                    style="color:#86a5d4; font-size:1rem; font-weight:bold;"
+                  >비밀번호 변경</button>
                   </div>
                   <div
                     class="d-flex justify-content-between"
@@ -163,12 +163,9 @@
                     </div>
                   </div>
 
-                  <div
-                    class="form-group-pw mt-1"
-                    align="left"
-                    v-if="pwvalidated == 1"
-                    style="width:70%;"
-                  >
+                
+
+                  <div class="form-group-pw mt-1" align="left" v-if="pwvalidated == 1" style="width:70%;">
                     <label class="mt-2" for="pw">비밀번호</label>
                     <input
                       class="form-control mb-1"
@@ -178,21 +175,14 @@
                       :type="passwordType"
                     />
                     <div class="d-flex justify-contetn-between">
-                      <span v-if="error.password" :class="{ active: passwordType === 'text' }"></span>
-                      <div
-                        class="error-text mt-1"
-                        v-if="error.password"
-                        style="color:red;"
-                      >{{ error.password }}</div>
+                      <span v-if="error.password" :class="{ active: passwordType === 'text' }">
+                        <i class="fas fa-eye mr-2"></i>
+                      </span>
+                      <div class="error-text mt-1" v-if="error.password">{{ error.password }}</div>
                     </div>
                   </div>
 
-                  <div
-                    class="form-group-pw"
-                    align="left"
-                    v-if="pwvalidated == 1"
-                    style="width:70%;"
-                  >
+                  <div class="form-group-pw" align="left" v-if="pwvalidated == 1" style="width:70%;">
                     <label for="name">비밀번호 확인</label>
                     <input
                       class="form-control mb-1"
@@ -205,28 +195,27 @@
                       <span
                         v-if="error.passwordconfirm"
                         :class="{ active: passwordConfirmType === 'text' }"
-                      ></span>
+                      >
+                        <i class="fas fa-eye mr-2"></i>
+                      </span>
                       <div
                         class="error-text mt-1"
                         v-if="error.passwordconfirm"
-                        style="color:red;"
                       >{{ error.passwordconfirm }}</div>
                     </div>
                   </div>
-                  <div class="d-flex" style="width:70%;">
+                  <div class="d-flex justify-content-end">
                     <button
                       v-if="pwvalidated == 1"
                       @click="modify"
-                      class="btn btn-default btn-sm mb-2 ml-auto"
-                      style="font-weight:bold; background-color:#86a5d4;color:white;"
+                      class="btn btn-link btn-sm mb-2"
                     >
                       <i class="fas fa-check mr-2"></i>완료
                     </button>
                     <button
                       @click="cancel"
                       v-if="pwvalidated == 1"
-                      class="btn btn-danger btn-sm mb-2 ml-2"
-                      style="font-weight:bold;"
+                      class="btn btn-link btn-sm mb-2 ml-2 p-0"
                     >
                       <i class="fas fa-times mr-2"></i>취소
                     </button>
@@ -267,11 +256,9 @@
           <div class="card col-sm-12 mt-1"></div>-->
           <!-- <hr /> -->
           <div class="d-flex justify-content-end">
-            <button
-              @click="deluser"
-              class="btn btn-default btn-sm"
-              style="border-radius:7px; font-weight:bold; border:1.2px solid #86a5d4;"
-            >탈퇴하기</button>
+          <button @click="deluser" class="btn btn-default btn-sm" style="border-radius:7px; font-weight:bold; border:1.2px solid #86a5d4;">
+            탈퇴하기
+          </button>
           </div>
         </div>
       </div>
@@ -333,7 +320,6 @@ export default {
         .then((response) => {
           this.email = response.data.email;
           this.checkType = response.data.checkType;
-          this.temppass = response.data.password;
           this.getuser();
           this.postCount();
           this.likeCount();
@@ -442,9 +428,6 @@ export default {
     },
     cancel() {
       this.pwvalidated = 0;
-      this.password = "";
-      this.passwordconfirm = "";
-      // this.nickname =
     },
     checkForm() {
       if (
@@ -457,7 +440,7 @@ export default {
         this.passwordconfirm.length > 0 &&
         this.passwordconfirm != this.password
       )
-        this.error.passwordconfirm = "비밀번호를 확인해주세요.";
+        this.error.passwordconfirm = "비밀번호를 다시 확인해주세요.";
       else this.error.passwordconfirm = false;
     },
     gomodify() {
@@ -470,8 +453,8 @@ export default {
         text: "삭제하시겠습니까?",
         icon: "warning",
         showCancelButton: true,
-        confirmButtonColor: "#fff",
-        cancelButtonColor: "#fff",
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
         confirmButtonText: '<a style="font-size:1rem; color:black">Delete</a>',
         cancelButtonText: '<a style="font-size:1rem; color:black">Cancel</a>',
       }).then((result) => {
@@ -505,105 +488,63 @@ export default {
       });
     },
     modify() {
-      if (
-        this.error.password ||
-        this.error.passwordconfirm ||
-        this.nickname == ""
-      ) {
-        const Toast = Swal.mixin({
-          toast: true,
-          position: "top-end",
-          showConfirmButton: false,
-          timer: 1000,
-          timerProgressBar: true,
-          onOpen: (toast) => {
-            toast.addEventListener("mouseenter", Swal.stopTimer);
-            toast.addEventListener("mouseleave", Swal.resumeTimer);
-          },
-        });
-        Toast.fire({
-          icon: "error",
-          title: "정보를 다시 입력해주세요.",
-        });
-        return;
-      } else if (this.password == "" && this.passwordconfirm == "") {
-        this.password = this.temppass;
-      } else if (this.password != "" && this.passwordconfirm == "") {
-        const Toast = Swal.mixin({
-          toast: true,
-          position: "top-end",
-          showConfirmButton: false,
-          timer: 1000,
-          timerProgressBar: true,
-          onOpen: (toast) => {
-            toast.addEventListener("mouseenter", Swal.stopTimer);
-            toast.addEventListener("mouseleave", Swal.resumeTimer);
-          },
-        });
-        Toast.fire({
-          icon: "error",
-          title: "정보를 다시 입력해주세요.",
-        });
-      } else {
-        let { email, nickname, password, name, imgurl } = this;
-        let data = {
-          email,
-          nickname,
-          password,
-          name,
-          imgurl,
-        };
-        this.fileUpload();
-        axios
-          .put(`${baseURL}/account/modify/${this.pwvalidated}`, data)
-          .then((response) => {
-            const Toast = Swal.mixin({
-              toast: true,
-              position: "top-end",
-              showConfirmButton: false,
-              timer: 1000,
-              timerProgressBar: true,
-              onOpen: (toast) => {
-                toast.addEventListener("mouseenter", Swal.stopTimer);
-                toast.addEventListener("mouseleave", Swal.resumeTimer);
-              },
-            });
-            Toast.fire({
-              icon: "success",
-              title: "수정되었습니다.",
-            });
-
-            this.$router.push("/user/info").catch((err) => {
-              console.log(err);
-            });
-            this.$router.go();
-          })
-          .catch(() => {
-            const Toast = Swal.mixin({
-              toast: true,
-              position: "top-end",
-              showConfirmButton: false,
-              timer: 2000,
-              timerProgressBar: true,
-              onOpen: (toast) => {
-                toast.addEventListener("mouseenter", Swal.stopTimer);
-                toast.addEventListener("mouseleave", Swal.resumeTimer);
-              },
-            });
-
-            Toast.fire({
-              icon: "error",
-              title: "정보를 모두 입력해주세요!",
-            });
-            // this.$router.push({name: 'Params', params: {name: err.response.status}});
+      let { email, nickname, password, name, imgurl } = this;
+      let data = {
+        email,
+        nickname,
+        password,
+        name,
+        imgurl,
+      };
+      this.fileUpload();
+      axios
+        .put(`${baseURL}/account/modify/${this.pwvalidated}`, data)
+        .then((response) => {
+          const Toast = Swal.mixin({
+            toast: true,
+            position: "top-end",
+            showConfirmButton: false,
+            timer: 1000,
+            timerProgressBar: true,
+            onOpen: (toast) => {
+              toast.addEventListener("mouseenter", Swal.stopTimer);
+              toast.addEventListener("mouseleave", Swal.resumeTimer);
+            },
           });
-      }
+          Toast.fire({
+            icon: "success",
+            title: "수정되었습니다.",
+          });
+
+
+          this.$router.push("/user/info");
+          this.$router.go();
+        })
+        .catch(() => {
+          const Toast = Swal.mixin({
+          toast: true,
+          position: 'top-end',
+          showConfirmButton: false,
+          timer: 2000,
+          timerProgressBar: true,
+          onOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer)
+            toast.addEventListener('mouseleave', Swal.resumeTimer)
+          }
+        })
+
+        Toast.fire({
+          icon: 'error',
+          title: '정보를 모두 입력해주세요!'
+        })
+          // this.$router.push({name: 'Params', params: {name: err.response.status}});
+        });
     },
 
     fileUpload: function () {
       var formData = new FormData();
       const file = this.$refs.file.files[0];
-      if (file != null) {
+      if(file != null) {
         formData.append("file", file);
         axios
           .post(`${baseURL}/account/file/${this.email}`, formData, {
@@ -623,26 +564,26 @@ export default {
     },
     onChangeImages(e) {
       const file = e.target.files[0];
-      if (file == null) {
+      if(file == null) {
         return;
       }
-      if (file.size >= 1048576) {
+      if(file.size >= 1048576) {
         const Toast = Swal.mixin({
           toast: true,
-          position: "top-end",
+          position: 'top-end',
           showConfirmButton: false,
           timer: 2000,
           timerProgressBar: true,
           onOpen: (toast) => {
-            toast.addEventListener("mouseenter", Swal.stopTimer);
-            toast.addEventListener("mouseleave", Swal.resumeTimer);
-          },
-        });
+            toast.addEventListener('mouseenter', Swal.stopTimer)
+            toast.addEventListener('mouseleave', Swal.resumeTimer)
+          }
+        })
 
         Toast.fire({
-          icon: "error",
-          title: "파일 업로드 크기를 초과하였습니다!",
-        });
+          icon: 'error',
+          title: '파일 업로드 크기를 초과하였습니다!'
+        })
         return;
       }
       this.tempimg = URL.createObjectURL(file);
@@ -653,7 +594,6 @@ export default {
     },
     modifyCancel() {
       this.validated = !this.validated;
-      this.getuser();
     },
   },
   data: () => {
@@ -684,7 +624,6 @@ export default {
       buycounts: "",
       sellcounts: "",
       tempcounts: "",
-      temppass: "",
     };
   },
 };
