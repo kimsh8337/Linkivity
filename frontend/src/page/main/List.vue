@@ -628,7 +628,7 @@ export default {
           .get(`${baseURL}/tag/search/` + tags)
           .then((res) => {
             this.pids = res.data;
-            // this.tPosts = [];
+            this.tPosts = [];
             this.initTagPosts();
             this.tagFlag = true;
             scroll(0, 100);
