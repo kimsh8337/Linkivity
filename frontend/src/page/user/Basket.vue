@@ -33,23 +33,24 @@
             </div>
           </div>
           <img :src="makeimgurl(post.imgurl)" v-if="post.imgurl" alt @click="getdetail(post.pid)" />
+          <img src="../../assets/img/noimage.jpg" v-if="!post.imgurl" alt @click="getdetail(post.pid)" />
           <div
             type="text"
             class="basket-list col-md-8"
             aria-label="Text input with checkbox"
             @click="getdetail(post.pid)"
           >
-            <p class="mb-0">제목 : {{ post.title }}</p>
+            <p class="mb-0">상품명 : {{ post.title }}</p>
             <p class="mb-0">기간 : {{ post.sdate }}~{{ post.edate }}</p>
             <p class="mb-0">위치 : {{ post.location }}</p>
-            <p class="mb-0">가격 : {{ post.price }}</p>
+            <p class="mb-0">가격 : {{ addComma(post.price) }}원</p>
             <!-- <p>{{checked}}</p> -->
           </div>
         </div>
 
         <!-- price -->
         <div>
-          <p class="checked-price">Total : {{ checkedprice }} 원</p>
+          <p class="checked-price">Total : {{ addComma(checkedprice) }} 원</p>
         </div>
 
         <!-- 구매하기 button -->
@@ -68,7 +69,7 @@
       </div>
 
       <!-- paging -->
-      <b-pagination v-model="page" :total-rows="len" pills :per-page="8" style="align:center;"></b-pagination>
+      <b-pagination v-if="carts.length > 8" v-model="page" :total-rows="len" pills :per-page="8" style="align:center;"></b-pagination>
 
       <!-- 장바구니가 비어있을 때 -->
       <div class="col" v-if="carts.length <= 0">
@@ -134,6 +135,10 @@ export default {
     };
   },
   methods: {
+    addComma(num) {
+      var regexp = /\B(?=(\d{3})+(?!\d))/g;
+      return num.toString().replace(regexp, ',');
+    },
     makeimgurl(imgurl) {
       var url = "../../../contents/" + imgurl;
       return url;

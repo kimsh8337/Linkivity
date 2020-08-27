@@ -37,7 +37,7 @@
             </div>
           </td>
           <td style="font-weight:bold;">{{ itm.sdate }} ~ {{ itm.edate }}</td>
-          <td style="font-weight:bold;">{{ itm.price }}원</td>
+          <td style="font-weight:bold;">{{ addComma(itm.price) }}원</td>
           <td>
             <button
               class="btn btn-outline-danger btn-sm pt-0 pb-0"
@@ -108,6 +108,10 @@ export default {
   },
 
   methods: {
+    addComma(num) {
+      var regexp = /\B(?=(\d{3})+(?!\d))/g;
+      return num.toString().replace(regexp, ',');
+    },
     open(purid) {
       this.id = purid;
     },

@@ -105,7 +105,7 @@
                           style="font-size: 1rem; text-align: left; text-overflow:ellipsis;overflow: hidden;white-space: nowrap;"
                         >{{ post.title }}</h5>
                         <div class="card-text mb-2" style="text-align: left; font-size: 0.8rem;">
-                          <span>
+                          <span style="font-weight:bold;">
                             <i class="fas fa-star mr-1" style="color:Salmon; font-size:0.7rem;"></i>
                             {{ round(post.star) }}
                           </span>
@@ -117,7 +117,7 @@
                             style="font-size: 1rem; font-weight:bold; text-align: left; text-overflow:ellipsis;overflow: hidden;white-space: nowrap;"
                           >{{ addComma(post.price) }}원</p>
                           <!-- heart like -->
-                          <div id="heart" @click="registlike(post.pid)">
+                          <div id="heart" @click="registlike(post.pid)" style="font-weight:bold;">
                             {{ post.likecnt }}
                             <i
                               v-if="check(post.pid)"
@@ -153,9 +153,10 @@
       <!-- 일반 메인리스트 -->
       <div class="col-md-11" style="margin: 3rem auto;" v-if="this.tagFlag == false">
         <!-- main3button -->
-        <div class="col-12 container row mb-5 m-0 p-0">
+        <div class="col-12 container row mb-5 m-0 p-0 d-flex justify-content-between">
+          <div class="col-sm-12 col-md-4 p-0 d-flex justify-content-start">
           <div
-            class="col-sm-12 col-md-3 main-btn-intro mt-1 mb-1 d-flex justify-content-center align-items-center"
+            class="col-sm-12 col-md-11 main-btn-intro mt-1 mb-1 d-flex justify-content-center align-items-center"
             style="cursor:pointer; border:1px solid black; border-radius:10px; height:5rem; border:none; box-shadow: 0 0 8px rgba(0, 0, 0, .15); font-size:1.2rem;"
             data-toggle="modal"
             data-target="#surveymodal"
@@ -163,25 +164,30 @@
             <i class="far fa-handshake mr-2"></i>
             <span style="font-weight:bold">액티비티 추천</span>
           </div>
+          </div>
           <SurveyModal />
-          <div class="col-sm-0 col-md-1" style="margin-right:2.1%; margin-left:2.1%;"></div>
+          <!-- <div class="col-sm-0 col-md-1" style="margin-right:2.1%; margin-left:2.1%;"></div> -->
+          <div class="col-sm-12 col-md-4 p-0 d-flex justify-content-center">
           <div
-            class="col-sm-12 col-md-3 main-btn-item mt-1 mb-1 d-flex justify-content-center align-items-center"
+            class="col-sm-12 col-md-11 main-btn-item mt-1 mb-1 d-flex justify-content-center align-items-center"
             style="cursor:pointer; border:1px solid black; border-radius:10px; height:5rem; border:none; box-shadow: 0 0 8px rgba(0, 0, 0, .15); font-size:1.2rem;"
             @click="goPost"
           >
             <i class="fas fa-gift mr-2"></i>
             <span style="font-weight:bold">상품 둘러보기</span>
           </div>
-          <div class="col-sm-0 col-md-1" style="margin-right:2%; margin-left:2.1%;"></div>
+          </div>
+          <!-- <div class="col-sm-0 col-md-1" style="margin-right:2%; margin-left:2.1%;"></div> -->
+          <div class="col-sm-12 col-md-4 p-0 d-flex justify-content-end">
           <div
-            class="col-sm-12 col-md-3 main-btn-notice mt-1 mb-1 d-flex justify-content-center align-items-center"
+            class="col-sm-12 col-md-11 main-btn-notice mt-1 mb-1 d-flex justify-content-center align-items-center"
             style="cursor:pointer; border:1px solid black; border-radius:10px; height:5rem; border:none; box-shadow: 0 0 8px rgba(0, 0, 0, .15); font-size:1.2rem;"
             @click="goNews"
           >
             <i class="far fa-newspaper mr-2"></i>
             <span style="font-weight:bold">액티비티 소식</span>
           </div>
+        </div>
         </div>
 
         <!-- carousel -->
@@ -205,10 +211,10 @@
                 style="height:18rem;filter:brightness(80%);"
                 alt="paragliding"
               />
-              <div class="carousel-caption" style="text-align:right; width:80%; height:90%; ">
-                <h1 style="font-weight:bold; font-size:50px">액티비티는 역시</h1>
-                <h1 style="font-weight:bold; font-size:50px">링키비티</h1>
-                <p style="font-weight:bold;">"링키비티 가입 후 집 나간 여자친구가 안돌아와요"</p>
+              <div class="carousel-caption" style="text-align:right; width:80%; height:90%; z-index:1;">
+                <h1 style="font-weight:bold; font-size:4vmax;">액티비티는 역시</h1>
+                <h1 style="font-weight:bold; font-size:4vmax;">링키비티</h1>
+                <p style="font-weight:bold; font-size:1.5vmax;">"링키비티 가입 후 집 나간 여자친구가 안돌아와요"</p>
               </div>
             </div>
             <div class="carousel-item">
@@ -218,10 +224,10 @@
                 style="height:18rem;filter:brightness(80%);"
                 alt="snowboarding"
               />
-              <div class="carousel-caption" style="text-align:right; width:80%; height:90%; ">
-                <h1 style="font-weight:bold; font-size:50px">링키비티와 함께</h1>
-                <h1 style="font-weight:bold; font-size:50px">매년 꿀잼 라이프 시작!</h1>
-                <p style="font-weight:bold;">액티비티 입문자는 추천서비스를 이용해보세요!</p>
+              <div class="carousel-caption" style="text-align:right; width:80%; height:90%; z-index:1;">
+                <h1 style="font-weight:bold; font-size:4vmax;">링키비티와 함께</h1>
+                <h1 style="font-weight:bold; font-size:4vmax;">매년 꿀잼 라이프 시작!</h1>
+                <p style="font-weight:bold; font-size:1.5vmax;">액티비티 입문자는 추천서비스를 이용해보세요!</p>
               </div>
             </div>
             <div class="carousel-item">
@@ -231,10 +237,10 @@
                 style="height:18rem;filter:brightness(80%);"
                 alt="wingsuit"
               />
-              <div class="carousel-caption" style="text-align:right; width:80%; height:90%; ">
-                <h1 style="font-weight:bold; font-size:50px;">한번의 예약으로</h1>
-                <h1 style="font-weight:bold; font-size:50px;">최대 15%까지 할인!</h1>
-                <p style="font-weight:bold;">원하는 상품 패키징으로 저렴하게 즐기세요!</p>
+              <div class="carousel-caption" style="text-align:right; width:80%; height:90%; z-index:1; ">
+                <h1 style="font-weight:bold; font-size:4vmax;">한번의 예약으로</h1>
+                <h1 style="font-weight:bold; font-size:4vmax;">최대 15%까지 할인!</h1>
+                <p style="font-weight:bold; font-size:1.5vmax;">원하는 상품 패키징으로 저렴하게 즐기세요!</p>
               </div>
             </div>
             <div class="carousel-item">
@@ -244,10 +250,10 @@
                 style="height:18rem;filter:brightness(80%);"
                 alt="wingsuit"
               />
-              <div class="carousel-caption" style="text-align:right; width:80%; height:90%; ">
-                <h1 style="font-weight:bold; font-size:50px">봄 여름 가을 겨울</h1>
-                <h1 style="font-weight:bold; font-size:50px">구애받지 말고!</h1>
-                <p style="font-weight:bold;">사계절 상관없이 언제든지 예약 가능!</p>
+              <div class="carousel-caption" style="text-align:right; width:80%; height:90%; z-index:1;">
+                <h1 style="font-weight:bold; font-size:4vmax;">봄 여름 가을 겨울</h1>
+                <h1 style="font-weight:bold; font-size:4vmax;">구애받지 말고!</h1>
+                <p style="font-weight:bold; font-size:1.5vmax;">사계절 상관없이 언제든지 예약 가능!</p>
               </div>
             </div>
           </div>
@@ -300,7 +306,7 @@
               >{{ post.title }}</p>
               <p
                 class="card-text d-flex justify-content-start"
-                style="text-overflow:ellipsis; overflow: hidden; white-space: nowrap;"
+                style="text-overflow:ellipsis; overflow: hidden; white-space: nowrap; font-weight:bold;"
               >
                 <i
                   class="fas fa-heart select-button like-button mr-2 mt-1"
@@ -318,7 +324,7 @@
           <!-- <span class="more">+ more</span> -->
         </div>
         <div class="row" v-if="reviews.length > 0">
-          <div v-for="(slide, index) in reviews" :key="index" class="col-6 col-sm-4 col-md-2 p-3">
+          <div v-for="(slide, index) in reviews" :key="index" class="col-6 col-sm-4 col-md-4 col-lg-2 p-3">
             <!-- <div class="card mb-3 profile-post mr-0 ml-0"> -->
             <div
               class="card-body list-profile"
@@ -344,6 +350,12 @@
                   class="user-img d-flex m-2"
                   :src="makeimgurl(slide.proimg)"
                   v-if="slide.proimg"
+                  style="border-radius:70px; width:50px; height:50px;"
+                />
+                <img
+                  class="user-img d-flex m-2"
+                  v-if="!slide.proimg"
+                  src="../../assets/img/noimage.jpg"
                   style="border-radius:70px; width:50px; height:50px;"
                 />
                 <div class="mt-2 mr-4">
@@ -409,6 +421,18 @@ export default {
   watch: {},
 
   methods: {
+    initTagPosts() {
+      if(this.pids.length != 0) {
+        axios.get(`${baseURL}/post/getTagList/${this.pids}/0`)
+        .then((res) => {
+          this.tPosts = res.data;
+          this.nextTag();
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+      }
+    },
     init() {
       axios
         .get(`${baseURL}/post/listbylike/`)
@@ -540,7 +564,7 @@ export default {
         .get(`${baseURL}/post/getTagReloading/${this.pids}/${pg - 1}`)
         .then((res) => {
           this.tPosts = res.data;
-          this.nextTag();
+          // this.nextTag();
         })
         .catch((err) => {
           console.log(err);
@@ -599,14 +623,15 @@ export default {
         this.$router.go();
       } else {
         this.resultTitle = tags;
-        this.page = 0;
+        this.page = 1;
         axios
           .get(`${baseURL}/tag/search/` + tags)
           .then((res) => {
             this.pids = res.data;
             this.tPosts = [];
+            this.initTagPosts();
             this.tagFlag = true;
-            scroll(0, 350);
+            scroll(0, 100);
           })
           .catch((err) => {
             console.log(err);

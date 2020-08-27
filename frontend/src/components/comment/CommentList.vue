@@ -54,7 +54,7 @@
             <!-- <small class="ml-2" data-toggle="modal" data-target="#commentIndict" style="color:DarkKhaki">신고</small> -->
           </div>
         </div>
-        <CommentReplyAnswer v-if="replyCheck" :comment="comment" />
+        <CommentReplyAnswer v-if="replyCheck" :comment="comment" :post="post"/>
       </div>
     </div>
   </div>
@@ -74,6 +74,7 @@ export default {
   },
   props: {
     comment: Object,
+    post: [Object,Array],
   },
   data: function () {
     return {

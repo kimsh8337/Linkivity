@@ -116,9 +116,13 @@
               <input class="form-check-input-survey mr-1" style="cursor:pointer;" type="radio" name="regionRadios" id="regionRadios5" value="전라" v-model="region" />
               <label class="form-check-label" style="cursor:pointer;" for="regionRadios5">전라</label>
             </span>
-            <span>
+            <span class="mr-4">
               <input class="form-check-input-survey mr-1" style="cursor:pointer;" type="radio" name="regionRadios" id="regionRadios6" value="경상" v-model="region" />
               <label class="form-check-label" style="cursor:pointer;" for="regionRadios6">경상</label>
+            </span>
+            <span>
+              <input class="form-check-input-survey mr-1" style="cursor:pointer;" type="radio" name="regionRadios" id="regionRadios7" value="제주" v-model="region" />
+              <label class="form-check-label" style="cursor:pointer;" for="regionRadios7">제주</label>
             </span>
           </div>
 

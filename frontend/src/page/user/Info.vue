@@ -216,11 +216,11 @@
                   <div class="d-flex" style="width:70%;">
                     <button
                       v-if="pwvalidated == 1"
-                      @click="modify"
+                      @click="modifypw"
                       class="btn btn-default btn-sm mb-2 ml-auto"
                       style="font-weight:bold; background-color:#86a5d4;color:white;"
                     >
-                      <i class="fas fa-check mr-2"></i>완료
+                      <i class="fas fa-check mr-2"></i>변경
                     </button>
                     <button
                       @click="cancel"
@@ -333,7 +333,6 @@ export default {
         .then((response) => {
           this.email = response.data.email;
           this.checkType = response.data.checkType;
-          this.temppass = response.data.password;
           this.getuser();
           this.postCount();
           this.likeCount();
@@ -467,7 +466,7 @@ export default {
     deluser() {
       Swal.fire({
         width: 350,
-        text: "삭제하시겠습니까?",
+        text: "탈퇴하시겠습니까?",
         icon: "warning",
         showCancelButton: true,
         confirmButtonColor: "#fff",
@@ -497,6 +496,7 @@ export default {
               this.$cookies.remove("Auth-Token");
               this.$router.push("/");
               this.$router.go();
+              scroll(0,0);
             })
             .catch((err) => {
               console.log(err);
@@ -505,11 +505,7 @@ export default {
       });
     },
     modify() {
-      if (
-        this.error.password ||
-        this.error.passwordconfirm ||
-        this.nickname == ""
-      ) {
+      if (this.nickname == "") {
         const Toast = Swal.mixin({
           toast: true,
           position: "top-end",
@@ -523,34 +519,14 @@ export default {
         });
         Toast.fire({
           icon: "error",
-          title: "정보를 다시 입력해주세요.",
+          title: "변경할 닉네임을 입력해주세요.",
         });
         return;
-      } else if (this.password == "" && this.passwordconfirm == "") {
-        this.password = this.temppass;
-      } else if (this.password != "" && this.passwordconfirm == "") {
-        const Toast = Swal.mixin({
-          toast: true,
-          position: "top-end",
-          showConfirmButton: false,
-          timer: 1000,
-          timerProgressBar: true,
-          onOpen: (toast) => {
-            toast.addEventListener("mouseenter", Swal.stopTimer);
-            toast.addEventListener("mouseleave", Swal.resumeTimer);
-          },
-        });
-        Toast.fire({
-          icon: "error",
-          title: "정보를 다시 입력해주세요.",
-        });
-      } else {
-        let { email, nickname, password, name, imgurl } = this;
+      }  else {
+        let { email, nickname, imgurl } = this;
         let data = {
           email,
           nickname,
-          password,
-          name,
           imgurl,
         };
         this.fileUpload();
@@ -578,23 +554,61 @@ export default {
             });
             this.$router.go();
           })
-          .catch(() => {
+          .catch((err) => {
+            console.log(err)
+// this.$router.push({name: 'Params', params: {name: err.response.status}});
+          });
+      }
+    },
+    modifypw() {
+      if (this.password == "" || this.passwordconfirm=="" || this.error.password || this.error.passwordconfirm) {
+        const Toast = Swal.mixin({
+          toast: true,
+          position: "top-end",
+          showConfirmButton: false,
+          timer: 1000,
+          timerProgressBar: true,
+          onOpen: (toast) => {
+            toast.addEventListener("mouseenter", Swal.stopTimer);
+            toast.addEventListener("mouseleave", Swal.resumeTimer);
+          },
+        });
+        Toast.fire({
+          icon: "error",
+          title: "비밀번호를 다시 입력해주세요.",
+        });
+        return;
+      }  else {
+        let { email, password } = this;
+        let data = {
+          email,
+          password
+        };
+        axios
+          .put(`${baseURL}/account/modify/${this.pwvalidated}`, data)
+          .then((response) => {
             const Toast = Swal.mixin({
               toast: true,
               position: "top-end",
               showConfirmButton: false,
-              timer: 2000,
+              timer: 1000,
               timerProgressBar: true,
               onOpen: (toast) => {
                 toast.addEventListener("mouseenter", Swal.stopTimer);
                 toast.addEventListener("mouseleave", Swal.resumeTimer);
               },
             });
-
             Toast.fire({
-              icon: "error",
-              title: "정보를 모두 입력해주세요!",
+              icon: "success",
+              title: "수정되었습니다.",
             });
+
+            this.$router.push("/user/info").catch((err) => {
+              console.log(err);
+            });
+            this.$router.go();
+          })
+          .catch(() => {
             // this.$router.push({name: 'Params', params: {name: err.response.status}});
           });
       }
@@ -653,6 +667,8 @@ export default {
     },
     modifyCancel() {
       this.validated = !this.validated;
+      this.tempcheck = false;
+      
       this.getuser();
     },
   },
@@ -684,7 +700,6 @@ export default {
       buycounts: "",
       sellcounts: "",
       tempcounts: "",
-      temppass: "",
     };
   },
 };

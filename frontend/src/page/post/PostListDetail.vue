@@ -139,7 +139,7 @@
                       class="card-text font-weight-bold mb-0"
                       style="font-weight:bold;font-size: 1.5rem; text-align: left; margin-bottom: 5px;
                   "
-                    >{{ post.price }} 원</p>
+                    >{{ addComma(post.price) }} 원</p>
                   </div>
                   <hr class="mt-0" />
                   <!-- like heart -->
@@ -161,22 +161,42 @@
                     </div>
                   </div>
                   <!-- 장바구니, 구매 -->
-                  <div class="d-flex justify-content-end" v-if="this.checkType == 'normal'">
-                    <button
-                      type="button"
-                      class="btn btn-default mr-1"
-                      @click="alertbasket(post)"
-                      style="color:white; background-color:#86a5d4;font-weight:bold;"
-                    >
-                      <i class="fas fa-shopping-basket mr-2"></i>장바구니
-                    </button>
-                    <button
-                      class="btn btn-danger"
-                      @click="alertbuy(post)"
-                      style="font-weight:bold;"
-                    >
-                      <i class="far fa-hand-point-up mr-2"></i>바로구매
-                    </button>
+                  <div class="d-flex justify-content-between">
+                    <div class="d-flex justify-content-between" v-if="this.checkType == 'normal'">
+                      <span class="d-flex my-auto mr-1" style="font-weight:bold; white-space:nowrap;">수량</span>
+                      <form class="d-flex" name="Form">
+                        <button
+                        class="btn btn-deault"
+                        style="border:1px solid;background-color:#86a5d4;color:white;"
+                          @click="changenum(-1)"
+                        ><i class="fas fa-caret-down"></i>
+                        </button>
+                        <input type="number" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" v-model="sizecnt" class="text-center" style="border-radius:3px;border:1px solid lightgray;width:3rem;"/>
+                        <button
+                        class="btn btn-deault"
+                        style="border:1px solid;background-color:#86a5d4;color:white;"
+                          @click="changenum(1)"
+                        ><i class="fas fa-caret-up"></i>
+                        </button>
+                      </form>
+                    </div>
+                    <div class="d-flex justify-content-end" v-if="this.checkType == 'normal'">
+                      <button
+                        type="button"
+                        class="btn btn-default mr-1"
+                        @click="alertbasket(post)"
+                        style="color:white; background-color:#86a5d4;font-weight:bold;"
+                      >
+                        <span><i class="fas fa-shopping-basket mr-2"></i>장바구니</span>
+                      </button>
+                      <button
+                        class="btn btn-danger"
+                        @click="alertbuy(post)"
+                        style="font-weight:bold;"
+                      >
+                        <span><i class="far fa-hand-point-up mr-2"></i>바로구매</span>
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -189,7 +209,7 @@
       <nav
         id="navbar-example2"
         class="navbar nav-info"
-        style="position: sticky; top: 0; z-index:100;"
+        style="position: sticky; top: 0; z-index:1; border-bottom:1px solid lightgray;"
       >
         <ul class="nav justify-content-between" style="width:100%;">
           <li class="nav-item">
@@ -280,6 +300,7 @@
           v-for="comment in receiveComment"
           :key="comment.rid"
           :comment="comment"
+          :post="post"
           @comment-delete="commentDelete"
         />
       </div>
@@ -351,7 +372,8 @@ export default {
       autumnCheck: "",
       winterCheck: "",
       placeCheck: "",
-      isheart : false,
+      isheart: false,
+      sizecnt:1,
     };
   },
   created() {
@@ -364,7 +386,29 @@ export default {
     }
     this.fetchHashTag();
   },
+  watch:{
+    sizecnt: function(v){
+      if(v>=100){
+        this.sizecnt = 99;
+      }
+      if(v<=0){
+        this.sizecnt = 1;
+      }
+    }
+  },
   methods: {
+    addComma(num) {
+      num = this.sizecnt * num
+      num = num + "";
+      var regexp = /\B(?=(\d{3})+(?!\d))/g;
+      return num.toString().replace(regexp, ',');
+    },
+    changenum(num){
+      if(this.sizecnt+num != 0){
+        this.sizecnt += num;
+      }
+
+    },
     goTag(tag) {
       this.$router.push({
         name: "TagList",
@@ -651,21 +695,21 @@ export default {
         .then((res) => {
           if (res.data) {
             const Toast = Swal.mixin({
-          toast: true,
-          position: 'top-end',
-          showConfirmButton: false,
-          timer: 2000,
-          timerProgressBar: true,
-          onOpen: (toast) => {
-            toast.addEventListener('mouseenter', Swal.stopTimer)
-            toast.addEventListener('mouseleave', Swal.resumeTimer)
-          }
-        })
+              toast: true,
+              position: "top-end",
+              showConfirmButton: false,
+              timer: 2000,
+              timerProgressBar: true,
+              onOpen: (toast) => {
+                toast.addEventListener("mouseenter", Swal.stopTimer);
+                toast.addEventListener("mouseleave", Swal.resumeTimer);
+              },
+            });
 
-        Toast.fire({
-          icon: 'error',
-          title: '동일한 상품이 장바구니에 담겨있습니다!'
-        })
+            Toast.fire({
+              icon: "error",
+              title: "동일한 상품이 장바구니에 담겨있습니다!",
+            });
           } else {
             Swal.fire({
               title: `${post.title}`,
@@ -705,8 +749,9 @@ export default {
         confirmButtonColor: "#fff",
         cancelButtonColor: "#fff",
         confirmButtonText:
-          '<a style="font-size:1rem; color:black">구매하기</a>',
-        cancelButtonText: '<a style="font-size:1rem; color:black">취소하기</a>',
+          '<a style="font-size:1rem; color:black;font-weight:bold;">구매하기</a>',
+        cancelButtonText:
+          '<a style="font-size:1rem; color:black;font-weight:bold;">취소하기</a>',
       }).then((result) => {
         if (result.value) {
           const Toast = Swal.mixin({
@@ -732,7 +777,7 @@ export default {
               pay_method: "card",
               merchant_uid: "merchant_" + new Date().getTime(),
               name: "링키비티",
-              amount: this.post.price,
+              amount: this.post.price * this.sizecnt,
               buyer_email: "iamport@siot.do",
               buyer_name: "구매자이름",
               buyer_tel: "010-1234-5678",
@@ -742,21 +787,21 @@ export default {
             function (rsp) {
               if (rsp.success) {
                 var msg = "결제가 완료되었습니다.";
-                msg += "고유ID : " + rsp.imp_uid;
-                msg += "상점 거래ID : " + rsp.merchant_uid;
-                msg += "결제 금액 : " + rsp.paid_amount;
-                msg += "카드 승인번호 : " + rsp.apply_num;
+                msg += "\n고유ID : " + rsp.imp_uid;
+                msg += "\n상점 거래ID : " + rsp.merchant_uid;
+                msg += "\n결제 금액 : " + th.addComma(rsp.paid_amount)+"원";
+                // msg += "\n카드 승인번호 : " + rsp.apply_num;
 
                 axios
                   .get(
-                    `${baseURL}/purchase/registOne/${th.pid}/${th.email}/${th.post.price}`
+                    `${baseURL}/purchase/registOne/${th.pid}/${th.email}/${th.post.price*th.sizecnt}`
                   )
                   .then((response) => {
                     const Toast = Swal.mixin({
                       toast: true,
                       position: "top-end",
                       showConfirmButton: false,
-                      timer: 1000,
+                      timer: 3000,
                       timerProgressBar: true,
                       onOpen: (toast) => {
                         toast.addEventListener("mouseenter", Swal.stopTimer);
@@ -766,34 +811,34 @@ export default {
 
                     Toast.fire({
                       icon: "success",
-                      title: `${rsp.paid_amount}원 결제 완료!`,
+                      title: `${msg}`,
                     });
                     setTimeout(() => {
                       th.$router.go();
-                    }, 1000);
+                    }, 3000);
                   })
                   .catch((err) => {
                     console.log(err);
                   });
               } else {
                 var msg = "결제에 실패하였습니다.";
-                msg += "에러내용 : " + rsp.error_msg;
+                msg += "내용 : " + rsp.error_msg;
                 const Toast = Swal.mixin({
                   toast: true,
-                  position: 'top-end',
+                  position: "top-end",
                   showConfirmButton: false,
                   timer: 2000,
                   timerProgressBar: true,
                   onOpen: (toast) => {
-                    toast.addEventListener('mouseenter', Swal.stopTimer)
-                    toast.addEventListener('mouseleave', Swal.resumeTimer)
-                  }
-                })
+                    toast.addEventListener("mouseenter", Swal.stopTimer);
+                    toast.addEventListener("mouseleave", Swal.resumeTimer);
+                  },
+                });
 
                 Toast.fire({
-                  icon: 'error',
-                  title: `${msg}`
-                })
+                  icon: "error",
+                  title: `${msg}`,
+                });
               }
               // alert(msg);
             }
@@ -857,6 +902,11 @@ export default {
 </script>
 
 <style>
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
 .indict {
   cursor: pointer;
 }
