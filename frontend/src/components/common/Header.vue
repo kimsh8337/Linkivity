@@ -16,7 +16,7 @@
           <!-- <span class="navbar-toggler-icon far fa-2x" style="font-size:1rem;"></span> -->
         </b-button>
         <b-sidebar id="sidebar-1" title="Menu" backdrop right shadow width="250px">
-          <div class="ml-4" style="text-align:left; z-index:5 !important;">
+          <div class="ml-4" style="text-align:left; z-index:200 !important;">
             <ul class="navbar-nav nav-sub ml-auto">
               <li class="nav-item">
                 <a class="nav-link mt-3 hamburger" @click="goPost">

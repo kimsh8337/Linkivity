@@ -300,6 +300,7 @@
           v-for="comment in receiveComment"
           :key="comment.rid"
           :comment="comment"
+          :post="post"
           @comment-delete="commentDelete"
         />
       </div>
