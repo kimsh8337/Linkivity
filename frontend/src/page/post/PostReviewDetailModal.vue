@@ -106,7 +106,6 @@ export default {
     },
     updated() {
         this.cnt += 1
-        console.log(this.cnt)
         if(this.cnt < 2) {
             this.pid = this.reviewDetail.pid
             this.bringPostDetail()
