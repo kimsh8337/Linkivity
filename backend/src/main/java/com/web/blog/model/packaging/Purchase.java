@@ -37,4 +37,5 @@ public class Purchase {
     private int price;
     @Column(name="img")
     private String img;
+    private int amount;
 }

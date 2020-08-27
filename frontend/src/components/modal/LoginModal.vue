@@ -10,15 +10,13 @@
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content" style="width:80%; border:0">
         <div
-          class="modal-header pl-0"
-          style="background-color:#ccdced; width:100%"
+          class="modal-header pl-4"
+          style="background-color:#ccdced; width:100%; text-align:center;"
         >
           <h4
             class="modal-title font-weight-bold my-auto ml-2"
-            style="width:60%;"
-          >
-            <i class="fas fa-file-signature ml-5" style="white-space:nowrap">ＬＯＧＩＮ</i>
-          </h4>
+            style="width:100%; text-align:center; font-weight:bold;"
+          >L O G I N</h4>
           <button
             type="button"
             class="close my-auto ml-0"
@@ -43,7 +41,7 @@
           ></i>
           <input
             class="text-center"
-            style="width:60%; border-radius:5px;"
+            style="width:60%; height:35px; border-radius:5px;border:1.5px solid;"
             type="text"
             v-model="email"
             placeholder="email@example.com"
@@ -52,11 +50,11 @@
         <!-- <small class="d-flex justify-content-end mt-0 mb-0" style="width:82%" v-if="error.email"><i class="fas fa-exclamation mr-1 my-auto"></i>{{error.email}}</small> -->
 
         <!-- password 입력칸 -->
-        <div class="modal-body d-flex justify-content-center mt-2">
+        <div class="modal-body d-flex justify-content-center pt-1">
           <i class="fas fa-lock my-auto mr-2" style="font-size:25px"></i>
           <input
             class="text-center"
-            style="width:60%; border-radius:5px;"
+            style="width:60%; height:35px; border-radius:5px; border:1.5px solid;"
             type="password"
             v-model="password"
             placeholder="Input your password"
@@ -77,11 +75,11 @@
         >
           <div
             class="col-12 d-flex justify-content-center align-items-center"
-            style="border:1px solid RGB(134, 165, 212); height:2rem; border-radius:5px"
+            style="border:2px solid RGB(134, 165, 212); height:2rem; border-radius:5px"
           >
             <i class="fas fa-sign-in-alt"
               ></i
-            ><span class="my-auto ml-2" style="font-weight:bold">로그인</span>
+            ><span class="my-auto ml-2" style="font-weight:bold;">로그인</span>
           </div>
         </div>
 
@@ -94,7 +92,7 @@
         >
           <div
             class="col-12 d-flex justify-content-center align-items-center"
-            style="border:1px solid RGB(134, 165, 212); height:2rem; border-radius:5px"
+            style="border:2px solid RGB(134, 165, 212); height:2rem; border-radius:5px"
           >
             <i class="far fa-user mr-1"
               ></i
@@ -114,7 +112,7 @@
         >
           <div
             class="col-12 d-flex justify-content-center align-items-center"
-            style="border:1px solid RGB(134, 165, 212); height:2rem; border-radius:5px"
+            style="border:2px solid RGB(134, 165, 212); height:2rem; border-radius:5px"
           >
             <i class="fas fa-unlock">
             </i>
@@ -131,10 +129,10 @@
         >
           <div
             class="col-12 d-flex justify-content-center align-items-center"
-            style="border:1px solid RGB(134, 165, 212); height:2rem; border-radius:5px"
+            style="border:2px solid RGB(134, 165, 212); height:2rem; border-radius:5px"
           >
             <img
-              src="../../assets/img/kakaologin2.jpg"
+              src="../../assets/img/kakao-talkk.png"
               style="width:20px"
             /><span class="my-auto ml-2" style="font-weight:bold"
               >카카오 로그인</span

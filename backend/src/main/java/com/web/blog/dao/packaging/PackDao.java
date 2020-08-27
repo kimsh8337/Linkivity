@@ -10,4 +10,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface PackDao extends JpaRepository<Pack, String> {
     List<Pack> findByEmail(String email);
     List<Pack> findByEmail(String email, Pageable page);
+    List<Pack> findByPackno(int packno);
 }

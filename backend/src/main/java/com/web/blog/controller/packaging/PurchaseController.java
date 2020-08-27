@@ -19,6 +19,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -43,15 +44,16 @@ public class PurchaseController {
     @Autowired
     LikeListDao likeDao;
 
-    @GetMapping("/regist/{packPost}/{email}/{sum}")
+    @GetMapping("/regist/{packPost}/{email}/{sum}/{amount}")
     @ApiOperation("패키징 상품 구매")
-    public Object regist(@PathVariable List<String> packPost, @PathVariable String email, @PathVariable int sum)
+    public Object regist(@PathVariable List<String> packPost, @PathVariable String email, @PathVariable int sum, @PathVariable int amount)
             throws SQLException, IOException {
         try {
 
             Pack pack = new Pack();
             pack.setEmail(email);
             pack.setPrice(sum);
+            pack.setCnt(amount);
             packDao.save(pack);
             ///// 패키지테이블에 저장/////
 
@@ -82,6 +84,7 @@ public class PurchaseController {
                 purchase.setLocation(post.getLocation());
                 purchase.setPrice(post.getPrice());
                 purchase.setImg(post.getImgurl());
+                purchase.setAmount(amount);
                 purchaseDao.save(purchase);
                 ///// 구매테이블에 저장/////
 
@@ -219,6 +222,21 @@ public class PurchaseController {
 
         } else {
             return new ResponseEntity<>(null, HttpStatus.ACCEPTED);
+        }
+    }
+    
+    @DeleteMapping("/delete/{packno}")
+    @ApiOperation("구매 패키지 삭제")
+    public Object delete(@PathVariable int packno) throws SQLException, IOException {
+        try {
+            List<Purchase> list = purchaseDao.findByPackno(packno);
+            purchaseDao.deleteAll(list);
+
+            List<Pack> plist = packDao.findByPackno(packno);
+            packDao.deleteAll(plist);
+            return new ResponseEntity<>(null, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 

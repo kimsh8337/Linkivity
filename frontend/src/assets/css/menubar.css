@@ -7,6 +7,9 @@
     right:1.5%
 }
 
+#sidebar-2{
+    z-index: 200;
+}
 .side-main-button{
     color: lightblue;
     background: none;

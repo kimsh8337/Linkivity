@@ -540,7 +540,7 @@ export default {
         .get(`${baseURL}/post/getTagReloading/${this.pids}/${pg - 1}`)
         .then((res) => {
           this.tPosts = res.data;
-          this.nextTag();
+          // this.nextTag();
         })
         .catch((err) => {
           console.log(err);
@@ -591,6 +591,18 @@ export default {
           });
       }
     },
+    initTagPosts() {
+      if(this.pids.length != 0) {
+        axios.get(`${baseURL}/post/getTagList/${this.pids}/0`)
+        .then((res) => {
+          this.tPosts = res.data;
+          this.nextTag();
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+      }
+    },
     tagSearch(tags) {
       this.userCheck();
       this.infiniteId += 1;
@@ -599,14 +611,15 @@ export default {
         this.$router.go();
       } else {
         this.resultTitle = tags;
-        this.page = 0;
+        this.page = 1;
         axios
           .get(`${baseURL}/tag/search/` + tags)
           .then((res) => {
             this.pids = res.data;
-            this.tPosts = [];
+            // this.tPosts = [];
+            this.initTagPosts();
             this.tagFlag = true;
-            scroll(0, 350);
+            scroll(0, 100);
           })
           .catch((err) => {
             console.log(err);
