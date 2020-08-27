@@ -1,9 +1,9 @@
 <template>
-  <div v-if="this.scrollposition > 200" class="side-menu" >
+  <div v-if="this.scrollposition > 200" class="side-menu">
     <i class="fas fa-2x fa-angle-double-up upBtn" @click="toTop" style="cursor:pointer;"></i>
     <b-button v-b-toggle.sidebar-2 class="side-main-button btn btn-light" style="background-color:rgba(255,255,255,0); border:none;">
-      <i class="fas fa-2x fa-bars" style="color:rgb(134, 165, 212)"></i>
-      <b-sidebar id="sidebar-2" no-header-close title="Menu" right shadow width="250px" style="z-index:200; !important">
+      <i class="fas fa-2x fa-bars" style="color:rgb(134, 165, 212);"></i>
+      <b-sidebar id="sidebar-2" no-header-close title="Menu" right shadow width="250px" style="z-index:200; !important;">
           <div class="ml-4" style="text-align:left; ">
             <ul class="navbar-nav nav-sub ml-auto">
               <li class="nav-item">
@@ -122,20 +122,37 @@ export default {
     },
     logout: function() {
       this.$cookies.remove('Auth-Token');
-      scroll(0, 0);
-      this.$router.push('/').catch((err) => {
-        this.$router.go();
-      });
-      Swal.fire({
-        width: 250,
-        position: 'top-right',
-        icon: 'success',
-        title: '로그아웃 완료!!!',
+      // scroll(0, 0);
+      // this.$router.push('/').catch((err) => {
+      //   this.$router.go();
+      // });
+      const Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
         showConfirmButton: false,
+        timer: 1000,
+        timerProgressBar: true,
+        onOpen: (toast) => {
+          toast.addEventListener('mouseenter', Swal.stopTimer);
+          toast.addEventListener('mouseleave', Swal.resumeTimer);
+        },
+      });
+
+      Toast.fire({
+        icon: 'success',
+        title: '로그아웃 완료',
       });
       setTimeout(() => {
-        this.$router.go();
-      }, 1000);
+        this.$router.go().catch((err) => {
+          console.log(err);
+        });
+      },1000)
+      // setTimeout(() => {
+      //   this.$router.push('/').catch((err) => {
+      //     console.log(err);
+      //   });
+      //   this.$router.go();
+      // }, 1500);
     },
     info: function() {
       scroll(0, 0);

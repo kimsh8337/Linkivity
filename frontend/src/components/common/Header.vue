@@ -10,13 +10,13 @@
         <b-button
           v-b-toggle.sidebar-1
           class="btn btn-light"
-          style="background-color:rgba(255,255,255,0); border:none"
+          style="background-color:rgba(255,255,255,0); border:none;"
         >
           <i class="fas fa-2x fa-bars" style="color:rgb(134, 165, 212)"></i>
           <!-- <span class="navbar-toggler-icon far fa-2x" style="font-size:1rem;"></span> -->
         </b-button>
         <b-sidebar id="sidebar-1" title="Menu" backdrop right shadow width="250px">
-          <div class="ml-4" style="text-align:left">
+          <div class="ml-4" style="text-align:left; z-index:5 !important;">
             <ul class="navbar-nav nav-sub ml-auto">
               <li class="nav-item">
                 <a class="nav-link mt-3 hamburger" @click="goPost">
@@ -71,7 +71,7 @@
         </b-sidebar>
       </div>
 
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <div class="collapse navbar-collapse" id="navbarSupportedContent" style="z-index:5;">
         <ul class="navbar-nav nav-sub ml-auto">
           <li class="nav-item">
             <a class="nav-link mt-3 mr-2" @click="goPost">
