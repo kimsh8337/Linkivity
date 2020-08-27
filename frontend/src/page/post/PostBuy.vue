@@ -101,9 +101,9 @@
               </div>
             </div>
           </div>
-        <div class="col-12 d-flex justify-content-end p-0">
-          <button class="btn btn-danger btn-sm ml-2" @click="packDelete(item[0].packno)" v-if="checkpuse(item)" style="height:25px;font-weight:bold;">구매 취소</button>
         </div>
+        <div class="d-flex justify-content-end" style="width:200%">
+          <button class="btn btn-danger btn-sm" @click="packDelete(item[0].packno)" v-if="checkpuse(item)" style="height:25px;font-weight:bold;">구매 취소</button>
         </div>
       </table>
       <!-- paging -->
