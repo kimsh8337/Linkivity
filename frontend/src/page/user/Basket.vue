@@ -69,7 +69,7 @@
       </div>
 
       <!-- paging -->
-      <b-pagination v-model="page" :total-rows="len" pills :per-page="8" style="align:center;"></b-pagination>
+      <b-pagination v-if="carts.length > 8" v-model="page" :total-rows="len" pills :per-page="8" style="align:center;"></b-pagination>
 
       <!-- 장바구니가 비어있을 때 -->
       <div class="col" v-if="carts.length <= 0">
