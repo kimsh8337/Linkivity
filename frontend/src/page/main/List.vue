@@ -105,7 +105,7 @@
                           style="font-size: 1rem; text-align: left; text-overflow:ellipsis;overflow: hidden;white-space: nowrap;"
                         >{{ post.title }}</h5>
                         <div class="card-text mb-2" style="text-align: left; font-size: 0.8rem;">
-                          <span>
+                          <span style="font-weight:bold;">
                             <i class="fas fa-star mr-1" style="color:Salmon; font-size:0.7rem;"></i>
                             {{ round(post.star) }}
                           </span>
@@ -117,7 +117,7 @@
                             style="font-size: 1rem; font-weight:bold; text-align: left; text-overflow:ellipsis;overflow: hidden;white-space: nowrap;"
                           >{{ addComma(post.price) }}원</p>
                           <!-- heart like -->
-                          <div id="heart" @click="registlike(post.pid)">
+                          <div id="heart" @click="registlike(post.pid)" style="font-weight:bold;">
                             {{ post.likecnt }}
                             <i
                               v-if="check(post.pid)"
@@ -306,7 +306,7 @@
               >{{ post.title }}</p>
               <p
                 class="card-text d-flex justify-content-start"
-                style="text-overflow:ellipsis; overflow: hidden; white-space: nowrap;"
+                style="text-overflow:ellipsis; overflow: hidden; white-space: nowrap; font-weight:bold;"
               >
                 <i
                   class="fas fa-heart select-button like-button mr-2 mt-1"
