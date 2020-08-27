@@ -9,7 +9,7 @@
                     <img v-if="reviewDetail.proimg" class="user-img d-flex m-1 mr-2" :src="makeimgurl(reviewDetail.proimg)" style="border-radius:70px;" />
                     <img v-if="!reviewDetail.proimg" class="user-img d-flex m-1 mr-2" src="../../assets/img/noimage.jpg" style="border-radius:70px;" />
                     <span class="my-auto mr-1" style="font-weight:bold">{{this.reviewDetail.nickname}}</span>
-                    <small style="margin-top:6%">님이 남긴 후기 상세 정보</small>
+                    <small style="margin-top:6%">님의 후기 상세정보</small>
                  </div>
             </h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">

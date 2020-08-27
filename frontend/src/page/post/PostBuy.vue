@@ -25,7 +25,7 @@
             <tr>
               <td>No {{ (bpage - 1) * 5 + index + 1 }}</td>
               <td>수량 : {{ item[0].amount }}</td>
-              <td><button class="btn btn-danger btn-sm pt-0 pb-0" @click="packDelete(item[0].packno)" v-if="checkpuse(item)" style="height:25px;font-weight:bold;">구매 취소</button></td>
+              <td><button class="btn btn-danger btn-sm pt-0 pb-0" @click="packDelete(item[0].packno)" v-if="checkpuse(item)" style="height:25px;font-weight:bold;">구매취소</button></td>
             </tr>
             <tr>
               <th>사진</th>
@@ -68,7 +68,7 @@
     <!-- 모바일버전 -->
     <div class="MoblieCard d-block d-sm-none d-md-none">
       <table class="table" v-for="(item, index) in bitems" :key="index">
-        <thead class="thead" style="background:RGB(134, 165, 212); color:white;">
+        <thead class="thead" style="background:RGB(134, 165, 212); color:white;font-weight:bold;">
           <tr>
             <th>No {{ (bpage - 1) * 5 + index + 1 }}</th>
             <td>수량 : {{ item[0].amount }}</td>
@@ -103,7 +103,7 @@
           </div>
         </div>
         <div class="d-flex justify-content-end" style="width:200%">
-          <button class="btn btn-danger btn-sm" @click="packDelete(item[0].packno)" v-if="checkpuse(item)" style="height:25px;font-weight:bold;">구매 취소</button>
+          <button class="btn btn-danger btn-sm pt-0 pb-0" @click="packDelete(item[0].packno)" v-if="checkpuse(item)" style="height:25px;font-weight:bold;">구매취소</button>
         </div>
       </table>
       <!-- paging -->
