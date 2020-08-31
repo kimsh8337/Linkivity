@@ -65,7 +65,7 @@
                   <!-- 이용 가격 -->
                   <div class="d-flex justify-content-end" style="margin-top:4rem;">
                     <p class="card-text font-weight-bold mb-0" style="font-size: 1.5rem; text-align: left; margin-bottom: 5px;">
-                      {{ post.price }} 원
+                      {{ addComma(post.price) }} 원
                     </p>
                   </div>
                   <hr class="mt-0" />
@@ -145,6 +145,11 @@ export default {
     this.fetchHashTag();
   },
   methods: {
+    addComma(num) {
+      num = num + "";
+      var regexp = /\B(?=(\d{3})+(?!\d))/g;
+      return num.toString().replace(regexp, ',');
+    },
     scroll(evt) {
       evt.preventDefault();
       const href = evt.target.getAttribute('href');
